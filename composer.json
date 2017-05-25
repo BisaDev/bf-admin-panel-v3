@@ -16,10 +16,11 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "app/Models"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "Brightfox\\": "app/"
         }
     },
     "autoload-dev": {

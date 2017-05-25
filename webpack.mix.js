@@ -1,4 +1,5 @@
-const { mix } = require('laravel-mix');
+const {mix} = require('laravel-mix');
+mix.browserSync('brightfoxv2.dev');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,4 +13,16 @@ const { mix } = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+    .scripts([
+        'public/vendor/detect.js',
+        'public/vendor/waves.js',
+        'public/vendor/wow.min.js',
+        'public/vendor/fastclick.js',
+        'public/vendor/jquery.slimscroll.js',
+        'public/vendor/jquery.nicescroll.js',
+        'public/vendor/jquery.scrollTo.min.js',
+        'public/vendor/jquery.core.js',
+        'public/vendor/jquery.app.js',
+    ], 'public/js/vendor.js')
+    .less('resources/assets/less/app.less', 'public/css');
+

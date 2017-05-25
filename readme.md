@@ -16,3 +16,4 @@ BrightFox is an educational platform that provides innovative after-school progr
 - npm install
 - .env config
 - php artisan migrate
+- php artisan admin:create

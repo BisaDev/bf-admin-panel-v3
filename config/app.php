@@ -171,11 +171,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Brightfox\Providers\AppServiceProvider::class,
+        Brightfox\Providers\AuthServiceProvider::class,
+        // Brightfox\Providers\BroadcastServiceProvider::class,
+        Brightfox\Providers\EventServiceProvider::class,
+        Brightfox\Providers\RouteServiceProvider::class,
 
     ],
 
