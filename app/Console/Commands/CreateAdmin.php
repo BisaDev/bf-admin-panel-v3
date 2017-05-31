@@ -3,7 +3,7 @@
 namespace Brightfox\Console\Commands;
 
 use Illuminate\Console\Command;
-use Brightfox\Models\User;
+use Brightfox\User;
 
 class CreateAdmin extends Command
 {
@@ -42,11 +42,13 @@ class CreateAdmin extends Command
         $email = $this->ask('Please add an email:');
         $password = $this->secret('Password:');
 
-        User::create([
+        $admin = User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password)            
         ]);
+
+        $admin->assignRole('admin');
 
         $this->info('Admin created successfully');
     }

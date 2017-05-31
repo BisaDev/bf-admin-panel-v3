@@ -177,6 +177,11 @@ return [
         Brightfox\Providers\EventServiceProvider::class,
         Brightfox\Providers\RouteServiceProvider::class,
 
+        /*
+         * Roles and Permissions
+         */
+        Spatie\Permission\PermissionServiceProvider::class,
+
     ],
 
     /*
