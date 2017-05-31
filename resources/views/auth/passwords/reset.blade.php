@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.auth')
+
+@section('page_title', 'Password Reset')
 
 @section('content')
 <div class="container">

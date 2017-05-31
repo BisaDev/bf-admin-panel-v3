@@ -26165,7 +26165,13 @@ File: Responsive
     width: 100% !important;
   }
 }
-.icon-c-logo img {
+.topbar .topbar-left {
+  background-color: #FFF;
+}
+.topbar .logo img {
+  width: 70%;
+}
+.topbar .logo .icon-c-logo img {
   width: 60%;
   margin: 0 auto;
 }

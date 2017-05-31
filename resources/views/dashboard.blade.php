@@ -1,21 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('page_title', 'Dashboard')
+
+@section('breadcrumbs')
+    @include('partials.breadcrumbs', [
+        'pageTitle' => 'Dashboard',
+        'breadcrumbs' => [
+            [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
+        ],
+        'currentSection' => 'Dashboard',
+    ])
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
-                <div class="panel-body">
-                    You are logged in!
-                    <a href="{{ route('logout') }}"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
-                </div>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-sm-12">
+        
     </div>
 </div>
 @endsection
