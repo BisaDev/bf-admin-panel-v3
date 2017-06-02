@@ -3,12 +3,9 @@
 namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Subject extends Model
 {
-    use Searchable;
-
     /**
      * The attributes that are mass assignable.
      *

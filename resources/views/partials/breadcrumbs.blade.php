@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-9">
         <h4 class="page-title">{{ $pageTitle }}</h4>
         <ol class="breadcrumb">
             @foreach($breadcrumbs as $breadcrumb)
@@ -12,7 +12,7 @@
             </li>
         </ol>
     </div>
-    <div class="col-md-2 text-right">
+    <div class="col-md-3 text-right">
         @if(isset($link))
             <div class="btn-group m-t-10 m-b-10">
                 <a href="{{ $link['url'] }}">
