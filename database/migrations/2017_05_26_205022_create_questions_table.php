@@ -18,11 +18,11 @@ class CreateQuestionsTable extends Migration
             $table->string('title')->nullable();
             $table->string('image')->nullable();
             $table->json('type');
-            $table->integer('subject_id')->unsigned()->nullable();
+            $table->integer('topic_id')->unsigned()->nullable();
             $table->timestamps();
 
-            $table->foreign('subject_id')
-                ->references('id')->on('subjects')
+            $table->foreign('topic_id')
+                ->references('id')->on('topics')
                 ->onDelete('set null');
         });
     }
