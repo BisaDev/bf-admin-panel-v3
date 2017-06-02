@@ -11,9 +11,11 @@ window.Vue = require('vue');
 
 import index from './pages/index';
 import add_topics from './pages/add-topics';
+import add_subjects from './pages/add-subjects';
 
 index.init();
 add_topics.init();
+add_subjects.init();
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

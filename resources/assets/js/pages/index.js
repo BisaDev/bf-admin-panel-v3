@@ -18,7 +18,9 @@ export default {
             beforeMount: function () {
                 this.dbModel = this.$el.attributes['data-model'].value;
                 this.dbModelChild = this.$el.attributes['data-model-child'].value;
-                this.search = this.$el.attributes['data-search'].value;
+                if(this.$el.attributes['data-search'] !== undefined) {
+                    this.search = this.$el.attributes['data-search'].value;
+                }
             },
             methods: {
                 removeSearch(url){

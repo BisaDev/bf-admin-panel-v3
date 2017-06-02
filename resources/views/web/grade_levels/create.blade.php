@@ -36,6 +36,19 @@
                             @endif
                         </div>
 
+                        <div id="add-subjects">
+                            <div class="form-group col-md-12">
+                                <button type="button" class="btn btn-sm btn-default" @click="addSubject" >Add subject +</button>
+                            </div>
+
+                            <div class="form-group col-md-12" v-for="(subject, index) in subjects">
+                                <span class="form-control input-clear active">
+                                    <input type="text" name="subjects[]" placeholder="Subject name" v-model="subject.name">
+                                    <span @click="removeSubject(index)">&times;</span>
+                                </span>
+                            </div>
+                        </div>
+
                         <div class="form-group col-md-12 text-right">
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
                         </div>

@@ -1467,7 +1467,9 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
             beforeMount: function beforeMount() {
                 this.dbModel = this.$el.attributes['data-model'].value;
                 this.dbModelChild = this.$el.attributes['data-model-child'].value;
-                this.search = this.$el.attributes['data-search'].value;
+                if (this.$el.attributes['data-search'] !== undefined) {
+                    this.search = this.$el.attributes['data-search'].value;
+                }
             },
             methods: {
                 removeSearch: function removeSearch(url) {
@@ -3184,6 +3186,39 @@ if (window.Sweetalert2) window.sweetAlert = window.swal = window.Sweetalert2;
                 },
                 removeTopic: function removeTopic(index) {
                     this.topics.splice(index, 1);
+                }
+            },
+            mounted: function mounted() {}
+        });
+    }
+});
+
+/***/ }),
+
+/***/ 258:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    init: function init() {
+        var domElement = 'add-subjects';
+        if (document.getElementById(domElement)) {
+            this.execute();
+        }
+    },
+    execute: function execute() {
+        new Vue({
+            el: '#add-subjects',
+            data: {
+                subjects: []
+            },
+            beforeMount: function beforeMount() {},
+            methods: {
+                addSubject: function addSubject() {
+                    this.subjects.push({ name: '' });
+                },
+                removeSubject: function removeSubject(index) {
+                    this.subjects.splice(index, 1);
                 }
             },
             mounted: function mounted() {}
@@ -43184,6 +43219,7 @@ module.exports = g;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_index__ = __webpack_require__(252);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_add_topics__ = __webpack_require__(257);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_add_subjects__ = __webpack_require__(258);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -43198,8 +43234,10 @@ window.Vue = __webpack_require__(45);
 
 
 
+
 __WEBPACK_IMPORTED_MODULE_0__pages_index__["a" /* default */].init();
 __WEBPACK_IMPORTED_MODULE_1__pages_add_topics__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_2__pages_add_subjects__["a" /* default */].init();
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

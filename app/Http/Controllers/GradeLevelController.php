@@ -4,6 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Brightfox\GradeLevel;
+use Brightfox\Subject;
 
 class GradeLevelController extends Controller
 {
@@ -41,7 +42,15 @@ class GradeLevelController extends Controller
             'name' => 'required|string'
         ]);
         
-        GradeLevel::create($request->only(['name']));
+        $grade_level = GradeLevel::create($request->only(['name']));
+
+        if($request->has('subjects')){
+            foreach ($request->input('subjects') as $subject) {
+                if(!is_null($subject)){
+                    $subject = Subject::create(['name' => $subject, 'grade_level_id' => $grade_level->id]);
+                }
+            }
+        }
         
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Grade Level was successfully created']);
         
