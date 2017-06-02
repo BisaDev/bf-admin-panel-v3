@@ -1,16 +1,5 @@
 <div class="row">
-    <div class="col-sm-12">
-        @if(isset($link))
-            <div class="btn-group pull-right m-t-15">
-                <a href="{{ $link['url'] }}">
-                    <button type="button" class="btn btn-default waves-effect waves-light">
-                        {{ $link['label'] }}
-                        <span class="m-l-5"><i class="fa fa-plus"></i></span>
-                    </button>
-                </a>
-            </div>
-        @endif
-
+    <div class="col-md-10">
         <h4 class="page-title">{{ $pageTitle }}</h4>
         <ol class="breadcrumb">
             @foreach($breadcrumbs as $breadcrumb)
@@ -22,5 +11,17 @@
                 {{ $currentSection }}
             </li>
         </ol>
+    </div>
+    <div class="col-md-2 text-right">
+        @if(isset($link))
+            <div class="btn-group m-t-10 m-b-10">
+                <a href="{{ $link['url'] }}">
+                    <button type="button" class="btn btn-default waves-effect waves-light">
+                        {{ $link['label'] }}
+                        <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                    </button>
+                </a>
+            </div>
+        @endif
     </div>
 </div>

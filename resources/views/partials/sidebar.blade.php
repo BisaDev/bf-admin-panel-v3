@@ -3,7 +3,11 @@
         <!--- Divider -->
         <div id="sidebar-menu">
             <ul>
-                <li><a href="{{ route('dashboard') }}" class="waves-effect"><i class="ti-home"></i> <span> Dashboard </span> </a></li>
+                <li>
+                    <a href="{{ route('dashboard') }}" class="waves-effect">
+                        <i class="ti-home"></i><span> Dashboard </span>
+                    </a>
+                </li>
 
                 <li><a href="#" class="waves-effect"><i class="ti-calendar"></i><span> Meetups </span> </a></li>
 
@@ -19,7 +23,11 @@
 
                 <li><a href="#" class="waves-effect"><i class="ti-location-pin"></i><span> Facilities </span></a></li>
 
-                <li><a href="#" class="waves-effect"><i class="ti-bookmark-alt"></i><span> Academic Content </span></a></li>
+                <li>
+                    <a href="{{ route('grade_levels.index') }}" class="waves-effect {{ (Request::is('grade_levels/*') || Request::is('subjects/*') || Request::is('topics/*'))? 'active' : '' }}">
+                        <i class="ti-bookmark-alt"></i><span> Academic Content </span>
+                    </a>
+                </li>
             </ul>
             <div class="clearfix"></div>
         </div>

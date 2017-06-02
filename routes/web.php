@@ -13,15 +13,25 @@
 
 //Auth::routes();
 //Putting Auth routes individually to remove the Registration Routes which Auth::routes() adds by default.
-Route::get('login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
-Route::post('login', ['as' => '', 'uses' => 'Auth\LoginController@login']);
-Route::post('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
+Route::get('login',     ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
+Route::post('login',    ['as' => '', 'uses' => 'Auth\LoginController@login']);
+Route::post('logout',   ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 
-Route::post('password/email', ['as' => 'password.email', 'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
-Route::get('password/reset', ['as' => 'password.request', 'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm']);
-Route::post('password/reset', ['as' => '', 'uses' => 'Auth\ResetPasswordController@reset']);
-Route::get('password/reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
+Route::post('password/email',           ['as' => 'password.email', 'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
+Route::get('password/reset',            ['as' => 'password.request', 'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm']);
+Route::post('password/reset',           ['as' => '', 'uses' => 'Auth\ResetPasswordController@reset']);
+Route::get('password/reset/{token}',    ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
 
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/', 'DashboardController@index')->name('dashboard');
+
+    Route::resource('grade_levels',                 'GradeLevelController');
+    Route::post('grade_levels/{grade_level}',       'GradeLevelController@show')->name('grade_levels.show.search');
+
+    Route::resource('subjects',                     'SubjectController', ['except' => ['index']]);
+    Route::get('subjects/create/{grade_level_id}',  'SubjectController@create')->name('subjects.create');
+    Route::post('subjects/{subject}',               'SubjectController@show')->name('subjects.show.search');
+
+    Route::resource('topics',                       'TopicController', ['except' => ['index', 'show']]);
+    Route::get('topics/create/{subject_id}',        'TopicController@create')->name('topics.create');
 });
