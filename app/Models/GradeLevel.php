@@ -3,6 +3,7 @@
 namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
+use Brightfox\Subject;
 
 class GradeLevel extends Model
 {
@@ -17,6 +18,6 @@ class GradeLevel extends Model
 
     public function subjects()
     {
-        return $this->hasMany('Brightfox\Subject');
+        return $this->hasMany(Subject::class);
     }
 }

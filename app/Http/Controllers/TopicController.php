@@ -36,9 +36,9 @@ class TopicController extends Controller
         Topic::create($request->only(['name', 'subject_id']));
 
         if($request->has('topics')){
-            foreach ($request->input('topics') as $topic) {
-                if(!is_null($topic)){
-                    $topic = Topic::create(['name' => $topic, 'subject_id' => $request->input('subject_id')]);
+            foreach ($request->input('topics') as $topic_name) {
+                if(!is_null($topic_name)){
+                    Topic::create(['name' => $topic_name, 'subject_id' => $request->input('subject_id')]);
                 }
             }
         }
@@ -54,11 +54,9 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Topic $topic)
     {
-        $item = Topic::find($id);
-
-        return view('web.topics.edit', compact('item'));
+        return view('web.topics.edit', ['item' => $topic]);
     }
 
     /**
@@ -68,16 +66,14 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Topic $topic)
     {
-        $item = Topic::find($id);
-
-        $item->name = $request->input('name');
-        $item->save();
+        $topic->name = $request->input('name');
+        $topic->save();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Topic was successfully edited']);
         
-        return redirect(route('subjects.show', $item->subject->id));
+        return redirect(route('subjects.show', $topic->subject->id));
     }
 
     /**
@@ -86,15 +82,13 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Topic $topic)
     {
-        $item = Topic::find($id);
-
-        $subject = $item->subject->id;
-        $item->delete();
+        $subject_id = $topic->subject->id;
+        $topic->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Topic was successfully deleted']);
         
-        return redirect(route('subjects.show', $subject));
+        return redirect(route('subjects.show', $subject_id));
     }
 }

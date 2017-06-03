@@ -25,13 +25,21 @@ Route::get('password/reset/{token}',    ['as' => 'password.reset', 'uses' => 'Au
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
-    Route::resource('grade_levels',                 'GradeLevelController');
-    Route::post('grade_levels/{grade_level}',       'GradeLevelController@show')->name('grade_levels.show.search');
+    Route::resource('grade_levels',                     'GradeLevelController');
+    Route::post('grade_levels/{grade_level}',           'GradeLevelController@show')->name('grade_levels.show.search');
 
-    Route::resource('subjects',                     'SubjectController', ['except' => ['index']]);
-    Route::get('subjects/create/{grade_level_id}',  'SubjectController@create')->name('subjects.create');
-    Route::post('subjects/{subject}',               'SubjectController@show')->name('subjects.show.search');
+    Route::resource('subjects',                         'SubjectController', ['except' => ['index', 'create']]); 
+    Route::get('subjects/create/{grade_level_id}',      'SubjectController@create')->name('subjects.create');
+    Route::post('subjects/{subject}',                   'SubjectController@show')->name('subjects.show.search');
 
-    Route::resource('topics',                       'TopicController', ['except' => ['index', 'show']]);
-    Route::get('topics/create/{subject_id}',        'TopicController@create')->name('topics.create');
+    Route::resource('topics',                           'TopicController', ['except' => ['index', 'show', 'create']]);
+    Route::get('topics/create/{subject_id}',            'TopicController@create')->name('topics.create');
+
+    Route::resource('locations',                        'LocationController');
+    Route::post('locations/search',                     'LocationController@index')->name('locations.search');
+    Route::post('locations/{location}',                 'LocationController@show')->name('locations.show.search');
+    Route::post('locations/toggle_active/{location}',   'LocationController@toggle_active')->name('locations.toggle_active');
+
+    Route::resource('rooms',                            'RoomController', ['except' => ['index', 'create']]);
+    Route::get('rooms/create/{location_id}',            'RoomController@create')->name('rooms.create');
 });

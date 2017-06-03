@@ -15,7 +15,7 @@
 @endsection
 
 @section('content')
-    <div id="index-container" data-model="topic" data-model-child="" data-search="{{ $search or '' }}" class="row">
+    <div id="index-container" data-model="topic" data-search="{{ $search or '' }}" class="row">
         <div class="col-md-8 col-md-offset-2">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
@@ -65,7 +65,12 @@
                     @endforeach
                     </tbody>
                 </table>
-
+                
+                <div class="row">
+                    <div class="col-sm-12 text-right">
+                        {{ $item->topics->links() }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

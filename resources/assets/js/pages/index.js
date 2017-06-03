@@ -16,8 +16,13 @@ export default {
                 search: null,
             },
             beforeMount: function () {
+                
                 this.dbModel = this.$el.attributes['data-model'].value;
-                this.dbModelChild = this.$el.attributes['data-model-child'].value;
+                
+                if(this.$el.attributes['data-model-child'] !== undefined) {
+                    this.dbModelChild = this.$el.attributes['data-model-child'].value;
+                }
+                
                 if(this.$el.attributes['data-search'] !== undefined) {
                     this.search = this.$el.attributes['data-search'].value;
                 }
@@ -35,7 +40,7 @@ export default {
 
                         swal({
                             title: 'Are you sure?',
-                            text: 'Deleting this '+this.dbModel+' will also delete '+child_elements+' '+this.dbModelChild,
+                            text: 'Deleting this '+this.dbModel+' will also delete '+child_elements+' '+this.dbModelChild+(child_elements > 1? 's' : ''),
                             type: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#23527c',
@@ -58,6 +63,18 @@ export default {
                 deleteItem(item_id, event){
                     
                     $('#delete-form-'+item_id).submit();
+                },
+                toggleActive(url, event){
+
+                    axios.post(url, {
+                        active: event.target.checked,
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
                 }
             },
             mounted() {

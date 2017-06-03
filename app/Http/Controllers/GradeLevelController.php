@@ -2,9 +2,8 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Brightfox\GradeLevel, Brightfox\Subject;
 use Illuminate\Http\Request;
-use Brightfox\GradeLevel;
-use Brightfox\Subject;
 
 class GradeLevelController extends Controller
 {
@@ -15,7 +14,7 @@ class GradeLevelController extends Controller
      */
     public function index()
     {
-        $list = GradeLevel::all();
+        $list = GradeLevel::paginate(10);
         
         return view('web.grade_levels.index', compact('list'));
     }
@@ -45,9 +44,9 @@ class GradeLevelController extends Controller
         $grade_level = GradeLevel::create($request->only(['name']));
 
         if($request->has('subjects')){
-            foreach ($request->input('subjects') as $subject) {
-                if(!is_null($subject)){
-                    $subject = Subject::create(['name' => $subject, 'grade_level_id' => $grade_level->id]);
+            foreach ($request->input('subjects') as $subject_name) {
+                if(!is_null($subject_name)){
+                    Subject::create(['name' => $subject_name, 'grade_level_id' => $grade_level->id]);
                 }
             }
         }
@@ -63,13 +62,15 @@ class GradeLevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, GradeLevel $grade_level)
     {
-        $item = GradeLevel::find($id);
+        $item = $grade_level;
 
         if($request->has('search')){
             $search = $request->input('search');
-            $item->subjects = $item->subjects()->where('name', 'like', '%'.$search.'%')->get();
+            $item->subjects = $item->subjects()->search($search)->paginate(10);
+        }else{
+            $item->subjects = $item->subjects()->paginate(10);
         }
 
         return view('web.grade_levels.show', compact('item', 'search'));
@@ -81,11 +82,9 @@ class GradeLevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(GradeLevel $grade_level)
     {
-        $item = GradeLevel::find($id);
-
-        return view('web.grade_levels.edit', compact('item'));
+        return view('web.grade_levels.edit', ['item' => $grade_level]);
     }
 
     /**
@@ -95,12 +94,10 @@ class GradeLevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, GradeLevel $grade_level)
     {
-        $item = GradeLevel::find($id);
-
-        $item->name = $request->input('name');
-        $item->save();
+        $grade_level->name = $request->input('name');
+        $grade_level->save();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Grade Level was successfully edited']);
         
@@ -113,11 +110,9 @@ class GradeLevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, GradeLevel $grade_level)
     {
-        $item = GradeLevel::find($id);
-
-        $item->delete();
+        $grade_level->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Grade Level was successfully deleted']);
         

@@ -2,10 +2,8 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Brightfox\Subject, Brightfox\Topic, Brightfox\GradeLevel;
 use Illuminate\Http\Request;
-use Brightfox\GradeLevel;
-use Brightfox\Subject;
-use Brightfox\Topic;
 
 class SubjectController extends Controller
 {
@@ -37,9 +35,9 @@ class SubjectController extends Controller
         $subject = Subject::create($request->only(['name', 'grade_level_id']));
 
         if($request->has('topics')){
-            foreach ($request->input('topics') as $topic) {
-                if(!is_null($topic)){
-                    $topic = Topic::create(['name' => $topic, 'subject_id' => $subject->id]);
+            foreach ($request->input('topics') as $topic_name) {
+                if(!is_null($topic_name)){
+                    Topic::create(['name' => $topic_name, 'subject_id' => $subject->id]);
                 }
             }
         }
@@ -55,13 +53,15 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, Subject $subject)
     {
-        $item = Subject::find($id);
+        $item = $subject;
 
         if($request->has('search')){
             $search = $request->input('search');
-            $item->topics = $item->topics()->where('name', 'like', '%'.$search.'%')->get();
+            $item->topics = $item->topics()->search($search)->paginate(10);
+        }else{
+            $item->topics = $item->topics()->paginate(10);
         }
 
         return view('web.subjects.show', compact('item', 'search'));
@@ -73,11 +73,9 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Subject $subject)
     {
-        $item = Subject::find($id);
-
-        return view('web.subjects.edit', compact('item'));
+        return view('web.subjects.edit', ['item' => $subject]);
     }
 
     /**
@@ -87,16 +85,14 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Subject $subject)
     {
-        $item = Subject::find($id);
-
-        $item->name = $request->input('name');
-        $item->save();
+        $subject->name = $request->input('name');
+        $subject->save();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Subject was successfully edited']);
         
-        return redirect(route('grade_levels.show', $item->grade_level->id));
+        return redirect(route('grade_levels.show', $subject->grade_level->id));
     }
 
     /**
@@ -105,12 +101,10 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Subject $subject)
     {
-        $item = Subject::find($id);
-
-        $grade_level_id = $item->grade_level->id;
-        $item->delete();
+        $grade_level_id = $subject->grade_level->id;
+        $subject->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Subject was successfully deleted']);
         

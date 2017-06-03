@@ -7923,7 +7923,7 @@ a:focus {
   background-color: #81c868 !important;
 }
 .bg-info {
-  background-color: #34d3eb !important;
+  background-color: #336ca2 !important;
 }
 .bg-warning {
   background-color: #ffbd4a !important;
@@ -7972,7 +7972,7 @@ a:focus {
   color: #81c868;
 }
 .text-info {
-  color: #34d3eb;
+  color: #336ca2;
 }
 .text-inverse {
   color: #4c5667;
@@ -8054,7 +8054,7 @@ textarea.form-control {
   background-color: #81c868;
 }
 .label-info {
-  background-color: #34d3eb;
+  background-color: #336ca2;
 }
 .label-warning {
   background-color: #ffbd4a;
@@ -8095,7 +8095,7 @@ textarea.form-control {
   background-color: #81c868;
 }
 .badge-info {
-  background-color: #34d3eb;
+  background-color: #336ca2;
 }
 .badge-warning {
   background-color: #ffbd4a;
@@ -8325,7 +8325,7 @@ textarea.form-control {
 .alert-info {
   background-color: rgba(52, 211, 235, 0.2);
   border-color: rgba(52, 211, 235, 0.3);
-  color: #34d3eb;
+  color: #336ca2;
 }
 .alert-warning {
   background-color: rgba(255, 189, 74, 0.2);
@@ -8638,8 +8638,8 @@ pre {
   border: 2px solid #81c868;
 }
 .noti-info {
-  color: #34d3eb;
-  border: 2px solid #34d3eb;
+  color: #336ca2;
+  border: 2px solid #336ca2;
 }
 .noti-warning {
   color: #ffbd4a;
@@ -9568,8 +9568,8 @@ File: Components
 .btn-info:focus,
 .btn-info:hover,
 .open > .dropdown-toggle.btn-info {
-  background-color: #34d3eb !important;
-  border: 1px solid #34d3eb !important;
+  background-color: #336ca2 !important;
+  border: 1px solid #336ca2 !important;
 }
 .btn-warning,
 .btn-warning:hover,
@@ -9649,7 +9649,7 @@ File: Components
   color: #81c868 !important;
 }
 .btn-custom.btn-info {
-  color: #34d3eb !important;
+  color: #336ca2 !important;
 }
 .btn-custom.btn-warning {
   color: #ffbd4a !important;
@@ -9889,8 +9889,8 @@ File: Components
   color: #ffffff;
 }
 .checkbox-info input[type="checkbox"]:checked + label::before {
-  background-color: #34d3eb;
-  border-color: #34d3eb;
+  background-color: #336ca2;
+  border-color: #336ca2;
 }
 .checkbox-info input[type="checkbox"]:checked + label::after {
   color: #ffffff;
@@ -10032,13 +10032,13 @@ File: Components
   background-color: #f05050;
 }
 .radio-info input[type="radio"] + label::after {
-  background-color: #34d3eb;
+  background-color: #336ca2;
 }
 .radio-info input[type="radio"]:checked + label::before {
-  border-color: #34d3eb;
+  border-color: #336ca2;
 }
 .radio-info input[type="radio"]:checked + label::after {
-  background-color: #34d3eb;
+  background-color: #336ca2;
 }
 .radio-warning input[type="radio"] + label::after {
   background-color: #ffbd4a;
@@ -10126,7 +10126,7 @@ File: Components
   background-color: #81c868;
 }
 .panel-info > .panel-heading {
-  background-color: #34d3eb;
+  background-color: #336ca2;
 }
 .panel-warning > .panel-heading {
   background-color: #ffbd4a;
@@ -10164,8 +10164,8 @@ File: Components
   color: #81c868 !important;
 }
 .panel-border.panel-info .panel-heading {
-  border-color: #34d3eb !important;
-  color: #34d3eb !important;
+  border-color: #336ca2 !important;
+  color: #336ca2 !important;
 }
 .panel-border.panel-warning .panel-heading {
   border-color: #ffbd4a !important;
@@ -10382,7 +10382,7 @@ File: Components
   background-color: #81c868;
 }
 .progress-bar-info {
-  background-color: #34d3eb;
+  background-color: #336ca2;
 }
 .progress-bar-warning {
   background-color: #ffbd4a;
@@ -10938,8 +10938,8 @@ ul.ColVis_collection li {
   line-height: 80px;
 }
 .widget-bg-color-icon .bg-icon-info {
-  background-color: rgba(52, 211, 235, 0.2);
-  border: 1px solid #34d3eb;
+  background-color: rgba(51, 108, 162, 0.2);
+  border: 1px solid #336ca2;
 }
 .widget-bg-color-icon .bg-icon-primary {
   background-color: rgba(252, 112, 68, 0.2);
@@ -25057,7 +25057,7 @@ File: Pages
 }
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-info,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-info {
-  background: #34d3eb;
+  background: #336ca2;
 }
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success,
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-success {
@@ -25173,7 +25173,7 @@ File: Pages
 }
 .slider-info .slider-selection {
   background-image: none;
-  background-color: #34d3eb;
+  background-color: #336ca2;
 }
 .slider-warning .slider-selection {
   background-image: none;
@@ -25216,7 +25216,7 @@ File: Pages
   border-color: #ffbd4a;
 }
 .sweet-alert .icon.info {
-  border-color: #34d3eb;
+  border-color: #336ca2;
 }
 .sweet-alert .btn-warning:focus,
 .sweet-alert .btn-info:focus,
@@ -25421,7 +25421,7 @@ File: Pages
 .ct-chart .ct-series.ct-series-c .ct-line,
 .ct-chart .ct-series.ct-series-c .ct-point,
 .ct-chart .ct-series.ct-series-c .ct-slice-donut {
-  stroke: #34d3eb;
+  stroke: #336ca2;
 }
 .ct-chart .ct-series.ct-series-d .ct-bar,
 .ct-chart .ct-series.ct-series-d .ct-line,
@@ -25457,7 +25457,7 @@ File: Pages
 }
 .ct-series-c .ct-area,
 .ct-series-c .ct-slice-pie {
-  fill: #34d3eb;
+  fill: #336ca2;
 }
 .ct-series-d .ct-area,
 .ct-series-d .ct-slice-pie {
@@ -25632,7 +25632,7 @@ File: Pages
   background: #81c868;
 }
 .cd-timeline-img.cd-info {
-  background: #34d3eb;
+  background: #336ca2;
 }
 .cd-timeline-img.cd-pink {
   background: #fb6d9d;
@@ -26704,7 +26704,7 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.down .hopscotch-bubble-ar
   border-left-color: #81c868;
 }
 .taskList .task-info {
-  border-left-color: #34d3eb;
+  border-left-color: #336ca2;
 }
 .taskList .task-warning {
   border-left-color: #ffbd4a;
@@ -26920,4 +26920,39 @@ File: Responsive
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+.switchery {
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-block;
+  height: 30px;
+  position: relative;
+  vertical-align: middle;
+  width: 50px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  box-sizing: content-box;
+  background-clip: content-box;
+}
+.switchery > small {
+  background: #fff;
+  border-radius: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  height: 30px;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}
+.switchery-small {
+  border-radius: 20px;
+  height: 20px;
+  width: 33px;
+}
+.switchery-small > small {
+  height: 20px;
+  width: 20px;
 }

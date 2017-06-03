@@ -34,14 +34,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($list as $grade_level)
+                    @foreach($list as $item)
                         <tr>
-                            <td><a href="{{ route('grade_levels.show', $grade_level->id) }}">{{ $grade_level->name }}</a></td>
-                            <td>{{ $grade_level->subjects->count() }}</td>
-                            <td class="text-center"><a href="{{ route('grade_levels.edit', $grade_level->id) }}" class="icon icon-pencil"></a></td>
+                            <td><a href="{{ route('grade_levels.show', $item->id) }}">{{ $item->name }}</a></td>
+                            <td>{{ $item->subjects->count() }}</td>
+                            <td class="text-center"><a href="{{ route('grade_levels.edit', $item->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">
-                                <a href="" @click="confirmDelete({{ $grade_level->id }}, {{ $grade_level->subjects->count() }}, $event)" class="icon icon-trash"></a>
-                                <form id="delete-form-{{ $grade_level->id }}" action="{{ route('grade_levels.destroy', $grade_level->id) }}" method="POST" style="display: none;">
+                                <a href="" @click="confirmDelete({{ $item->id }}, {{ $item->subjects->count() }}, $event)" class="icon icon-trash"></a>
+                                <form id="delete-form-{{ $item->id }}" action="{{ route('grade_levels.destroy', $item->id) }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                     {{ method_field('delete') }}
                                 </form>
@@ -51,6 +51,11 @@
                     </tbody>
                 </table>
 
+                <div class="row">
+                    <div class="col-sm-12 text-right">
+                        {{ $list->links() }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

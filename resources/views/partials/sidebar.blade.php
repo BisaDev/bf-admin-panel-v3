@@ -21,7 +21,7 @@
 
                 <li><a href="#" class="waves-effect"><i class="ti-user"></i><span> Employees </span></a></li>
 
-                <li><a href="#" class="waves-effect"><i class="ti-location-pin"></i><span> Facilities </span></a></li>
+                <li><a href="{{ route('locations.index') }}" class="waves-effect"><i class="ti-location-pin"></i><span> Facilities </span></a></li>
 
                 <li>
                     <a href="{{ route('grade_levels.index') }}" class="waves-effect {{ (Request::is('grade_levels/*') || Request::is('subjects/*') || Request::is('topics/*'))? 'active' : '' }}">

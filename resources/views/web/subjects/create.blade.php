@@ -39,6 +39,7 @@
 
                         <div class="form-group col-md-12 text-right m-t-30">
                             <input type="hidden" name="grade_level_id" value="{{ $grade_level->id }}">
+                            <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
                         </div>
 
