@@ -10,12 +10,10 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import index from './pages/index';
-import add_topics from './pages/add-topics';
-import add_subjects from './pages/add-subjects';
+import add_children from './pages/add-children';
 
 index.init();
-add_topics.init();
-add_subjects.init();
+add_children.init();
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

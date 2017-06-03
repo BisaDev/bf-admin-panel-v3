@@ -21,8 +21,10 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'public/vendor/jquery.slimscroll.js',
         'public/vendor/jquery.nicescroll.js',
         'public/vendor/jquery.scrollTo.min.js',
+        'public/vendor/switchery.min.js',
         'public/vendor/jquery.core.js',
         'public/vendor/jquery.app.js',
+        'public/vendor/bootstrap-inputmask.min.js',
     ], 'public/js/vendor.js')
     .less('resources/assets/less/app.less', 'public/css');
 

@@ -3,9 +3,13 @@
 namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
+use Brightfox\Subject;
 
 class Topic extends Model
 {
+    use Eloquence;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,8 +20,15 @@ class Topic extends Model
         'subject_id'
     ];
 
+    /**
+     * The attributes that will be searchable, can be relations.
+     *
+     * @var array
+     */
+    protected $searchableColumns = ['name'];
+
     public function subject()
     {
-        return $this->belongsTo('Brightfox\Subject');
+        return $this->belongsTo(Subject::class);
     }
 }

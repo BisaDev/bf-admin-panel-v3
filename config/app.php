@@ -182,6 +182,11 @@ return [
          */
         Spatie\Permission\PermissionServiceProvider::class,
 
+        /*
+         * Search and other Eloquent helpers
+         */
+        Sofa\Eloquence\ServiceProvider::class,
+
     ],
 
     /*
