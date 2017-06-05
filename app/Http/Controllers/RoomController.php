@@ -10,6 +10,7 @@ class RoomController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $location_id
      * @return \Illuminate\Http\Response
      */
     public function create($location_id)
@@ -78,6 +79,7 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Brightfox\Room  $room
      * @return \Illuminate\Http\Response
      */

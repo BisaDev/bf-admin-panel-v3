@@ -59,7 +59,8 @@ class GradeLevelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Brightfox\GradeLevel  $grade_level
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, GradeLevel $grade_level)
@@ -79,7 +80,7 @@ class GradeLevelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \Brightfox\GradeLevel  $grade_level
      * @return \Illuminate\Http\Response
      */
     public function edit(GradeLevel $grade_level)
@@ -91,7 +92,7 @@ class GradeLevelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Brightfox\GradeLevel  $grade_level
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, GradeLevel $grade_level)
@@ -107,7 +108,8 @@ class GradeLevelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Brightfox\GradeLevel  $grade_level
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, GradeLevel $grade_level)

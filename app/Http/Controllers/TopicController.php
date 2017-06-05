@@ -11,6 +11,7 @@ class TopicController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $subject_id
      * @return \Illuminate\Http\Response
      */
     public function create($subject_id)
@@ -51,7 +52,7 @@ class TopicController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \Brightfox\Topic  $topic
      * @return \Illuminate\Http\Response
      */
     public function edit(Topic $topic)
@@ -63,7 +64,7 @@ class TopicController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Brightfox\Topic  $topic
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Topic $topic)
@@ -79,7 +80,8 @@ class TopicController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Brightfox\Topic  $topic
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Topic $topic)

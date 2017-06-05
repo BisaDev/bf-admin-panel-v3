@@ -16,8 +16,7 @@ class Topic extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'subject_id'
+        'name', 'subject_id'
     ];
 
     /**
@@ -25,7 +24,9 @@ class Topic extends Model
      *
      * @var array
      */
-    protected $searchableColumns = ['name'];
+    protected $searchableColumns = [
+        'name'
+    ];
 
     public function subject()
     {

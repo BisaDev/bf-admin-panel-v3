@@ -24,7 +24,9 @@ class Location extends Model
      *
      * @var array
      */
-    protected $searchableColumns = ['name', 'city', 'state', 'email'];
+    protected $searchableColumns = [
+        'name', 'city', 'state', 'email'
+    ];
 
     public function rooms()
     {

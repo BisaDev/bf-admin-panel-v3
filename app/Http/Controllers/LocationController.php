@@ -10,6 +10,7 @@ class LocationController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -57,6 +58,7 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Brightfox\Location  $location
      * @return \Illuminate\Http\Response
      */
@@ -112,6 +114,7 @@ class LocationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Brightfox\Location  $location
      * @return \Illuminate\Http\Response
      */
@@ -125,8 +128,9 @@ class LocationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Toggle resource's active column
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Brightfox\Location  $location
      * @return \Illuminate\Http\Response
      */

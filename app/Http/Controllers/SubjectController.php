@@ -10,6 +10,7 @@ class SubjectController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $grade_level_id
      * @return \Illuminate\Http\Response
      */
     public function create($grade_level_id)
@@ -50,7 +51,8 @@ class SubjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Brightfox\Subject  $subject
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Subject $subject)
@@ -70,7 +72,7 @@ class SubjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \Brightfox\Subject  $subject
      * @return \Illuminate\Http\Response
      */
     public function edit(Subject $subject)
@@ -82,7 +84,7 @@ class SubjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Brightfox\Subject  $subject
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Subject $subject)
@@ -98,7 +100,8 @@ class SubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Brightfox\Subject  $subject
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Subject $subject)

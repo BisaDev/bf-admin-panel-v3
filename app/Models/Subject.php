@@ -24,7 +24,9 @@ class Subject extends Model
      *
      * @var array
      */
-    protected $searchableColumns = ['name'];
+    protected $searchableColumns = [
+        'name'
+    ];
 
     public function grade_level()
     {
