@@ -17,7 +17,7 @@
 @section('content')
 
     <div class="row" >
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
                     <form action="{{ route('topics.update', $item->id) }}" method="POST">

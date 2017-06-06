@@ -52,7 +52,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-12 text-center">
-                                <button type="submit" class="btn btn-default btn-block">Login</button>
+                                <button type="submit" class="btn btn-info btn-block">Login</button>
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">Forgot Your Password?</a>
                             </div>

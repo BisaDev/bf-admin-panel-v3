@@ -16,7 +16,7 @@
         @if(isset($link))
             <div class="btn-group m-t-10 m-b-10">
                 <a href="{{ $link['url'] }}">
-                    <button type="button" class="btn btn-default waves-effect waves-light">
+                    <button type="button" class="btn btn-primary waves-effect waves-light">
                         {{ $link['label'] }}
                         <span class="m-l-5"><i class="fa fa-plus"></i></span>
                     </button>
