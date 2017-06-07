@@ -5,10 +5,13 @@ namespace Brightfox;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Sofa\Eloquence\Eloquence;
+use Brightfox\Traits\FullName;
+use Brightfox\UserDetail;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable, HasRoles, Eloquence, FullName;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'middle_name', 'last_name', 'email', 'password',
     ];
 
     /**
@@ -27,4 +30,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * The attributes that will be searchable, can be relations.
+     *
+     * @var array
+     */
+    protected $searchableColumns = [
+        'name', 'last_name', 'email', 'user_detail.secondary_email', 'user_detail.phone', 'user_detail.mobile_phone', 'user_detail.location.name', 
+    ];
+
+    public function user_detail()
+    {
+        return $this->hasOne(UserDetail::class);
+    }
 }

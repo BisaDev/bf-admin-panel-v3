@@ -42,4 +42,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('rooms',                            'RoomController', ['except' => ['index', 'create']]);
     Route::get('rooms/create/{location_id}',            'RoomController@create')->name('rooms.create');
+
+    Route::resource('employees',    'UserController');
+    Route::post('employees/search', 'UserController@index')->name('employees.search');
 });

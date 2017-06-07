@@ -9,10 +9,14 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+require('bootstrap-filestyle');
+
 import index from './pages/index';
+import create from './pages/create';
 import add_children from './pages/add-children';
 
 index.init();
+create.init();
 add_children.init();
 
 /**

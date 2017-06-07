@@ -45,7 +45,7 @@ class LocationController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'email' => 'email'
+            'email' => 'nullable|email'
         ]);
         
         Location::create($request->only(['name', 'address', 'city', 'state', 'phone', 'email']));
@@ -84,9 +84,7 @@ class LocationController extends Controller
      */
     public function edit(Location $location)
     {
-        $item = $location;
-
-        return view('web.locations.edit', compact('item'));
+        return view('web.locations.edit', ['item' => $location]);
     }
 
     /**

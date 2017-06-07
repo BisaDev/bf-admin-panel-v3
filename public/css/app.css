@@ -26897,6 +26897,10 @@ File: Responsive
   width: 60%;
   margin: 0 auto;
 }
+#index-container table td > img {
+  width: 50px;
+  height: 50px;
+}
 .input-clear {
   display: -webkit-box;
   display: -ms-flexbox;
