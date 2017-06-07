@@ -22,7 +22,7 @@
                     <li class="dropdown top-menu-item-xs">
                         <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><img src="{{ $logged_user->user_detail->photo }}" alt="user-img" class="img-circle"></a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)"><i class="ti-user m-r-10 text-custom"></i> Profile</a></li>
+                            <li><a href="{{ route('employees.edit', $logged_user->id) }}"><i class="ti-user m-r-10 text-custom"></i> Profile</a></li>
                             <li class="divider"></li>
                             <li>
                                 <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ti-power-off m-r-10 text-danger"></i> Logout</a>

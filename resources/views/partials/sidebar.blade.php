@@ -15,12 +15,16 @@
 
                 <li><a href="#" class="waves-effect"><i class="ti-check-box"></i><span> Questions </span></a></li>
 
-                <li><a href="#" class="waves-effect"><i class="ti-game"></i><span> Minigames </span></a></li>
+                <li>
+                    <a href="{{ route('minigames.index') }}" class="waves-effect {{ Request::is('minigames/*')? 'active' : '' }}">
+                        <i class="ti-game"></i><span> Minigames </span>
+                    </a>
+                </li>
 
                 <li><a href="#" class="waves-effect"><i class="ti-user"></i><span> Students </span></a></li>
 
                 <li>
-                    <a href="{{ route('employees.index') }}" class="waves-effect  {{ Request::is('employees/*')? 'active' : '' }}">
+                    <a href="{{ route('employees.index') }}" class="waves-effect {{ Request::is('employees/*')? 'active' : '' }}">
                         <i class="ti-user"></i><span> Employees </span>
                     </a>
                 </li>

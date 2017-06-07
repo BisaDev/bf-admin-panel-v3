@@ -45,4 +45,6 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('employees',    'UserController');
     Route::post('employees/search', 'UserController@index')->name('employees.search');
+
+    Route::resource('minigames', 'MinigameController');
 });

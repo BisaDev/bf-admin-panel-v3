@@ -29,7 +29,6 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="col-md-4 col-md-offset-4"><h4 class="header-title text-center">Profile Picture</h4></div>
                                 <div class="col-sm-2 col-sm-offset-5">
                                     <img src="{{ asset('images/empty-user.jpg') }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
                                 </div>

@@ -101,7 +101,7 @@ class UserController extends Controller
      */
     public function show(User $employee)
     {
-        return view('web.users.create', ['item' => $employee]);
+        return view('web.users.show', ['item' => $employee]);
     }
 
     /**
@@ -129,7 +129,7 @@ class UserController extends Controller
     public function update(Request $request, User $employee)
     {
         $this->validate($request, [
-            'role' => 'required',
+            'role' => 'sometimes|required',
             'name' => 'required|string',
             'last_name' => 'required|string',
             'email' => 'required|unique:users,email,'.$employee->id.'|email',
@@ -150,7 +150,9 @@ class UserController extends Controller
         $employee->user_detail->location_id = $request->input('location');
         $employee->user_detail->save();
 
-        $employee->syncRoles([$request->input('role')]);
+        if($request->has('role')){
+            $employee->syncRoles([$request->input('role')]);
+        }
         $employee->save();
 
         if ($request->hasFile('photo')) {

@@ -30,7 +30,6 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="col-md-4 col-md-offset-4"><h4 class="header-title text-center">Profile Picture</h4></div>
                                 <div class="col-sm-2 col-sm-offset-5">
                                     <img src="{{ $item->user_detail->photo }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
                                 </div>
@@ -51,6 +50,7 @@
                         </div>
                     </div>
 
+                    @if($logged_user->id != $item->id)
                     <div class="row">
                         <div class="form-group col-md-12 {{ $errors->has('role')? 'has-error' : '' }}">
                             <label class="control-label" for="role">Role:</label>
@@ -67,6 +67,7 @@
                             @endif
                         </div>
                     </div>
+                    @endif
 
                     <div class="row">
                         <div class="form-group col-lg-3 {{ $errors->has('name')? 'has-error' : '' }}">
