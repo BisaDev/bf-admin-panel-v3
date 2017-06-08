@@ -4,7 +4,6 @@ namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
-use Brightfox\GradeLevel, Brightfox\Topic;
 
 class Subject extends Model
 {

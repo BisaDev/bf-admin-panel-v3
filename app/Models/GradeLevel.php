@@ -3,7 +3,6 @@
 namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
-use Brightfox\Subject;
 
 class GradeLevel extends Model
 {
