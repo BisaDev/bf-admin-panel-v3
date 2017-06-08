@@ -134,7 +134,7 @@ class LocationController extends Controller
      */
     public function toggle_active(Request $request, Location $location)
     {
-        $location->active = $request->input('active');
+        $location->active = $request->input('status');
         $location->save();
     }
 }

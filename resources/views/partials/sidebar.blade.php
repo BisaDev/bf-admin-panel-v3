@@ -21,7 +21,11 @@
                     </a>
                 </li>
 
-                <li><a href="#" class="waves-effect"><i class="ti-user"></i><span> Students </span></a></li>
+                <li>
+                    <a href="{{ route('students.index') }}" class="waves-effect {{ (Request::is('students/*') || Request::is('family_members/*'))? 'active' : '' }}">
+                        <i class="ti-user"></i><span> Students </span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="{{ route('employees.index') }}" class="waves-effect {{ Request::is('employees/*')? 'active' : '' }}">

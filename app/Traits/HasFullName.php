@@ -2,7 +2,7 @@
 
 namespace Brightfox\Traits;
 
-trait FullName
+trait HasFullName
 {
     public function getFullNameAttribute() {
         $full_name = $this->name;

@@ -6,12 +6,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Sofa\Eloquence\Eloquence;
-use Brightfox\Traits\FullName;
-use Brightfox\UserDetail;
+use Brightfox\Traits\HasFullName;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles, Eloquence, FullName;
+    use Notifiable, HasRoles, Eloquence, HasFullName;
 
     /**
      * The attributes that are mass assignable.

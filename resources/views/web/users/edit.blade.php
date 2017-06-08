@@ -15,25 +15,15 @@
 @section('content')
 
     <div class="row" id="create-container">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="card-box">
-                <form action="{{ route('employees.update', $item->id) }}" method="POST" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                    {{ method_field('put') }}
-
+        <form action="{{ route('employees.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            {{ method_field('put') }}
+            
+            <div class="col-lg-3">
+                <div class="card-box">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <h4 class="header-title m-b-30">Edit employee</h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-2 col-sm-offset-5">
-                                    <img src="{{ $item->user_detail->photo }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
-                                </div>
-                            </div>
+                        <div class="col-sm-12 text-center">
+                            <img src="{{ $item->user_detail->photo }}" class="img-circle profile-image" alt="profile-image" data-pin-nopin="true">
                         </div>
                         <div class="col-sm-12"><hr/></div>
                         <div class="col-sm-12">
@@ -49,7 +39,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
+            <div class="col-lg-9">
+                <div class="card-box">
                     @if($logged_user->id != $item->id)
                     <div class="row">
                         <div class="form-group col-md-12 {{ $errors->has('role')? 'has-error' : '' }}">
@@ -153,7 +147,7 @@
                             <select name="location" class="form-control">
                                 <option value="">Select Location</option>
                                 @foreach($locations as $location)
-                                <option value="{{ $location->id }}" {{ (old('location', $item->user_detail->location->id) == $location->id)? 'selected' : '' }}>{{ $location->name }}</option>
+                                <option value="{{ $location->id }}" {{ (!is_null($item->user_detail->location) && old('location', $item->user_detail->location->id) == $location->id)? 'selected' : '' }}>{{ $location->name }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('location'))
@@ -170,9 +164,9 @@
                             <button type="submit" class="btn btn-md btn-primary">Edit</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 
 @endsection

@@ -7,7 +7,7 @@
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Facilities', 'url' => route('locations.index')],
-            [ 'label' => 'Subject details', 'url' => route('locations.show', $location->id)],
+            [ 'label' => $location->name, 'url' => route('locations.show', $location->id)],
         ],
         'currentSection' => 'Create room',
     ])
@@ -15,7 +15,7 @@
 
 @section('content')
 
-    <div class="row" >
+    <div class="row" id="create-container">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">

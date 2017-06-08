@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row" >
+    <div class="row" id="create-container">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <form action="{{ route('locations.store') }}" method="POST">

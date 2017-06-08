@@ -46,5 +46,17 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('employees',    'UserController');
     Route::post('employees/search', 'UserController@index')->name('employees.search');
 
+    Route::resource('students',         'StudentController');
+    Route::post('students/search',      'StudentController@index')->name('students.search');
+    Route::post('students/{student}',   'StudentController@show')->name('students.show.search');
+
+    Route::resource('family_members',                           'FamilyMemberController', ['except' => ['index', 'create']]);
+    Route::get('family_members/create/{subject_id}',            'FamilyMemberController@create')->name('family_members.create');
+    Route::post('family_members/toggle_pickup/{family_member}', 'FamilyMemberController@toggle_pickup')->name('family_members.toggle_pickup');
+    Route::post('family_members/toggle_active/{family_member}', 'FamilyMemberController@toggle_active')->name('family_members.toggle_active');
+
     Route::resource('minigames', 'MinigameController');
+
+    Route::resource('questions',    'QuestionController');
+    Route::post('questions/search', 'QuestionController@index')->name('questions.search');
 });

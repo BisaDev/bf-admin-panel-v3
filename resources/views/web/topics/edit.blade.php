@@ -7,8 +7,8 @@
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Academic Content', 'url' => route('grade_levels.index')],
-            [ 'label' => 'Grade level details', 'url' => route('grade_levels.show', $item->subject->grade_level->id)],
-            [ 'label' => 'Subject details', 'url' => route('subjects.show', $item->subject->id)],
+            [ 'label' => $item->subject->grade_level->name, 'url' => route('grade_levels.show', $item->subject->grade_level->id)],
+            [ 'label' => $item->subject->name, 'url' => route('subjects.show', $item->subject->id)],
         ],
         'currentSection' => 'Edit topic',
     ])

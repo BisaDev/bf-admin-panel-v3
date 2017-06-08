@@ -18,13 +18,13 @@ class CreateStudentsTable extends Migration
             $table->string('name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
-            $table->string('brithdate');
+            $table->string('birthdate')->nullable();
             $table->json('gender');
-            $table->string('photo');
-            $table->string('current_school');
-            $table->integer('school_year');
-            $table->string('teacher', 100);
-            $table->string('former_school');
+            $table->string('photo')->nullable();
+            $table->string('current_school')->nullable();
+            $table->integer('school_year')->nullable();
+            $table->string('teacher')->nullable();
+            $table->string('former_school')->nullable();
             $table->integer('location_id')->unsigned()->nullable();
             $table->timestamps();
 

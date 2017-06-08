@@ -3,10 +3,12 @@
 namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
-use Brightfox\User, Brightfox\Location;
+use Brightfox\Traits\HasPhoto;
 
 class UserDetail extends Model
 {
+    use HasPhoto;
+
     const PROFILE_PATH = "uploads/profiles/";
     const DEFAULT_PROFILE_PIC = "default-profile.jpg";
 
@@ -18,14 +20,6 @@ class UserDetail extends Model
     protected $fillable = [
         'secondary_email', 'phone', 'mobile_phone', 'location_id', 'user_id'
     ];
-
-    public function getPhotoAttribute($value)
-    {
-        if (!$value || $value == ''){
-            return asset(self::PROFILE_PATH . self::DEFAULT_PROFILE_PIC);
-        }
-        return asset(self::PROFILE_PATH . $value);
-    }
 
     public function user()
     {

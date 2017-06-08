@@ -3,13 +3,13 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Location details',
+        'pageTitle' =>$item->name,
         'link' => [ 'label' => 'Create Room', 'url' => route('rooms.create', $item->id)],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Facilities', 'url' => route('locations.index')],
         ],
-        'currentSection' => 'Location details',
+        'currentSection' =>$item->name,
     ])
 @endsection
 

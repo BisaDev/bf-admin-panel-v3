@@ -7,7 +7,7 @@
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Academic Content', 'url' => route('grade_levels.index')],
-            [ 'label' => 'Grade level details', 'url' => route('grade_levels.show', $item->grade_level->id)],
+            [ 'label' => $item->grade_level->name, 'url' => route('grade_levels.show', $item->grade_level->id)],
         ],
         'currentSection' => 'Edit subject',
     ])
@@ -15,7 +15,7 @@
 
 @section('content')
 
-    <div class="row" >
+    <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">

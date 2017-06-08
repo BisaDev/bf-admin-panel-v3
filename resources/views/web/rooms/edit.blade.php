@@ -7,7 +7,7 @@
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Facilities', 'url' => route('locations.index')],
-            [ 'label' => 'Subject details', 'url' => route('locations.show', $item->location->id)],
+            [ 'label' => $item->location->name, 'url' => route('locations.show', $item->location->id)],
         ],
         'currentSection' => 'Edit room',
     ])

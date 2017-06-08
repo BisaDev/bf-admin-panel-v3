@@ -3,14 +3,14 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Subject details',
+        'pageTitle' => $item->name,
         'link' => [ 'label' => 'Create Topic', 'url' => route('topics.create', $item->id)],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Academic Content', 'url' => route('grade_levels.index')],
-            [ 'label' => 'Grade level details', 'url' => route('grade_levels.show', $item->grade_level->id)],
+            [ 'label' => $item->grade_level->name, 'url' => route('grade_levels.show', $item->grade_level->id)],
         ],
-        'currentSection' => 'Subject details',
+        'currentSection' => $item->name,
     ])
 @endsection
 

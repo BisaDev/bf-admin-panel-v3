@@ -3,13 +3,13 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Grade level details',
+        'pageTitle' => $item->name,
         'link' => [ 'label' => 'Create Subject', 'url' => route('subjects.create', $item->id)],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Academic Content', 'url' => route('grade_levels.index')],
         ],
-        'currentSection' => 'Grade level details',
+        'currentSection' => $item->name,
     ])
 @endsection
 

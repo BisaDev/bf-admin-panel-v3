@@ -15,29 +15,19 @@
 @section('content')
 
     <div class="row" id="create-container">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="card-box">
-                <form action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-
+        <form action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            
+            <div class="col-lg-3">
+                <div class="card-box">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <h4 class="header-title m-b-30">Create a new employee</h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-2 col-sm-offset-5">
-                                    <img src="{{ asset('images/empty-user.jpg') }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
-                                </div>
-                            </div>
+                        <div class="col-sm-12 text-center">
+                            <img src="{{ asset('images/empty-user.jpg') }}" class="img-circle profile-image" alt="profile-image" data-pin-nopin="true">
                         </div>
                         <div class="col-sm-12"><hr/></div>
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="form-group col-md-6 col-md-offset-3 {{ $errors->has('photo')? 'has-error' : '' }}">
+                                <div class="form-group col-sm-8 col-sm-offset-2 {{ $errors->has('photo')? 'has-error' : '' }}">
                                     <input name="photo" type="file" class="filestyle" >
                                     @if($errors->has('photo'))
                                         <span class="help-block">
@@ -48,7 +38,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
+            <div class="col-lg-9">
+                <div class="card-box">
                     <div class="row">
                         <div class="form-group col-md-12 {{ $errors->has('role')? 'has-error' : '' }}">
                             <label class="control-label" for="role">Role:</label>
@@ -199,9 +193,9 @@
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 
 @endsection

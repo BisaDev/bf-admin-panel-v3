@@ -42,10 +42,9 @@
 
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
+                                <div class="checkbox checkbox-primary">
+                                    <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label for="remember">Remember me</label>
                                 </div>
                             </div>
                         </div>

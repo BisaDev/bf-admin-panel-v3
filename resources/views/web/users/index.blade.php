@@ -51,7 +51,7 @@
                     <tbody>
                     @foreach($list as $item)
                         <tr>
-                            <td><img class="img-circle img-responsive" src="{!! $item->user_detail->photo !!}" /></td>
+                            <td><img class="img-circle img-responsive" src="{{ $item->user_detail->photo }}" /></td>
                             <td><a href="{{ route('employees.show', $item->id) }}">{{ $item->full_name }}</a></td>
                             <td>{{ $item->email }}</td>
                             <td>{{ $item->user_detail->mobile_phone }}</td>

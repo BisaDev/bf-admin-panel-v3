@@ -1,4 +1,4 @@
-<div id="add-topics">
+<div id="add-children">
     <div class="form-group col-md-12">
         <button type="button" class="btn btn-sm btn-default" @click="addChildren" >Add topic<span class="m-l-5"><i class="fa fa-plus"></i></span></button>
     </div>

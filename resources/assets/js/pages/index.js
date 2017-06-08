@@ -67,7 +67,7 @@ export default {
                 toggleActive(url, event){
 
                     axios.post(url, {
-                        active: event.target.checked,
+                        status: event.target.checked,
                     })
                     .then(function (response) {
                         console.log(response);
