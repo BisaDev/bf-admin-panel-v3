@@ -53,7 +53,7 @@ class UserController extends Controller
             'name' => 'required|string',
             'last_name' => 'required|string',
             'email' => 'required|unique:users|email',
-            'confirm_email' => 'same:email',
+            'email_confirmation' => 'same:email',
             'password' => 'required',
             'password_confirmation' => 'same:password',
             'secondary_email' => 'nullable|email',
@@ -156,6 +156,10 @@ class UserController extends Controller
         $employee->save();
 
         if ($request->hasFile('photo')) {
+            if(!is_null($employee->user_detail->getOriginal('photo')) || $employee->user_detail->getOriginal('photo') != ''){
+                unlink(public_path(Student::PROFILE_PATH . $employee->user_detail->getOriginal('photo')));
+            }
+            
             $image = $request->file('photo');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             Image::make($image)->resize(512, 512)->save(public_path(UserDetail::PROFILE_PATH . $filename));
@@ -176,6 +180,10 @@ class UserController extends Controller
      */
     public function destroy(Request $request, User $employee)
     {
+        if(!is_null($employee->user_detail->getOriginal('photo')) || $employee->user_detail->getOriginal('photo') != ''){
+            unlink(public_path(Student::PROFILE_PATH . $employee->user_detail->getOriginal('photo')));
+        }
+
         $employee->removeRole($employee->roles->first()->name);
         $employee->delete();
 
