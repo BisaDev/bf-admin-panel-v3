@@ -8,6 +8,8 @@ use Image;
 
 class FamilyMemberController extends Controller
 {
+    protected $types = FamilyMember::TYPES;
+
     /**
      * Show the form for creating a new resource.
      *
@@ -17,8 +19,9 @@ class FamilyMemberController extends Controller
     public function create($student_id)
     {
         $student = Student::find($student_id);
+        $types = $this->types;
 
-        return view('web.family_members.create', compact('student'));
+        return view('web.family_members.create', compact('student', 'types'));
     }
 
     /**
@@ -46,7 +49,7 @@ class FamilyMemberController extends Controller
             'secondary_email' => $request->input('secondary_email'),
             'phone' => $request->input('phone'),
             'mobile_phone' => $request->input('mobile_phone'),
-            'type' => $request->input('type'),
+            'type' => json_encode(['key' => $request->input('type'), 'name' => $this->types[$request->input('type')]], JSON_FORCE_OBJECT),
             'address' => $request->input('address'),
             'city' => $request->input('city'),
             'state' => $request->input('state'),
@@ -86,7 +89,7 @@ class FamilyMemberController extends Controller
      */
     public function edit(FamilyMember $family_member)
     {
-        return view('web.family_members.edit', ['item' => $family_member]);
+        return view('web.family_members.edit', ['item' => $family_member, 'types' => $this->types]);
     }
 
     /**
@@ -113,7 +116,7 @@ class FamilyMemberController extends Controller
         $family_member->secondary_email = $request->input('secondary_email');
         $family_member->phone = $request->input('phone');
         $family_member->mobile_phone = $request->input('mobile_phone');
-        $family_member->type = $request->input('type');
+        $family_member->type = json_encode(['key' => $request->input('type'), 'name' => $this->types[$request->input('type')]], JSON_FORCE_OBJECT);
         $family_member->address = $request->input('address');
         $family_member->city = $request->input('city');
         $family_member->state = $request->input('state');
@@ -122,7 +125,7 @@ class FamilyMemberController extends Controller
 
         if ($request->hasFile('photo')) {
             if(!is_null($family_member->getOriginal('photo')) || $family_member->getOriginal('photo') != ''){
-                unlink(public_path(Student::PROFILE_PATH . $family_member->getOriginal('photo')));
+                unlink(public_path(FamilyMember::PROFILE_PATH . $family_member->getOriginal('photo')));
             }
 
             $image = $request->file('photo');
@@ -147,7 +150,7 @@ class FamilyMemberController extends Controller
     public function destroy(Request $request, FamilyMember $family_member)
     {
         if(!is_null($family_member->getOriginal('photo')) || $family_member->getOriginal('photo') != ''){
-            unlink(public_path(Student::PROFILE_PATH . $family_member->getOriginal('photo')));
+            unlink(public_path(FamilyMember::PROFILE_PATH . $family_member->getOriginal('photo')));
         }
 
         $student_id = $family_member->student->id;

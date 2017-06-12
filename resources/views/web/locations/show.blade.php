@@ -24,10 +24,30 @@
             @endif
             <div class="card-box">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <h3 class="m-b-20">{{ $item->name }}</h3>  
                     </div>
-                    <div class="col-md-6 m-t-10">
+                    <div class="col-md-6">
+                        <label>Address</label>
+                        <address>{{ $item->address }}<br/>{{ $item->city }}, {{ $item->state }}</address>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Phone Number:</label>
+                        <p>{{ $item->phone }}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Contact Email:</label>
+                        <p>{{ $item->email }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-6 m-t-10">
                         <form class="form-inline" action="{{ route('locations.show.search', $item->id) }}" method="POST">
                             {{ csrf_field() }}
                             

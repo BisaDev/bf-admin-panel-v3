@@ -16,6 +16,7 @@ class CreateMinigamesTable extends Migration
         Schema::create('minigames', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

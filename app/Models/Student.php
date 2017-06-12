@@ -13,7 +13,7 @@ class Student extends Model
     use Eloquence, HasFullName, HasPhoto, Noteable;
 
     const PROFILE_PATH = "uploads/profiles/";
-    const DEFAULT_PROFILE_PIC = "default-profile.jpg";
+    const DEFAULT_PHOTO = "default-profile.jpg";
     const GENDERS = ['Male', 'Female', 'Non specified'];
 
     /**

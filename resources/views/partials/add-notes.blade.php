@@ -5,14 +5,19 @@
     </div>
 
     <div class="col-md-6" v-for="(note, index) in children">
-        <div class="form-group">
-            <span class="form-control input-clear active">
-                <input type="text" v-bind:name="'notes['+index+'][title]'" placeholder="Note title" v-model="note.name">
-                <span @click="removeChildren(index)">&times;</span>
-            </span>
-        </div>
-        <div class="form-group">
-            <textarea v-bind:name="'notes['+index+'][text]'" class="form-control"></textarea>
+        <div class="panel panel-border panel-info">
+            <div class="panel-heading input-clear active">
+                <h3 class="panel-title">Note</h3>
+                <span class="panel-title" @click="removeChildren(index)">&times;</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" v-bind:name="'notes['+index+'][title]'" placeholder="Note title" v-model="note.name">
+                </div>
+                <div class="form-group">
+                    <textarea v-bind:name="'notes['+index+'][text]'" class="form-control"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -157,7 +157,7 @@ class UserController extends Controller
 
         if ($request->hasFile('photo')) {
             if(!is_null($employee->user_detail->getOriginal('photo')) || $employee->user_detail->getOriginal('photo') != ''){
-                unlink(public_path(Student::PROFILE_PATH . $employee->user_detail->getOriginal('photo')));
+                unlink(public_path(UserDetail::PROFILE_PATH . $employee->user_detail->getOriginal('photo')));
             }
             
             $image = $request->file('photo');
@@ -181,7 +181,7 @@ class UserController extends Controller
     public function destroy(Request $request, User $employee)
     {
         if(!is_null($employee->user_detail->getOriginal('photo')) || $employee->user_detail->getOriginal('photo') != ''){
-            unlink(public_path(Student::PROFILE_PATH . $employee->user_detail->getOriginal('photo')));
+            unlink(public_path(UserDetail::PROFILE_PATH . $employee->user_detail->getOriginal('photo')));
         }
 
         $employee->removeRole($employee->roles->first()->name);

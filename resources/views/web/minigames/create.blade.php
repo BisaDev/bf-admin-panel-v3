@@ -13,12 +13,11 @@
 @endsection
 
 @section('content')
-
-    <div class="row">
+    <div class="row" id="create-container">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
-                    <form action="{{ route('minigames.store') }}" method="POST">
+                    <form action="{{ route('minigames.store') }}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="col-sm-12">
@@ -31,6 +30,16 @@
                             @if($errors->has('name'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('name') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group col-md-12 {{ $errors->has('photo')? 'has-error' : '' }}">
+                            <label class="control-label" for="photo">Screenshot:</label>
+                            <input name="photo" type="file" class="filestyle">
+                            @if($errors->has('photo'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('photo') }}</strong>
                                 </span>
                             @endif
                         </div>

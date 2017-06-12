@@ -10,7 +10,7 @@ class UserDetail extends Model
     use HasPhoto;
 
     const PROFILE_PATH = "uploads/profiles/";
-    const DEFAULT_PROFILE_PIC = "default-profile.jpg";
+    const DEFAULT_PHOTO = "default-profile.jpg";
 
     /**
      * The attributes that are mass assignable.

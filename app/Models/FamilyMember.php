@@ -12,7 +12,8 @@ class FamilyMember extends Model
     use Eloquence, HasFullName, HasPhoto;
 
     const PROFILE_PATH = "uploads/profiles/";
-    const DEFAULT_PROFILE_PIC = "default-profile.jpg";
+    const DEFAULT_PHOTO = "default-profile.jpg";
+    const TYPES = ['parent', 'sibling', 'uncle/aunt'];
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +32,11 @@ class FamilyMember extends Model
     protected $searchableColumns = [
         'name', 'middle_name', 'last_name', 'email', 'secondary_email', 'phone', 'mobile_phone', 'address', 'city', 'state'
     ];
+
+    public function getTypeAttribute($value)
+    {
+        return json_decode($value);
+    }
 
     public function student()
     {

@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Location;
+use Brightfox\Location, Brightfox\Room;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -48,7 +48,15 @@ class LocationController extends Controller
             'email' => 'nullable|email'
         ]);
         
-        Location::create($request->only(['name', 'address', 'city', 'state', 'phone', 'email']));
+        $location = Location::create($request->only(['name', 'address', 'city', 'state', 'phone', 'email']));
+
+        if($request->has('rooms')){
+            foreach ($request->input('rooms') as $room_name) {
+                if(!is_null($room_name)){
+                    Room::create(['name' => $room_name, 'location_id' => $location->id]);
+                }
+            }
+        }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Location was successfully created']);
         

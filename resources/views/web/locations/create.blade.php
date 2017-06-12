@@ -91,6 +91,10 @@
                     </div>
 
                     <div class="row">
+                        @include('partials.add-rooms')
+                    </div>
+
+                    <div class="row">
                         <div class="form-group col-md-12 text-right">
                             <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Create</button>

@@ -13,7 +13,11 @@
 
                 <li><a href="#" class="waves-effect"><i class="ti-pencil-alt"></i><span> Quizzes </span></a></li>
 
-                <li><a href="#" class="waves-effect"><i class="ti-check-box"></i><span> Questions </span></a></li>
+                <li>
+                    <a href="{{ route('questions.index') }}" class="waves-effect {{ Request::is('questions/*')? 'active' : '' }}">
+                        <i class="ti-check-box"></i><span> Questions </span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="{{ route('minigames.index') }}" class="waves-effect {{ Request::is('minigames/*')? 'active' : '' }}">

@@ -30,10 +30,12 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('subjects',                         'SubjectController', ['except' => ['index', 'create']]); 
     Route::get('subjects/create/{grade_level_id}',      'SubjectController@create')->name('subjects.create');
+    Route::post('subjects/get_by_grade',                'SubjectController@get_subjects_by_grade_level')->name('subjects.by_grade');
     Route::post('subjects/{subject}',                   'SubjectController@show')->name('subjects.show.search');
 
     Route::resource('topics',                           'TopicController', ['except' => ['index', 'show', 'create']]);
     Route::get('topics/create/{subject_id}',            'TopicController@create')->name('topics.create');
+    Route::post('topics/get_by_subject',                'TopicController@get_topics_by_subject')->name('topics.by_subject');
 
     Route::resource('locations',                        'LocationController');
     Route::post('locations/search',                     'LocationController@index')->name('locations.search');
@@ -43,19 +45,19 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('rooms',                            'RoomController', ['except' => ['index', 'create']]);
     Route::get('rooms/create/{location_id}',            'RoomController@create')->name('rooms.create');
 
-    Route::resource('employees',    'UserController');
-    Route::post('employees/search', 'UserController@index')->name('employees.search');
+    Route::resource('employees',                        'UserController');
+    Route::post('employees/search',                     'UserController@index')->name('employees.search');
 
-    Route::resource('students',         'StudentController');
-    Route::post('students/search',      'StudentController@index')->name('students.search');
-    Route::post('students/{student}',   'StudentController@show')->name('students.show.search');
+    Route::resource('students',                         'StudentController');
+    Route::post('students/search',                      'StudentController@index')->name('students.search');
+    Route::post('students/{student}',                   'StudentController@show')->name('students.show.search');
 
     Route::resource('family_members',                           'FamilyMemberController', ['except' => ['index', 'create']]);
     Route::get('family_members/create/{subject_id}',            'FamilyMemberController@create')->name('family_members.create');
     Route::post('family_members/toggle_pickup/{family_member}', 'FamilyMemberController@toggle_pickup')->name('family_members.toggle_pickup');
     Route::post('family_members/toggle_active/{family_member}', 'FamilyMemberController@toggle_active')->name('family_members.toggle_active');
 
-    Route::resource('minigames', 'MinigameController');
+    Route::resource('minigames',    'MinigameController');
 
     Route::resource('questions',    'QuestionController');
     Route::post('questions/search', 'QuestionController@index')->name('questions.search');

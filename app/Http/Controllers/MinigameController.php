@@ -4,6 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\Minigame;
 use Illuminate\Http\Request;
+use Image;
 
 class MinigameController extends Controller
 {
@@ -41,22 +42,21 @@ class MinigameController extends Controller
             'name' => 'required|string'
         ]);
         
-        Minigame::create($request->only(['name']));
+        $minigame = Minigame::create($request->only(['name']));
+
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(400, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(public_path(Minigame::PROFILE_PATH . $filename));
+            $minigame->photo = $filename;
+            $minigame->save();
+        }
         
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully created']);
         
         return redirect(route('minigames.index'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \Brightfox\Minigame  $minigame
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Minigame $minigame)
-    {
-        //
     }
 
     /**
@@ -82,6 +82,20 @@ class MinigameController extends Controller
         $minigame->name = $request->input('name');
         $minigame->save();
 
+        if ($request->hasFile('photo')) {
+            if(!is_null($minigame->getOriginal('photo')) || $minigame->getOriginal('photo') != ''){
+                unlink(public_path(Minigame::PROFILE_PATH . $minigame->getOriginal('photo')));
+            }
+
+            $image = $request->file('photo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(400, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(public_path(Minigame::PROFILE_PATH . $filename));
+            $minigame->photo = $filename;
+            $minigame->save();
+        }
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully edited']);
         
         return redirect(route('minigames.index'));
@@ -95,6 +109,10 @@ class MinigameController extends Controller
      */
     public function destroy(Request $request, Minigame $minigame)
     {
+        if(!is_null($minigame->getOriginal('photo')) || $minigame->getOriginal('photo') != ''){
+            unlink(public_path(Minigame::PROFILE_PATH . $minigame->getOriginal('photo')));
+        }
+
         $minigame->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully deleted']);
