@@ -27718,6 +27718,40 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   width: 120px;
   height: 120px;
 }
+#create-container .droppable {
+  background: #5fbeaa;
+  color: #FFF;
+  border-radius: 3px;
+  padding: 6px 12px;
+  outline: none;
+  text-align: center;
+  height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+#create-container .droppable.droppable-small {
+  height: 50px;
+}
+#create-container .droppable input[type="file"] {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+}
+#create-container .droppable img {
+  width: auto;
+  height: 100%;
+}
 .input-clear {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -27736,6 +27770,9 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   font-weight: bold;
   font-size: 20px;
   line-height: 20px;
+}
+.input-clear span.panel-title {
+  line-height: inherit;
 }
 .form-inline .input-clear {
   display: -webkit-box;
@@ -27776,4 +27813,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
 .switchery-small > small {
   height: 20px;
   width: 20px;
+}
+.popover {
+  max-width: none;
 }

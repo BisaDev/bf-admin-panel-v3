@@ -27,8 +27,12 @@
                         <div class="col-sm-12"><hr/></div>
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="form-group col-sm-8 col-sm-offset-2 {{ $errors->has('photo')? 'has-error' : '' }}">
-                                    <input name="photo" type="file" class="filestyle" >
+                                <div class="form-group col-md-10 col-md-offset-1 {{ $errors->has('photo')? 'has-error' : '' }}">
+                                    <div class="droppable">
+                                        <span v-if="!photo">Drag an image or click to browse</span>
+                                        <img v-else :src="photo" />
+                                        <input name="photo" type="file" @change="onFileChange">
+                                    </div>
                                     @if($errors->has('photo'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('photo') }}</strong>

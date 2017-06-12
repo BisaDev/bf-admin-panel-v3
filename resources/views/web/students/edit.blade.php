@@ -28,8 +28,12 @@
                         <div class="col-sm-12"><hr/></div>
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="form-group col-md-6 col-md-offset-3 {{ $errors->has('photo')? 'has-error' : '' }}">
-                                    <input name="photo" type="file" class="filestyle" >
+                                <div class="form-group col-md-10 col-md-offset-1 {{ $errors->has('photo')? 'has-error' : '' }}">
+                                    <div class="droppable">
+                                        <span v-if="!photo">Drag an image or click to browse</span>
+                                        <img v-else :src="photo" />
+                                        <input name="photo" type="file" @change="onFileChange">
+                                    </div>
                                     @if($errors->has('photo'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('photo') }}</strong>
@@ -91,7 +95,7 @@
                             <label class="control-label" for="gender">Identify as:</label>
                             <select name="gender" class="form-control">
                                 @foreach($genders as $key => $gender)
-                                <option value="{{ $key }}" {{ (old('gender', $item->gender->key) == $key)? 'selected' : '' }}>{{ $gender }}</option>
+                                <option value="{{ $key }}" {{ (old('gender', (int)$item->gender->key) === $key)? 'selected' : '' }}>{{ $gender }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('gender'))
