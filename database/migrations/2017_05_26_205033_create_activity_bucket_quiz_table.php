@@ -19,7 +19,7 @@ class CreateQuizActivityBucketTable extends Migration
             $table->integer('minigame_id')->unsigned()->nullable();
 
             $table->foreign('quiz_id')
-                ->references('id')->on('quizes')
+                ->references('id')->on('quizzes')
                 ->onDelete('cascade');
 
             $table->foreign('activity_bucket_id')

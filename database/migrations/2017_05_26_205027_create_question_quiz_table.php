@@ -23,7 +23,7 @@ class CreateQuestionQuizTable extends Migration
                 ->onDelete('cascade');
 
             $table->foreign('quiz_id')
-                ->references('id')->on('quizes')
+                ->references('id')->on('quizzes')
                 ->onDelete('cascade');
         });
     }
