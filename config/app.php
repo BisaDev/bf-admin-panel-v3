@@ -163,6 +163,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -171,6 +172,8 @@ return [
         /*
          * Application Service Providers...
          */
+//        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
+
         Brightfox\Providers\AppServiceProvider::class,
         Brightfox\Providers\AuthServiceProvider::class,
         // Brightfox\Providers\BroadcastServiceProvider::class,
