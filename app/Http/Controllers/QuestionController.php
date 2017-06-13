@@ -146,7 +146,7 @@ class QuestionController extends Controller
             'type' => 'required',
             'title' => 'required|string',
             'topic' => 'required',
-            'answers.*.text' => 'required_without_all:answers.*.id,answers.*.photo',
+            'answers.*.text' => 'required_without_all:answers.*.id,answers.*.photo|required_with:answers.*.remove_photo',
         ]);
         
         $question->type = json_encode(['key' => $request->input('type'), 'name' => $this->types[$request->input('type')]], JSON_FORCE_OBJECT);
@@ -179,6 +179,14 @@ class QuestionController extends Controller
                     $answer = Answer::find($request_answer['id']);
                     $answer->text = $request_answer['text'];
                     $answer->is_correct = (array_key_exists('is_correct', $request_answer) && !is_null($request_answer['is_correct']))? 1 : 0;
+
+                    if(array_key_exists('remove_photo', $request_answer) && !is_null($request_answer['remove_photo'])){
+                        if(!is_null($answer->getOriginal('photo')) || $answer->getOriginal('photo') != ''){
+                            File::delete(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
+                        }
+                        $answer->photo = null;
+                    }
+                    
                     $answer->save();
 
                 }else{

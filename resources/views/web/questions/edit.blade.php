@@ -89,7 +89,7 @@
                             <label class="control-label" for="title">Image</label>
                             @if($item->photo)
                             <div class="col-sm-12 m-b-10 text-center">
-                                <img src="{{ $item->photo }}" class="profile-image" alt="profile-image">
+                                <img src="{{ $item->photo }}" class="img-responsive">
                             </div>
                             @endif
                             <div class="droppable droppable-small">

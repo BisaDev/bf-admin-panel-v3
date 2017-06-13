@@ -26,7 +26,7 @@ export default {
             },
             methods: {
                 addChildren(){
-                    this.children.push({name: '', photo: '', is_correct: false});
+                    this.children.push({name: '', photo: '', is_correct: false, remove_photo: false});
                 },
                 removeChildren(index){
                     this.children.splice(index, 1);
@@ -43,7 +43,7 @@ export default {
                     let vue_instance = this;
                     
                     $.each(answers, function(index, answer){
-                        vue_instance.children.push({name: answer.text, photo: answer.photo, is_correct: (answer.is_correct == 1)? true : false, id: answer.id});
+                        vue_instance.children.push({name: answer.text, photo: answer.photo, is_correct: (answer.is_correct == 1)? true : false, remove_photo: false, id: answer.id});
                     });
                 }
             }

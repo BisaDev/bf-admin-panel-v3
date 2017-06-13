@@ -27748,6 +27748,10 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   width: auto;
   height: 100%;
 }
+.create-container .panel,
+.create-container .panel-heading {
+  background-color: #FAFAFA;
+}
 .input-clear {
   display: -webkit-box;
   display: -ms-flexbox;

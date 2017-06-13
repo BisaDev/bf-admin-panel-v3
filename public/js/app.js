@@ -1578,7 +1578,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
             },
             methods: {
                 addChildren: function addChildren() {
-                    this.children.push({ name: '', photo: '', is_correct: false });
+                    this.children.push({ name: '', photo: '', is_correct: false, remove_photo: false });
                 },
                 removeChildren: function removeChildren(index) {
                     this.children.splice(index, 1);
@@ -1595,7 +1595,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
                     var vue_instance = this;
 
                     $.each(answers, function (index, answer) {
-                        vue_instance.children.push({ name: answer.text, photo: answer.photo, is_correct: answer.is_correct == 1 ? true : false, id: answer.id });
+                        vue_instance.children.push({ name: answer.text, photo: answer.photo, is_correct: answer.is_correct == 1 ? true : false, remove_photo: false, id: answer.id });
                     });
                 }
             }
@@ -1627,7 +1627,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
             data: {
                 children: [],
                 type: '',
-                photo: ''
+                subject: ''
             },
             mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */]],
             beforeMount: function beforeMount() {
@@ -1639,10 +1639,15 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
             },
             methods: {
                 addChildren: function addChildren() {
-                    this.children.push({ name: '', photo: '', is_correct: false });
+                    this.children.push({ name: '' });
                 },
                 removeChildren: function removeChildren(index) {
                     this.children.splice(index, 1);
+                },
+                loadQuestions: function loadQuestions() {
+                    if (this.type != '' && this.subject != '') {
+                        console.log('bla');
+                    }
                 }
             },
             mounted: function mounted() {}
