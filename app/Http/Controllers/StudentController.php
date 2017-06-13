@@ -5,7 +5,7 @@ namespace Brightfox\Http\Controllers;
 use Brightfox\Student, Brightfox\Location, Brightfox\Note;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Image;
+use File;
 
 class StudentController extends Controller
 {
@@ -79,10 +79,7 @@ class StudentController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(512, 512)->save(public_path(Student::PROFILE_PATH . $filename));
-            $student->photo = $filename;
+            $student->photo = $this->createAndSavePhoto($request->file('photo'), Student::PHOTO_PATH);
             $student->save();
         }
 
@@ -173,13 +170,10 @@ class StudentController extends Controller
 
         if ($request->hasFile('photo')) {
             if(!is_null($student->getOriginal('photo')) || $student->getOriginal('photo') != ''){
-                unlink(public_path(Student::PROFILE_PATH . $student->getOriginal('photo')));
+                File::delete(public_path(Student::PHOTO_PATH . $student->getOriginal('photo')));
             }
 
-            $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(512, 512)->save(public_path(Student::PROFILE_PATH . $filename));
-            $student->photo = $filename;
+            $student->photo = $this->createAndSavePhoto($request->file('photo'), Student::PHOTO_PATH);
             $student->save();
         }
 
@@ -196,9 +190,6 @@ class StudentController extends Controller
      */
     public function destroy(Request $request, Student $student)
     {
-        if(!is_null($student->getOriginal('photo')) || $student->getOriginal('photo') != ''){
-            unlink(public_path(Student::PROFILE_PATH . $student->getOriginal('photo')));
-        }
         $student->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Student was successfully deleted']);

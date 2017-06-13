@@ -7,12 +7,13 @@ use Sofa\Eloquence\Eloquence;
 use Brightfox\Traits\HasFullName;
 use Brightfox\Traits\HasPhoto;
 use Brightfox\Traits\Noteable;
+use File;
 
 class Student extends Model
 {
     use Eloquence, HasFullName, HasPhoto, Noteable;
 
-    const PROFILE_PATH = "uploads/profiles/";
+    const PHOTO_PATH = "uploads/profiles/";
     const DEFAULT_PHOTO = "default-profile.jpg";
     const GENDERS = ['Male', 'Female', 'Non specified'];
 
@@ -51,5 +52,15 @@ class Student extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public static function boot() {
+        parent::boot();
+        
+        self::deleting(function ($object) {
+            if(!is_null($object->getOriginal('photo')) || $object->getOriginal('photo') != ''){
+                File::delete(public_path(self::PHOTO_PATH . $object->getOriginal('photo')));
+            }
+        });
     }
 }

@@ -11986,16 +11986,16 @@ if (token) {
                 type: '',
                 photo: ''
             },
-            beforeMount: function beforeMount() {},
+            beforeMount: function beforeMount() {
+
+                //Look for question type and assign the selected to Vue data value
+                if ($('#type').length > 0) {
+                    this.type = $('#type').children('option:selected').val();
+                }
+            },
             methods: {
                 addChildren: function addChildren() {
-                    this.children.push({ name: '', photo: '' });
-
-                    var this_instance = this;
-
-                    Vue.nextTick(function () {
-                        this_instance.initFilestyle();
-                    });
+                    this.children.push({ name: '', photo: '', is_correct: false });
                 },
                 removeChildren: function removeChildren(index) {
                     this.children.splice(index, 1);
@@ -12012,6 +12012,15 @@ if (token) {
                             var option = new Option(item.name, item.id);
                             $("#subject").append(option);
                         });
+
+                        if ($('#subject').data('selected') != '') {
+
+                            $('#subject option[value=' + $('#subject').data('selected') + ']').prop('selected', true);
+                            var _event = document.createEvent('HTMLEvents');
+                            _event.initEvent('change', true, true);
+
+                            $('#subject')[0].dispatchEvent(_event);
+                        }
                     });
                 },
                 getTopicsFromSubject: function getTopicsFromSubject(url, event) {
@@ -12026,10 +12035,11 @@ if (token) {
                             var option = new Option(item.name, item.id);
                             $("#topic").append(option);
                         });
+
+                        if ($('#topic').data('selected') != '') {
+                            $('#topic option[value=' + $('#topic').data('selected') + ']').prop('selected', true);
+                        }
                     });
-                },
-                initFilestyle: function initFilestyle() {
-                    $(".filestyle").filestyle({ size: "sm", buttonText: "" });
                 },
                 onFileChange: function onFileChange(e) {
                     var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -12050,10 +12060,31 @@ if (token) {
                         }
                     };
                     reader.readAsDataURL(file);
+                },
+                saveQuestionAndAddMore: function saveQuestionAndAddMore(event) {
+                    $(event.target).siblings('[name="add_more"]').val('true');
+                    this.$el.children[0].submit();
                 }
             },
             mounted: function mounted() {
-                this.initFilestyle();
+
+                if ($('#grade_level').length > 0 && $('#grade_level').data('selected') != '') {
+
+                    $('#grade_level option[value=' + $('#grade_level').data('selected') + ']').prop('selected', true);
+                    var event = document.createEvent('HTMLEvents');
+                    event.initEvent('change', true, true);
+
+                    $('#grade_level')[0].dispatchEvent(event);
+                }
+
+                if (this.$el.attributes['data-answers'] !== undefined) {
+                    var answers = $.parseJSON(this.$el.attributes['data-answers'].value);
+                    var vue_instance = this;
+
+                    $.each(answers, function (index, answer) {
+                        vue_instance.children.push({ name: answer.text, photo: answer.photo, is_correct: answer.is_correct == 1 ? true : false, id: answer.id });
+                    });
+                }
 
                 $('.datepicker').datepicker({
                     autoclose: true,

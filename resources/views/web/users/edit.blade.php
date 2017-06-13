@@ -23,7 +23,7 @@
                 <div class="card-box">
                     <div class="row">
                         <div class="col-sm-12 text-center">
-                            <img src="{{ $item->user_detail->photo }}" class="img-circle profile-image" alt="profile-image" data-pin-nopin="true">
+                            <img src="{{ $item->user_detail->photo }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
                         </div>
                         <div class="col-sm-12"><hr/></div>
                         <div class="col-sm-12">

@@ -93,4 +93,11 @@ class TopicController extends Controller
         
         return redirect(route('subjects.show', $subject_id));
     }
+
+    public function get_topics_by_subject(Request $request)
+    {
+        $topics = Topic::where('subject_id', $request->get('subject_id'))->get();
+
+        return response()->json($topics);
+    }
 }

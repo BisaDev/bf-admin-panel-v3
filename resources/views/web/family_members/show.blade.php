@@ -21,10 +21,10 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-sm-2 col-sm-offset-5">
+                            <div class="col-xs-4 col-xs-offset-4">
                                 <img src="{{ $item->photo }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
                             </div>
-                            <div class="col-sm-12 text-center">
+                            <div class="col-xs-12 text-center">
                                 <h4 class="header-title">{{ $item->full_name }}</h4>
                             </div>
                         </div>
@@ -68,7 +68,8 @@
 
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Back</a>
+                        <a href="{{ route('students.show', $item->student->id) }}" class="btn btn-md btn-info">Back</a>
+                        <a href="{{ route('family_members.edit', $item->id) }}" class="btn btn-md btn-primary">Edit</a>
                     </div>
                 </div>
             </div>

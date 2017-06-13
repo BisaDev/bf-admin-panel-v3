@@ -113,4 +113,11 @@ class SubjectController extends Controller
         
         return redirect(route('grade_levels.show', $grade_level_id));
     }
+
+    public function get_subjects_by_grade_level(Request $request)
+    {
+        $subjects = Subject::where('grade_level_id', $request->get('grade_level_id'))->get();
+
+        return response()->json($subjects);
+    }
 }

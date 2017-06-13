@@ -103,6 +103,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'answers.*.text' => [
+            'required_without' => 'The answer field is required when an image is not present.',
+        ]
     ],
 
     /*

@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
 use Brightfox\Traits\HasFullName;
 use Brightfox\Traits\HasPhoto;
+use File;
 
 class FamilyMember extends Model
 {
     use Eloquence, HasFullName, HasPhoto;
 
-    const PROFILE_PATH = "uploads/profiles/";
+    const PHOTO_PATH = "uploads/profiles/";
     const DEFAULT_PHOTO = "default-profile.jpg";
     const TYPES = ['parent', 'sibling', 'uncle/aunt'];
 
@@ -41,5 +42,15 @@ class FamilyMember extends Model
     public function student()
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public static function boot() {
+        parent::boot();
+        
+        self::deleting(function ($object) {
+            if(!is_null($object->getOriginal('photo')) || $object->getOriginal('photo') != ''){
+                File::delete(public_path(self::PHOTO_PATH . $object->getOriginal('photo')));
+            }
+        });
     }
 }

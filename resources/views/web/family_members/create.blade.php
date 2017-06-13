@@ -23,7 +23,7 @@
                 <div class="card-box">
                     <div class="row">
                         <div class="col-sm-12 text-center">
-                            <img src="{{ asset('images/empty-user.jpg') }}" class="img-circle profile-image" alt="profile-image" data-pin-nopin="true">
+                            <img src="{{ asset('images/empty-user.jpg') }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
                         </div>
                         <div class="col-sm-12"><hr/></div>
                         <div class="col-sm-12">
@@ -85,7 +85,7 @@
                             <label class="control-label" for="type">Type:</label>
                             <select name="type" class="form-control">
                                 @foreach($types as $key => $type)
-                                <option value="{{ $key }}" {{ (old('type') === $key)? 'selected' : '' }}>{{ ucfirst($type) }}</option>
+                                <option value="{{ $key }}" {{ (!is_null(old('type')) && (int)old('type') === $key)? 'selected' : '' }}>{{ ucfirst($type) }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('type'))

@@ -27714,10 +27714,6 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   max-width: 50px;
   max-height: 50px;
 }
-#create-container img.profile-image {
-  width: 120px;
-  height: 120px;
-}
 #create-container .droppable {
   background: #5fbeaa;
   color: #FFF;

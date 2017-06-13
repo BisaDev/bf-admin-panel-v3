@@ -4,7 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\FamilyMember, Brightfox\Student;
 use Illuminate\Http\Request;
-use Image;
+use File;
 
 class FamilyMemberController extends Controller
 {
@@ -58,10 +58,7 @@ class FamilyMemberController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(512, 512)->save(public_path(FamilyMember::PROFILE_PATH . $filename));
-            $family_member->photo = $filename;
+            $family_member->photo = $this->createAndSavePhoto($request->file('photo'), FamilyMember::PHOTO_PATH);
             $family_member->save();
         }
 
@@ -125,13 +122,10 @@ class FamilyMemberController extends Controller
 
         if ($request->hasFile('photo')) {
             if(!is_null($family_member->getOriginal('photo')) || $family_member->getOriginal('photo') != ''){
-                unlink(public_path(FamilyMember::PROFILE_PATH . $family_member->getOriginal('photo')));
+                File::delete(public_path(FamilyMember::PHOTO_PATH . $family_member->getOriginal('photo')));
             }
 
-            $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(512, 512)->save(public_path(FamilyMember::PROFILE_PATH . $filename));
-            $family_member->photo = $filename;
+            $family_member->photo = $this->createAndSavePhoto($request->file('photo'), FamilyMember::PHOTO_PATH);
             $family_member->save();
         }
 
@@ -149,10 +143,6 @@ class FamilyMemberController extends Controller
      */
     public function destroy(Request $request, FamilyMember $family_member)
     {
-        if(!is_null($family_member->getOriginal('photo')) || $family_member->getOriginal('photo') != ''){
-            unlink(public_path(FamilyMember::PROFILE_PATH . $family_member->getOriginal('photo')));
-        }
-
         $student_id = $family_member->student->id;
         $family_member->delete();
 

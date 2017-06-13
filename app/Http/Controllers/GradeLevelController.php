@@ -69,9 +69,9 @@ class GradeLevelController extends Controller
 
         if($request->has('search')){
             $search = $request->input('search');
-            $item->subjects = $item->subjects()->search($search)->paginate(10);
+            $item->subjects = $item->subjects()->search($search)->with('topics')->paginate(10);
         }else{
-            $item->subjects = $item->subjects()->paginate(10);
+            $item->subjects = $item->subjects()->with('topics')->paginate(10);
         }
 
         return view('web.grade_levels.show', compact('item', 'search'));

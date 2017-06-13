@@ -5,7 +5,7 @@ namespace Brightfox\Http\Controllers;
 use Brightfox\User, Brightfox\UserDetail, Brightfox\Location;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
-use Image;
+use File;
 
 class UserController extends Controller
 {
@@ -81,10 +81,7 @@ class UserController extends Controller
         $user->save();
 
         if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(512, 512)->save(public_path(UserDetail::PROFILE_PATH . $filename));
-            $user_detail->photo = $filename;
+            $user_detail->photo = $this->createAndSavePhoto($request->file('photo'), UserDetail::PHOTO_PATH);
             $user_detail->save();
         }
 
@@ -157,13 +154,10 @@ class UserController extends Controller
 
         if ($request->hasFile('photo')) {
             if(!is_null($employee->user_detail->getOriginal('photo')) || $employee->user_detail->getOriginal('photo') != ''){
-                unlink(public_path(UserDetail::PROFILE_PATH . $employee->user_detail->getOriginal('photo')));
+                File::delete(public_path(UserDetail::PHOTO_PATH . $employee->user_detail->getOriginal('photo')));
             }
             
-            $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(512, 512)->save(public_path(UserDetail::PROFILE_PATH . $filename));
-            $employee->user_detail->photo = $filename;
+            $employee->user_detail->photo = $this->createAndSavePhoto($request->file('photo'), UserDetail::PHOTO_PATH);
             $employee->user_detail->save();
         }
 
@@ -180,11 +174,8 @@ class UserController extends Controller
      */
     public function destroy(Request $request, User $employee)
     {
-        if(!is_null($employee->user_detail->getOriginal('photo')) || $employee->user_detail->getOriginal('photo') != ''){
-            unlink(public_path(UserDetail::PROFILE_PATH . $employee->user_detail->getOriginal('photo')));
-        }
-
         $employee->removeRole($employee->roles->first()->name);
+        $employee->user_detail->delete();
         $employee->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Employee was successfully deleted']);

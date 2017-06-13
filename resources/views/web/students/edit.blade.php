@@ -23,7 +23,7 @@
                 <div class="card-box">
                     <div class="row">
                         <div class="col-sm-12 text-center">
-                            <img src="{{ $item->photo }}" class="img-circle profile-image" alt="profile-image" data-pin-nopin="true">
+                            <img src="{{ $item->photo }}" class="img-responsive img-circle" alt="profile-image">
                         </div>
                         <div class="col-sm-12"><hr/></div>
                         <div class="col-sm-12">
@@ -95,7 +95,7 @@
                             <label class="control-label" for="gender">Identify as:</label>
                             <select name="gender" class="form-control">
                                 @foreach($genders as $key => $gender)
-                                <option value="{{ $key }}" {{ (old('gender', (int)$item->gender->key) === $key)? 'selected' : '' }}>{{ $gender }}</option>
+                                <option value="{{ $key }}" {{ (!is_null(old('gender', $item->gender->key)) && (int)old('gender', $item->gender->key) === $key)? 'selected' : '' }}>{{ $gender }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('gender'))
