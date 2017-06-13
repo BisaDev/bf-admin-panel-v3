@@ -172,7 +172,7 @@ return [
         /*
          * Application Service Providers...
          */
-//        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
         Brightfox\Providers\AppServiceProvider::class,
         Brightfox\Providers\AuthServiceProvider::class,
