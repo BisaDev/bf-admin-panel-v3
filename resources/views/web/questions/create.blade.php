@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row" id="create-container">
+    <div class="row" id="create-question">
         <form action="{{ route('questions.store') }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
 
