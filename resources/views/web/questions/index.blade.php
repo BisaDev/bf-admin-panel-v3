@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="index-container" data-model="user" data-search="{{ $search or '' }}" class="row">
+    <div id="index-container" data-model="question" data-search="{{ $search or '' }}" class="row">
         <div class="col-sm-12">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">

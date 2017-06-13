@@ -13,9 +13,9 @@ class CreateQuizActivityBucketTable extends Migration
      */
     public function up()
     {
-        Schema::create('quiz_activity_bucket', function (Blueprint $table) {
-            $table->integer('quiz_id')->unsigned();
+        Schema::create('activity_bucket_quiz', function (Blueprint $table) {
             $table->integer('activity_bucket_id')->unsigned();
+            $table->integer('quiz_id')->unsigned();
             $table->integer('minigame_id')->unsigned()->nullable();
 
             $table->foreign('quiz_id')

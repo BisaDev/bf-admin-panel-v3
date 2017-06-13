@@ -4,6 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\Question, Brightfox\Answer, Brightfox\GradeLevel;
 use Illuminate\Http\Request;
+use File;
 
 class QuestionController extends Controller
 {
@@ -155,7 +156,7 @@ class QuestionController extends Controller
 
         if ($request->hasFile('photo')) {
             if(!is_null($question->getOriginal('photo')) || $question->getOriginal('photo') != ''){
-                unlink(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
+                File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
             }
 
             $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, 400, null);
@@ -190,7 +191,7 @@ class QuestionController extends Controller
 
                 if ($request->hasFile('answers.'.$key.'.photo')) {
                     if(!is_null($answer->getOriginal('photo')) || $answer->getOriginal('photo') != ''){
-                        unlink(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
+                        File::delete(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
                     }
 
                     $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 400, null);

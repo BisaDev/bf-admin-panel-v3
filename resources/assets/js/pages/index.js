@@ -34,31 +34,30 @@ export default {
                 confirmDelete(item_id, child_elements, event){
                     event.preventDefault();
                     
-                    if(child_elements > 0){
-                        
-                        let vue_instance = this;
-
-                        swal({
-                            title: 'Are you sure?',
-                            text: 'Deleting this '+this.dbModel+' will also delete '+child_elements+' '+this.dbModelChild+(child_elements > 1? 's' : ''),
-                            type: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#23527c',
-                            cancelButtonColor: '#f05050',
-                            confirmButtonText: 'Delete'
-                        }).then(function () {
-                            
-                            vue_instance.deleteItem(item_id);
-                        }, function (dismiss) {
-                            
-                            if (dismiss === 'cancel') {
-                                
-                            }
-                        })
-                    }else{
-                        
-                        this.deleteItem(item_id);
+                    let vue_instance = this;
+                    let confirmation_text = "This action can't be undone. ";
+                    if(child_elements > 0 && this.dbModelChild != ''){
+                        confirmation_text += 'Deleting this '+this.dbModel+' will also delete '+child_elements+' '+this.dbModelChild+(child_elements > 1? 's' : '');
                     }
+
+
+                    swal({
+                        title: 'Are you sure?',
+                        text: confirmation_text,
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#23527c',
+                        cancelButtonColor: '#f05050',
+                        confirmButtonText: 'Delete'
+                    }).then(function () {
+                        
+                        vue_instance.deleteItem(item_id);
+                    }, function (dismiss) {
+                        
+                        if (dismiss === 'cancel') {
+                            
+                        }
+                    })
                 },
                 deleteItem(item_id, event){
                     

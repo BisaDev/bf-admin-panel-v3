@@ -12138,29 +12138,27 @@ if (token) {
                 confirmDelete: function confirmDelete(item_id, child_elements, event) {
                     event.preventDefault();
 
-                    if (child_elements > 0) {
-
-                        var vue_instance = this;
-
-                        __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default()({
-                            title: 'Are you sure?',
-                            text: 'Deleting this ' + this.dbModel + ' will also delete ' + child_elements + ' ' + this.dbModelChild + (child_elements > 1 ? 's' : ''),
-                            type: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#23527c',
-                            cancelButtonColor: '#f05050',
-                            confirmButtonText: 'Delete'
-                        }).then(function () {
-
-                            vue_instance.deleteItem(item_id);
-                        }, function (dismiss) {
-
-                            if (dismiss === 'cancel') {}
-                        });
-                    } else {
-
-                        this.deleteItem(item_id);
+                    var vue_instance = this;
+                    var confirmation_text = "This action can't be undone. ";
+                    if (child_elements > 0 && this.dbModelChild != '') {
+                        confirmation_text += 'Deleting this ' + this.dbModel + ' will also delete ' + child_elements + ' ' + this.dbModelChild + (child_elements > 1 ? 's' : '');
                     }
+
+                    __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default()({
+                        title: 'Are you sure?',
+                        text: confirmation_text,
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#23527c',
+                        cancelButtonColor: '#f05050',
+                        confirmButtonText: 'Delete'
+                    }).then(function () {
+
+                        vue_instance.deleteItem(item_id);
+                    }, function (dismiss) {
+
+                        if (dismiss === 'cancel') {}
+                    });
                 },
                 deleteItem: function deleteItem(item_id, event) {
 
