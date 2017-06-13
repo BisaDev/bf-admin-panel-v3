@@ -27714,7 +27714,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   max-width: 50px;
   max-height: 50px;
 }
-#create-container .droppable {
+.create-container .droppable {
   background: #5fbeaa;
   color: #FFF;
   border-radius: 3px;
@@ -27732,10 +27732,10 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
       -ms-flex-pack: center;
           justify-content: center;
 }
-#create-container .droppable.droppable-small {
+.create-container .droppable.droppable-small {
   height: 50px;
 }
-#create-container .droppable input[type="file"] {
+.create-container .droppable input[type="file"] {
   width: 100%;
   position: absolute;
   top: 0;
@@ -27744,7 +27744,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   right: 0;
   opacity: 0;
 }
-#create-container .droppable img {
+.create-container .droppable img {
   width: auto;
   height: 100%;
 }

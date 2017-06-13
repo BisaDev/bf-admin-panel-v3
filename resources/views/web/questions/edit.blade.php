@@ -14,7 +14,7 @@
 
 @section('content')
     
-    <div class="row" id="create-question" data-answers="{{ json_encode($item->answers) }}">
+    <div class="row create-container" id="create-question" data-answers="{{ json_encode($item->answers) }}">
         <form action="{{ route('questions.update', $item->id) }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             {{ method_field('put') }}

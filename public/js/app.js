@@ -1428,6 +1428,70 @@ module.exports = (
 
 /***/ }),
 
+/***/ 258:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var getAcademicContent = {
+    methods: {
+        getSubjectsFromGradeLevel: function getSubjectsFromGradeLevel(url, event) {
+
+            axios.post(url, {
+                grade_level_id: event.target.value
+            }).then(function (response) {
+                var option = new Option('Select subject', '');
+                $("#subject").html('').append(option);
+
+                $.each(response.data, function (i, item) {
+                    var option = new Option(item.name, item.id);
+                    $("#subject").append(option);
+                });
+
+                if ($('#subject').data('selected') != '') {
+
+                    $('#subject option[value=' + $('#subject').data('selected') + ']').prop('selected', true);
+                    var _event = document.createEvent('HTMLEvents');
+                    _event.initEvent('change', true, true);
+
+                    $('#subject')[0].dispatchEvent(_event);
+                }
+            });
+        },
+        getTopicsFromSubject: function getTopicsFromSubject(url, event) {
+
+            axios.post(url, {
+                subject_id: event.target.value
+            }).then(function (response) {
+                var option = new Option('Select topic', '');
+                $("#topic").html('').append(option);
+
+                $.each(response.data, function (i, item) {
+                    var option = new Option(item.name, item.id);
+                    $("#topic").append(option);
+                });
+
+                if ($('#topic').data('selected') != '') {
+                    $('#topic option[value=' + $('#topic').data('selected') + ']').prop('selected', true);
+                }
+            });
+        }
+    },
+    mounted: function mounted() {
+
+        if ($('#grade_level').length > 0 && $('#grade_level').data('selected') != '') {
+
+            $('#grade_level option[value=' + $('#grade_level').data('selected') + ']').prop('selected', true);
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', true, true);
+
+            $('#grade_level')[0].dispatchEvent(event);
+        }
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (getAcademicContent);
+
+/***/ }),
+
 /***/ 259:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1477,6 +1541,114 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
+
+/***/ }),
+
+/***/ 260:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(258);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(259);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    init: function init() {
+        var domElement = 'create-question';
+        if (document.getElementById(domElement)) {
+            this.execute();
+        }
+    },
+    execute: function execute() {
+        new Vue({
+            el: '#create-question',
+            data: {
+                children: [],
+                type: '',
+                photo: ''
+            },
+            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */]],
+            beforeMount: function beforeMount() {
+
+                //Look for question type and assign the selected to Vue data value
+                if ($('#type').length > 0) {
+                    this.type = $('#type').children('option:selected').val();
+                }
+            },
+            methods: {
+                addChildren: function addChildren() {
+                    this.children.push({ name: '', photo: '', is_correct: false });
+                },
+                removeChildren: function removeChildren(index) {
+                    this.children.splice(index, 1);
+                },
+                saveQuestionAndAddMore: function saveQuestionAndAddMore(event) {
+                    $(event.target).siblings('[name="add_more"]').val('true');
+                    this.$el.children[0].submit();
+                }
+            },
+            mounted: function mounted() {
+
+                if (this.$el.attributes['data-answers'] !== undefined) {
+                    var answers = $.parseJSON(this.$el.attributes['data-answers'].value);
+                    var vue_instance = this;
+
+                    $.each(answers, function (index, answer) {
+                        vue_instance.children.push({ name: answer.text, photo: answer.photo, is_correct: answer.is_correct == 1 ? true : false, id: answer.id });
+                    });
+                }
+            }
+        });
+    }
+});
+
+/***/ }),
+
+/***/ 261:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(258);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(259);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    init: function init() {
+        var domElement = 'create-quiz';
+        if (document.getElementById(domElement)) {
+            this.execute();
+        }
+    },
+    execute: function execute() {
+        new Vue({
+            el: '#create-quiz',
+            data: {
+                children: [],
+                type: '',
+                photo: ''
+            },
+            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */]],
+            beforeMount: function beforeMount() {
+
+                //Look for question type and assign the selected to Vue data value
+                if ($('#type').length > 0) {
+                    this.type = $('#type').children('option:selected').val();
+                }
+            },
+            methods: {
+                addChildren: function addChildren() {
+                    this.children.push({ name: '', photo: '', is_correct: false });
+                },
+                removeChildren: function removeChildren(index) {
+                    this.children.splice(index, 1);
+                }
+            },
+            mounted: function mounted() {}
+        });
+    }
+});
 
 /***/ }),
 
@@ -45723,6 +45895,8 @@ module.exports = g;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_index__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_create__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_create_question__ = __webpack_require__(260);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_create_quiz__ = __webpack_require__(261);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -45739,8 +45913,12 @@ __webpack_require__(33);
 
 
 
+
+
 __WEBPACK_IMPORTED_MODULE_0__pages_index__["a" /* default */].init();
 __WEBPACK_IMPORTED_MODULE_1__pages_create__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_2__pages_create_question__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_3__pages_create_quiz__["a" /* default */].init();
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

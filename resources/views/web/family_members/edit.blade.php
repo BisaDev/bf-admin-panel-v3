@@ -15,7 +15,7 @@
 
 @section('content')
 
-    <div class="row" id="create-container">
+    <div class="row create-container" id="create-quiz">
         <form action="{{ route('family_members.update', $item->id) }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             {{ method_field('put') }}
