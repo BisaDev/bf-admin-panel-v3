@@ -27710,7 +27710,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   width: 60%;
   margin: 0 auto;
 }
-#index-container table td > img {
+#index-container table td img {
   max-width: 50px;
   max-height: 50px;
 }
@@ -27751,6 +27751,10 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
 .create-container .panel,
 .create-container .panel-heading {
   background-color: #FAFAFA;
+}
+.create-container .drag_handle {
+  cursor: -webkit-grab;
+  cursor: grab;
 }
 .input-clear {
   display: -webkit-box;

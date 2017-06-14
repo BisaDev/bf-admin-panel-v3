@@ -32,6 +32,10 @@ class Question extends Model
         'title', 'type', 'topic.name'
     ];
 
+    public function getTitleAttribute($value){
+        return str_replace('[#blank]', '_____', $value);
+    }
+
     public function getPhotoAttribute($value)
     {
         if (!$value || $value == ''){
@@ -53,6 +57,11 @@ class Question extends Model
     public function topic()
     {
         return $this->belongsTo(Topic::class);
+    }
+
+    public function quizzes()
+    {
+        return $this->belongsToMany(Quiz::class);
     }
 
     public static function boot() {

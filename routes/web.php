@@ -59,6 +59,11 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('minigames',    'MinigameController');
 
-    Route::resource('questions',    'QuestionController');
-    Route::post('questions/search', 'QuestionController@index')->name('questions.search');
+    Route::resource('questions',            'QuestionController');
+    Route::post('questions/search',         'QuestionController@index')->name('questions.search');
+    Route::post('questions/get_for_quiz',   'QuestionController@get_questions_for_quiz')->name('questions.for_quiz');
+
+    Route::resource('quizzes',                  'QuizController');
+    Route::post('quizzes/search',               'QuizController@index')->name('quizzes.search');
+    Route::post('quizzes/save_question_order',  'QuizController@save_question_order')->name('quizzes.save_question_order');
 });

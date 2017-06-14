@@ -11,7 +11,11 @@
 
                 <li><a href="#" class="waves-effect"><i class="ti-calendar"></i><span> Meetups </span> </a></li>
 
-                <li><a href="#" class="waves-effect"><i class="ti-pencil-alt"></i><span> Quizzes </span></a></li>
+                <li>
+                    <a href="{{ route('quizzes.index') }}" class="waves-effect {{ Request::is('quizzes/*')? 'active' : '' }}">
+                        <i class="ti-pencil-alt"></i><span> Quizzes </span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="{{ route('questions.index') }}" class="waves-effect {{ Request::is('questions/*')? 'active' : '' }}">
