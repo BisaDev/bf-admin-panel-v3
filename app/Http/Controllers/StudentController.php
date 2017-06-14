@@ -4,11 +4,13 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\Student, Brightfox\Location, Brightfox\Note;
 use Illuminate\Http\Request;
+use Brightfox\Traits\CreatesAndSavesPhotos;
 use Carbon\Carbon;
 use File;
 
 class StudentController extends Controller
 {
+    use CreatesAndSavesPhotos;
     protected $genders = Student::GENDERS;
 
     /**

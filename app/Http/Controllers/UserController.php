@@ -5,10 +5,13 @@ namespace Brightfox\Http\Controllers;
 use Brightfox\User, Brightfox\UserDetail, Brightfox\Location;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;
 
 class UserController extends Controller
 {
+    use CreatesAndSavesPhotos;
+    
     /**
      * Display a listing of the resource.
      *

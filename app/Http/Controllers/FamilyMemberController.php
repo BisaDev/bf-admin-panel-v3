@@ -4,10 +4,13 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\FamilyMember, Brightfox\Student;
 use Illuminate\Http\Request;
+use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;
 
 class FamilyMemberController extends Controller
 {
+    use CreatesAndSavesPhotos;
+    
     protected $types = FamilyMember::TYPES;
 
     /**

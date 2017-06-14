@@ -4,10 +4,13 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\Minigame;
 use Illuminate\Http\Request;
+use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;
 
 class MinigameController extends Controller
 {
+    use CreatesAndSavesPhotos;
+    
     /**
      * Display a listing of the resource.
      *
