@@ -4,11 +4,12 @@ namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
 use Brightfox\Traits\HasPhoto;
+use Brightfox\Traits\Noteable;
 use File;
 
 class Minigame extends Model
 {
-    use HasPhoto;
+    use HasPhoto, Noteable;
 
     const PHOTO_PATH = "uploads/activities/";
     const DEFAULT_PHOTO = "default-image.png";

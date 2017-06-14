@@ -88,8 +88,8 @@
                         <div class="form-group col-md-4 {{ $errors->has('photo')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Image</label>
                             @if($item->photo)
-                            <div class="col-sm-12 m-b-10 text-center">
-                                <img src="{{ $item->photo }}" class="img-responsive">
+                            <div class="col-xs-12 m-b-10 text-center">
+                                <img src="{{ $item->photo }}" class="img-responsive center-block">
                             </div>
                             @endif
                             <div class="droppable droppable-small">

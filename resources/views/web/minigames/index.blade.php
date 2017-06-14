@@ -35,7 +35,7 @@
                     <tbody>
                     @foreach($list as $item)
                         <tr>
-                            <td>{{ $item->name }}</td>
+                            <td><a href="{{ route('minigames.show', $item->id) }}">{{ $item->name }}</a></td>
                             <td class="text-center"><a href="{{ route('minigames.edit', $item->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">
                                 <a href="" @click="confirmDelete({{ $item->id }}, 0, $event)" class="icon icon-trash"></a>

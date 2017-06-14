@@ -14,11 +14,11 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row create-container" id="create-container">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
-                    <form action="{{ route('minigames.update', $item->id) }}" method="POST">
+                    <form action="{{ route('minigames.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         {{ method_field('put') }}
 
@@ -36,8 +36,25 @@
                             @endif
                         </div>
 
+                        <div class="form-group col-md-12 {{ $errors->has('photo')? 'has-error' : '' }}">
+                            <label class="control-label" for="photo">Screenshot:</label>
+                            <div class="col-xs-12 m-b-10 text-center">
+                                <img src="{{ $item->photo }}" class="img-responsive center-block">
+                            </div>
+                            <div class="droppable">
+                                <span v-if="!photo">Drag an image or click to browse</span>
+                                <img v-else :src="photo" />
+                                <input name="photo" type="file" @change="onFileChange">
+                            </div>
+                            @if($errors->has('photo'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('photo') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
                         <div class="form-group col-md-12 text-right">
-                            <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Cancel</a>
+                            <a href="{{ route('minigames.index') }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Edit</button>
                         </div>
 

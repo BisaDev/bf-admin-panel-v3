@@ -217,10 +217,11 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Brightfox\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
+    public function destroy(Request $request, Question $question)
     {
         foreach ($question->answers as $answer) {
             $answers->delete();

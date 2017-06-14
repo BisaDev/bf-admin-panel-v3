@@ -9,8 +9,6 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-require('bootstrap-filestyle');
-
 import index from './pages/index';
 import create from './pages/create';
 import create_question from './pages/create-question';

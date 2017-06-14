@@ -27731,6 +27731,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  position: relative;
 }
 .create-container .droppable.droppable-small {
   height: 50px;

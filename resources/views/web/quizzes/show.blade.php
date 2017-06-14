@@ -1,14 +1,14 @@
-@section('page_title', 'Question details')
+@section('page_title', 'Quiz details')
 @extends('layouts.master')
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Question details',
+        'pageTitle' => 'Quiz details',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Questions', 'url' => route('questions.index')]
+            [ 'label' => 'Quizzes', 'url' => route('quizzes.index')]
         ],
-        'currentSection' => 'Question details',
+        'currentSection' => 'Quiz details',
     ])
 @endsection
 

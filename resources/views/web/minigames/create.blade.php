@@ -36,7 +36,11 @@
 
                         <div class="form-group col-md-12 {{ $errors->has('photo')? 'has-error' : '' }}">
                             <label class="control-label" for="photo">Screenshot:</label>
-                            <input name="photo" type="file" class="filestyle">
+                            <div class="droppable">
+                                <span v-if="!photo">Drag an image or click to browse</span>
+                                <img v-else :src="photo" />
+                                <input name="photo" type="file" @change="onFileChange">
+                            </div>
                             @if($errors->has('photo'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('photo') }}</strong>
@@ -44,8 +48,10 @@
                             @endif
                         </div>
 
+                        @include('partials.add-notes', ['help_text' => 'Use notes to describe mechanics, what type of quizzes work better with this minigame, etc.'])
+
                         <div class="form-group col-md-12 text-right">
-                            <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Cancel</a>
+                            <a href="{{ route('minigames.index') }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
                         </div>
 
