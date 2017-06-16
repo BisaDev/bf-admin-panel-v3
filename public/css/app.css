@@ -27849,6 +27849,11 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
     width: 20%;
   }
 }
+img.thumbnail {
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 0;
+}
 #calendar .calendar-nav {
   margin-bottom: 20px;
 }

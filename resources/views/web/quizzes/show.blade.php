@@ -57,7 +57,7 @@
                             <div class="col-xs-2"><span class="drag_handle">&#9776;</span></div>
                             <div class="col-xs-10">
                                 <h4 class="list-group-item-heading" v-if="question.title">@{{ question.title }}</h4>
-                                <img v-bind:src="question.photo" class="img-responsive" v-if="question.photo">
+                                <img v-bind:src="question.photo" class="img-responsive thumbnail" v-if="question.photo">
                             </div>
                         </div>
                     </div>

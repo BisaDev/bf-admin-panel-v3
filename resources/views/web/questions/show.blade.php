@@ -71,8 +71,8 @@
 
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <a href="{{ route('quizzes.index') }}" class="btn btn-md btn-info">Back</a>
-                        <a href="{{ route('quizzes.edit', $item->id) }}" class="btn btn-md btn-primary">Edit</a>
+                        <a href="{{ route('questions.index') }}" class="btn btn-md btn-info">Back</a>
+                        <a href="{{ route('questions.edit', $item->id) }}" class="btn btn-md btn-primary">Edit</a>
                     </div>
                 </div>
             </div>

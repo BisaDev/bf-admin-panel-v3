@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-activity-bucket" data-quizzes="{{ json_encode($item->quizzes) }}">
+    <div class="row create-container" id="create-activity-bucket" data-quizzes="{{ $item->quizzes->toJson() }}">
         <form action="{{ route('activity_buckets.update', $item->id) }}" method="POST">
             {{ csrf_field() }}
             {{ method_field('put') }}
@@ -77,13 +77,14 @@
                     <table class="table table-responsive table-hover">
                         <thead>
                         <tr>
-                            <th width="90">Add</th>
+                            <th width="50">Add</th>
                             <th>Quiz</th>
                             <th>Description</th>
+                            <th width="150">Minigames</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="quiz in quizzes">
+                            <tr v-for="(quiz, index) in quizzes">
                                 <td>
                                     <div class="checkbox checkbox-primary">
                                         <input type="checkbox" name="quizzes[]" :value="quiz.id"  :checked="quizSelected(quiz)">
@@ -92,6 +93,14 @@
                                 </td>
                                 <td>@{{ quiz.title }}</td>
                                 <td>@{{ quiz.description }}</td>
+                                <td>
+                                    <select :name="'quizzes['+quiz.id+'][minigame_id]'" class="form-control">
+                                        <option value="">Select Minigame</option>
+                                        @foreach($minigames as $minigame)
+                                        <option value="{{ $minigame->id }}" :selected="minigameSelected(quiz, {{ $minigame->id }})">{{ $minigame->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

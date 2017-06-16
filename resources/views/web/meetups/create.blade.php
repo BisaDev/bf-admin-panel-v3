@@ -145,7 +145,7 @@
                         <table class="table table-responsive table-hover">
                             <thead>
                             <tr>
-                                <th width="90">Add</th>
+                                <th width="50">Add</th>
                                 <th>Title</th>
                             </tr>
                             </thead>

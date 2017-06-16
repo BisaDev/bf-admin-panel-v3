@@ -15,7 +15,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="wrapper">
+    <div id="wrapper" class="{{ (Request::is('meetups') || Request::is('meetups/filter'))? 'forced enlarged' : '' }}">
         
         @include('partials.header')
         @include('partials.sidebar')

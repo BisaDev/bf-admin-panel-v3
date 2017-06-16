@@ -117,7 +117,7 @@ class MeetupController extends Controller
      */
     public function show(Meetup $meetup)
     {
-        //
+        return view('web.meetups.show', ['item' => $meetup]);
     }
 
     /**

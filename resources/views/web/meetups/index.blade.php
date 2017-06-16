@@ -41,7 +41,6 @@
                         {{ csrf_field() }}
                         
                         <div class="form-group">
-                            <label for="location">Location</label>
                             <select id="location" name="location" class="form-control">
                                 <option value="">Select Location</option>
                                 @foreach($locations as $location)
@@ -68,7 +67,7 @@
                         <div class="col-xs-12 col-sm-4 col-md-12">
                             <div class="panel panel-border panel-primary">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">{{ $meetup->room->location->name }}</h3>
+                                    <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ $meetup->room->location->name }}</a></h3>
                                     <p class="panel-subtitle">{{ $meetup->room->name }}</p>
                                 </div>
                                 <div class="panel-body">

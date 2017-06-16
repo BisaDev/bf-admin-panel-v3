@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\ActivityBucket, Brightfox\GradeLevel, Brightfox\Meetup;
+use Brightfox\ActivityBucket, Brightfox\GradeLevel, Brightfox\Meetup, Brightfox\Minigame;
 use Illuminate\Http\Request;
 
 class ActivityBucketController extends Controller
@@ -35,6 +35,7 @@ class ActivityBucketController extends Controller
 
         return view('web.activity_buckets.create', [
             'grade_levels' => GradeLevel::all(),
+            'minigames' => Minigame::all(),
             'meetup' => $meetup
         ]);
     }
@@ -98,7 +99,8 @@ class ActivityBucketController extends Controller
     {
         return view('web.activity_buckets.edit', [
             'item' => $activity_bucket,
-            'grade_levels' => GradeLevel::all()
+            'grade_levels' => GradeLevel::all(),
+            'minigames' => Minigame::all()
         ]);
     }
 
@@ -126,7 +128,7 @@ class ActivityBucketController extends Controller
             $activity_bucket->quizzes()->sync($request->input('quizzes'));
         }
 
-        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Activity Bucket was successfully edit']);
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Activity Bucket was successfully edited']);
 
         return redirect(route('activity_buckets.index'));
     }
