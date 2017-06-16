@@ -5,17 +5,17 @@ namespace Brightfox;
 use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
 
-class Quiz extends Model
+class ActivityBucket extends Model
 {
     use Eloquence;
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'type', 'subject_id'
+        'title', 'subject_id'
     ];
 
     /**
@@ -24,22 +24,12 @@ class Quiz extends Model
      * @var array
      */
     protected $searchableColumns = [
-        'title', 'type', 'subject.name'
+        'title', 'subject.name'
     ];
 
-    public function getTypeAttribute($value)
+    public function quizzes()
     {
-        return json_decode($value);
-    }
-
-    public function questions()
-    {
-        return $this->belongsToMany(Question::class)->withPivot('order')->orderBy('question_quiz.order', 'asc');
-    }
-
-    public function activity_buckets()
-    {
-        return $this->belongsToMany(ActivityBucket::class)->withPivot('minigame_id');
+        return $this->belongsToMany(Quiz::class)->withPivot('order', 'minigame_id')->orderBy('activity_bucket_quiz.order', 'asc');
     }
 
     public function subject()

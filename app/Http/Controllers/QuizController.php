@@ -145,6 +145,13 @@ class QuizController extends Controller
         return redirect(route('quizzes.index'));
     }
 
+    public function get_quizzes_for_activity_bucket(Request $request)
+    {
+        $quizzes = Quiz::where('subject_id', $request->get('subject'))->with('subject')->get();
+
+        return response()->json($quizzes);
+    }
+
     public function save_question_order(Request $request)
     {
         $quiz = Quiz::find($request->input('quiz_id'));

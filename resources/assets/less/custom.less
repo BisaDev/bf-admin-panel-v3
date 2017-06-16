@@ -1,3 +1,42 @@
+@media (min-width: @screen-md-min) {
+    .col-md-custom{
+        width: 20%;
+    }
+}
+
+#calendar{
+    .calendar-nav{
+        margin-bottom: 20px;
+
+        span.nav-title{
+            display: block;
+            margin: 10px 0;
+            padding: 6px;
+            background: #FFF;
+        }    
+    }
+    
+    .weekday-title{
+        h3{
+            margin-top: 0;
+        }
+        small{
+            color: @muted;
+        }
+    }
+    .panel{
+        .panel-heading{
+            .panel-title{
+                line-height: 17px;
+            }
+            .panel-subtitle{
+                color: @info;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
 .topbar{
     .topbar-left{
         background-color: #FFF;
@@ -133,7 +172,11 @@
     width:20px
 }
 
-
-.popover{
-    max-width: none;
+.datepicker table tr td, .datepicker table tr th{
+    color: #333;
 }
+
+.bootstrap-timepicker-widget table td input{
+    border: 0;
+}
+

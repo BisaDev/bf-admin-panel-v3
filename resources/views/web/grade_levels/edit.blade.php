@@ -22,10 +22,6 @@
                         {{ csrf_field() }}
                         {{ method_field('put') }}
 
-                        <div class="col-sm-12">
-                            <h4 class="header-title m-b-30">Edit Grade Level</h4>
-                        </div>
-
                         <div class="form-group col-md-12 {{ $errors->has('name')? 'has-error' : '' }}">
                             <label class="control-label" for="name">Grade Level Name:</label>
                             <input type="text" name="name" class="form-control" value="{{ $item->name }}">
@@ -37,7 +33,7 @@
                         </div>
 
                         <div class="form-group col-md-12 text-right">
-                            <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Cancel</a>
+                            <a href="{{ route('grade_levels.index') }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Edit</button>
                         </div>
 

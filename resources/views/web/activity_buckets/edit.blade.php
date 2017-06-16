@@ -1,21 +1,21 @@
-@section('page_title', 'Edit quiz')
+@section('page_title', 'Edit activity bucket')
 @extends('layouts.master')
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Edit quiz',
+        'pageTitle' => 'Edit activity bucket',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Quizzes', 'url' => route('quizzes.index')]
+            [ 'label' => 'Activity Buckets', 'url' => route('activity_buckets.index')]
         ],
-        'currentSection' => 'Edit quiz',
+        'currentSection' => 'Edit activity bucket',
     ])
 @endsection
 
 @section('content')
 
-    <div class="row create-container" id="create-quiz" data-questions="{{ json_encode($item->questions) }}">
-        <form action="{{ route('quizzes.update', $item->id) }}" method="POST">
+    <div class="row create-container" id="create-activity-bucket" data-quizzes="{{ json_encode($item->quizzes) }}">
+        <form action="{{ route('activity_buckets.update', $item->id) }}" method="POST">
             {{ csrf_field() }}
             {{ method_field('put') }}
 
@@ -31,35 +31,12 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="form-group col-xs-12 {{ $errors->has('description')? 'has-error' : '' }}">
-                            <label class="control-label" for="title">Description</label>
-                            <textarea name="description" class="form-control">{{ old('description', $item->description) }}</textarea>
-                            @if($errors->has('description'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('description') }}</strong>
-                                </span>
-                            @endif
-                        </div>
                     </div>
 
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
-                        <div class="form-group col-sm-6 col-md-4 {{ $errors->has('type')? 'has-error' : '' }}">
-                            <label class="control-label" for="type">Type:</label>
-                            <select id="type" name="type" class="form-control" v-model="type" @change="loadQuestions('{{ route('questions.for_quiz') }}', $event)">
-                                <option value="">Select Type</option>
-                                @foreach($types as $key => $type)
-                                <option value="{{ $key }}" {{ (!is_null(old('type', $item->type->key)) && (int)old('type', $item->type->key) === $key)? 'selected' : '' }}>{{ $type }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('type'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('type') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                        <div class="form-group col-sm-6 col-md-4 {{ $errors->has('grade_level')? 'has-error' : '' }}">
+                        <div class="form-group col-sm-6 {{ $errors->has('grade_level')? 'has-error' : '' }}">
                             <label class="control-label" for="grade_level">Grade Level:</label>
                             <select id="grade_level" name="grade_level" class="form-control" data-selected="{{ old('grade_level', $item->subject->grade_level->id) }}" @change="getSubjectsFromGradeLevel('{{ route('subjects.by_grade') }}', $event)">
                                 <option value="">Select Grade Level</option>
@@ -73,9 +50,9 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="form-group col-sm-6 col-md-4 {{ $errors->has('subject')? 'has-error' : '' }}">
+                        <div class="form-group col-sm-6 {{ $errors->has('subject')? 'has-error' : '' }}">
                             <label class="control-label" for="subject">Subject:</label>
-                            <select id="subject" name="subject" class="form-control" data-selected="{{ old('subject', $item->subject->id) }}" v-model="subject" @change="loadQuestions('{{ route('questions.for_quiz') }}', $event)">
+                            <select id="subject" name="subject" class="form-control" data-selected="{{ old('subject', $item->subject->id) }}" v-model="subject" @change="loadQuizzes('{{ route('quizzes.for_activity_bucket') }}', $event)">
                             </select>
                             @if($errors->has('subject'))
                                 <span class="help-block">
@@ -87,11 +64,11 @@
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <h4 class="header-title">Add Questions</h4>
-                            <p class="text-muted">Select Type and Subject to load available Questions.</p>
-                            @if($errors->has('questions'))
+                            <h4 class="header-title">Add Quizzes</h4>
+                            <p class="text-muted">Select Subject to load available Quizzes.</p>
+                            @if($errors->has('quizzes'))
                                 <div class="alert alert-danger" role="alert">
-                                    {{ $errors->first('questions') }}
+                                    {{ $errors->first('quizzes') }}
                                 </div>
                             @endif
                         </div>
@@ -101,30 +78,27 @@
                         <thead>
                         <tr>
                             <th width="90">Add</th>
-                            <th>Question</th>
-                            <th>Topic</th>
+                            <th>Quiz</th>
+                            <th>Description</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="question in questions">
+                            <tr v-for="quiz in quizzes">
                                 <td>
                                     <div class="checkbox checkbox-primary">
-                                        <input type="checkbox" name="questions[]" :value="question.id" :checked="questionSelected(question)">
+                                        <input type="checkbox" name="quizzes[]" :value="quiz.id"  :checked="quizSelected(quiz)">
                                         <label></label>
                                     </div>
                                 </td>
-                                <td>
-                                    <div v-if="question.title">@{{ question.title }}</div>
-                                    <img v-if="question.photo" :src="question.photo">
-                                </td>
-                                <td>@{{ question.topic.name }}</td>
+                                <td>@{{ quiz.title }}</td>
+                                <td>@{{ quiz.description }}</td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="row">
                         <div class="form-group col-md-12 text-right">
-                            <a href="{{ route('quizzes.index') }}" class="btn btn-md btn-info">Cancel</a>
+                            <a href="{{ route('activity_buckets.index') }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Edit</button>
                         </div>
                     </div>

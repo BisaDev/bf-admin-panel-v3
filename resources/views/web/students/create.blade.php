@@ -82,7 +82,7 @@
                     <div class="row">
                         <div class="form-group col-lg-6 {{ $errors->has('birthdate')? 'has-error' : '' }}">
                             <label class="control-label" for="birthdate">Birthdate:</label>
-                            <input type="text" name="birthdate" class="form-control datepicker" value="{{ old('birthdate') }}">
+                            <input type="text" name="birthdate" class="form-control datepicker-birthday" value="{{ old('birthdate') }}">
                             @if($errors->has('birthdate'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('birthdate') }}</strong>
@@ -174,7 +174,7 @@
 
                     <div class="row">
                         <div class="form-group col-md-12 text-right">
-                            <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Cancel</a>
+                            <a href="{{ route('students.index') }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
                         </div>
                     </div>
