@@ -185,4 +185,13 @@ class UserController extends Controller
         
         return redirect(route('employees.index'));
     }
+
+    public function get_employees_by_location(Request $request)
+    {
+        $employees = User::whereHas('user_detail', function ($query)use($request) {
+            $query->where('location_id', $request->get('location_id'));
+        })->role('instructor')->get();
+
+        return response()->json($employees);
+    }
 }

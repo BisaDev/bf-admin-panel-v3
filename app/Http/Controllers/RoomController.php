@@ -92,4 +92,11 @@ class RoomController extends Controller
         
         return redirect(route('locations.show', $location_id));
     }
+
+    public function get_rooms_by_location(Request $request)
+    {
+        $rooms = Room::where('location_id', $request->get('location_id'))->get();
+
+        return response()->json($rooms);
+    }
 }
