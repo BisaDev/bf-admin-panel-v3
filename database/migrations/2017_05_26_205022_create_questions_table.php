@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->string('title')->nullable();
             $table->string('photo')->nullable();
-            $table->json('type');
+            $table->string('type');
             $table->integer('topic_id')->unsigned()->nullable();
             $table->timestamps();
 
