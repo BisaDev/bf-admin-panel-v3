@@ -8,6 +8,8 @@ use Sofa\Eloquence\Eloquence;
 class Quiz extends Model
 {
     use Eloquence;
+
+    const TYPES = ['Multiple choice: Two truths one lie', 'Multiple choice: Blitz', 'Multiple choice: Confidence level', 'Fill the blank', 'Trivia'];
     
     /**
      * The attributes that are mass assignable.

@@ -115,7 +115,7 @@
                                 </td>
                                 <td>
                                     <div v-if="question.title">@{{ question.title }}</div>
-                                    <img v-if="question.photo" :src="question.photo">
+                                    <img v-if="question.photo" :src="question.photo" class="img-responsive thumbnail">
                                 </td>
                                 <td>@{{ question.topic.name }}</td>
                             </tr>

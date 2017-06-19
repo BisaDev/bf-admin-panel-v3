@@ -236,9 +236,24 @@ class QuestionController extends Controller
 
     public function get_questions_for_quiz(Request $request)
     {
+        //Match quiz types keys with question types keys
+        switch ($request->get('type')) {
+            case '0':
+            case '1':
+            case '2':
+                $type = '0';
+                break;
+            case '3':
+                $type = '1';
+                break;
+            case '4':
+                $type = '2';
+                break;
+        }
+
         $questions = Question::whereHas('topic', function ($query)use($request) {
             $query->where('subject_id', $request->get('subject'));
-        })->where('type->key', $request->get('type'))->with('topic')->get();
+        })->where('type->key', $type)->with('topic')->get();
 
         return response()->json($questions);
     }

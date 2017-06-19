@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
-    protected $types = Question::TYPES;
+    protected $types = Quiz::TYPES;
 
     /**
      * Display a listing of the resource.
