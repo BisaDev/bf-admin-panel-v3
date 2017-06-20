@@ -109,6 +109,30 @@ class MinigameController extends Controller
             $minigame->save();
         }
 
+        if($request->has('notes')){
+            $notes_ids = collect($request->get('notes'))->map(function($note){
+                return $note['id'];
+            })->toArray();
+
+            $notes_to_delete = $minigame->notes()->whereNotIn('id', $notes_ids)->delete();
+
+            foreach ($request->input('notes') as $key => $request_note) {
+                if(!is_null($request_note['id'])){
+
+                    $note = Note::find($request_note['id']);
+                    $note->title = $request_note['title'];
+                    $note->text = $request_note['text'];
+                    
+                    $note->save();
+                }else{
+                    $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
+                    $minigame->notes()->save($note);
+                }
+            }
+        }else{
+            $minigame->notes()->delete();
+        }
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully edited']);
         
         return redirect(route('minigames.index'));
