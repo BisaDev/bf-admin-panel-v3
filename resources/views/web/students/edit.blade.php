@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-container">
+    <div class="row create-container" id="create-container" data-notes="{{ $item->notes->toJson() }}">
         <form action="{{ route('students.update', $item->id) }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             {{ method_field('put') }}
@@ -83,7 +83,7 @@
                     <div class="row">
                         <div class="form-group col-lg-6 {{ $errors->has('birthdate')? 'has-error' : '' }}">
                             <label class="control-label" for="birthdate">Birthdate:</label>
-                            <input type="text" name="birthdate" class="form-control datepicker-birthday" value="{{ old('birthdate', $item->birthdate->format('m/d/Y')) }}">
+                            <input type="text" name="birthdate" class="form-control datepicker-birthday" value="{{ old('birthdate', ($item->birthdate)? $item->birthdate->format('m/d/Y') : '')  }}">
                             @if($errors->has('birthdate'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('birthdate') }}</strong>
@@ -167,6 +167,10 @@
                                 </span>
                             @endif
                         </div>
+                    </div>
+
+                    <div class="row">
+                        @include('partials.add-notes', ['help_text' => 'Notes can be used to add academic notes, skills, health conditions, fun facts...'])
                     </div>
 
                     <div class="row">

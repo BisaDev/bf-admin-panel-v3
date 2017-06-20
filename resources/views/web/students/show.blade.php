@@ -34,7 +34,7 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <label>Birthdate:</label>
-                        <p>{{ $item->birthdate->format('m/d/Y') }}</p>
+                        <p>{{ ($item->birthdate)? $item->birthdate->format('m/d/Y') : '' }}</p>
                     </div>
 
                     <div class="col-xs-6">

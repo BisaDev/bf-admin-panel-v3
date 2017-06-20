@@ -12843,6 +12843,15 @@ if (token) {
             },
             mounted: function mounted() {
 
+                if (this.$el.attributes['data-notes'] !== undefined) {
+                    var notes = $.parseJSON(this.$el.attributes['data-notes'].value);
+                    var vue_instance = this;
+
+                    $.each(notes, function (index, notes) {
+                        vue_instance.children.push({ name: notes.title, text: notes.text, id: notes.id });
+                    });
+                }
+
                 $('.datepicker-birthday').datepicker({
                     autoclose: true,
                     startView: 'decade'
