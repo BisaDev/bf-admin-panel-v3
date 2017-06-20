@@ -67,7 +67,11 @@
 
                 <div class="row">
                     <div class="col-sm-12 text-right">
+                        @if(isset($search))
+                        {{ $list->appends(['search' => $search])->links() }}
+                        @else
                         {{ $list->links() }}
+                        @endif
                     </div>
                 </div>
             </div>
