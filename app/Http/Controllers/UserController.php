@@ -5,10 +5,13 @@ namespace Brightfox\Http\Controllers;
 use Brightfox\User, Brightfox\UserDetail, Brightfox\Location;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;
 
 class UserController extends Controller
 {
+    use CreatesAndSavesPhotos;
+    
     /**
      * Display a listing of the resource.
      *
@@ -181,5 +184,14 @@ class UserController extends Controller
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Employee was successfully deleted']);
         
         return redirect(route('employees.index'));
+    }
+
+    public function get_employees_by_location(Request $request)
+    {
+        $employees = User::whereHas('user_detail', function ($query)use($request) {
+            $query->where('location_id', $request->get('location_id'));
+        })->role('instructor')->get();
+
+        return response()->json($employees);
     }
 }

@@ -9,9 +9,22 @@
                     </a>
                 </li>
 
-                <li><a href="#" class="waves-effect"><i class="ti-calendar"></i><span> Meetups </span> </a></li>
+                <li class="has_sub">
+                    <a href="#" class="waves-effect {{ (Request::is('meetups/*') || Request::is('activity_buckets/*'))? 'active' : '' }}">
+                        <i class="ti-calendar"></i><span> Meetups </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="list-unstyled">
+                        <li class="{{ Request::is('meetups/*')? 'active' : '' }}"><a href="{{ route('meetups.index') }}">Meetups</a></li>
+                        <li class="{{ Request::is('activity_buckets/*')? 'active' : '' }}"><a href="{{ route('activity_buckets.index') }}">Activity Buckets</a></li>
+                    </ul>
+                </li>
 
-                <li><a href="#" class="waves-effect"><i class="ti-pencil-alt"></i><span> Quizzes </span></a></li>
+                <li>
+                    <a href="{{ route('quizzes.index') }}" class="waves-effect {{ Request::is('quizzes/*')? 'active' : '' }}">
+                        <i class="ti-pencil-alt"></i><span> Quizzes </span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="{{ route('questions.index') }}" class="waves-effect {{ Request::is('questions/*')? 'active' : '' }}">

@@ -17,7 +17,7 @@ class CreateQuizzesTable extends Migration
             $table->increments('id');
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->json('type');
+            $table->string('type');
             $table->integer('subject_id')->unsigned()->nullable();
             $table->timestamps();
 

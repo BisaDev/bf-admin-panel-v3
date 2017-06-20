@@ -23,7 +23,7 @@ class CreateFamilyMembersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('mobile_phone')->nullable();
             $table->string('photo')->nullable();
-            $table->json('type');
+            $table->string('type');
             $table->text('address')->nullable();
             $table->string('state')->nullable();
             $table->string('city')->nullable();

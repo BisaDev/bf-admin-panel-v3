@@ -4,10 +4,13 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\Question, Brightfox\Answer, Brightfox\GradeLevel;
 use Illuminate\Http\Request;
+use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;
 
 class QuestionController extends Controller
 {
+    use CreatesAndSavesPhotos;
+    
     protected $types = Question::TYPES;
 
     /**
@@ -57,8 +60,8 @@ class QuestionController extends Controller
     {
         $this->validate($request, [
             'type' => 'required',
-            'title' => 'required|string',
             'topic' => 'required',
+            'answers' => 'required',
             'answers.*.text' => 'required_without:answers.*.photo',
         ]);
 
@@ -144,7 +147,6 @@ class QuestionController extends Controller
     {
         $this->validate($request, [
             'type' => 'required',
-            'title' => 'required|string',
             'topic' => 'required',
             'answers.*.text' => 'required_without_all:answers.*.id,answers.*.photo|required_with:answers.*.remove_photo',
         ]);
@@ -167,10 +169,9 @@ class QuestionController extends Controller
             return $answer['id'];
         })->toArray();
 
-        $answers_to_delete = $question->answers()->whereNotIn('id', $answers_ids)->get();
-        foreach ($answers_to_delete as $answer) {
+        $answers_to_delete = $question->answers()->whereNotIn('id', $answers_ids)->get()->each(function ($answer, $key) {
             $answer->delete();
-        }
+        });
 
         if($request->has('answers')){
             foreach ($request->input('answers') as $key => $request_answer) {
@@ -216,10 +217,11 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Brightfox\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
+    public function destroy(Request $request, Question $question)
     {
         foreach ($question->answers as $answer) {
             $answers->delete();
@@ -230,5 +232,29 @@ class QuestionController extends Controller
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Question was successfully deleted']);
         
         return redirect(route('questions.index'));
+    }
+
+    public function get_questions_for_quiz(Request $request)
+    {
+        //Match quiz types keys with question types keys
+        switch ($request->get('type')) {
+            case '0':
+            case '1':
+            case '2':
+                $type = '0';
+                break;
+            case '3':
+                $type = '1';
+                break;
+            case '4':
+                $type = '2';
+                break;
+        }
+
+        $questions = Question::whereHas('topic', function ($query)use($request) {
+            $query->where('subject_id', $request->get('subject'));
+        })->where('type', 'like', '%"key":"'.$type.'"%')->with('topic')->get();
+
+        return response()->json($questions);
     }
 }

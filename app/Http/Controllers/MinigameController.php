@@ -2,12 +2,15 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Minigame;
+use Brightfox\Minigame, Brightfox\Note;
 use Illuminate\Http\Request;
+use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;
 
 class MinigameController extends Controller
 {
+    use CreatesAndSavesPhotos;
+    
     /**
      * Display a listing of the resource.
      *
@@ -48,10 +51,30 @@ class MinigameController extends Controller
             $minigame->photo = $this->createAndSavePhoto($request->file('photo'), Minigame::PHOTO_PATH, 400, null);
             $minigame->save();
         }
+
+        if($request->has('notes')){
+            foreach ($request->input('notes') as $note) {
+                if(!is_null($note['title']) && !is_null($note['text'])){
+                    $note = Note::create(['title' => $note['title'], 'text' => $note['text']]);
+                    $minigame->notes()->save($note);
+                }
+            }
+        }
         
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully created']);
         
         return redirect(route('minigames.index'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Brightfox\Minigame  $minigame
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Minigame $minigame)
+    {
+        return view('web.minigames.show', ['item' => $minigame]);
     }
 
     /**
@@ -77,7 +100,7 @@ class MinigameController extends Controller
         $minigame->name = $request->input('name');
         $minigame->save();
 
-        if ($request->hasFile('photo')) {
+        if($request->hasFile('photo')) {
             if(!is_null($minigame->getOriginal('photo')) || $minigame->getOriginal('photo') != ''){
                 File::delete(public_path(Minigame::PHOTO_PATH . $minigame->getOriginal('photo')));
             }

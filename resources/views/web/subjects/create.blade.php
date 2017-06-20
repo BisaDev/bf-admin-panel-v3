@@ -21,10 +21,6 @@
                     <form action="{{ route('subjects.store') }}" method="POST">
                         {{ csrf_field() }}
 
-                        <div class="col-sm-12">
-                            <h4 class="header-title m-b-30">Create a new subject for {{ $grade_level->name }} Grade Level</h4>
-                        </div>
-
                         <div class="form-group col-md-12 {{ $errors->has('name')? 'has-error' : '' }}">
                             <label class="control-label" for="name">Subject Name:</label>
                             <input type="text" name="name" class="form-control">
@@ -39,7 +35,7 @@
 
                         <div class="form-group col-md-12 text-right m-t-30">
                             <input type="hidden" name="grade_level_id" value="{{ $grade_level->id }}">
-                            <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Cancel</a>
+                            <a href="{{ route('grade_levels.show', $grade_level->id) }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
                         </div>
 

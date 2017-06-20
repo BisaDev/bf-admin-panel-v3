@@ -19,7 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('birthdate')->nullable();
-            $table->json('gender');
+            $table->string('gender');
             $table->string('photo')->nullable();
             $table->string('current_school')->nullable();
             $table->integer('school_year')->nullable();

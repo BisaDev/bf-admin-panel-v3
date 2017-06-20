@@ -44,9 +44,11 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('rooms',                            'RoomController', ['except' => ['index', 'create']]);
     Route::get('rooms/create/{location_id}',            'RoomController@create')->name('rooms.create');
+    Route::post('rooms/get_by_location',                'RoomController@get_rooms_by_location')->name('rooms.by_location');
 
     Route::resource('employees',                        'UserController');
     Route::post('employees/search',                     'UserController@index')->name('employees.search');
+    Route::post('employees/get_by_location',            'UserController@get_employees_by_location')->name('employees.by_location');
 
     Route::resource('students',                         'StudentController');
     Route::post('students/search',                      'StudentController@index')->name('students.search');
@@ -59,6 +61,21 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('minigames',    'MinigameController');
 
-    Route::resource('questions',    'QuestionController');
-    Route::post('questions/search', 'QuestionController@index')->name('questions.search');
+    Route::resource('questions',            'QuestionController');
+    Route::post('questions/search',         'QuestionController@index')->name('questions.search');
+    Route::post('questions/get_for_quiz',   'QuestionController@get_questions_for_quiz')->name('questions.for_quiz');
+
+    Route::resource('quizzes',                      'QuizController');
+    Route::post('quizzes/search',                   'QuizController@index')->name('quizzes.search');
+    Route::post('quizzes/get_for_activity_bucket',  'QuizController@get_quizzes_for_activity_bucket')->name('quizzes.for_activity_bucket');
+    Route::post('quizzes/save_question_order',      'QuizController@save_question_order')->name('quizzes.save_question_order');
+
+    Route::resource('activity_buckets',                 'ActivityBucketController');
+    Route::get('activity_buckets/create/{meetup_id?}',  'ActivityBucketController@create')->name('activity_buckets.create');
+    Route::post('activity_buckets/search',              'ActivityBucketController@index')->name('activity_buckets.search');
+    Route::post('activity_buckets/get_for_meetup',      'ActivityBucketController@get_activity_buckets_for_meetup')->name('activity_buckets.for_meetup');
+    Route::post('activity_buckets/save_quiz_order',     'ActivityBucketController@save_quiz_order')->name('activity_buckets.save_quiz_order');
+
+    Route::resource('meetups',      'MeetupController');
+    Route::post('meetups/filter',   'MeetupController@index')->name('meetups.filter');
 });

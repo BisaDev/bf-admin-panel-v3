@@ -9,17 +9,19 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-require('bootstrap-filestyle');
-
 import index from './pages/index';
 import create from './pages/create';
 import create_question from './pages/create-question';
 import create_quiz from './pages/create-quiz';
+import create_activity_bucket from './pages/create-activity-bucket';
+import create_meetup from './pages/create-meetup';
 
 index.init();
 create.init();
 create_question.init();
 create_quiz.init();
+create_activity_bucket.init();
+create_meetup.init();
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 52);
+/******/ 	return __webpack_require__(__webpack_require__.s = 59);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -74,7 +74,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(6);
+var bind = __webpack_require__(8);
 
 /*global toString:true*/
 
@@ -382,7 +382,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(26);
+var normalizeHeaderName = __webpack_require__(29);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -399,10 +399,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(2);
+    adapter = __webpack_require__(4);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(2);
+    adapter = __webpack_require__(4);
   }
   return adapter;
 }
@@ -473,33 +473,463 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54)))
 
 /***/ }),
 
 /***/ 10:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+(function () {
+  "use strict";
+
+  function buildDraggable(Sortable) {
+    function removeNode(node) {
+      node.parentElement.removeChild(node);
+    }
+
+    function insertNodeAt(fatherNode, node, position) {
+      if (position < fatherNode.children.length) {
+        fatherNode.insertBefore(node, fatherNode.children[position]);
+      } else {
+        fatherNode.appendChild(node);
+      }
+    }
+
+    function computeVmIndex(vnodes, element) {
+      return vnodes.map(function (elt) {
+        return elt.elm;
+      }).indexOf(element);
+    }
+
+    function _computeIndexes(slots, children) {
+      if (!slots) {
+        return [];
+      }
+
+      var elmFromNodes = slots.map(function (elt) {
+        return elt.elm;
+      });
+      return [].concat(_toConsumableArray(children)).map(function (elt) {
+        return elmFromNodes.indexOf(elt);
+      });
+    }
+
+    function emit(evtName, evtData) {
+      var _this = this;
+
+      this.$nextTick(function () {
+        return _this.$emit(evtName.toLowerCase(), evtData);
+      });
+    }
+
+    function delegateAndEmit(evtName) {
+      var _this2 = this;
+
+      return function (evtData) {
+        if (_this2.realList !== null) {
+          _this2['onDrag' + evtName](evtData);
+        }
+        emit.call(_this2, evtName, evtData);
+      };
+    }
+
+    var eventsListened = ['Start', 'Add', 'Remove', 'Update', 'End'];
+    var eventsToEmit = ['Choose', 'Sort', 'Filter', 'Clone'];
+    var readonlyProperties = ['Move'].concat(eventsListened, eventsToEmit).map(function (evt) {
+      return 'on' + evt;
+    });
+    var draggingElement = null;
+
+    var props = {
+      options: Object,
+      list: {
+        type: Array,
+        required: false,
+        default: null
+      },
+      value: {
+        type: Array,
+        required: false,
+        default: null
+      },
+      noTransitionOnDrag: {
+        type: Boolean,
+        default: false
+      },
+      clone: {
+        type: Function,
+        default: function _default(original) {
+          return original;
+        }
+      },
+      element: {
+        type: String,
+        default: 'div'
+      },
+      move: {
+        type: Function,
+        default: null
+      }
+    };
+
+    var draggableComponent = {
+      props: props,
+
+      data: function data() {
+        return {
+          transitionMode: false,
+          componentMode: false
+        };
+      },
+      render: function render(h) {
+        if (this.$slots.default && this.$slots.default.length === 1) {
+          var child = this.$slots.default[0];
+          if (child.componentOptions && child.componentOptions.tag === "transition-group") {
+            this.transitionMode = true;
+          }
+        }
+        return h(this.element, null, this.$slots.default);
+      },
+      mounted: function mounted() {
+        var _this3 = this;
+
+        this.componentMode = this.element.toLowerCase() !== this.$el.nodeName.toLowerCase();
+        if (this.componentMode && this.transitionMode) {
+          throw new Error('Transition-group inside component is not supported. Please alter element value or remove transition-group. Current element value: ' + this.element);
+        }
+        var optionsAdded = {};
+        eventsListened.forEach(function (elt) {
+          optionsAdded['on' + elt] = delegateAndEmit.call(_this3, elt);
+        });
+
+        eventsToEmit.forEach(function (elt) {
+          optionsAdded['on' + elt] = emit.bind(_this3, elt);
+        });
+
+        var options = _extends({}, this.options, optionsAdded, { onMove: function onMove(evt, originalEvent) {
+            return _this3.onDragMove(evt, originalEvent);
+          } });
+        !('draggable' in options) && (options.draggable = '>*');
+        this._sortable = new Sortable(this.rootContainer, options);
+        this.computeIndexes();
+      },
+      beforeDestroy: function beforeDestroy() {
+        this._sortable.destroy();
+      },
+
+
+      computed: {
+        rootContainer: function rootContainer() {
+          return this.transitionMode ? this.$el.children[0] : this.$el;
+        },
+        isCloning: function isCloning() {
+          return !!this.options && !!this.options.group && this.options.group.pull === 'clone';
+        },
+        realList: function realList() {
+          return !!this.list ? this.list : this.value;
+        }
+      },
+
+      watch: {
+        options: {
+          handler: function handler(newOptionValue) {
+            for (var property in newOptionValue) {
+              if (readonlyProperties.indexOf(property) == -1) {
+                this._sortable.option(property, newOptionValue[property]);
+              }
+            }
+          },
+
+          deep: true
+        },
+
+        realList: function realList() {
+          this.computeIndexes();
+        }
+      },
+
+      methods: {
+        getChildrenNodes: function getChildrenNodes() {
+          if (this.componentMode) {
+            return this.$children[0].$slots.default;
+          }
+          var rawNodes = this.$slots.default;
+          return this.transitionMode ? rawNodes[0].child.$slots.default : rawNodes;
+        },
+        computeIndexes: function computeIndexes() {
+          var _this4 = this;
+
+          this.$nextTick(function () {
+            _this4.visibleIndexes = _computeIndexes(_this4.getChildrenNodes(), _this4.rootContainer.children);
+          });
+        },
+        getUnderlyingVm: function getUnderlyingVm(htmlElt) {
+          var index = computeVmIndex(this.getChildrenNodes(), htmlElt);
+          var element = this.realList[index];
+          return { index: index, element: element };
+        },
+        getUnderlyingPotencialDraggableComponent: function getUnderlyingPotencialDraggableComponent(_ref) {
+          var __vue__ = _ref.__vue__;
+
+          if (!__vue__ || !__vue__.$options || __vue__.$options._componentTag !== "transition-group") {
+            return __vue__;
+          }
+          return __vue__.$parent;
+        },
+        emitChanges: function emitChanges(evt) {
+          var _this5 = this;
+
+          this.$nextTick(function () {
+            _this5.$emit('change', evt);
+          });
+        },
+        alterList: function alterList(onList) {
+          if (!!this.list) {
+            onList(this.list);
+          } else {
+            var newList = [].concat(_toConsumableArray(this.value));
+            onList(newList);
+            this.$emit('input', newList);
+          }
+        },
+        spliceList: function spliceList() {
+          var _arguments = arguments;
+
+          var spliceList = function spliceList(list) {
+            return list.splice.apply(list, _arguments);
+          };
+          this.alterList(spliceList);
+        },
+        updatePosition: function updatePosition(oldIndex, newIndex) {
+          var updatePosition = function updatePosition(list) {
+            return list.splice(newIndex, 0, list.splice(oldIndex, 1)[0]);
+          };
+          this.alterList(updatePosition);
+        },
+        getRelatedContextFromMoveEvent: function getRelatedContextFromMoveEvent(_ref2) {
+          var to = _ref2.to,
+              related = _ref2.related;
+
+          var component = this.getUnderlyingPotencialDraggableComponent(to);
+          if (!component) {
+            return { component: component };
+          }
+          var list = component.realList;
+          var context = { list: list, component: component };
+          if (to !== related && list && component.getUnderlyingVm) {
+            var destination = component.getUnderlyingVm(related);
+            return _extends(destination, context);
+          }
+
+          return context;
+        },
+        getVmIndex: function getVmIndex(domIndex) {
+          var indexes = this.visibleIndexes;
+          var numberIndexes = indexes.length;
+          return domIndex > numberIndexes - 1 ? numberIndexes : indexes[domIndex];
+        },
+        getComponent: function getComponent() {
+          return this.$slots.default[0].componentInstance;
+        },
+        resetTransitionData: function resetTransitionData(index) {
+          if (!this.noTransitionOnDrag || !this.transitionMode) {
+            return;
+          }
+          var nodes = this.getChildrenNodes();
+          nodes[index].data = null;
+          var transitionContainer = this.getComponent();
+          transitionContainer.children = [];
+          transitionContainer.kept = undefined;
+        },
+        onDragStart: function onDragStart(evt) {
+          this.context = this.getUnderlyingVm(evt.item);
+          evt.item._underlying_vm_ = this.clone(this.context.element);
+          draggingElement = evt.item;
+        },
+        onDragAdd: function onDragAdd(evt) {
+          var element = evt.item._underlying_vm_;
+          if (element === undefined) {
+            return;
+          }
+          removeNode(evt.item);
+          var newIndex = this.getVmIndex(evt.newIndex);
+          this.spliceList(newIndex, 0, element);
+          this.computeIndexes();
+          var added = { element: element, newIndex: newIndex };
+          this.emitChanges({ added: added });
+        },
+        onDragRemove: function onDragRemove(evt) {
+          insertNodeAt(this.rootContainer, evt.item, evt.oldIndex);
+          if (this.isCloning) {
+            removeNode(evt.clone);
+            return;
+          }
+          var oldIndex = this.context.index;
+          this.spliceList(oldIndex, 1);
+          var removed = { element: this.context.element, oldIndex: oldIndex };
+          this.resetTransitionData(oldIndex);
+          this.emitChanges({ removed: removed });
+        },
+        onDragUpdate: function onDragUpdate(evt) {
+          removeNode(evt.item);
+          insertNodeAt(evt.from, evt.item, evt.oldIndex);
+          var oldIndex = this.context.index;
+          var newIndex = this.getVmIndex(evt.newIndex);
+          this.updatePosition(oldIndex, newIndex);
+          var moved = { element: this.context.element, oldIndex: oldIndex, newIndex: newIndex };
+          this.emitChanges({ moved: moved });
+        },
+        computeFutureIndex: function computeFutureIndex(relatedContext, evt) {
+          if (!relatedContext.element) {
+            return 0;
+          }
+          var domChildren = [].concat(_toConsumableArray(evt.to.children)).filter(function (el) {
+            return el.style['display'] !== 'none';
+          });
+          var currentDOMIndex = domChildren.indexOf(evt.related);
+          var currentIndex = relatedContext.component.getVmIndex(currentDOMIndex);
+          var draggedInList = domChildren.indexOf(draggingElement) != -1;
+          return draggedInList || !evt.willInsertAfter ? currentIndex : currentIndex + 1;
+        },
+        onDragMove: function onDragMove(evt, originalEvent) {
+          var onMove = this.move;
+          if (!onMove || !this.realList) {
+            return true;
+          }
+
+          var relatedContext = this.getRelatedContextFromMoveEvent(evt);
+          var draggedContext = this.context;
+          var futureIndex = this.computeFutureIndex(relatedContext, evt);
+          _extends(draggedContext, { futureIndex: futureIndex });
+          _extends(evt, { relatedContext: relatedContext, draggedContext: draggedContext });
+          return onMove(evt, originalEvent);
+        },
+        onDragEnd: function onDragEnd(evt) {
+          this.computeIndexes();
+          draggingElement = null;
+        }
+      }
+    };
+    return draggableComponent;
+  }
+
+  if (true) {
+    var Sortable = __webpack_require__(55);
+    module.exports = buildDraggable(Sortable);
+  } else if (typeof define == "function" && define.amd) {
+    define(['sortablejs'], function (Sortable) {
+      return buildDraggable(Sortable);
+    });
+  } else if (window && window.Vue && window.Sortable) {
+    var draggable = buildDraggable(window.Sortable);
+    Vue.component('draggable', draggable);
+  }
+})();
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_index__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_create__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_create_question__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_create_quiz__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_create_activity_bucket__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_create_meetup__ = __webpack_require__(33);
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+__webpack_require__(32);
+
+window.Vue = __webpack_require__(57);
+
+
+
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_0__pages_index__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_1__pages_create__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_2__pages_create_question__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_3__pages_create_quiz__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_4__pages_create_activity_bucket__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_5__pages_create_meetup__["a" /* default */].init();
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+/***/ }),
+
+/***/ 13:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 11:
+/***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(12);
+module.exports = __webpack_require__(15);
 
 /***/ }),
 
-/***/ 12:
+/***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(6);
-var Axios = __webpack_require__(14);
+var bind = __webpack_require__(8);
+var Axios = __webpack_require__(17);
 var defaults = __webpack_require__(1);
 
 /**
@@ -533,15 +963,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(3);
-axios.CancelToken = __webpack_require__(13);
-axios.isCancel = __webpack_require__(4);
+axios.Cancel = __webpack_require__(5);
+axios.CancelToken = __webpack_require__(16);
+axios.isCancel = __webpack_require__(6);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(28);
+axios.spread = __webpack_require__(31);
 
 module.exports = axios;
 
@@ -551,13 +981,13 @@ module.exports.default = axios;
 
 /***/ }),
 
-/***/ 13:
+/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(3);
+var Cancel = __webpack_require__(5);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -616,7 +1046,7 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 14:
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -624,10 +1054,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(1);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(15);
-var dispatchRequest = __webpack_require__(16);
-var isAbsoluteURL = __webpack_require__(24);
-var combineURLs = __webpack_require__(22);
+var InterceptorManager = __webpack_require__(18);
+var dispatchRequest = __webpack_require__(19);
+var isAbsoluteURL = __webpack_require__(27);
+var combineURLs = __webpack_require__(25);
 
 /**
  * Create a new instance of Axios
@@ -709,7 +1139,7 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 15:
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -769,15 +1199,15 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ 16:
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(19);
-var isCancel = __webpack_require__(4);
+var transformData = __webpack_require__(22);
+var isCancel = __webpack_require__(6);
 var defaults = __webpack_require__(1);
 
 /**
@@ -856,7 +1286,71 @@ module.exports = function dispatchRequest(config) {
 
 /***/ }),
 
-/***/ 17:
+/***/ 2:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var getAcademicContent = {
+    methods: {
+        getSubjectsFromGradeLevel: function getSubjectsFromGradeLevel(url, event) {
+
+            axios.post(url, {
+                grade_level_id: event.target.value
+            }).then(function (response) {
+                var option = new Option('Select subject', '');
+                $("#subject").html('').append(option);
+
+                $.each(response.data, function (i, item) {
+                    var option = new Option(item.name, item.id);
+                    $("#subject").append(option);
+                });
+
+                if ($('#subject').data('selected') != '') {
+
+                    $('#subject option[value=' + $('#subject').data('selected') + ']').prop('selected', true);
+                    var _event = document.createEvent('HTMLEvents');
+                    _event.initEvent('change', true, true);
+
+                    $('#subject')[0].dispatchEvent(_event);
+                }
+            });
+        },
+        getTopicsFromSubject: function getTopicsFromSubject(url, event) {
+
+            axios.post(url, {
+                subject_id: event.target.value
+            }).then(function (response) {
+                var option = new Option('Select topic', '');
+                $("#topic").html('').append(option);
+
+                $.each(response.data, function (i, item) {
+                    var option = new Option(item.name, item.id);
+                    $("#topic").append(option);
+                });
+
+                if ($('#topic').data('selected') != '') {
+                    $('#topic option[value=' + $('#topic').data('selected') + ']').prop('selected', true);
+                }
+            });
+        }
+    },
+    mounted: function mounted() {
+
+        if ($('#grade_level').length > 0 && $('#grade_level').data('selected') != '') {
+
+            $('#grade_level option[value=' + $('#grade_level').data('selected') + ']').prop('selected', true);
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', true, true);
+
+            $('#grade_level')[0].dispatchEvent(event);
+        }
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (getAcademicContent);
+
+/***/ }),
+
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -883,13 +1377,13 @@ module.exports = function enhanceError(error, config, code, response) {
 
 /***/ }),
 
-/***/ 18:
+/***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(5);
+var createError = __webpack_require__(7);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -916,7 +1410,7 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ 19:
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -944,192 +1438,7 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(18);
-var buildURL = __webpack_require__(21);
-var parseHeaders = __webpack_require__(27);
-var isURLSameOrigin = __webpack_require__(25);
-var createError = __webpack_require__(5);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(20);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(23);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        if (request.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-
-/***/ 20:
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1173,7 +1482,7 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 21:
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1249,7 +1558,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1269,7 +1578,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1330,7 +1639,102 @@ module.exports = (
 
 /***/ }),
 
-/***/ 24:
+/***/ 266:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    init: function init() {
+        var domElement = 'create-activity-bucket';
+        if (document.getElementById(domElement)) {
+            this.execute();
+        }
+    },
+    execute: function execute() {
+        new Vue({
+            el: '#create-activity-bucket',
+            data: {
+                activity_bucket_id: 0,
+                quizzes: [],
+                subject: '',
+                quizzes_selected: []
+            },
+            components: {
+                draggable: __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default.a
+            },
+            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */]],
+            beforeMount: function beforeMount() {
+
+                if (this.$el.attributes['data-activity-bucket-id'] !== undefined) {
+                    this.activity_bucket_id = this.$el.attributes['data-activity-bucket-id'].value;
+                }
+            },
+            methods: {
+                loadQuizzes: function loadQuizzes(url, event) {
+                    if (this.subject != '') {
+
+                        this.quizzes = [];
+                        var quizzes = this.quizzes;
+
+                        axios.post(url, {
+                            type: this.type,
+                            subject: this.subject
+                        }).then(function (response) {
+
+                            $.each(response.data, function (i, item) {
+                                quizzes.push(item);
+                            });
+                        });
+                    }
+                },
+                onDragEnd: function onDragEnd(url, event) {
+                    axios.post(url, {
+                        quizzes: this.quizzes_selected,
+                        activity_bucket_id: this.activity_bucket_id
+                    }).then(function (response) {});
+                },
+
+                quizSelected: function quizSelected(quiz) {
+                    return _.findIndex(this.quizzes_selected, function (d) {
+                        return d.id == quiz.id;
+                    }) >= 0;
+                },
+                minigameSelected: function minigameSelected(quiz, minigame_id) {
+                    return this.quizzes_selected[_.findIndex(this.quizzes_selected, function (d) {
+                        return d.id == quiz.id;
+                    })].pivot.minigame_id == minigame_id;
+                }
+            },
+            computed: {
+                dragOptions: function dragOptions() {
+                    return {
+                        handle: '.drag_handle'
+                    };
+                }
+            },
+            mounted: function mounted() {
+                if (this.$el.attributes['data-quizzes'] !== undefined) {
+                    var quizzes = $.parseJSON(this.$el.attributes['data-quizzes'].value);
+                    var vue_instance = this;
+
+                    $.each(quizzes, function (index, quizzes) {
+                        vue_instance.quizzes_selected.push({ id: quizzes.id, title: quizzes.title, description: quizzes.description, pivot: quizzes.pivot });
+                    });
+                }
+            }
+        });
+    }
+});
+
+/***/ }),
+
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1352,7 +1756,7 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ 25:
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1428,71 +1832,27 @@ module.exports = (
 
 /***/ }),
 
-/***/ 258:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 29:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var getAcademicContent = {
-    methods: {
-        getSubjectsFromGradeLevel: function getSubjectsFromGradeLevel(url, event) {
 
-            axios.post(url, {
-                grade_level_id: event.target.value
-            }).then(function (response) {
-                var option = new Option('Select subject', '');
-                $("#subject").html('').append(option);
 
-                $.each(response.data, function (i, item) {
-                    var option = new Option(item.name, item.id);
-                    $("#subject").append(option);
-                });
+var utils = __webpack_require__(0);
 
-                if ($('#subject').data('selected') != '') {
-
-                    $('#subject option[value=' + $('#subject').data('selected') + ']').prop('selected', true);
-                    var _event = document.createEvent('HTMLEvents');
-                    _event.initEvent('change', true, true);
-
-                    $('#subject')[0].dispatchEvent(_event);
-                }
-            });
-        },
-        getTopicsFromSubject: function getTopicsFromSubject(url, event) {
-
-            axios.post(url, {
-                subject_id: event.target.value
-            }).then(function (response) {
-                var option = new Option('Select topic', '');
-                $("#topic").html('').append(option);
-
-                $.each(response.data, function (i, item) {
-                    var option = new Option(item.name, item.id);
-                    $("#topic").append(option);
-                });
-
-                if ($('#topic').data('selected') != '') {
-                    $('#topic option[value=' + $('#topic').data('selected') + ']').prop('selected', true);
-                }
-            });
-        }
-    },
-    mounted: function mounted() {
-
-        if ($('#grade_level').length > 0 && $('#grade_level').data('selected') != '') {
-
-            $('#grade_level option[value=' + $('#grade_level').data('selected') + ']').prop('selected', true);
-            var event = document.createEvent('HTMLEvents');
-            event.initEvent('change', true, true);
-
-            $('#grade_level')[0].dispatchEvent(event);
-        }
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
     }
+  });
 };
-/* harmony default export */ __webpack_exports__["a"] = (getAcademicContent);
+
 
 /***/ }),
 
-/***/ 259:
+/***/ 3:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1524,7 +1884,7 @@ var imagePreview = {
 
 /***/ }),
 
-/***/ 26:
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1532,24 +1892,269 @@ var imagePreview = {
 
 var utils = __webpack_require__(0);
 
-module.exports = function normalizeHeaderName(headers, normalizedName) {
-  utils.forEach(headers, function processHeader(value, name) {
-    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-      headers[normalizedName] = value;
-      delete headers[name];
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
     }
   });
+
+  return parsed;
 };
 
 
 /***/ }),
 
-/***/ 260:
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+window._ = __webpack_require__(53);
+
+/**
+ * We'll load jQuery and the Bootstrap jQuery plugin which provides support
+ * for JavaScript based Bootstrap features such as modals and tabs. This
+ * code may be modified to fit the specific needs of your application.
+ */
+
+try {
+  window.$ = window.jQuery = __webpack_require__(9);
+
+  __webpack_require__(40);
+} catch (e) {}
+
+/**
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
+ */
+
+window.axios = __webpack_require__(14);
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+/**
+ * Next we will register the CSRF Token as a common header with Axios so that
+ * all outgoing HTTP requests automatically have it attached. This is just
+ * a simple convenience so we don't have to attach every token manually.
+ */
+
+var token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
+// import Echo from 'laravel-echo'
+
+// window.Pusher = require('pusher-js');
+
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: 'your-pusher-key'
+// });
+
+/***/ }),
+
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(258);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(259);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    init: function init() {
+        var domElement = 'create-meetup';
+        if (document.getElementById(domElement)) {
+            this.execute();
+        }
+    },
+    execute: function execute() {
+        new Vue({
+            el: '#create-meetup',
+            data: {
+                activity_buckets: [],
+                subject: '',
+                add_existing_activity_bucket: false,
+                selected_activity_bucket: 0
+            },
+            components: {
+                draggable: __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default.a
+            },
+            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */]],
+            beforeMount: function beforeMount() {
+                if ($('#existing_ab').length > 0 && $('#existing_ab').data('checked') != '') {
+                    this.add_existing_activity_bucket = true;
+                    this.selected_activity_bucket = $('#existing_ab').data('checked');
+                }
+            },
+            methods: {
+                loadActivityBuckets: function loadActivityBuckets(url, event) {
+                    if (this.add_existing_activity_bucket && this.subject != '') {
+
+                        this.activity_buckets = [];
+                        var activity_buckets = this.activity_buckets;
+
+                        axios.post(url, {
+                            subject: this.subject
+                        }).then(function (response) {
+
+                            $.each(response.data, function (i, item) {
+                                activity_buckets.push(item);
+                            });
+                        });
+                    }
+                },
+                getRoomsAndInstructorsFromLocation: function getRoomsAndInstructorsFromLocation(rooms_url, instructors_url, event) {
+
+                    axios.post(rooms_url, {
+                        location_id: event.target.value
+                    }).then(function (response) {
+                        var option = new Option('Select room', '');
+                        $("#room").html('').append(option);
+
+                        $.each(response.data, function (i, item) {
+                            var option = new Option(item.name, item.id);
+                            $("#room").append(option);
+                        });
+
+                        if ($('#room').data('selected') != '') {
+
+                            $('#room option[value=' + $('#room').data('selected') + ']').prop('selected', true);
+                            var _event = document.createEvent('HTMLEvents');
+                            _event.initEvent('change', true, true);
+
+                            $('#room')[0].dispatchEvent(_event);
+                        }
+                    });
+
+                    axios.post(instructors_url, {
+                        location_id: event.target.value
+                    }).then(function (response) {
+                        var option = new Option('Select instructor', '');
+                        $("#user").html('').append(option);
+
+                        $.each(response.data, function (i, item) {
+                            var option = new Option(item.full_name, item.id);
+                            $("#user").append(option);
+                        });
+
+                        if ($('#user').data('selected') != '') {
+
+                            $('#user option[value=' + $('#user').data('selected') + ']').prop('selected', true);
+                            var _event2 = document.createEvent('HTMLEvents');
+                            _event2.initEvent('change', true, true);
+
+                            $('#user')[0].dispatchEvent(_event2);
+                        }
+                    });
+                },
+
+                activityBucketSelected: function activityBucketSelected(activity_bucket) {
+                    return this.selected_activity_bucket == activity_bucket.id;
+                }
+            },
+            mounted: function mounted() {
+                __webpack_require__(39);
+
+                $('.datepicker-meetup').datepicker({
+                    autoclose: true,
+                    startDate: new Date()
+                });
+
+                $('.timepicker').timepicker();
+
+                if ($('#location').length > 0 && $('#location').data('selected') != '') {
+                    $('#location option[value=' + $('#location').data('selected') + ']').prop('selected', true);
+                    var event = document.createEvent('HTMLEvents');
+                    event.initEvent('change', true, true);
+
+                    $('#location')[0].dispatchEvent(event);
+                }
+            }
+        });
+    }
+});
+
+/***/ }),
+
+/***/ 34:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(3);
 
 
 
@@ -1605,12 +2210,15 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 /***/ }),
 
-/***/ 261:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(258);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(259);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
+
 
 
 
@@ -1625,9 +2233,14 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
         new Vue({
             el: '#create-quiz',
             data: {
-                children: [],
+                quiz_id: 0,
+                questions: [],
                 type: '',
-                subject: ''
+                subject: '',
+                questions_selected: []
+            },
+            components: {
+                draggable: __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default.a
             },
             mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */]],
             beforeMount: function beforeMount() {
@@ -1636,200 +2249,72 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
                 if ($('#type').length > 0) {
                     this.type = $('#type').children('option:selected').val();
                 }
-            },
-            methods: {
-                addChildren: function addChildren() {
-                    this.children.push({ name: '' });
-                },
-                removeChildren: function removeChildren(index) {
-                    this.children.splice(index, 1);
-                },
-                loadQuestions: function loadQuestions() {
-                    if (this.type != '' && this.subject != '') {
-                        console.log('bla');
-                    }
+
+                if (this.$el.attributes['data-quiz-id'] !== undefined) {
+                    this.quiz_id = this.$el.attributes['data-quiz-id'].value;
                 }
             },
-            mounted: function mounted() {}
+            methods: {
+                loadQuestions: function loadQuestions(url, event) {
+                    if (this.type != '' && this.subject != '') {
+
+                        this.questions = [];
+                        var questions = this.questions;
+
+                        axios.post(url, {
+                            type: this.type,
+                            subject: this.subject
+                        }).then(function (response) {
+
+                            $.each(response.data, function (i, item) {
+                                questions.push(item);
+                            });
+                        });
+                    }
+                },
+                onDragEnd: function onDragEnd(url, event) {
+                    axios.post(url, {
+                        questions: this.questions_selected,
+                        quiz_id: this.quiz_id
+                    }).then(function (response) {});
+                },
+
+                questionSelected: function questionSelected(question) {
+                    return _.findIndex(this.questions_selected, function (d) {
+                        return d.id == question.id;
+                    }) >= 0;
+                }
+            },
+            computed: {
+                dragOptions: function dragOptions() {
+                    return {
+                        handle: '.drag_handle'
+                    };
+                }
+            },
+            mounted: function mounted() {
+                if (this.$el.attributes['data-questions'] !== undefined) {
+                    var questions = $.parseJSON(this.$el.attributes['data-questions'].value);
+                    var vue_instance = this;
+
+                    $.each(questions, function (index, questions) {
+                        vue_instance.questions_selected.push({ title: questions.title, photo: questions.photo, id: questions.id });
+                    });
+                }
+            }
         });
     }
 });
 
 /***/ }),
 
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-/**
- * Parse headers into an object
- *
- * ```
- * Date: Wed, 27 Aug 2014 08:58:49 GMT
- * Content-Type: application/json
- * Connection: keep-alive
- * Transfer-Encoding: chunked
- * ```
- *
- * @param {String} headers Headers needing to be parsed
- * @returns {Object} Headers parsed into an object
- */
-module.exports = function parseHeaders(headers) {
-  var parsed = {};
-  var key;
-  var val;
-  var i;
-
-  if (!headers) { return parsed; }
-
-  utils.forEach(headers.split('\n'), function parser(line) {
-    i = line.indexOf(':');
-    key = utils.trim(line.substr(0, i)).toLowerCase();
-    val = utils.trim(line.substr(i + 1));
-
-    if (key) {
-      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
-    }
-  });
-
-  return parsed;
-};
-
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Syntactic sugar for invoking a function and expanding an array for arguments.
- *
- * Common use case would be to use `Function.prototype.apply`.
- *
- *  ```js
- *  function f(x, y, z) {}
- *  var args = [1, 2, 3];
- *  f.apply(null, args);
- *  ```
- *
- * With `spread` this example can be re-written.
- *
- *  ```js
- *  spread(function(x, y, z) {})([1, 2, 3]);
- *  ```
- *
- * @param {Function} callback
- * @returns {Function}
- */
-module.exports = function spread(callback) {
-  return function wrap(arr) {
-    return callback.apply(null, arr);
-  };
-};
-
-
-/***/ }),
-
-/***/ 29:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-window._ = __webpack_require__(47);
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-try {
-  window.$ = window.jQuery = __webpack_require__(7);
-
-  __webpack_require__(34);
-} catch (e) {}
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-window.axios = __webpack_require__(11);
-
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
-
-var token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from 'laravel-echo'
-
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-
-/***/ 30:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(259);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(3);
 
 
 
@@ -1866,7 +2351,7 @@ module.exports = Cancel;
             },
             mounted: function mounted() {
 
-                $('.datepicker').datepicker({
+                $('.datepicker-birthday').datepicker({
                     autoclose: true,
                     startView: 'decade'
                 });
@@ -1877,11 +2362,11 @@ module.exports = Cancel;
 
 /***/ }),
 
-/***/ 31:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
 
 
@@ -1951,8 +2436,6 @@ module.exports = Cancel;
                         status: event.target.checked
                     }).then(function (response) {
                         console.log(response);
-                    }).catch(function (error) {
-                        console.log(error);
                     });
                 }
             },
@@ -1963,7 +2446,7 @@ module.exports = Cancel;
 
 /***/ }),
 
-/***/ 32:
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1974,7 +2457,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  */(function(factory){
     if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(7)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(9)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -4069,384 +4552,1395 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 33:
+/***/ 39:
 /***/ (function(module, exports) {
 
-/*
- * bootstrap-filestyle
- * doc: http://markusslima.github.io/bootstrap-filestyle/
- * github: https://github.com/markusslima/bootstrap-filestyle
+/*!
+ * Timepicker Component for Twitter Bootstrap
  *
- * Copyright (c) 2014 Markus Vinicius da Silva Lima
- * Version 1.2.1
- * Licensed under the MIT license.
+ * Copyright 2013 Joris de Wit and bootstrap-timepicker contributors
+ *
+ * Contributors https://github.com/jdewit/bootstrap-timepicker/graphs/contributors
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
-(function($) {"use strict";
+(function($, window, document) {
+  'use strict';
 
-    var nextId = 0;
+  // TIMEPICKER PUBLIC CLASS DEFINITION
+  var Timepicker = function(element, options) {
+    this.widget = '';
+    this.$element = $(element);
+    this.defaultTime = options.defaultTime;
+    this.disableFocus = options.disableFocus;
+    this.disableMousewheel = options.disableMousewheel;
+    this.isOpen = options.isOpen;
+    this.minuteStep = options.minuteStep;
+    this.modalBackdrop = options.modalBackdrop;
+    this.orientation = options.orientation;
+    this.secondStep = options.secondStep;
+    this.snapToStep = options.snapToStep;
+    this.showInputs = options.showInputs;
+    this.showMeridian = options.showMeridian;
+    this.showSeconds = options.showSeconds;
+    this.template = options.template;
+    this.appendWidgetTo = options.appendWidgetTo;
+    this.showWidgetOnAddonClick = options.showWidgetOnAddonClick;
+    this.icons = options.icons;
+    this.maxHours = options.maxHours;
+    this.explicitMode = options.explicitMode; // If true 123 = 1:23, 12345 = 1:23:45, else invalid.
 
-	var Filestyle = function(element, options) {
-		this.options = options;
-		this.$elementFilestyle = [];
-		this.$element = $(element);
-	};
+    this.handleDocumentClick = function (e) {
+      var self = e.data.scope;
+      // This condition was inspired by bootstrap-datepicker.
+      // The element the timepicker is invoked on is the input but it has a sibling for addon/button.
+      if (!(self.$element.parent().find(e.target).length ||
+          self.$widget.is(e.target) ||
+          self.$widget.find(e.target).length)) {
+        self.hideWidget();
+      }
+    };
 
-	Filestyle.prototype = {
-		clear : function() {
-			this.$element.val('');
-			this.$elementFilestyle.find(':text').val('');
-			this.$elementFilestyle.find('.badge').remove();
-		},
+    this._init();
+  };
 
-		destroy : function() {
-			this.$element.removeAttr('style').removeData('filestyle');
-			this.$elementFilestyle.remove();
-		},
+  Timepicker.prototype = {
 
-		disabled : function(value) {
-			if (value === true) {
-				if (!this.options.disabled) {
-					this.$element.attr('disabled', 'true');
-					this.$elementFilestyle.find('label').attr('disabled', 'true');
-					this.options.disabled = true;
-				}
-			} else if (value === false) {
-				if (this.options.disabled) {
-					this.$element.removeAttr('disabled');
-					this.$elementFilestyle.find('label').removeAttr('disabled');
-					this.options.disabled = false;
-				}
-			} else {
-				return this.options.disabled;
-			}
-		},
+    constructor: Timepicker,
+    _init: function() {
+      var self = this;
 
-		buttonBefore : function(value) {
-			if (value === true) {
-				if (!this.options.buttonBefore) {
-					this.options.buttonBefore = true;
-					if (this.options.input) {
-						this.$elementFilestyle.remove();
-						this.constructor();
-						this.pushNameFiles();
-					}
-				}
-			} else if (value === false) {
-				if (this.options.buttonBefore) {
-					this.options.buttonBefore = false;
-					if (this.options.input) {
-						this.$elementFilestyle.remove();
-						this.constructor();
-						this.pushNameFiles();
-					}
-				}
-			} else {
-				return this.options.buttonBefore;
-			}
-		},
+      if (this.showWidgetOnAddonClick && (this.$element.parent().hasClass('input-group') && this.$element.parent().hasClass('bootstrap-timepicker'))) {
+        this.$element.parent('.input-group.bootstrap-timepicker').find('.input-group-addon').on({
+          'click.timepicker': $.proxy(this.showWidget, this)
+        });
+        this.$element.on({
+          'focus.timepicker': $.proxy(this.highlightUnit, this),
+          'click.timepicker': $.proxy(this.highlightUnit, this),
+          'keydown.timepicker': $.proxy(this.elementKeydown, this),
+          'blur.timepicker': $.proxy(this.blurElement, this),
+          'mousewheel.timepicker DOMMouseScroll.timepicker': $.proxy(this.mousewheel, this)
+        });
+      } else {
+        if (this.template) {
+          this.$element.on({
+            'focus.timepicker': $.proxy(this.showWidget, this),
+            'click.timepicker': $.proxy(this.showWidget, this),
+            'blur.timepicker': $.proxy(this.blurElement, this),
+            'mousewheel.timepicker DOMMouseScroll.timepicker': $.proxy(this.mousewheel, this)
+          });
+        } else {
+          this.$element.on({
+            'focus.timepicker': $.proxy(this.highlightUnit, this),
+            'click.timepicker': $.proxy(this.highlightUnit, this),
+            'keydown.timepicker': $.proxy(this.elementKeydown, this),
+            'blur.timepicker': $.proxy(this.blurElement, this),
+            'mousewheel.timepicker DOMMouseScroll.timepicker': $.proxy(this.mousewheel, this)
+          });
+        }
+      }
 
-		icon : function(value) {
-			if (value === true) {
-				if (!this.options.icon) {
-					this.options.icon = true;
-					this.$elementFilestyle.find('label').prepend(this.htmlIcon());
-				}
-			} else if (value === false) {
-				if (this.options.icon) {
-					this.options.icon = false;
-					this.$elementFilestyle.find('.icon-span-filestyle').remove();
-				}
-			} else {
-				return this.options.icon;
-			}
-		},
-		
-		input : function(value) {
-			if (value === true) {
-				if (!this.options.input) {
-					this.options.input = true;
+      if (this.template !== false) {
+        this.$widget = $(this.getTemplate()).on('click', $.proxy(this.widgetClick, this));
+      } else {
+        this.$widget = false;
+      }
 
-					if (this.options.buttonBefore) {
-						this.$elementFilestyle.append(this.htmlInput());
-					} else {
-						this.$elementFilestyle.prepend(this.htmlInput());
-					}
+      if (this.showInputs && this.$widget !== false) {
+        this.$widget.find('input').each(function() {
+          $(this).on({
+            'click.timepicker': function() { $(this).select(); },
+            'keydown.timepicker': $.proxy(self.widgetKeydown, self),
+            'keyup.timepicker': $.proxy(self.widgetKeyup, self)
+          });
+        });
+      }
 
-					this.$elementFilestyle.find('.badge').remove();
+      this.setDefaultTime(this.defaultTime);
+    },
 
-					this.pushNameFiles();
+    blurElement: function() {
+      this.highlightedUnit = null;
+      this.updateFromElementVal();
+    },
 
-					this.$elementFilestyle.find('.group-span-filestyle').addClass('input-group-btn');
-				}
-			} else if (value === false) {
-				if (this.options.input) {
-					this.options.input = false;
-					this.$elementFilestyle.find(':text').remove();
-					var files = this.pushNameFiles();
-					if (files.length > 0 && this.options.badge) {
-						this.$elementFilestyle.find('label').append(' <span class="badge">' + files.length + '</span>');
-					}
-					this.$elementFilestyle.find('.group-span-filestyle').removeClass('input-group-btn');
-				}
-			} else {
-				return this.options.input;
-			}
-		},
+    clear: function() {
+      this.hour = '';
+      this.minute = '';
+      this.second = '';
+      this.meridian = '';
 
-		size : function(value) {
-			if (value !== undefined) {
-				var btn = this.$elementFilestyle.find('label'), input = this.$elementFilestyle.find('input');
+      this.$element.val('');
+    },
 
-				btn.removeClass('btn-lg btn-sm');
-				input.removeClass('input-lg input-sm');
-				if (value != 'nr') {
-					btn.addClass('btn-' + value);
-					input.addClass('input-' + value);
-				}
-			} else {
-				return this.options.size;
-			}
-		},
-		
-		placeholder : function(value) {
-			if (value !== undefined) {
-				this.options.placeholder = value;
-				this.$elementFilestyle.find('input').attr('placeholder', value);
-			} else {
-				return this.options.placeholder;
-			}
-		},		
+    decrementHour: function() {
+      if (this.showMeridian) {
+        if (this.hour === 1) {
+          this.hour = 12;
+        } else if (this.hour === 12) {
+          this.hour--;
 
-		buttonText : function(value) {
-			if (value !== undefined) {
-				this.options.buttonText = value;
-				this.$elementFilestyle.find('label .buttonText').html(this.options.buttonText);
-			} else {
-				return this.options.buttonText;
-			}
-		},
-		
-		buttonName : function(value) {
-			if (value !== undefined) {
-				this.options.buttonName = value;
-				this.$elementFilestyle.find('label').attr({
-					'class' : 'btn ' + this.options.buttonName
-				});
-			} else {
-				return this.options.buttonName;
-			}
-		},
+          return this.toggleMeridian();
+        } else if (this.hour === 0) {
+          this.hour = 11;
 
-		iconName : function(value) {
-			if (value !== undefined) {
-				this.$elementFilestyle.find('.icon-span-filestyle').attr({
-					'class' : 'icon-span-filestyle ' + this.options.iconName
-				});
-			} else {
-				return this.options.iconName;
-			}
-		},
+          return this.toggleMeridian();
+        } else {
+          this.hour--;
+        }
+      } else {
+        if (this.hour <= 0) {
+          this.hour = this.maxHours - 1;
+        } else {
+          this.hour--;
+        }
+      }
+    },
 
-		htmlIcon : function() {
-			if (this.options.icon) {
-				return '<span class="icon-span-filestyle ' + this.options.iconName + '"></span> ';
-			} else {
-				return '';
-			}
-		},
+    decrementMinute: function(step) {
+      var newVal;
 
-		htmlInput : function() {
-			if (this.options.input) {
-				return '<input type="text" class="form-control ' + (this.options.size == 'nr' ? '' : 'input-' + this.options.size) + '" placeholder="'+ this.options.placeholder +'" disabled> ';
-			} else {
-				return '';
-			}
-		},
+      if (step) {
+        newVal = this.minute - step;
+      } else {
+        newVal = this.minute - this.minuteStep;
+      }
 
-		// puts the name of the input files
-		// return files
-		pushNameFiles : function() {
-			var content = '', files = [];
-			if (this.$element[0].files === undefined) {
-				files[0] = {
-					'name' : this.$element[0] && this.$element[0].value
-				};
-			} else {
-				files = this.$element[0].files;
-			}
+      if (newVal < 0) {
+        this.decrementHour();
+        this.minute = newVal + 60;
+      } else {
+        this.minute = newVal;
+      }
+    },
 
-			for (var i = 0; i < files.length; i++) {
-				content += files[i].name.split("\\").pop() + ', ';
-			}
+    decrementSecond: function() {
+      var newVal = this.second - this.secondStep;
 
-			if (content !== '') {
-				this.$elementFilestyle.find(':text').val(content.replace(/\, $/g, ''));
-			} else {
-				this.$elementFilestyle.find(':text').val('');
-			}
-			
-			return files;
-		},
+      if (newVal < 0) {
+        this.decrementMinute(true);
+        this.second = newVal + 60;
+      } else {
+        this.second = newVal;
+      }
+    },
 
-		constructor : function() {
-			var _self = this, 
-				html = '', 
-				id = _self.$element.attr('id'), 
-				files = [], 
-				btn = '', 
-				$label;
+    elementKeydown: function(e) {
+      switch (e.which) {
+      case 9: //tab
+        if (e.shiftKey) {
+          if (this.highlightedUnit === 'hour') {
+            this.hideWidget();
+            break;
+          }
+          this.highlightPrevUnit();
+        } else if ((this.showMeridian && this.highlightedUnit === 'meridian') || (this.showSeconds && this.highlightedUnit === 'second') || (!this.showMeridian && !this.showSeconds && this.highlightedUnit ==='minute')) {
+          this.hideWidget();
+          break;
+        } else {
+          this.highlightNextUnit();
+        }
+        e.preventDefault();
+        this.updateFromElementVal();
+        break;
+      case 27: // escape
+        this.updateFromElementVal();
+        break;
+      case 37: // left arrow
+        e.preventDefault();
+        this.highlightPrevUnit();
+        this.updateFromElementVal();
+        break;
+      case 38: // up arrow
+        e.preventDefault();
+        switch (this.highlightedUnit) {
+        case 'hour':
+          this.incrementHour();
+          this.highlightHour();
+          break;
+        case 'minute':
+          this.incrementMinute();
+          this.highlightMinute();
+          break;
+        case 'second':
+          this.incrementSecond();
+          this.highlightSecond();
+          break;
+        case 'meridian':
+          this.toggleMeridian();
+          this.highlightMeridian();
+          break;
+        }
+        this.update();
+        break;
+      case 39: // right arrow
+        e.preventDefault();
+        this.highlightNextUnit();
+        this.updateFromElementVal();
+        break;
+      case 40: // down arrow
+        e.preventDefault();
+        switch (this.highlightedUnit) {
+        case 'hour':
+          this.decrementHour();
+          this.highlightHour();
+          break;
+        case 'minute':
+          this.decrementMinute();
+          this.highlightMinute();
+          break;
+        case 'second':
+          this.decrementSecond();
+          this.highlightSecond();
+          break;
+        case 'meridian':
+          this.toggleMeridian();
+          this.highlightMeridian();
+          break;
+        }
 
-			if (id === '' || !id) {
-				id = 'filestyle-' + nextId;
-				_self.$element.attr({
-					'id' : id
-				});
-                nextId++;
-			}
+        this.update();
+        break;
+      }
+    },
 
-			btn = '<span class="group-span-filestyle ' + (_self.options.input ? 'input-group-btn' : '') + '">' + 
-			  '<label for="' + id + '" class="btn ' + _self.options.buttonName + ' ' + 
-			(_self.options.size == 'nr' ? '' : 'btn-' + _self.options.size) + '" ' + 
-			(_self.options.disabled ? 'disabled="true"' : '') + '>' + 
-			_self.htmlIcon() + '<span class="buttonText">' + _self.options.buttonText + '</span>' + 
-			  '</label>' + 
-			  '</span>';
-			
-			html = _self.options.buttonBefore ? btn + _self.htmlInput() : _self.htmlInput() + btn;
-			
-			_self.$elementFilestyle = $('<div class="bootstrap-filestyle input-group">' + html + '</div>');
-			_self.$elementFilestyle.find('.group-span-filestyle').attr('tabindex', "0").keypress(function(e) {
-			if (e.keyCode === 13 || e.charCode === 32) {
-				_self.$elementFilestyle.find('label').click();
-					return false;
-				}
-			});
+    getCursorPosition: function() {
+      var input = this.$element.get(0);
 
-			// hidding input file and add filestyle
-			_self.$element.css({
-				'position' : 'absolute',
-				'clip' : 'rect(0px 0px 0px 0px)' // using 0px for work in IE8
-			}).attr('tabindex', "-1").after(_self.$elementFilestyle);
+      if ('selectionStart' in input) {// Standard-compliant browsers
 
-			if (_self.options.disabled) {
-				_self.$element.attr('disabled', 'true');
-			}
+        return input.selectionStart;
+      } else if (document.selection) {// IE fix
+        input.focus();
+        var sel = document.selection.createRange(),
+          selLen = document.selection.createRange().text.length;
 
-			// Getting input file value
-			_self.$element.change(function() {
-				var files = _self.pushNameFiles();
+        sel.moveStart('character', - input.value.length);
 
-				if (_self.options.input == false && _self.options.badge) {
-					if (_self.$elementFilestyle.find('.badge').length == 0) {
-						_self.$elementFilestyle.find('label').append(' <span class="badge">' + files.length + '</span>');
-					} else if (files.length == 0) {
-						_self.$elementFilestyle.find('.badge').remove();
-					} else {
-						_self.$elementFilestyle.find('.badge').html(files.length);
-					}
-				} else {
-					_self.$elementFilestyle.find('.badge').remove();
-				}
-			});
+        return sel.text.length - selLen;
+      }
+    },
 
-			// Check if browser is Firefox
-			if (window.navigator.userAgent.search(/firefox/i) > -1) {
-				// Simulating choose file for firefox
-				_self.$elementFilestyle.find('label').click(function() {
-					_self.$element.click();
-					return false;
-				});
-			}
-		}
-	};
+    getTemplate: function() {
+      var template,
+        hourTemplate,
+        minuteTemplate,
+        secondTemplate,
+        meridianTemplate,
+        templateContent;
 
-	var old = $.fn.filestyle;
+      if (this.showInputs) {
+        hourTemplate = '<input type="text" class="bootstrap-timepicker-hour" maxlength="2"/>';
+        minuteTemplate = '<input type="text" class="bootstrap-timepicker-minute" maxlength="2"/>';
+        secondTemplate = '<input type="text" class="bootstrap-timepicker-second" maxlength="2"/>';
+        meridianTemplate = '<input type="text" class="bootstrap-timepicker-meridian" maxlength="2"/>';
+      } else {
+        hourTemplate = '<span class="bootstrap-timepicker-hour"></span>';
+        minuteTemplate = '<span class="bootstrap-timepicker-minute"></span>';
+        secondTemplate = '<span class="bootstrap-timepicker-second"></span>';
+        meridianTemplate = '<span class="bootstrap-timepicker-meridian"></span>';
+      }
 
-	$.fn.filestyle = function(option, value) {
-		var get = '', element = this.each(function() {
-			if ($(this).attr('type') === 'file') {
-				var $this = $(this), data = $this.data('filestyle'), options = $.extend({}, $.fn.filestyle.defaults, option, typeof option === 'object' && option);
+      templateContent = '<table>'+
+         '<tr>'+
+           '<td><a href="#" data-action="incrementHour"><span class="'+ this.icons.up +'"></span></a></td>'+
+           '<td class="separator">&nbsp;</td>'+
+           '<td><a href="#" data-action="incrementMinute"><span class="'+ this.icons.up +'"></span></a></td>'+
+           (this.showSeconds ?
+             '<td class="separator">&nbsp;</td>'+
+             '<td><a href="#" data-action="incrementSecond"><span class="'+ this.icons.up +'"></span></a></td>'
+           : '') +
+           (this.showMeridian ?
+             '<td class="separator">&nbsp;</td>'+
+             '<td class="meridian-column"><a href="#" data-action="toggleMeridian"><span class="'+ this.icons.up +'"></span></a></td>'
+           : '') +
+         '</tr>'+
+         '<tr>'+
+           '<td>'+ hourTemplate +'</td> '+
+           '<td class="separator">:</td>'+
+           '<td>'+ minuteTemplate +'</td> '+
+           (this.showSeconds ?
+            '<td class="separator">:</td>'+
+            '<td>'+ secondTemplate +'</td>'
+           : '') +
+           (this.showMeridian ?
+            '<td class="separator">&nbsp;</td>'+
+            '<td>'+ meridianTemplate +'</td>'
+           : '') +
+         '</tr>'+
+         '<tr>'+
+           '<td><a href="#" data-action="decrementHour"><span class="'+ this.icons.down +'"></span></a></td>'+
+           '<td class="separator"></td>'+
+           '<td><a href="#" data-action="decrementMinute"><span class="'+ this.icons.down +'"></span></a></td>'+
+           (this.showSeconds ?
+            '<td class="separator">&nbsp;</td>'+
+            '<td><a href="#" data-action="decrementSecond"><span class="'+ this.icons.down +'"></span></a></td>'
+           : '') +
+           (this.showMeridian ?
+            '<td class="separator">&nbsp;</td>'+
+            '<td><a href="#" data-action="toggleMeridian"><span class="'+ this.icons.down +'"></span></a></td>'
+           : '') +
+         '</tr>'+
+       '</table>';
 
-				if (!data) {
-					$this.data('filestyle', ( data = new Filestyle(this, options)));
-					data.constructor();
-				}
+      switch(this.template) {
+      case 'modal':
+        template = '<div class="bootstrap-timepicker-widget modal hide fade in" data-backdrop="'+ (this.modalBackdrop ? 'true' : 'false') +'">'+
+          '<div class="modal-header">'+
+            '<a href="#" class="close" data-dismiss="modal">&times;</a>'+
+            '<h3>Pick a Time</h3>'+
+          '</div>'+
+          '<div class="modal-content">'+
+            templateContent +
+          '</div>'+
+          '<div class="modal-footer">'+
+            '<a href="#" class="btn btn-primary" data-dismiss="modal">OK</a>'+
+          '</div>'+
+        '</div>';
+        break;
+      case 'dropdown':
+        template = '<div class="bootstrap-timepicker-widget dropdown-menu">'+ templateContent +'</div>';
+        break;
+      }
 
-				if ( typeof option === 'string') {
-					get = data[option](value);
-				}
-			}
-		});
+      return template;
+    },
 
-		if ( typeof get !== undefined) {
-			return get;
-		} else {
-			return element;
-		}
-	};
+    getTime: function() {
+      if (this.hour === '') {
+        return '';
+      }
 
-	$.fn.filestyle.defaults = {
-		'buttonText' : 'Choose file',
-		'iconName' : 'glyphicon glyphicon-folder-open',
-		'buttonName' : 'btn-default',
-		'size' : 'nr',
-		'input' : true,
-		'badge' : true,
-		'icon' : true,
-		'buttonBefore' : false,
-		'disabled' : false,
-		'placeholder': ''
-	};
+      return this.hour + ':' + (this.minute.toString().length === 1 ? '0' + this.minute : this.minute) + (this.showSeconds ? ':' + (this.second.toString().length === 1 ? '0' + this.second : this.second) : '') + (this.showMeridian ? ' ' + this.meridian : '');
+    },
 
-	$.fn.filestyle.noConflict = function() {
-		$.fn.filestyle = old;
-		return this;
-	};
+    hideWidget: function() {
+      if (this.isOpen === false) {
+        return;
+      }
 
-	$(function() {
-		$('.filestyle').each(function() {
-			var $this = $(this), options = {
+      this.$element.trigger({
+        'type': 'hide.timepicker',
+        'time': {
+          'value': this.getTime(),
+          'hours': this.hour,
+          'minutes': this.minute,
+          'seconds': this.second,
+          'meridian': this.meridian
+        }
+      });
 
-				'input' : $this.attr('data-input') === 'false' ? false : true,
-				'icon' : $this.attr('data-icon') === 'false' ? false : true,
-				'buttonBefore' : $this.attr('data-buttonBefore') === 'true' ? true : false,
-				'disabled' : $this.attr('data-disabled') === 'true' ? true : false,
-				'size' : $this.attr('data-size'),
-				'buttonText' : $this.attr('data-buttonText'),
-				'buttonName' : $this.attr('data-buttonName'),
-				'iconName' : $this.attr('data-iconName'),
-				'badge' : $this.attr('data-badge') === 'false' ? false : true,
-				'placeholder': $this.attr('data-placeholder')
-			};
+      if (this.template === 'modal' && this.$widget.modal) {
+        this.$widget.modal('hide');
+      } else {
+        this.$widget.removeClass('open');
+      }
 
-			$this.filestyle(options);
-		});
-	});
-})(window.jQuery);
+      $(document).off('mousedown.timepicker, touchend.timepicker', this.handleDocumentClick);
+
+      this.isOpen = false;
+      // show/hide approach taken by datepicker
+      this.$widget.detach();
+    },
+
+    highlightUnit: function() {
+      this.position = this.getCursorPosition();
+      if (this.position >= 0 && this.position <= 2) {
+        this.highlightHour();
+      } else if (this.position >= 3 && this.position <= 5) {
+        this.highlightMinute();
+      } else if (this.position >= 6 && this.position <= 8) {
+        if (this.showSeconds) {
+          this.highlightSecond();
+        } else {
+          this.highlightMeridian();
+        }
+      } else if (this.position >= 9 && this.position <= 11) {
+        this.highlightMeridian();
+      }
+    },
+
+    highlightNextUnit: function() {
+      switch (this.highlightedUnit) {
+      case 'hour':
+        this.highlightMinute();
+        break;
+      case 'minute':
+        if (this.showSeconds) {
+          this.highlightSecond();
+        } else if (this.showMeridian){
+          this.highlightMeridian();
+        } else {
+          this.highlightHour();
+        }
+        break;
+      case 'second':
+        if (this.showMeridian) {
+          this.highlightMeridian();
+        } else {
+          this.highlightHour();
+        }
+        break;
+      case 'meridian':
+        this.highlightHour();
+        break;
+      }
+    },
+
+    highlightPrevUnit: function() {
+      switch (this.highlightedUnit) {
+      case 'hour':
+        if(this.showMeridian){
+          this.highlightMeridian();
+        } else if (this.showSeconds) {
+          this.highlightSecond();
+        } else {
+          this.highlightMinute();
+        }
+        break;
+      case 'minute':
+        this.highlightHour();
+        break;
+      case 'second':
+        this.highlightMinute();
+        break;
+      case 'meridian':
+        if (this.showSeconds) {
+          this.highlightSecond();
+        } else {
+          this.highlightMinute();
+        }
+        break;
+      }
+    },
+
+    highlightHour: function() {
+      var $element = this.$element.get(0),
+          self = this;
+
+      this.highlightedUnit = 'hour';
+
+      if ($element.setSelectionRange) {
+        setTimeout(function() {
+          if (self.hour < 10) {
+            $element.setSelectionRange(0,1);
+          } else {
+            $element.setSelectionRange(0,2);
+          }
+        }, 0);
+      }
+    },
+
+    highlightMinute: function() {
+      var $element = this.$element.get(0),
+          self = this;
+
+      this.highlightedUnit = 'minute';
+
+      if ($element.setSelectionRange) {
+        setTimeout(function() {
+          if (self.hour < 10) {
+            $element.setSelectionRange(2,4);
+          } else {
+            $element.setSelectionRange(3,5);
+          }
+        }, 0);
+      }
+    },
+
+    highlightSecond: function() {
+      var $element = this.$element.get(0),
+          self = this;
+
+      this.highlightedUnit = 'second';
+
+      if ($element.setSelectionRange) {
+        setTimeout(function() {
+          if (self.hour < 10) {
+            $element.setSelectionRange(5,7);
+          } else {
+            $element.setSelectionRange(6,8);
+          }
+        }, 0);
+      }
+    },
+
+    highlightMeridian: function() {
+      var $element = this.$element.get(0),
+          self = this;
+
+      this.highlightedUnit = 'meridian';
+
+      if ($element.setSelectionRange) {
+        if (this.showSeconds) {
+          setTimeout(function() {
+            if (self.hour < 10) {
+              $element.setSelectionRange(8,10);
+            } else {
+              $element.setSelectionRange(9,11);
+            }
+          }, 0);
+        } else {
+          setTimeout(function() {
+            if (self.hour < 10) {
+              $element.setSelectionRange(5,7);
+            } else {
+              $element.setSelectionRange(6,8);
+            }
+          }, 0);
+        }
+      }
+    },
+
+    incrementHour: function() {
+      if (this.showMeridian) {
+        if (this.hour === 11) {
+          this.hour++;
+          return this.toggleMeridian();
+        } else if (this.hour === 12) {
+          this.hour = 0;
+        }
+      }
+      if (this.hour === this.maxHours - 1) {
+        this.hour = 0;
+
+        return;
+      }
+      this.hour++;
+    },
+
+    incrementMinute: function(step) {
+      var newVal;
+
+      if (step) {
+        newVal = this.minute + step;
+      } else {
+        newVal = this.minute + this.minuteStep - (this.minute % this.minuteStep);
+      }
+
+      if (newVal > 59) {
+        this.incrementHour();
+        this.minute = newVal - 60;
+      } else {
+        this.minute = newVal;
+      }
+    },
+
+    incrementSecond: function() {
+      var newVal = this.second + this.secondStep - (this.second % this.secondStep);
+
+      if (newVal > 59) {
+        this.incrementMinute(true);
+        this.second = newVal - 60;
+      } else {
+        this.second = newVal;
+      }
+    },
+
+    mousewheel: function(e) {
+      if (this.disableMousewheel) {
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      var delta = e.originalEvent.wheelDelta || -e.originalEvent.detail,
+          scrollTo = null;
+
+      if (e.type === 'mousewheel') {
+        scrollTo = (e.originalEvent.wheelDelta * -1);
+      }
+      else if (e.type === 'DOMMouseScroll') {
+        scrollTo = 40 * e.originalEvent.detail;
+      }
+
+      if (scrollTo) {
+        e.preventDefault();
+        $(this).scrollTop(scrollTo + $(this).scrollTop());
+      }
+
+      switch (this.highlightedUnit) {
+      case 'minute':
+        if (delta > 0) {
+          this.incrementMinute();
+        } else {
+          this.decrementMinute();
+        }
+        this.highlightMinute();
+        break;
+      case 'second':
+        if (delta > 0) {
+          this.incrementSecond();
+        } else {
+          this.decrementSecond();
+        }
+        this.highlightSecond();
+        break;
+      case 'meridian':
+        this.toggleMeridian();
+        this.highlightMeridian();
+        break;
+      default:
+        if (delta > 0) {
+          this.incrementHour();
+        } else {
+          this.decrementHour();
+        }
+        this.highlightHour();
+        break;
+      }
+
+      return false;
+    },
+
+    /**
+     * Given a segment value like 43, will round and snap the segment
+     * to the nearest "step", like 45 if step is 15. Segment will
+     * "overflow" to 0 if it's larger than 59 or would otherwise
+     * round up to 60.
+     */
+    changeToNearestStep: function (segment, step) {
+      if (segment % step === 0) {
+        return segment;
+      }
+      if (Math.round((segment % step) / step)) {
+        return (segment + (step - segment % step)) % 60;
+      } else {
+        return segment - segment % step;
+      }
+    },
+
+    // This method was adapted from bootstrap-datepicker.
+    place : function() {
+      if (this.isInline) {
+        return;
+      }
+      var widgetWidth = this.$widget.outerWidth(), widgetHeight = this.$widget.outerHeight(), visualPadding = 10, windowWidth =
+        $(window).width(), windowHeight = $(window).height(), scrollTop = $(window).scrollTop();
+
+      var zIndex = parseInt(this.$element.parents().filter(function() { return $(this).css('z-index') !== 'auto'; }).first().css('z-index'), 10) + 10;
+      var offset = this.component ? this.component.parent().offset() : this.$element.offset();
+      var height = this.component ? this.component.outerHeight(true) : this.$element.outerHeight(false);
+      var width = this.component ? this.component.outerWidth(true) : this.$element.outerWidth(false);
+      var left = offset.left, top = offset.top;
+
+      this.$widget.removeClass('timepicker-orient-top timepicker-orient-bottom timepicker-orient-right timepicker-orient-left');
+
+      if (this.orientation.x !== 'auto') {
+        this.$widget.addClass('timepicker-orient-' + this.orientation.x);
+        if (this.orientation.x === 'right') {
+          left -= widgetWidth - width;
+        }
+      } else{
+        // auto x orientation is best-placement: if it crosses a window edge, fudge it sideways
+        // Default to left
+        this.$widget.addClass('timepicker-orient-left');
+        if (offset.left < 0) {
+          left -= offset.left - visualPadding;
+        } else if (offset.left + widgetWidth > windowWidth) {
+          left = windowWidth - widgetWidth - visualPadding;
+        }
+      }
+      // auto y orientation is best-situation: top or bottom, no fudging, decision based on which shows more of the widget
+      var yorient = this.orientation.y, topOverflow, bottomOverflow;
+      if (yorient === 'auto') {
+        topOverflow = -scrollTop + offset.top - widgetHeight;
+        bottomOverflow = scrollTop + windowHeight - (offset.top + height + widgetHeight);
+        if (Math.max(topOverflow, bottomOverflow) === bottomOverflow) {
+          yorient = 'top';
+        } else {
+          yorient = 'bottom';
+        }
+      }
+      this.$widget.addClass('timepicker-orient-' + yorient);
+      if (yorient === 'top'){
+        top += height;
+      } else{
+        top -= widgetHeight + parseInt(this.$widget.css('padding-top'), 10);
+      }
+
+      this.$widget.css({
+        top : top,
+        left : left,
+        zIndex : zIndex
+      });
+    },
+
+    remove: function() {
+      $('document').off('.timepicker');
+      if (this.$widget) {
+        this.$widget.remove();
+      }
+      delete this.$element.data().timepicker;
+    },
+
+    setDefaultTime: function(defaultTime) {
+      if (!this.$element.val()) {
+        if (defaultTime === 'current') {
+          var dTime = new Date(),
+            hours = dTime.getHours(),
+            minutes = dTime.getMinutes(),
+            seconds = dTime.getSeconds(),
+            meridian = 'AM';
+
+          if (seconds !== 0) {
+            seconds = Math.ceil(dTime.getSeconds() / this.secondStep) * this.secondStep;
+            if (seconds === 60) {
+              minutes += 1;
+              seconds = 0;
+            }
+          }
+
+          if (minutes !== 0) {
+            minutes = Math.ceil(dTime.getMinutes() / this.minuteStep) * this.minuteStep;
+            if (minutes === 60) {
+              hours += 1;
+              minutes = 0;
+            }
+          }
+
+          if (this.showMeridian) {
+            if (hours === 0) {
+              hours = 12;
+            } else if (hours >= 12) {
+              if (hours > 12) {
+                hours = hours - 12;
+              }
+              meridian = 'PM';
+            } else {
+              meridian = 'AM';
+            }
+          }
+
+          this.hour = hours;
+          this.minute = minutes;
+          this.second = seconds;
+          this.meridian = meridian;
+
+          this.update();
+
+        } else if (defaultTime === false) {
+          this.hour = 0;
+          this.minute = 0;
+          this.second = 0;
+          this.meridian = 'AM';
+        } else {
+          this.setTime(defaultTime);
+        }
+      } else {
+        this.updateFromElementVal();
+      }
+    },
+
+    setTime: function(time, ignoreWidget) {
+      if (!time) {
+        this.clear();
+        return;
+      }
+
+      var timeMode,
+          timeArray,
+          hour,
+          minute,
+          second,
+          meridian;
+
+      if (typeof time === 'object' && time.getMonth){
+        // this is a date object
+        hour    = time.getHours();
+        minute  = time.getMinutes();
+        second  = time.getSeconds();
+
+        if (this.showMeridian){
+          meridian = 'AM';
+          if (hour > 12){
+            meridian = 'PM';
+            hour = hour % 12;
+          }
+
+          if (hour === 12){
+            meridian = 'PM';
+          }
+        }
+      } else {
+        timeMode = ((/a/i).test(time) ? 1 : 0) + ((/p/i).test(time) ? 2 : 0); // 0 = none, 1 = AM, 2 = PM, 3 = BOTH.
+        if (timeMode > 2) { // If both are present, fail.
+          this.clear();
+          return;
+        }
+
+        timeArray = time.replace(/[^0-9\:]/g, '').split(':');
+
+        hour = timeArray[0] ? timeArray[0].toString() : timeArray.toString();
+
+        if(this.explicitMode && hour.length > 2 && (hour.length % 2) !== 0 ) {
+          this.clear();
+          return;
+        }
+
+        minute = timeArray[1] ? timeArray[1].toString() : '';
+        second = timeArray[2] ? timeArray[2].toString() : '';
+
+        // adaptive time parsing
+        if (hour.length > 4) {
+          second = hour.slice(-2);
+          hour = hour.slice(0, -2);
+        }
+
+        if (hour.length > 2) {
+          minute = hour.slice(-2);
+          hour = hour.slice(0, -2);
+        }
+
+        if (minute.length > 2) {
+          second = minute.slice(-2);
+          minute = minute.slice(0, -2);
+        }
+
+        hour = parseInt(hour, 10);
+        minute = parseInt(minute, 10);
+        second = parseInt(second, 10);
+
+        if (isNaN(hour)) {
+          hour = 0;
+        }
+        if (isNaN(minute)) {
+          minute = 0;
+        }
+        if (isNaN(second)) {
+          second = 0;
+        }
+
+        // Adjust the time based upon unit boundary.
+        // NOTE: Negatives will never occur due to time.replace() above.
+        if (second > 59) {
+          second = 59;
+        }
+
+        if (minute > 59) {
+          minute = 59;
+        }
+
+        if (hour >= this.maxHours) {
+          // No day/date handling.
+          hour = this.maxHours - 1;
+        }
+
+        if (this.showMeridian) {
+          if (hour > 12) {
+            // Force PM.
+            timeMode = 2;
+            hour -= 12;
+          }
+          if (!timeMode) {
+            timeMode = 1;
+          }
+          if (hour === 0) {
+            hour = 12; // AM or PM, reset to 12.  0 AM = 12 AM.  0 PM = 12 PM, etc.
+          }
+          meridian = timeMode === 1 ? 'AM' : 'PM';
+        } else if (hour < 12 && timeMode === 2) {
+          hour += 12;
+        } else {
+          if (hour >= this.maxHours) {
+            hour = this.maxHours - 1;
+          } else if ((hour < 0) || (hour === 12 && timeMode === 1)){
+            hour = 0;
+          }
+        }
+      }
+
+      this.hour = hour;
+      if (this.snapToStep) {
+        this.minute = this.changeToNearestStep(minute, this.minuteStep);
+        this.second = this.changeToNearestStep(second, this.secondStep);
+      } else {
+        this.minute = minute;
+        this.second = second;
+      }
+      this.meridian = meridian;
+
+      this.update(ignoreWidget);
+    },
+
+    showWidget: function() {
+      if (this.isOpen) {
+        return;
+      }
+
+      if (this.$element.is(':disabled')) {
+        return;
+      }
+
+      // show/hide approach taken by datepicker
+      this.$widget.appendTo(this.appendWidgetTo);
+      $(document).on('mousedown.timepicker, touchend.timepicker', {scope: this}, this.handleDocumentClick);
+
+      this.$element.trigger({
+        'type': 'show.timepicker',
+        'time': {
+          'value': this.getTime(),
+          'hours': this.hour,
+          'minutes': this.minute,
+          'seconds': this.second,
+          'meridian': this.meridian
+        }
+      });
+
+      this.place();
+      if (this.disableFocus) {
+        this.$element.blur();
+      }
+
+      // widget shouldn't be empty on open
+      if (this.hour === '') {
+        if (this.defaultTime) {
+          this.setDefaultTime(this.defaultTime);
+        } else {
+          this.setTime('0:0:0');
+        }
+      }
+
+      if (this.template === 'modal' && this.$widget.modal) {
+        this.$widget.modal('show').on('hidden', $.proxy(this.hideWidget, this));
+      } else {
+        if (this.isOpen === false) {
+          this.$widget.addClass('open');
+        }
+      }
+
+      this.isOpen = true;
+    },
+
+    toggleMeridian: function() {
+      this.meridian = this.meridian === 'AM' ? 'PM' : 'AM';
+    },
+
+    update: function(ignoreWidget) {
+      this.updateElement();
+      if (!ignoreWidget) {
+        this.updateWidget();
+      }
+
+      this.$element.trigger({
+        'type': 'changeTime.timepicker',
+        'time': {
+          'value': this.getTime(),
+          'hours': this.hour,
+          'minutes': this.minute,
+          'seconds': this.second,
+          'meridian': this.meridian
+        }
+      });
+    },
+
+    updateElement: function() {
+      this.$element.val(this.getTime()).change();
+    },
+
+    updateFromElementVal: function() {
+      this.setTime(this.$element.val());
+    },
+
+    updateWidget: function() {
+      if (this.$widget === false) {
+        return;
+      }
+
+      var hour = this.hour,
+          minute = this.minute.toString().length === 1 ? '0' + this.minute : this.minute,
+          second = this.second.toString().length === 1 ? '0' + this.second : this.second;
+
+      if (this.showInputs) {
+        this.$widget.find('input.bootstrap-timepicker-hour').val(hour);
+        this.$widget.find('input.bootstrap-timepicker-minute').val(minute);
+
+        if (this.showSeconds) {
+          this.$widget.find('input.bootstrap-timepicker-second').val(second);
+        }
+        if (this.showMeridian) {
+          this.$widget.find('input.bootstrap-timepicker-meridian').val(this.meridian);
+        }
+      } else {
+        this.$widget.find('span.bootstrap-timepicker-hour').text(hour);
+        this.$widget.find('span.bootstrap-timepicker-minute').text(minute);
+
+        if (this.showSeconds) {
+          this.$widget.find('span.bootstrap-timepicker-second').text(second);
+        }
+        if (this.showMeridian) {
+          this.$widget.find('span.bootstrap-timepicker-meridian').text(this.meridian);
+        }
+      }
+    },
+
+    updateFromWidgetInputs: function() {
+      if (this.$widget === false) {
+        return;
+      }
+
+      var t = this.$widget.find('input.bootstrap-timepicker-hour').val() + ':' +
+              this.$widget.find('input.bootstrap-timepicker-minute').val() +
+              (this.showSeconds ? ':' + this.$widget.find('input.bootstrap-timepicker-second').val() : '') +
+              (this.showMeridian ? this.$widget.find('input.bootstrap-timepicker-meridian').val() : '')
+      ;
+
+      this.setTime(t, true);
+    },
+
+    widgetClick: function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      var $input = $(e.target),
+          action = $input.closest('a').data('action');
+
+      if (action) {
+        this[action]();
+      }
+      this.update();
+
+      if ($input.is('input')) {
+        $input.get(0).setSelectionRange(0,2);
+      }
+    },
+
+    widgetKeydown: function(e) {
+      var $input = $(e.target),
+          name = $input.attr('class').replace('bootstrap-timepicker-', '');
+
+      switch (e.which) {
+      case 9: //tab
+        if (e.shiftKey) {
+          if (name === 'hour') {
+            return this.hideWidget();
+          }
+        } else if ((this.showMeridian && name === 'meridian') || (this.showSeconds && name === 'second') || (!this.showMeridian && !this.showSeconds && name === 'minute')) {
+          return this.hideWidget();
+        }
+        break;
+      case 27: // escape
+        this.hideWidget();
+        break;
+      case 38: // up arrow
+        e.preventDefault();
+        switch (name) {
+        case 'hour':
+          this.incrementHour();
+          break;
+        case 'minute':
+          this.incrementMinute();
+          break;
+        case 'second':
+          this.incrementSecond();
+          break;
+        case 'meridian':
+          this.toggleMeridian();
+          break;
+        }
+        this.setTime(this.getTime());
+        $input.get(0).setSelectionRange(0,2);
+        break;
+      case 40: // down arrow
+        e.preventDefault();
+        switch (name) {
+        case 'hour':
+          this.decrementHour();
+          break;
+        case 'minute':
+          this.decrementMinute();
+          break;
+        case 'second':
+          this.decrementSecond();
+          break;
+        case 'meridian':
+          this.toggleMeridian();
+          break;
+        }
+        this.setTime(this.getTime());
+        $input.get(0).setSelectionRange(0,2);
+        break;
+      }
+    },
+
+    widgetKeyup: function(e) {
+      if ((e.which === 65) || (e.which === 77) || (e.which === 80) || (e.which === 46) || (e.which === 8) || (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105)) {
+        this.updateFromWidgetInputs();
+      }
+    }
+  };
+
+  //TIMEPICKER PLUGIN DEFINITION
+  $.fn.timepicker = function(option) {
+    var args = Array.apply(null, arguments);
+    args.shift();
+    return this.each(function() {
+      var $this = $(this),
+        data = $this.data('timepicker'),
+        options = typeof option === 'object' && option;
+
+      if (!data) {
+        $this.data('timepicker', (data = new Timepicker(this, $.extend({}, $.fn.timepicker.defaults, options, $(this).data()))));
+      }
+
+      if (typeof option === 'string') {
+        data[option].apply(data, args);
+      }
+    });
+  };
+
+  $.fn.timepicker.defaults = {
+    defaultTime: 'current',
+    disableFocus: false,
+    disableMousewheel: false,
+    isOpen: false,
+    minuteStep: 15,
+    modalBackdrop: false,
+    orientation: { x: 'auto', y: 'auto'},
+    secondStep: 15,
+    snapToStep: false,
+    showSeconds: false,
+    showInputs: true,
+    showMeridian: true,
+    template: 'dropdown',
+    appendWidgetTo: 'body',
+    showWidgetOnAddonClick: true,
+    icons: {
+      up: 'glyphicon glyphicon-chevron-up',
+      down: 'glyphicon glyphicon-chevron-down'
+    },
+    maxHours: 24,
+    explicitMode: false
+  };
+
+  $.fn.timepicker.Constructor = Timepicker;
+
+  $(document).on(
+    'focus.timepicker.data-api click.timepicker.data-api',
+    '[data-provide="timepicker"]',
+    function(e){
+      var $this = $(this);
+      if ($this.data('timepicker')) {
+        return;
+      }
+      e.preventDefault();
+      // component click requires us to explicitly show it
+      $this.timepicker();
+    }
+  );
+
+})(jQuery, window, document);
 
 
 /***/ }),
 
-/***/ 34:
+/***/ 4:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(21);
+var buildURL = __webpack_require__(24);
+var parseHeaders = __webpack_require__(30);
+var isURLSameOrigin = __webpack_require__(28);
+var createError = __webpack_require__(7);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(23);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ("development" !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(26);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        if (request.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+
+/***/ }),
+
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
-__webpack_require__(46)
-__webpack_require__(36)
-__webpack_require__(37)
-__webpack_require__(38)
-__webpack_require__(39)
-__webpack_require__(40)
-__webpack_require__(41)
-__webpack_require__(45)
+__webpack_require__(52)
 __webpack_require__(42)
 __webpack_require__(43)
 __webpack_require__(44)
-__webpack_require__(35)
+__webpack_require__(45)
+__webpack_require__(46)
+__webpack_require__(47)
+__webpack_require__(51)
+__webpack_require__(48)
+__webpack_require__(49)
+__webpack_require__(50)
+__webpack_require__(41)
 
 /***/ }),
 
-/***/ 35:
+/***/ 41:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -4615,7 +6109,7 @@ __webpack_require__(35)
 
 /***/ }),
 
-/***/ 36:
+/***/ 42:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -4716,7 +6210,7 @@ __webpack_require__(35)
 
 /***/ }),
 
-/***/ 37:
+/***/ 43:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -4848,7 +6342,7 @@ __webpack_require__(35)
 
 /***/ }),
 
-/***/ 38:
+/***/ 44:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -5092,7 +6586,7 @@ __webpack_require__(35)
 
 /***/ }),
 
-/***/ 39:
+/***/ 45:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -5311,20 +6805,7 @@ __webpack_require__(35)
 
 /***/ }),
 
-/***/ 4:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-
-/***/ 40:
+/***/ 46:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -5496,7 +6977,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 41:
+/***/ 47:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -5842,7 +7323,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 42:
+/***/ 48:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -5957,7 +7438,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 43:
+/***/ 49:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -6136,7 +7617,34 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 44:
+/***/ 5:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+
+/***/ 50:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -6298,7 +7806,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 45:
+/***/ 51:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -6825,7 +8333,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 46:
+/***/ 52:
 /***/ (function(module, exports) {
 
 /* ========================================================================
@@ -6891,7 +8399,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 47:
+/***/ 53:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -23980,11 +25488,11 @@ module.exports = function isCancel(value) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(51)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(58)(module)))
 
 /***/ }),
 
-/***/ 48:
+/***/ 54:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -24175,7 +25683,1509 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 49:
+/***/ 55:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**!
+ * Sortable
+ * @author	RubaXa   <trash@rubaxa.org>
+ * @license MIT
+ */
+
+(function sortableModule(factory) {
+	"use strict";
+
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	}
+	else if (typeof module != "undefined" && typeof module.exports != "undefined") {
+		module.exports = factory();
+	}
+	else {
+		/* jshint sub:true */
+		window["Sortable"] = factory();
+	}
+})(function sortableFactory() {
+	"use strict";
+
+	if (typeof window == "undefined" || !window.document) {
+		return function sortableError() {
+			throw new Error("Sortable.js requires a window with a document");
+		};
+	}
+
+	var dragEl,
+		parentEl,
+		ghostEl,
+		cloneEl,
+		rootEl,
+		nextEl,
+		lastDownEl,
+
+		scrollEl,
+		scrollParentEl,
+		scrollCustomFn,
+
+		lastEl,
+		lastCSS,
+		lastParentCSS,
+
+		oldIndex,
+		newIndex,
+
+		activeGroup,
+		putSortable,
+
+		autoScroll = {},
+
+		tapEvt,
+		touchEvt,
+
+		moved,
+
+		/** @const */
+		R_SPACE = /\s+/g,
+		R_FLOAT = /left|right|inline/,
+
+		expando = 'Sortable' + (new Date).getTime(),
+
+		win = window,
+		document = win.document,
+		parseInt = win.parseInt,
+
+		$ = win.jQuery || win.Zepto,
+		Polymer = win.Polymer,
+
+		captureMode = false,
+
+		supportDraggable = !!('draggable' in document.createElement('div')),
+		supportCssPointerEvents = (function (el) {
+			// false when IE11
+			if (!!navigator.userAgent.match(/Trident.*rv[ :]?11\./)) {
+				return false;
+			}
+			el = document.createElement('x');
+			el.style.cssText = 'pointer-events:auto';
+			return el.style.pointerEvents === 'auto';
+		})(),
+
+		_silent = false,
+
+		abs = Math.abs,
+		min = Math.min,
+
+		savedInputChecked = [],
+		touchDragOverListeners = [],
+
+		_autoScroll = _throttle(function (/**Event*/evt, /**Object*/options, /**HTMLElement*/rootEl) {
+			// Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=505521
+			if (rootEl && options.scroll) {
+				var _this = rootEl[expando],
+					el,
+					rect,
+					sens = options.scrollSensitivity,
+					speed = options.scrollSpeed,
+
+					x = evt.clientX,
+					y = evt.clientY,
+
+					winWidth = window.innerWidth,
+					winHeight = window.innerHeight,
+
+					vx,
+					vy,
+
+					scrollOffsetX,
+					scrollOffsetY
+				;
+
+				// Delect scrollEl
+				if (scrollParentEl !== rootEl) {
+					scrollEl = options.scroll;
+					scrollParentEl = rootEl;
+					scrollCustomFn = options.scrollFn;
+
+					if (scrollEl === true) {
+						scrollEl = rootEl;
+
+						do {
+							if ((scrollEl.offsetWidth < scrollEl.scrollWidth) ||
+								(scrollEl.offsetHeight < scrollEl.scrollHeight)
+							) {
+								break;
+							}
+							/* jshint boss:true */
+						} while (scrollEl = scrollEl.parentNode);
+					}
+				}
+
+				if (scrollEl) {
+					el = scrollEl;
+					rect = scrollEl.getBoundingClientRect();
+					vx = (abs(rect.right - x) <= sens) - (abs(rect.left - x) <= sens);
+					vy = (abs(rect.bottom - y) <= sens) - (abs(rect.top - y) <= sens);
+				}
+
+
+				if (!(vx || vy)) {
+					vx = (winWidth - x <= sens) - (x <= sens);
+					vy = (winHeight - y <= sens) - (y <= sens);
+
+					/* jshint expr:true */
+					(vx || vy) && (el = win);
+				}
+
+
+				if (autoScroll.vx !== vx || autoScroll.vy !== vy || autoScroll.el !== el) {
+					autoScroll.el = el;
+					autoScroll.vx = vx;
+					autoScroll.vy = vy;
+
+					clearInterval(autoScroll.pid);
+
+					if (el) {
+						autoScroll.pid = setInterval(function () {
+							scrollOffsetY = vy ? vy * speed : 0;
+							scrollOffsetX = vx ? vx * speed : 0;
+
+							if ('function' === typeof(scrollCustomFn)) {
+								return scrollCustomFn.call(_this, scrollOffsetX, scrollOffsetY, evt);
+							}
+
+							if (el === win) {
+								win.scrollTo(win.pageXOffset + scrollOffsetX, win.pageYOffset + scrollOffsetY);
+							} else {
+								el.scrollTop += scrollOffsetY;
+								el.scrollLeft += scrollOffsetX;
+							}
+						}, 24);
+					}
+				}
+			}
+		}, 30),
+
+		_prepareGroup = function (options) {
+			function toFn(value, pull) {
+				if (value === void 0 || value === true) {
+					value = group.name;
+				}
+
+				if (typeof value === 'function') {
+					return value;
+				} else {
+					return function (to, from) {
+						var fromGroup = from.options.group.name;
+
+						return pull
+							? value
+							: value && (value.join
+								? value.indexOf(fromGroup) > -1
+								: (fromGroup == value)
+							);
+					};
+				}
+			}
+
+			var group = {};
+			var originalGroup = options.group;
+
+			if (!originalGroup || typeof originalGroup != 'object') {
+				originalGroup = {name: originalGroup};
+			}
+
+			group.name = originalGroup.name;
+			group.checkPull = toFn(originalGroup.pull, true);
+			group.checkPut = toFn(originalGroup.put);
+			group.revertClone = originalGroup.revertClone;
+
+			options.group = group;
+		}
+	;
+
+
+	/**
+	 * @class  Sortable
+	 * @param  {HTMLElement}  el
+	 * @param  {Object}       [options]
+	 */
+	function Sortable(el, options) {
+		if (!(el && el.nodeType && el.nodeType === 1)) {
+			throw 'Sortable: `el` must be HTMLElement, and not ' + {}.toString.call(el);
+		}
+
+		this.el = el; // root element
+		this.options = options = _extend({}, options);
+
+
+		// Export instance
+		el[expando] = this;
+
+		// Default options
+		var defaults = {
+			group: Math.random(),
+			sort: true,
+			disabled: false,
+			store: null,
+			handle: null,
+			scroll: true,
+			scrollSensitivity: 30,
+			scrollSpeed: 10,
+			draggable: /[uo]l/i.test(el.nodeName) ? 'li' : '>*',
+			ghostClass: 'sortable-ghost',
+			chosenClass: 'sortable-chosen',
+			dragClass: 'sortable-drag',
+			ignore: 'a, img',
+			filter: null,
+			preventOnFilter: true,
+			animation: 0,
+			setData: function (dataTransfer, dragEl) {
+				dataTransfer.setData('Text', dragEl.textContent);
+			},
+			dropBubble: false,
+			dragoverBubble: false,
+			dataIdAttr: 'data-id',
+			delay: 0,
+			forceFallback: false,
+			fallbackClass: 'sortable-fallback',
+			fallbackOnBody: false,
+			fallbackTolerance: 0,
+			fallbackOffset: {x: 0, y: 0}
+		};
+
+
+		// Set default options
+		for (var name in defaults) {
+			!(name in options) && (options[name] = defaults[name]);
+		}
+
+		_prepareGroup(options);
+
+		// Bind all private methods
+		for (var fn in this) {
+			if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
+				this[fn] = this[fn].bind(this);
+			}
+		}
+
+		// Setup drag mode
+		this.nativeDraggable = options.forceFallback ? false : supportDraggable;
+
+		// Bind events
+		_on(el, 'mousedown', this._onTapStart);
+		_on(el, 'touchstart', this._onTapStart);
+		_on(el, 'pointerdown', this._onTapStart);
+
+		if (this.nativeDraggable) {
+			_on(el, 'dragover', this);
+			_on(el, 'dragenter', this);
+		}
+
+		touchDragOverListeners.push(this._onDragOver);
+
+		// Restore sorting
+		options.store && this.sort(options.store.get(this));
+	}
+
+
+	Sortable.prototype = /** @lends Sortable.prototype */ {
+		constructor: Sortable,
+
+		_onTapStart: function (/** Event|TouchEvent */evt) {
+			var _this = this,
+				el = this.el,
+				options = this.options,
+				preventOnFilter = options.preventOnFilter,
+				type = evt.type,
+				touch = evt.touches && evt.touches[0],
+				target = (touch || evt).target,
+				originalTarget = evt.target.shadowRoot && evt.path[0] || target,
+				filter = options.filter,
+				startIndex;
+
+			_saveInputCheckedState(el);
+
+
+			// Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
+			if (dragEl) {
+				return;
+			}
+
+			if (type === 'mousedown' && evt.button !== 0 || options.disabled) {
+				return; // only left button or enabled
+			}
+
+
+			target = _closest(target, options.draggable, el);
+
+			if (!target) {
+				return;
+			}
+
+			if (lastDownEl === target) {
+				// Ignoring duplicate `down`
+				return;
+			}
+
+			// Get the index of the dragged element within its parent
+			startIndex = _index(target, options.draggable);
+
+			// Check filter
+			if (typeof filter === 'function') {
+				if (filter.call(this, evt, target, this)) {
+					_dispatchEvent(_this, originalTarget, 'filter', target, el, startIndex);
+					preventOnFilter && evt.preventDefault();
+					return; // cancel dnd
+				}
+			}
+			else if (filter) {
+				filter = filter.split(',').some(function (criteria) {
+					criteria = _closest(originalTarget, criteria.trim(), el);
+
+					if (criteria) {
+						_dispatchEvent(_this, criteria, 'filter', target, el, startIndex);
+						return true;
+					}
+				});
+
+				if (filter) {
+					preventOnFilter && evt.preventDefault();
+					return; // cancel dnd
+				}
+			}
+
+			if (options.handle && !_closest(originalTarget, options.handle, el)) {
+				return;
+			}
+
+			// Prepare `dragstart`
+			this._prepareDragStart(evt, touch, target, startIndex);
+		},
+
+		_prepareDragStart: function (/** Event */evt, /** Touch */touch, /** HTMLElement */target, /** Number */startIndex) {
+			var _this = this,
+				el = _this.el,
+				options = _this.options,
+				ownerDocument = el.ownerDocument,
+				dragStartFn;
+
+			if (target && !dragEl && (target.parentNode === el)) {
+				tapEvt = evt;
+
+				rootEl = el;
+				dragEl = target;
+				parentEl = dragEl.parentNode;
+				nextEl = dragEl.nextSibling;
+				lastDownEl = target;
+				activeGroup = options.group;
+				oldIndex = startIndex;
+
+				this._lastX = (touch || evt).clientX;
+				this._lastY = (touch || evt).clientY;
+
+				dragEl.style['will-change'] = 'transform';
+
+				dragStartFn = function () {
+					// Delayed drag has been triggered
+					// we can re-enable the events: touchmove/mousemove
+					_this._disableDelayedDrag();
+
+					// Make the element draggable
+					dragEl.draggable = _this.nativeDraggable;
+
+					// Chosen item
+					_toggleClass(dragEl, options.chosenClass, true);
+
+					// Bind the events: dragstart/dragend
+					_this._triggerDragStart(evt, touch);
+
+					// Drag start event
+					_dispatchEvent(_this, rootEl, 'choose', dragEl, rootEl, oldIndex);
+				};
+
+				// Disable "draggable"
+				options.ignore.split(',').forEach(function (criteria) {
+					_find(dragEl, criteria.trim(), _disableDraggable);
+				});
+
+				_on(ownerDocument, 'mouseup', _this._onDrop);
+				_on(ownerDocument, 'touchend', _this._onDrop);
+				_on(ownerDocument, 'touchcancel', _this._onDrop);
+				_on(ownerDocument, 'pointercancel', _this._onDrop);
+				_on(ownerDocument, 'selectstart', _this);
+
+				if (options.delay) {
+					// If the user moves the pointer or let go the click or touch
+					// before the delay has been reached:
+					// disable the delayed drag
+					_on(ownerDocument, 'mouseup', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchend', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchcancel', _this._disableDelayedDrag);
+					_on(ownerDocument, 'mousemove', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchmove', _this._disableDelayedDrag);
+					_on(ownerDocument, 'pointermove', _this._disableDelayedDrag);
+
+					_this._dragStartTimer = setTimeout(dragStartFn, options.delay);
+				} else {
+					dragStartFn();
+				}
+
+
+			}
+		},
+
+		_disableDelayedDrag: function () {
+			var ownerDocument = this.el.ownerDocument;
+
+			clearTimeout(this._dragStartTimer);
+			_off(ownerDocument, 'mouseup', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchend', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchcancel', this._disableDelayedDrag);
+			_off(ownerDocument, 'mousemove', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchmove', this._disableDelayedDrag);
+			_off(ownerDocument, 'pointermove', this._disableDelayedDrag);
+		},
+
+		_triggerDragStart: function (/** Event */evt, /** Touch */touch) {
+			touch = touch || (evt.pointerType == 'touch' ? evt : null);
+
+			if (touch) {
+				// Touch device support
+				tapEvt = {
+					target: dragEl,
+					clientX: touch.clientX,
+					clientY: touch.clientY
+				};
+
+				this._onDragStart(tapEvt, 'touch');
+			}
+			else if (!this.nativeDraggable) {
+				this._onDragStart(tapEvt, true);
+			}
+			else {
+				_on(dragEl, 'dragend', this);
+				_on(rootEl, 'dragstart', this._onDragStart);
+			}
+
+			try {
+				if (document.selection) {
+					// Timeout neccessary for IE9
+					setTimeout(function () {
+						document.selection.empty();
+					});
+				} else {
+					window.getSelection().removeAllRanges();
+				}
+			} catch (err) {
+			}
+		},
+
+		_dragStarted: function () {
+			if (rootEl && dragEl) {
+				var options = this.options;
+
+				// Apply effect
+				_toggleClass(dragEl, options.ghostClass, true);
+				_toggleClass(dragEl, options.dragClass, false);
+
+				Sortable.active = this;
+
+				// Drag start event
+				_dispatchEvent(this, rootEl, 'start', dragEl, rootEl, oldIndex);
+			} else {
+				this._nulling();
+			}
+		},
+
+		_emulateDragOver: function () {
+			if (touchEvt) {
+				if (this._lastX === touchEvt.clientX && this._lastY === touchEvt.clientY) {
+					return;
+				}
+
+				this._lastX = touchEvt.clientX;
+				this._lastY = touchEvt.clientY;
+
+				if (!supportCssPointerEvents) {
+					_css(ghostEl, 'display', 'none');
+				}
+
+				var target = document.elementFromPoint(touchEvt.clientX, touchEvt.clientY),
+					parent = target,
+					i = touchDragOverListeners.length;
+
+				if (parent) {
+					do {
+						if (parent[expando]) {
+							while (i--) {
+								touchDragOverListeners[i]({
+									clientX: touchEvt.clientX,
+									clientY: touchEvt.clientY,
+									target: target,
+									rootEl: parent
+								});
+							}
+
+							break;
+						}
+
+						target = parent; // store last element
+					}
+					/* jshint boss:true */
+					while (parent = parent.parentNode);
+				}
+
+				if (!supportCssPointerEvents) {
+					_css(ghostEl, 'display', '');
+				}
+			}
+		},
+
+
+		_onTouchMove: function (/**TouchEvent*/evt) {
+			if (tapEvt) {
+				var	options = this.options,
+					fallbackTolerance = options.fallbackTolerance,
+					fallbackOffset = options.fallbackOffset,
+					touch = evt.touches ? evt.touches[0] : evt,
+					dx = (touch.clientX - tapEvt.clientX) + fallbackOffset.x,
+					dy = (touch.clientY - tapEvt.clientY) + fallbackOffset.y,
+					translate3d = evt.touches ? 'translate3d(' + dx + 'px,' + dy + 'px,0)' : 'translate(' + dx + 'px,' + dy + 'px)';
+
+				// only set the status to dragging, when we are actually dragging
+				if (!Sortable.active) {
+					if (fallbackTolerance &&
+						min(abs(touch.clientX - this._lastX), abs(touch.clientY - this._lastY)) < fallbackTolerance
+					) {
+						return;
+					}
+
+					this._dragStarted();
+				}
+
+				// as well as creating the ghost element on the document body
+				this._appendGhost();
+
+				moved = true;
+				touchEvt = touch;
+
+				_css(ghostEl, 'webkitTransform', translate3d);
+				_css(ghostEl, 'mozTransform', translate3d);
+				_css(ghostEl, 'msTransform', translate3d);
+				_css(ghostEl, 'transform', translate3d);
+
+				evt.preventDefault();
+			}
+		},
+
+		_appendGhost: function () {
+			if (!ghostEl) {
+				var rect = dragEl.getBoundingClientRect(),
+					css = _css(dragEl),
+					options = this.options,
+					ghostRect;
+
+				ghostEl = dragEl.cloneNode(true);
+
+				_toggleClass(ghostEl, options.ghostClass, false);
+				_toggleClass(ghostEl, options.fallbackClass, true);
+				_toggleClass(ghostEl, options.dragClass, true);
+
+				_css(ghostEl, 'top', rect.top - parseInt(css.marginTop, 10));
+				_css(ghostEl, 'left', rect.left - parseInt(css.marginLeft, 10));
+				_css(ghostEl, 'width', rect.width);
+				_css(ghostEl, 'height', rect.height);
+				_css(ghostEl, 'opacity', '0.8');
+				_css(ghostEl, 'position', 'fixed');
+				_css(ghostEl, 'zIndex', '100000');
+				_css(ghostEl, 'pointerEvents', 'none');
+
+				options.fallbackOnBody && document.body.appendChild(ghostEl) || rootEl.appendChild(ghostEl);
+
+				// Fixing dimensions.
+				ghostRect = ghostEl.getBoundingClientRect();
+				_css(ghostEl, 'width', rect.width * 2 - ghostRect.width);
+				_css(ghostEl, 'height', rect.height * 2 - ghostRect.height);
+			}
+		},
+
+		_onDragStart: function (/**Event*/evt, /**boolean*/useFallback) {
+			var dataTransfer = evt.dataTransfer,
+				options = this.options;
+
+			this._offUpEvents();
+
+			if (activeGroup.checkPull(this, this, dragEl, evt)) {
+				cloneEl = _clone(dragEl);
+
+				cloneEl.draggable = false;
+				cloneEl.style['will-change'] = '';
+
+				_css(cloneEl, 'display', 'none');
+				_toggleClass(cloneEl, this.options.chosenClass, false);
+
+				rootEl.insertBefore(cloneEl, dragEl);
+				_dispatchEvent(this, rootEl, 'clone', dragEl);
+			}
+
+			_toggleClass(dragEl, options.dragClass, true);
+
+			if (useFallback) {
+				if (useFallback === 'touch') {
+					// Bind touch events
+					_on(document, 'touchmove', this._onTouchMove);
+					_on(document, 'touchend', this._onDrop);
+					_on(document, 'touchcancel', this._onDrop);
+					_on(document, 'pointermove', this._onTouchMove);
+					_on(document, 'pointerup', this._onDrop);
+				} else {
+					// Old brwoser
+					_on(document, 'mousemove', this._onTouchMove);
+					_on(document, 'mouseup', this._onDrop);
+				}
+
+				this._loopId = setInterval(this._emulateDragOver, 50);
+			}
+			else {
+				if (dataTransfer) {
+					dataTransfer.effectAllowed = 'move';
+					options.setData && options.setData.call(this, dataTransfer, dragEl);
+				}
+
+				_on(document, 'drop', this);
+				setTimeout(this._dragStarted, 0);
+			}
+		},
+
+		_onDragOver: function (/**Event*/evt) {
+			var el = this.el,
+				target,
+				dragRect,
+				targetRect,
+				revert,
+				options = this.options,
+				group = options.group,
+				activeSortable = Sortable.active,
+				isOwner = (activeGroup === group),
+				isMovingBetweenSortable = false,
+				canSort = options.sort;
+
+			if (evt.preventDefault !== void 0) {
+				evt.preventDefault();
+				!options.dragoverBubble && evt.stopPropagation();
+			}
+
+			if (dragEl.animated) {
+				return;
+			}
+
+			moved = true;
+
+			if (activeSortable && !options.disabled &&
+				(isOwner
+					? canSort || (revert = !rootEl.contains(dragEl)) // Reverting item into the original list
+					: (
+						putSortable === this ||
+						(
+							(activeSortable.lastPullMode = activeGroup.checkPull(this, activeSortable, dragEl, evt)) &&
+							group.checkPut(this, activeSortable, dragEl, evt)
+						)
+					)
+				) &&
+				(evt.rootEl === void 0 || evt.rootEl === this.el) // touch fallback
+			) {
+				// Smart auto-scrolling
+				_autoScroll(evt, options, this.el);
+
+				if (_silent) {
+					return;
+				}
+
+				target = _closest(evt.target, options.draggable, el);
+				dragRect = dragEl.getBoundingClientRect();
+
+				if (putSortable !== this) {
+					putSortable = this;
+					isMovingBetweenSortable = true;
+				}
+
+				if (revert) {
+					_cloneHide(activeSortable, true);
+					parentEl = rootEl; // actualization
+
+					if (cloneEl || nextEl) {
+						rootEl.insertBefore(dragEl, cloneEl || nextEl);
+					}
+					else if (!canSort) {
+						rootEl.appendChild(dragEl);
+					}
+
+					return;
+				}
+
+
+				if ((el.children.length === 0) || (el.children[0] === ghostEl) ||
+					(el === evt.target) && (_ghostIsLast(el, evt))
+				) {
+					//assign target only if condition is true
+					if (el.children.length !== 0 && el.children[0] !== ghostEl && el === evt.target) {
+						target = el.lastElementChild;
+					}
+
+					if (target) {
+						if (target.animated) {
+							return;
+						}
+
+						targetRect = target.getBoundingClientRect();
+					}
+
+					_cloneHide(activeSortable, isOwner);
+
+					if (_onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt) !== false) {
+						if (!dragEl.contains(el)) {
+							el.appendChild(dragEl);
+							parentEl = el; // actualization
+						}
+
+						this._animate(dragRect, dragEl);
+						target && this._animate(targetRect, target);
+					}
+				}
+				else if (target && !target.animated && target !== dragEl && (target.parentNode[expando] !== void 0)) {
+					if (lastEl !== target) {
+						lastEl = target;
+						lastCSS = _css(target);
+						lastParentCSS = _css(target.parentNode);
+					}
+
+					targetRect = target.getBoundingClientRect();
+
+					var width = targetRect.right - targetRect.left,
+						height = targetRect.bottom - targetRect.top,
+						floating = R_FLOAT.test(lastCSS.cssFloat + lastCSS.display)
+							|| (lastParentCSS.display == 'flex' && lastParentCSS['flex-direction'].indexOf('row') === 0),
+						isWide = (target.offsetWidth > dragEl.offsetWidth),
+						isLong = (target.offsetHeight > dragEl.offsetHeight),
+						halfway = (floating ? (evt.clientX - targetRect.left) / width : (evt.clientY - targetRect.top) / height) > 0.5,
+						nextSibling = target.nextElementSibling,
+						after = false
+					;
+
+					if (floating) {
+						var elTop = dragEl.offsetTop,
+							tgTop = target.offsetTop;
+
+						if (elTop === tgTop) {
+							after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
+						}
+						else if (target.previousElementSibling === dragEl || dragEl.previousElementSibling === target) {
+							after = (evt.clientY - targetRect.top) / height > 0.5;
+						} else {
+							after = tgTop > elTop;
+						}
+						} else if (!isMovingBetweenSortable) {
+						after = (nextSibling !== dragEl) && !isLong || halfway && isLong;
+					}
+
+					var moveVector = _onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt, after);
+
+					if (moveVector !== false) {
+						if (moveVector === 1 || moveVector === -1) {
+							after = (moveVector === 1);
+						}
+
+						_silent = true;
+						setTimeout(_unsilent, 30);
+
+						_cloneHide(activeSortable, isOwner);
+
+						if (!dragEl.contains(el)) {
+							if (after && !nextSibling) {
+								el.appendChild(dragEl);
+							} else {
+								target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
+							}
+						}
+
+						parentEl = dragEl.parentNode; // actualization
+
+						this._animate(dragRect, dragEl);
+						this._animate(targetRect, target);
+					}
+				}
+			}
+		},
+
+		_animate: function (prevRect, target) {
+			var ms = this.options.animation;
+
+			if (ms) {
+				var currentRect = target.getBoundingClientRect();
+
+				if (prevRect.nodeType === 1) {
+					prevRect = prevRect.getBoundingClientRect();
+				}
+
+				_css(target, 'transition', 'none');
+				_css(target, 'transform', 'translate3d('
+					+ (prevRect.left - currentRect.left) + 'px,'
+					+ (prevRect.top - currentRect.top) + 'px,0)'
+				);
+
+				target.offsetWidth; // repaint
+
+				_css(target, 'transition', 'all ' + ms + 'ms');
+				_css(target, 'transform', 'translate3d(0,0,0)');
+
+				clearTimeout(target.animated);
+				target.animated = setTimeout(function () {
+					_css(target, 'transition', '');
+					_css(target, 'transform', '');
+					target.animated = false;
+				}, ms);
+			}
+		},
+
+		_offUpEvents: function () {
+			var ownerDocument = this.el.ownerDocument;
+
+			_off(document, 'touchmove', this._onTouchMove);
+			_off(document, 'pointermove', this._onTouchMove);
+			_off(ownerDocument, 'mouseup', this._onDrop);
+			_off(ownerDocument, 'touchend', this._onDrop);
+			_off(ownerDocument, 'pointerup', this._onDrop);
+			_off(ownerDocument, 'touchcancel', this._onDrop);
+			_off(ownerDocument, 'pointercancel', this._onDrop);
+			_off(ownerDocument, 'selectstart', this);
+		},
+
+		_onDrop: function (/**Event*/evt) {
+			var el = this.el,
+				options = this.options;
+
+			clearInterval(this._loopId);
+			clearInterval(autoScroll.pid);
+			clearTimeout(this._dragStartTimer);
+
+			// Unbind events
+			_off(document, 'mousemove', this._onTouchMove);
+
+			if (this.nativeDraggable) {
+				_off(document, 'drop', this);
+				_off(el, 'dragstart', this._onDragStart);
+			}
+
+			this._offUpEvents();
+
+			if (evt) {
+				if (moved) {
+					evt.preventDefault();
+					!options.dropBubble && evt.stopPropagation();
+				}
+
+				ghostEl && ghostEl.parentNode && ghostEl.parentNode.removeChild(ghostEl);
+
+				if (rootEl === parentEl || Sortable.active.lastPullMode !== 'clone') {
+					// Remove clone
+					cloneEl && cloneEl.parentNode && cloneEl.parentNode.removeChild(cloneEl);
+				}
+
+				if (dragEl) {
+					if (this.nativeDraggable) {
+						_off(dragEl, 'dragend', this);
+					}
+
+					_disableDraggable(dragEl);
+					dragEl.style['will-change'] = '';
+
+					// Remove class's
+					_toggleClass(dragEl, this.options.ghostClass, false);
+					_toggleClass(dragEl, this.options.chosenClass, false);
+
+					// Drag stop event
+					_dispatchEvent(this, rootEl, 'unchoose', dragEl, rootEl, oldIndex);
+
+					if (rootEl !== parentEl) {
+						newIndex = _index(dragEl, options.draggable);
+
+						if (newIndex >= 0) {
+							// Add event
+							_dispatchEvent(null, parentEl, 'add', dragEl, rootEl, oldIndex, newIndex);
+
+							// Remove event
+							_dispatchEvent(this, rootEl, 'remove', dragEl, rootEl, oldIndex, newIndex);
+
+							// drag from one list and drop into another
+							_dispatchEvent(null, parentEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+							_dispatchEvent(this, rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+						}
+					}
+					else {
+						if (dragEl.nextSibling !== nextEl) {
+							// Get the index of the dragged element within its parent
+							newIndex = _index(dragEl, options.draggable);
+
+							if (newIndex >= 0) {
+								// drag & drop within the same list
+								_dispatchEvent(this, rootEl, 'update', dragEl, rootEl, oldIndex, newIndex);
+								_dispatchEvent(this, rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+							}
+						}
+					}
+
+					if (Sortable.active) {
+						/* jshint eqnull:true */
+						if (newIndex == null || newIndex === -1) {
+							newIndex = oldIndex;
+						}
+
+						_dispatchEvent(this, rootEl, 'end', dragEl, rootEl, oldIndex, newIndex);
+
+						// Save sorting
+						this.save();
+					}
+				}
+
+			}
+
+			this._nulling();
+		},
+
+		_nulling: function() {
+			rootEl =
+			dragEl =
+			parentEl =
+			ghostEl =
+			nextEl =
+			cloneEl =
+			lastDownEl =
+
+			scrollEl =
+			scrollParentEl =
+
+			tapEvt =
+			touchEvt =
+
+			moved =
+			newIndex =
+
+			lastEl =
+			lastCSS =
+
+			putSortable =
+			activeGroup =
+			Sortable.active = null;
+
+			savedInputChecked.forEach(function (el) {
+				el.checked = true;
+			});
+			savedInputChecked.length = 0;
+		},
+
+		handleEvent: function (/**Event*/evt) {
+			switch (evt.type) {
+				case 'drop':
+				case 'dragend':
+					this._onDrop(evt);
+					break;
+
+				case 'dragover':
+				case 'dragenter':
+					if (dragEl) {
+						this._onDragOver(evt);
+						_globalDragOver(evt);
+					}
+					break;
+
+				case 'selectstart':
+					evt.preventDefault();
+					break;
+			}
+		},
+
+
+		/**
+		 * Serializes the item into an array of string.
+		 * @returns {String[]}
+		 */
+		toArray: function () {
+			var order = [],
+				el,
+				children = this.el.children,
+				i = 0,
+				n = children.length,
+				options = this.options;
+
+			for (; i < n; i++) {
+				el = children[i];
+				if (_closest(el, options.draggable, this.el)) {
+					order.push(el.getAttribute(options.dataIdAttr) || _generateId(el));
+				}
+			}
+
+			return order;
+		},
+
+
+		/**
+		 * Sorts the elements according to the array.
+		 * @param  {String[]}  order  order of the items
+		 */
+		sort: function (order) {
+			var items = {}, rootEl = this.el;
+
+			this.toArray().forEach(function (id, i) {
+				var el = rootEl.children[i];
+
+				if (_closest(el, this.options.draggable, rootEl)) {
+					items[id] = el;
+				}
+			}, this);
+
+			order.forEach(function (id) {
+				if (items[id]) {
+					rootEl.removeChild(items[id]);
+					rootEl.appendChild(items[id]);
+				}
+			});
+		},
+
+
+		/**
+		 * Save the current sorting
+		 */
+		save: function () {
+			var store = this.options.store;
+			store && store.set(this);
+		},
+
+
+		/**
+		 * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
+		 * @param   {HTMLElement}  el
+		 * @param   {String}       [selector]  default: `options.draggable`
+		 * @returns {HTMLElement|null}
+		 */
+		closest: function (el, selector) {
+			return _closest(el, selector || this.options.draggable, this.el);
+		},
+
+
+		/**
+		 * Set/get option
+		 * @param   {string} name
+		 * @param   {*}      [value]
+		 * @returns {*}
+		 */
+		option: function (name, value) {
+			var options = this.options;
+
+			if (value === void 0) {
+				return options[name];
+			} else {
+				options[name] = value;
+
+				if (name === 'group') {
+					_prepareGroup(options);
+				}
+			}
+		},
+
+
+		/**
+		 * Destroy
+		 */
+		destroy: function () {
+			var el = this.el;
+
+			el[expando] = null;
+
+			_off(el, 'mousedown', this._onTapStart);
+			_off(el, 'touchstart', this._onTapStart);
+			_off(el, 'pointerdown', this._onTapStart);
+
+			if (this.nativeDraggable) {
+				_off(el, 'dragover', this);
+				_off(el, 'dragenter', this);
+			}
+
+			// Remove draggable attributes
+			Array.prototype.forEach.call(el.querySelectorAll('[draggable]'), function (el) {
+				el.removeAttribute('draggable');
+			});
+
+			touchDragOverListeners.splice(touchDragOverListeners.indexOf(this._onDragOver), 1);
+
+			this._onDrop();
+
+			this.el = el = null;
+		}
+	};
+
+
+	function _cloneHide(sortable, state) {
+		if (sortable.lastPullMode !== 'clone') {
+			state = true;
+		}
+
+		if (cloneEl && (cloneEl.state !== state)) {
+			_css(cloneEl, 'display', state ? 'none' : '');
+
+			if (!state) {
+				if (cloneEl.state) {
+					if (sortable.options.group.revertClone) {
+						rootEl.insertBefore(cloneEl, nextEl);
+						sortable._animate(dragEl, cloneEl);
+					} else {
+						rootEl.insertBefore(cloneEl, dragEl);
+					}
+				}
+			}
+
+			cloneEl.state = state;
+		}
+	}
+
+
+	function _closest(/**HTMLElement*/el, /**String*/selector, /**HTMLElement*/ctx) {
+		if (el) {
+			ctx = ctx || document;
+
+			do {
+				if ((selector === '>*' && el.parentNode === ctx) || _matches(el, selector)) {
+					return el;
+				}
+				/* jshint boss:true */
+			} while (el = _getParentOrHost(el));
+		}
+
+		return null;
+	}
+
+
+	function _getParentOrHost(el) {
+		var parent = el.host;
+
+		return (parent && parent.nodeType) ? parent : el.parentNode;
+	}
+
+
+	function _globalDragOver(/**Event*/evt) {
+		if (evt.dataTransfer) {
+			evt.dataTransfer.dropEffect = 'move';
+		}
+		evt.preventDefault();
+	}
+
+
+	function _on(el, event, fn) {
+		el.addEventListener(event, fn, captureMode);
+	}
+
+
+	function _off(el, event, fn) {
+		el.removeEventListener(event, fn, captureMode);
+	}
+
+
+	function _toggleClass(el, name, state) {
+		if (el) {
+			if (el.classList) {
+				el.classList[state ? 'add' : 'remove'](name);
+			}
+			else {
+				var className = (' ' + el.className + ' ').replace(R_SPACE, ' ').replace(' ' + name + ' ', ' ');
+				el.className = (className + (state ? ' ' + name : '')).replace(R_SPACE, ' ');
+			}
+		}
+	}
+
+
+	function _css(el, prop, val) {
+		var style = el && el.style;
+
+		if (style) {
+			if (val === void 0) {
+				if (document.defaultView && document.defaultView.getComputedStyle) {
+					val = document.defaultView.getComputedStyle(el, '');
+				}
+				else if (el.currentStyle) {
+					val = el.currentStyle;
+				}
+
+				return prop === void 0 ? val : val[prop];
+			}
+			else {
+				if (!(prop in style)) {
+					prop = '-webkit-' + prop;
+				}
+
+				style[prop] = val + (typeof val === 'string' ? '' : 'px');
+			}
+		}
+	}
+
+
+	function _find(ctx, tagName, iterator) {
+		if (ctx) {
+			var list = ctx.getElementsByTagName(tagName), i = 0, n = list.length;
+
+			if (iterator) {
+				for (; i < n; i++) {
+					iterator(list[i], i);
+				}
+			}
+
+			return list;
+		}
+
+		return [];
+	}
+
+
+
+	function _dispatchEvent(sortable, rootEl, name, targetEl, fromEl, startIndex, newIndex) {
+		sortable = (sortable || rootEl[expando]);
+
+		var evt = document.createEvent('Event'),
+			options = sortable.options,
+			onName = 'on' + name.charAt(0).toUpperCase() + name.substr(1);
+
+		evt.initEvent(name, true, true);
+
+		evt.to = rootEl;
+		evt.from = fromEl || rootEl;
+		evt.item = targetEl || rootEl;
+		evt.clone = cloneEl;
+
+		evt.oldIndex = startIndex;
+		evt.newIndex = newIndex;
+
+		rootEl.dispatchEvent(evt);
+
+		if (options[onName]) {
+			options[onName].call(sortable, evt);
+		}
+	}
+
+
+	function _onMove(fromEl, toEl, dragEl, dragRect, targetEl, targetRect, originalEvt, willInsertAfter) {
+		var evt,
+			sortable = fromEl[expando],
+			onMoveFn = sortable.options.onMove,
+			retVal;
+
+		evt = document.createEvent('Event');
+		evt.initEvent('move', true, true);
+
+		evt.to = toEl;
+		evt.from = fromEl;
+		evt.dragged = dragEl;
+		evt.draggedRect = dragRect;
+		evt.related = targetEl || toEl;
+		evt.relatedRect = targetRect || toEl.getBoundingClientRect();
+		evt.willInsertAfter = willInsertAfter;
+
+		fromEl.dispatchEvent(evt);
+
+		if (onMoveFn) {
+			retVal = onMoveFn.call(sortable, evt, originalEvt);
+		}
+
+		return retVal;
+	}
+
+
+	function _disableDraggable(el) {
+		el.draggable = false;
+	}
+
+
+	function _unsilent() {
+		_silent = false;
+	}
+
+
+	/** @returns {HTMLElement|false} */
+	function _ghostIsLast(el, evt) {
+		var lastEl = el.lastElementChild,
+			rect = lastEl.getBoundingClientRect();
+
+		// 5 — min delta
+		// abs — нельзя добавлять, а то глюки при наведении сверху
+		return (evt.clientY - (rect.top + rect.height) > 5) ||
+			(evt.clientX - (rect.left + rect.width) > 5);
+	}
+
+
+	/**
+	 * Generate id
+	 * @param   {HTMLElement} el
+	 * @returns {String}
+	 * @private
+	 */
+	function _generateId(el) {
+		var str = el.tagName + el.className + el.src + el.href + el.textContent,
+			i = str.length,
+			sum = 0;
+
+		while (i--) {
+			sum += str.charCodeAt(i);
+		}
+
+		return sum.toString(36);
+	}
+
+	/**
+	 * Returns the index of an element within its parent for a selected set of
+	 * elements
+	 * @param  {HTMLElement} el
+	 * @param  {selector} selector
+	 * @return {number}
+	 */
+	function _index(el, selector) {
+		var index = 0;
+
+		if (!el || !el.parentNode) {
+			return -1;
+		}
+
+		while (el && (el = el.previousElementSibling)) {
+			if ((el.nodeName.toUpperCase() !== 'TEMPLATE') && (selector === '>*' || _matches(el, selector))) {
+				index++;
+			}
+		}
+
+		return index;
+	}
+
+	function _matches(/**HTMLElement*/el, /**String*/selector) {
+		if (el) {
+			selector = selector.split('.');
+
+			var tag = selector.shift().toUpperCase(),
+				re = new RegExp('\\s(' + selector.join('|') + ')(?=\\s)', 'g');
+
+			return (
+				(tag === '' || el.nodeName.toUpperCase() == tag) &&
+				(!selector.length || ((' ' + el.className + ' ').match(re) || []).length == selector.length)
+			);
+		}
+
+		return false;
+	}
+
+	function _throttle(callback, ms) {
+		var args, _this;
+
+		return function () {
+			if (args === void 0) {
+				args = arguments;
+				_this = this;
+
+				setTimeout(function () {
+					if (args.length === 1) {
+						callback.call(_this, args[0]);
+					} else {
+						callback.apply(_this, args);
+					}
+
+					args = void 0;
+				}, ms);
+			}
+		};
+	}
+
+	function _extend(dst, src) {
+		if (dst && src) {
+			for (var key in src) {
+				if (src.hasOwnProperty(key)) {
+					dst[key] = src[key];
+				}
+			}
+		}
+
+		return dst;
+	}
+
+	function _clone(el) {
+		return $
+			? $(el).clone(true)[0]
+			: (Polymer && Polymer.dom
+				? Polymer.dom(el).cloneNode(true)
+				: el.cloneNode(true)
+			);
+	}
+
+	function _saveInputCheckedState(root) {
+		var inputs = root.getElementsByTagName('input');
+		var idx = inputs.length;
+
+		while (idx--) {
+			var el = inputs[idx];
+			el.checked && savedInputChecked.push(el);
+		}
+	}
+
+	// Fixed #973: 
+	_on(document, 'touchmove', function (evt) {
+		if (Sortable.active) {
+			evt.preventDefault();
+		}
+	});
+
+	try {
+		window.addEventListener('test', null, Object.defineProperty({}, 'passive', {
+			get: function () {
+				captureMode = {
+					capture: false,
+					passive: false
+				};
+			}
+		}));
+	} catch (err) {}
+
+	// Export utils
+	Sortable.utils = {
+		on: _on,
+		off: _off,
+		css: _css,
+		find: _find,
+		is: function (el, selector) {
+			return !!_closest(el, selector, el);
+		},
+		extend: _extend,
+		throttle: _throttle,
+		closest: _closest,
+		toggleClass: _toggleClass,
+		clone: _clone,
+		index: _index
+	};
+
+
+	/**
+	 * Create sortable instance
+	 * @param {HTMLElement}  el
+	 * @param {Object}      [options]
+	 */
+	Sortable.create = function (el, options) {
+		return new Sortable(el, options);
+	};
+
+
+	// Export
+	Sortable.version = '1.6.0';
+	return Sortable;
+});
+
+
+/***/ }),
+
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -25823,32 +28833,7 @@ if (window.Sweetalert2) window.sweetAlert = window.swal = window.Sweetalert2;
 
 /***/ }),
 
-/***/ 5:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(17);
-
-/**
- * Create an Error with the specified message, config, error code, and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, response);
-};
-
-
-/***/ }),
-
-/***/ 50:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35543,11 +38528,11 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 
-/***/ 51:
+/***/ 58:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -35576,16 +38561,54 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(9);
-module.exports = __webpack_require__(10);
+__webpack_require__(12);
+module.exports = __webpack_require__(13);
 
 
 /***/ }),
 
 /***/ 6:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(20);
+
+/**
+ * Create an Error with the specified message, config, error code, and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, response);
+};
+
+
+/***/ }),
+
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35604,7 +38627,7 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ 7:
+/***/ 9:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -45862,74 +48885,6 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_index__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_create__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_create_question__ = __webpack_require__(260);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_create_quiz__ = __webpack_require__(261);
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-__webpack_require__(29);
-
-window.Vue = __webpack_require__(50);
-
-__webpack_require__(33);
-
-
-
-
-
-
-__WEBPACK_IMPORTED_MODULE_0__pages_index__["a" /* default */].init();
-__WEBPACK_IMPORTED_MODULE_1__pages_create__["a" /* default */].init();
-__WEBPACK_IMPORTED_MODULE_2__pages_create_question__["a" /* default */].init();
-__WEBPACK_IMPORTED_MODULE_3__pages_create_quiz__["a" /* default */].init();
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 /***/ })
 

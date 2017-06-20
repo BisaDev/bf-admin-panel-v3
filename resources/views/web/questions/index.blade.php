@@ -51,7 +51,7 @@
                     <tbody>
                     @foreach($list as $item)
                         <tr>
-                            <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}</a></td>
+                            <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}@if($item->photo)<img src="{{ $item->photo }}" class="img-responsive">@endif</a></td>
                             <td>{{ $item->topic->subject->grade_level->name }}</td>
                             <td>{{ $item->topic->subject->name }}</td>
                             <td>{{ $item->topic->name }}</td>

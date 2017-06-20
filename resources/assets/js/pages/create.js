@@ -34,7 +34,7 @@ export default {
             },
             mounted() {
 
-                $('.datepicker').datepicker({
+                $('.datepicker-birthday').datepicker({
                     autoclose: true,
                     startView: 'decade'
                 });
