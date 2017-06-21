@@ -183,11 +183,6 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
 
         /*
-         * Tags
-         */
-        Spatie\Tags\TagsServiceProvider::class,
-
-        /*
          * Search and other Eloquent helpers
          */
         Sofa\Eloquence\ServiceProvider::class,
