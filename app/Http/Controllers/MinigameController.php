@@ -42,7 +42,7 @@ class MinigameController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string'
+            'name' => 'required|string|value:191'
         ]);
         
         $minigame = Minigame::create($request->only(['name']));
@@ -97,6 +97,10 @@ class MinigameController extends Controller
      */
     public function update(Request $request, Minigame $minigame)
     {
+        $this->validate($request, [
+            'name' => 'required|string|value:191'
+        ]);
+        
         $minigame->name = $request->input('name');
         $minigame->save();
 

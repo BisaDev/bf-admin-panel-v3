@@ -44,7 +44,7 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string',
+            'name' => 'required|string|value:191',
             'email' => 'nullable|email'
         ]);
         
@@ -104,6 +104,11 @@ class LocationController extends Controller
      */
     public function update(Request $request, Location $location)
     {
+        $this->validate($request, [
+            'name' => 'required|string|value:191',
+            'email' => 'nullable|email'
+        ]);
+        
         $location->name = $request->input('name');
         $location->address = $request->input('address');
         $location->city = $request->input('city');

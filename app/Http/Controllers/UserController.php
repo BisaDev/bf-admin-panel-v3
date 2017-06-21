@@ -53,8 +53,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'role' => 'required',
-            'name' => 'required|string',
-            'last_name' => 'required|string',
+            'name' => 'required|string|value:191',
+            'last_name' => 'required|string|value:191',
             'email' => 'required|unique:users|email',
             'email_confirmation' => 'same:email',
             'password' => 'required',
@@ -130,8 +130,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'role' => 'sometimes|required',
-            'name' => 'required|string',
-            'last_name' => 'required|string',
+            'name' => 'required|string|value:191',
+            'last_name' => 'required|string|value:191',
             'email' => 'required|unique:users,email,'.$employee->id.'|email',
             'secondary_email' => 'nullable|email',
             'photo' => 'nullable|image',

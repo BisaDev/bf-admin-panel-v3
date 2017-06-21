@@ -49,7 +49,7 @@ class ActivityBucketController extends Controller
     public function store(Request $request)
     {   
         $this->validate($request, [
-            'title' => 'required|string',
+            'title' => 'required|string|value:191',
             'subject' => 'required',
             'quizzes' => 'required',
         ]);
@@ -114,7 +114,7 @@ class ActivityBucketController extends Controller
     public function update(Request $request, ActivityBucket $activity_bucket)
     {
         $this->validate($request, [
-            'title' => 'required|string',
+            'title' => 'required|string|value:191',
             'subject' => 'required',
             'quizzes' => 'required',
         ]);

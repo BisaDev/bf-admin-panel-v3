@@ -50,7 +50,7 @@ class QuizController extends Controller
     {
         $this->validate($request, [
             'type' => 'required',
-            'title' => 'required|string',
+            'title' => 'required|string|value:191',
             'subject' => 'required',
             'questions' => 'required',
         ]);
@@ -108,7 +108,7 @@ class QuizController extends Controller
     {
         $this->validate($request, [
             'type' => 'required',
-            'title' => 'required|string',
+            'title' => 'required|string|value:191',
             'subject' => 'required',
             'questions' => 'required',
         ]);

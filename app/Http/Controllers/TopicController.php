@@ -30,7 +30,7 @@ class TopicController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string',
+            'name' => 'required|string|value:191',
             'subject_id' => 'required|numeric',
         ]);
         
@@ -69,6 +69,10 @@ class TopicController extends Controller
      */
     public function update(Request $request, Topic $topic)
     {
+        $this->validate($request, [
+            'name' => 'required|string|value:191'
+        ]);
+
         $topic->name = $request->input('name');
         $topic->save();
 
