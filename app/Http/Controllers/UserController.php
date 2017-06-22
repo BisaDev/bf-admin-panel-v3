@@ -69,7 +69,7 @@ class UserController extends Controller
             'middle_name' => $request->input('middle_name'),
             'last_name' => $request->input('last_name'),
             'email' => $request->input('email'),
-            'password'  => bcrypt($request->input('middle_name'))
+            'password'  => bcrypt($request->input('password'))
         ]);
 
         $user_detail = UserDetail::create([
@@ -134,6 +134,8 @@ class UserController extends Controller
             'last_name' => 'required|string|max:191',
             'email' => 'required|unique:users,email,'.$employee->id.'|email',
             'secondary_email' => 'nullable|email',
+            'password' => 'sometimes|nullable',
+            'password_confirmation' => 'sometimes|same:password',
             'photo' => 'nullable|image',
             'location' => 'required'
         ]);
@@ -143,6 +145,9 @@ class UserController extends Controller
         $employee->middle_name = $request->input('middle_name');
         $employee->last_name = $request->input('last_name');
         $employee->email = $request->input('email');
+        if($request->has('password')){
+            $employee->password = bcrypt($request->input('password'));
+        }
 
         $employee->user_detail->secondary_email = $request->input('secondary_email');
         $employee->user_detail->phone = $request->input('phone');
@@ -164,7 +169,11 @@ class UserController extends Controller
             $employee->user_detail->save();
         }
 
-        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Employee was successfully edited']);
+        if($employee->id == auth()->user()->id){
+            $request->session()->flash('msg', ['type' => 'success', 'text' => 'Your profile was successfully edited']);
+        }else{
+            $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Employee was successfully edited']);
+        }
         
         return redirect(route('employees.index'));
     }
