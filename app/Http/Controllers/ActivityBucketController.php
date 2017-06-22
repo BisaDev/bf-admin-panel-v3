@@ -90,6 +90,17 @@ class ActivityBucketController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \Brightfox\ActivityBucket  $activity_bucket
+     * @return \Illuminate\Http\Response
+     */
+    public function reorder_quizzes(ActivityBucket $activity_bucket)
+    {
+        return view('web.activity_buckets.reorder', ['item' => $activity_bucket]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \Brightfox\ActivityBucket  $activity_bucket

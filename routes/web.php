@@ -67,12 +67,14 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::match(['get', 'post'], 'quizzes/search', 'QuizController@index')->name('quizzes.search');
     Route::resource('quizzes',                      'QuizController');
+    Route::get('quizzes/{quiz}/reorder',            'QuizController@reorder_questions')->name('quizzes.reorder_questions');
     Route::post('quizzes/get_for_activity_bucket',  'QuizController@get_quizzes_for_activity_bucket')->name('quizzes.for_activity_bucket');
     Route::post('quizzes/save_question_order',      'QuizController@save_question_order')->name('quizzes.save_question_order');
 
     Route::match(['get', 'post'], 'activity_buckets/search',    'ActivityBucketController@index')->name('activity_buckets.search');
     Route::resource('activity_buckets',                         'ActivityBucketController');
     Route::get('activity_buckets/create/{meetup_id?}',          'ActivityBucketController@create')->name('activity_buckets.create');
+    Route::get('activity_buckets/{activity_bucket}/reorder',    'ActivityBucketController@reorder_quizzes')->name('activity_buckets.reorder_quizzes');
     Route::post('activity_buckets/get_for_meetup',              'ActivityBucketController@get_activity_buckets_for_meetup')->name('activity_buckets.for_meetup');
     Route::post('activity_buckets/save_quiz_order',             'ActivityBucketController@save_quiz_order')->name('activity_buckets.save_quiz_order');
 

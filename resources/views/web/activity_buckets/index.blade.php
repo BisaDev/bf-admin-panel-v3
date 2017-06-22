@@ -42,6 +42,7 @@
                         <th>Activity Bucket</th>
                         <th>Grade Level</th>
                         <th>Subject</th>
+                        <th width="90" class="text-center">Reorder</th>
                         <th width="90" class="text-center">Edit</th>
                         <th width="90" class="text-center">Delete</th>
                     </tr>
@@ -52,6 +53,7 @@
                             <td><a href="{{ route('activity_buckets.show', $item->id) }}">{{ $item->title }}</a></td>
                             <td>{{ $item->subject->grade_level->name }}</td>
                             <td>{{ $item->subject->name }}</td>
+                            <td class="text-center"><a href="{{ route('activity_buckets.reorder_quizzes', $item->id) }}" class="glyphicon glyphicon-sort"></a></td>
                             <td class="text-center"><a href="{{ route('activity_buckets.edit', $item->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">
                                 <a href="" @click="confirmDelete({{ $item->id }}, 0, $event)" class="icon icon-trash"></a>

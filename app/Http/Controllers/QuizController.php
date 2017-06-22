@@ -83,6 +83,17 @@ class QuizController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \Brightfox\Quiz  $quiz
+     * @return \Illuminate\Http\Response
+     */
+    public function reorder_questions(Quiz $quiz)
+    {
+        return view('web.quizzes.reorder', ['item' => $quiz]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \Brightfox\Quiz  $quiz
