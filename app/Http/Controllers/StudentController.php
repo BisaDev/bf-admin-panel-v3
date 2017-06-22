@@ -53,8 +53,8 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|value:191',
-            'last_name' => 'required|string|value:191',
+            'name' => 'required|string|size:191',
+            'last_name' => 'required|string|size:191',
             'photo' => 'nullable|image',
             'birthdate' => 'nullable|date_format:m/d/Y',
             'location' => 'required'
@@ -144,8 +144,8 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $this->validate($request, [
-            'name' => 'required|string|value:191',
-            'last_name' => 'required|string|value:191',
+            'name' => 'required|string|size:191',
+            'last_name' => 'required|string|size:191',
             'photo' => 'nullable|image',
             'birthdate' => 'nullable|date_format:m/d/Y',
             'location' => 'required'

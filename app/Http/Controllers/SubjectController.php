@@ -29,7 +29,7 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|value:191',
+            'name' => 'required|string|size:191',
             'grade_level_id' => 'required|numeric',
         ]);
         
@@ -90,7 +90,7 @@ class SubjectController extends Controller
     public function update(Request $request, Subject $subject)
     {
         $this->validate($request, [
-            'name' => 'required|string|value:191'
+            'name' => 'required|string|size:191'
         ]);
 
         $subject->name = $request->input('name');
