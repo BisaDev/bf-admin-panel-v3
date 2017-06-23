@@ -32,6 +32,14 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-sm-6 m-b-15">
+                        @foreach($item->tags as $tag)
+                        <span class="label label-primary">{{ $tag->name }}</span>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-sm-6">
                         <label class="control-label">Grade Level:</label>
                         <p>{{ $item->subject->grade_level->name }}</p>

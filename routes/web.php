@@ -80,4 +80,6 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('meetups',      'MeetupController');
     Route::post('meetups/filter',   'MeetupController@index')->name('meetups.filter');
+
+    Route::post('tags/repository',  'TagController@repository')->name('tags.repository');
 });

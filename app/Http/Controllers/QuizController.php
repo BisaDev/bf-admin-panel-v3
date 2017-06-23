@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Quiz, Brightfox\Question, Brightfox\GradeLevel;
+use Brightfox\Quiz, Brightfox\Question, Brightfox\GradeLevel, Brightfox\Tag;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
@@ -64,6 +64,17 @@ class QuizController extends Controller
 
         if($request->has('questions')){
             $quiz->questions()->sync($request->input('questions'));
+        }
+
+        if($request->has('tags')){
+            
+            $tags_to_sync = [];
+            foreach ($request->input('tags') as $tag_name) {
+                $tag = Tag::firstOrCreate(['name' => $tag_name]);
+                array_push($tags_to_sync, $tag->id);
+            }
+
+            $quiz->tags()->sync($tags_to_sync);
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully created']);
@@ -135,7 +146,18 @@ class QuizController extends Controller
             $quiz->questions()->sync($request->input('questions'));
         }
 
-        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully edit']);
+        if($request->has('tags')){
+            
+            $tags_to_sync = [];
+            foreach ($request->input('tags') as $tag_name) {
+                $tag = Tag::firstOrCreate(['name' => $tag_name]);
+                array_push($tags_to_sync, $tag->id);
+            }
+
+            $quiz->tags()->sync($tags_to_sync);
+        }
+
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully edited']);
 
         return redirect(route('quizzes.index'));
     }
