@@ -2,14 +2,15 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Question, Brightfox\Answer, Brightfox\GradeLevel;
+use Brightfox\Question, Brightfox\Answer, Brightfox\GradeLevel, Brightfox\Tags;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
+use Brightfox\Traits\HasTags;
 use File;
 
 class QuestionController extends Controller
 {
-    use CreatesAndSavesPhotos;
+    use CreatesAndSavesPhotos, HasTags;
     
     protected $types = Question::TYPES;
 
@@ -90,6 +91,10 @@ class QuestionController extends Controller
                     $answer->save();
                 }
             }
+        }
+
+        if($request->has('tags')){
+            $question->tags()->sync($this->getTagsToSync($request->input('tags')));
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Question was successfully created']);
@@ -209,6 +214,10 @@ class QuestionController extends Controller
             }
         }
 
+        if($request->has('tags')){
+            $question->tags()->sync($this->getTagsToSync($request->input('tags')));
+        }
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Question was successfully edited']);
 
         return redirect(route('questions.index'));
@@ -224,7 +233,7 @@ class QuestionController extends Controller
     public function destroy(Request $request, Question $question)
     {
         foreach ($question->answers as $answer) {
-            $answers->delete();
+            $answer->delete();
         }
 
         $question->delete();

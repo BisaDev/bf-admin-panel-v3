@@ -1,10 +1,15 @@
 import getAcademicContent from './mixins/getAcademicContent';
 import imagePreview from './mixins/imagePreview';
+import tagRepository from './mixins/tagRepository';
 
 export default {
     init () {
         const domElement = 'create-question'
         if(document.getElementById(domElement)) {
+
+            require('typeahead.js');
+            require('bootstrap-tagsinput');
+
             this.execute()
         }
     },
@@ -16,7 +21,7 @@ export default {
                 type: '',
                 photo: '',
             },
-            mixins: [getAcademicContent, imagePreview],
+            mixins: [getAcademicContent, imagePreview, tagRepository],
             beforeMount: function () {
 
                 //Look for question type and assign the selected to Vue data value

@@ -14195,6 +14195,33 @@ exports.clearImmediate = clearImmediate;
 
 /***/ }),
 
+/***/ 273:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var tagRepository = {
+    mounted: function mounted() {
+        var url = $('#tags').data('tag_repository');
+
+        $('#tags').tagsinput({
+            tagClass: 'label label-primary',
+            typeaheadjs: [{
+                //options
+            }, {
+                async: true,
+                source: function source(query, processSync, processAsync) {
+                    return axios.post(url, { query: query }).then(function (response) {
+                        return processAsync(response.data);
+                    });
+                }
+            }]
+        });
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (tagRepository);
+
+/***/ }),
+
 /***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14759,6 +14786,8 @@ if (token) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__ = __webpack_require__(273);
+
 
 
 
@@ -14766,6 +14795,10 @@ if (token) {
     init: function init() {
         var domElement = 'create-question';
         if (document.getElementById(domElement)) {
+
+            __webpack_require__(272);
+            __webpack_require__(41);
+
             this.execute();
         }
     },
@@ -14777,7 +14810,7 @@ if (token) {
                 type: '',
                 photo: ''
             },
-            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */]],
+            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__["a" /* default */]],
             beforeMount: function beforeMount() {
 
                 //Look for question type and assign the selected to Vue data value
@@ -14820,8 +14853,10 @@ if (token) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuedraggable__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuedraggable__);
+
 
 
 
@@ -14848,9 +14883,9 @@ if (token) {
                 questions_selected: []
             },
             components: {
-                draggable: __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default.a
+                draggable: __WEBPACK_IMPORTED_MODULE_3_vuedraggable___default.a
             },
-            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */]],
+            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__["a" /* default */]],
             beforeMount: function beforeMount() {
 
                 //Look for question type and assign the selected to Vue data value
@@ -14909,22 +14944,6 @@ if (token) {
                         vue_instance.questions_selected.push({ title: questions.title, photo: questions.photo, id: questions.id });
                     });
                 }
-
-                var url = $('#tags').data('tag_repository');
-
-                $('#tags').tagsinput({
-                    tagClass: 'label label-primary',
-                    typeaheadjs: [{
-                        //options
-                    }, {
-                        async: true,
-                        source: function source(query, processSync, processAsync) {
-                            return axios.post(url, { query: query }).then(function (response) {
-                                return processAsync(response.data);
-                            });
-                        }
-                    }]
-                });
             }
         });
     }

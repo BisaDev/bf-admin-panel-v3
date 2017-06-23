@@ -21,16 +21,24 @@
                     <div class="col-sm-12">
                         <div class="row">
                             @if($item->photo != '')
-                            <div class="col-sm-6 col-sm-offset-3">
-                                <img src="{{ $item->photo }}" class="img-responsive" alt="profile-image">
+                            <div class="col-sm-6">
+                                <img src="{{ $item->photo }}" class="img-responsive thumbnail" alt="profile-image">
                             </div>
                             @endif
-                            <div class="col-xs-12 text-center">
-                                <h4 class="header-title">{{ $item->title }}</h4>
+                            <div class="col-xs-12">
+                                <h3 class="m-b-0 m-t-0">{{ $item->title }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12"><hr/></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 m-b-15">
+                        @foreach($item->tags as $tag)
+                        <span class="label label-primary">{{ $tag->name }}</span>
+                        @endforeach
+                    </div>
                 </div>
 
                 <div class="row">

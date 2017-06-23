@@ -4,11 +4,12 @@ namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
+use Brightfox\Traits\Taggable;
 use File;
 
 class Question extends Model
 {
-    use Eloquence;
+    use Eloquence, Taggable;
 
     const PHOTO_PATH = "uploads/activities/";
     const DEFAULT_PHOTO = "default-image.png";

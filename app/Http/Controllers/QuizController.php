@@ -4,9 +4,12 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\Quiz, Brightfox\Question, Brightfox\GradeLevel, Brightfox\Tag;
 use Illuminate\Http\Request;
+use Brightfox\Traits\HasTags;
 
 class QuizController extends Controller
 {
+    use HasTags;
+
     protected $types = Quiz::TYPES;
 
     /**
@@ -67,14 +70,7 @@ class QuizController extends Controller
         }
 
         if($request->has('tags')){
-            
-            $tags_to_sync = [];
-            foreach ($request->input('tags') as $tag_name) {
-                $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                array_push($tags_to_sync, $tag->id);
-            }
-
-            $quiz->tags()->sync($tags_to_sync);
+            $quiz->tags()->sync($this->getTagsToSync($request->input('tags')));
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully created']);
@@ -147,14 +143,7 @@ class QuizController extends Controller
         }
 
         if($request->has('tags')){
-            
-            $tags_to_sync = [];
-            foreach ($request->input('tags') as $tag_name) {
-                $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                array_push($tags_to_sync, $tag->id);
-            }
-
-            $quiz->tags()->sync($tags_to_sync);
+            $quiz->tags()->sync($this->getTagsToSync($request->input('tags')));
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully edited']);
