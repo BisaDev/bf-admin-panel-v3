@@ -262,7 +262,7 @@ class QuestionController extends Controller
 
         $questions = Question::whereHas('topic', function ($query)use($request) {
             $query->where('subject_id', $request->get('subject'));
-        })->where('type', 'like', '%"key":"'.$type.'"%')->with('topic')->get();
+        })->where('type', 'like', '%"key":"'.$type.'"%')->with('topic', 'tags')->get();
 
         return response()->json($questions);
     }

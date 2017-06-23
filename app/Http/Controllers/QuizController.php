@@ -169,7 +169,7 @@ class QuizController extends Controller
 
     public function get_quizzes_for_activity_bucket(Request $request)
     {
-        $quizzes = Quiz::where('subject_id', $request->get('subject'))->with('subject')->get();
+        $quizzes = Quiz::where('subject_id', $request->get('subject'))->with('subject', 'tags')->get();
 
         return response()->json($quizzes);
     }
