@@ -29,7 +29,7 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string',
+            'name' => 'required|string|max:191',
             'location_id' => 'required|numeric',
         ]);
         
@@ -68,6 +68,10 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
+        $this->validate($request, [
+            'name' => 'required|string|max:191'
+        ]);
+
         $room->name = $request->input('name');
         $room->save();
 

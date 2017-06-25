@@ -36,8 +36,8 @@ class FamilyMemberController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string',
-            'last_name' => 'required|string',
+            'name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
             'email' => 'required|email',
             'email_confirmation' => 'same:email',
             'secondary_email' => 'nullable|email',
@@ -102,8 +102,8 @@ class FamilyMemberController extends Controller
     public function update(Request $request, FamilyMember $family_member)
     {
         $this->validate($request, [
-            'name' => 'required|string',
-            'last_name' => 'required|string',
+            'name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
             'email' => 'required|email',
             'secondary_email' => 'nullable|email',
             'photo' => 'nullable|image',

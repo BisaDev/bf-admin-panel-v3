@@ -14,7 +14,7 @@ export default {
             data: {
                 children: [],
                 type: '',
-                photo: '',
+                photo: ''
             },
             mixins: [imagePreview],
             beforeMount: function () {
@@ -33,6 +33,15 @@ export default {
                 },
             },
             mounted() {
+
+                if(this.$el.attributes['data-notes'] !== undefined) {
+                    let notes = $.parseJSON(this.$el.attributes['data-notes'].value);
+                    let vue_instance = this;
+                    
+                    $.each(notes, function(index, notes){
+                        vue_instance.children.push({name: notes.title, text: notes.text, id: notes.id});
+                    });
+                }
 
                 $('.datepicker-birthday').datepicker({
                     autoclose: true,

@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-container">
+    <div class="row create-container" id="create-container" data-notes="{{ $item->notes->toJson() }}">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
@@ -52,6 +52,8 @@
                                 </span>
                             @endif
                         </div>
+
+                        @include('partials.add-notes', ['help_text' => 'Use notes to describe mechanics, what type of quizzes work better with this minigame, etc.'])
 
                         <div class="form-group col-md-12 text-right">
                             <a href="{{ route('minigames.index') }}" class="btn btn-md btn-info">Cancel</a>

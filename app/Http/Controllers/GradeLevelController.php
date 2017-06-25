@@ -38,7 +38,7 @@ class GradeLevelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string'
+            'name' => 'required|string|max:191'
         ]);
         
         $grade_level = GradeLevel::create($request->only(['name']));
@@ -97,6 +97,10 @@ class GradeLevelController extends Controller
      */
     public function update(Request $request, GradeLevel $grade_level)
     {
+        $this->validate($request, [
+            'name' => 'required|string|max:191'
+        ]);
+        
         $grade_level->name = $request->input('name');
         $grade_level->save();
 

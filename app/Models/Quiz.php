@@ -4,10 +4,11 @@ namespace Brightfox;
 
 use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
+use Brightfox\Traits\Taggable;
 
 class Quiz extends Model
 {
-    use Eloquence;
+    use Eloquence, Taggable;
 
     const TYPES = ['Multiple choice: Two truths one lie', 'Multiple choice: Blitz', 'Multiple choice: Confidence level', 'Fill the blank', 'Trivia'];
     

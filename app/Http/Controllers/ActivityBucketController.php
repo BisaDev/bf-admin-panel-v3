@@ -49,7 +49,7 @@ class ActivityBucketController extends Controller
     public function store(Request $request)
     {   
         $this->validate($request, [
-            'title' => 'required|string',
+            'title' => 'required|string|max:191',
             'subject' => 'required',
             'quizzes' => 'required',
         ]);
@@ -90,6 +90,17 @@ class ActivityBucketController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \Brightfox\ActivityBucket  $activity_bucket
+     * @return \Illuminate\Http\Response
+     */
+    public function reorder_quizzes(ActivityBucket $activity_bucket)
+    {
+        return view('web.activity_buckets.reorder', ['item' => $activity_bucket]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \Brightfox\ActivityBucket  $activity_bucket
@@ -114,7 +125,7 @@ class ActivityBucketController extends Controller
     public function update(Request $request, ActivityBucket $activity_bucket)
     {
         $this->validate($request, [
-            'title' => 'required|string',
+            'title' => 'required|string|max:191',
             'subject' => 'required',
             'quizzes' => 'required',
         ]);

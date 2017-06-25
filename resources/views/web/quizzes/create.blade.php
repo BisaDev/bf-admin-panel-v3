@@ -41,6 +41,8 @@
                         </div>
                     </div>
 
+                    @include('partials.add-tags')
+
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
@@ -102,6 +104,7 @@
                             <th width="50">Add</th>
                             <th>Question</th>
                             <th>Topic</th>
+                            <th>Tags</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -117,6 +120,9 @@
                                     <img v-if="question.photo" v-bind:src="question.photo" class="img-responsive thumbnail">
                                 </td>
                                 <td>@{{ question.topic.name }}</td>
+                                <td>
+                                    <span class="label label-primary m-r-5" v-for="tag in question.tags">@{{ tag.name }}</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

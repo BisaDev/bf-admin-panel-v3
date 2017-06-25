@@ -111,6 +111,30 @@
                         </div>
                     </div>
 
+                    @if($logged_user->id == $item->id)
+                    <div class="row">
+                        <div class="form-group col-lg-6 {{ $errors->has('password')? 'has-error' : '' }}">
+                            <label class="control-label" for="password">Password:</label>
+                            <input type="password" name="password" class="form-control">
+                            @if($errors->has('password'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group col-lg-6 {{ $errors->has('password_confirmation')? 'has-error' : '' }}">
+                            <label class="control-label" for="password_confirmation">Confirm Password:</label>
+                            <input type="password" name="password_confirmation" class="form-control">
+                            @if($errors->has('password_confirmation'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="row">
                         <div class="form-group col-lg-6 {{ $errors->has('phone')? 'has-error' : '' }}">
                             <label class="control-label" for="phone">Phone Number:</label>

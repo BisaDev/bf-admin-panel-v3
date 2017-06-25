@@ -42,7 +42,7 @@ class MinigameController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string'
+            'name' => 'required|string|max:191'
         ]);
         
         $minigame = Minigame::create($request->only(['name']));
@@ -97,6 +97,10 @@ class MinigameController extends Controller
      */
     public function update(Request $request, Minigame $minigame)
     {
+        $this->validate($request, [
+            'name' => 'required|string|max:191'
+        ]);
+        
         $minigame->name = $request->input('name');
         $minigame->save();
 
@@ -107,6 +111,30 @@ class MinigameController extends Controller
 
             $minigame->photo = $this->createAndSavePhoto($request->file('photo'), Minigame::PHOTO_PATH, 400, null);
             $minigame->save();
+        }
+
+        if($request->has('notes')){
+            $notes_ids = collect($request->get('notes'))->map(function($note){
+                return $note['id'];
+            })->toArray();
+
+            $notes_to_delete = $minigame->notes()->whereNotIn('id', $notes_ids)->delete();
+
+            foreach ($request->input('notes') as $key => $request_note) {
+                if(!is_null($request_note['id'])){
+
+                    $note = Note::find($request_note['id']);
+                    $note->title = $request_note['title'];
+                    $note->text = $request_note['text'];
+                    
+                    $note->save();
+                }else{
+                    $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
+                    $minigame->notes()->save($note);
+                }
+            }
+        }else{
+            $minigame->notes()->delete();
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully edited']);

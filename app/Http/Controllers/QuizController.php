@@ -2,11 +2,14 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Quiz, Brightfox\Question, Brightfox\GradeLevel;
+use Brightfox\Quiz, Brightfox\Question, Brightfox\GradeLevel, Brightfox\Tag;
 use Illuminate\Http\Request;
+use Brightfox\Traits\HasTags;
 
 class QuizController extends Controller
 {
+    use HasTags;
+
     protected $types = Quiz::TYPES;
 
     /**
@@ -50,7 +53,7 @@ class QuizController extends Controller
     {
         $this->validate($request, [
             'type' => 'required',
-            'title' => 'required|string',
+            'title' => 'required|string|max:191',
             'subject' => 'required',
             'questions' => 'required',
         ]);
@@ -64,6 +67,10 @@ class QuizController extends Controller
 
         if($request->has('questions')){
             $quiz->questions()->sync($request->input('questions'));
+        }
+
+        if($request->has('tags')){
+            $quiz->tags()->sync($this->getTagsToSync($request->input('tags')));
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully created']);
@@ -80,6 +87,17 @@ class QuizController extends Controller
     public function show(Quiz $quiz)
     {
         return view('web.quizzes.show', ['item' => $quiz]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Brightfox\Quiz  $quiz
+     * @return \Illuminate\Http\Response
+     */
+    public function reorder_questions(Quiz $quiz)
+    {
+        return view('web.quizzes.reorder', ['item' => $quiz]);
     }
 
     /**
@@ -108,7 +126,7 @@ class QuizController extends Controller
     {
         $this->validate($request, [
             'type' => 'required',
-            'title' => 'required|string',
+            'title' => 'required|string|max:191',
             'subject' => 'required',
             'questions' => 'required',
         ]);
@@ -124,7 +142,11 @@ class QuizController extends Controller
             $quiz->questions()->sync($request->input('questions'));
         }
 
-        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully edit']);
+        if($request->has('tags')){
+            $quiz->tags()->sync($this->getTagsToSync($request->input('tags')));
+        }
+
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully edited']);
 
         return redirect(route('quizzes.index'));
     }
@@ -147,7 +169,7 @@ class QuizController extends Controller
 
     public function get_quizzes_for_activity_bucket(Request $request)
     {
-        $quizzes = Quiz::where('subject_id', $request->get('subject'))->with('subject')->get();
+        $quizzes = Quiz::where('subject_id', $request->get('subject'))->with('subject', 'tags')->get();
 
         return response()->json($quizzes);
     }

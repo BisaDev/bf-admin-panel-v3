@@ -72,6 +72,8 @@
                         </div>
                     </div>
 
+                    @include('partials.add-tags', ['tags' => $item->tags])
+
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">

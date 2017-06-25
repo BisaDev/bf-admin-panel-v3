@@ -83,6 +83,7 @@
                             <th width="50">Add</th>
                             <th>Quiz</th>
                             <th>Description</th>
+                            <th>Tags</th>
                             <th width="150">Minigame</th>
                         </tr>
                         </thead>
@@ -96,6 +97,9 @@
                                 </td>
                                 <td>@{{ quiz.title }}</td>
                                 <td>@{{ quiz.description }}</td>
+                                <td>
+                                    <span class="label label-primary m-r-5" v-for="tag in quiz.tags">@{{ tag.name }}</span>
+                                </td>
                                 <td>
                                     <select :name="'quizzes['+quiz.id+'][minigame_id]'" class="form-control">
                                         <option value="">Select Minigame</option>

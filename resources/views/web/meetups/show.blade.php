@@ -25,6 +25,11 @@
                     <div class="col-sm-6 text-right">
                         <label>Instructor</label>
                         <h4 class="m-b-20">{{ $item->user->full_name }}</h4>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-3 pull-right">
+                                <img src="{{ $item->user->user_detail->photo }}" class="img-responsive img-circle">  
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

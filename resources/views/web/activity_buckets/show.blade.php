@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-activity-bucket" data-activity-bucket-id="{{ $item->id }}" data-quizzes="{{ json_encode($item->quizzes) }}">
+    <div class="row create-container" id="create-activity-bucket">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row m-b-20">
                     <div class="col-sm-6">
                         <label class="control-label">Grade Level:</label>
                         <p>{{ $item->subject->grade_level->name }}</p>
@@ -34,26 +34,40 @@
                     </div>
                 </div>
 
-                <div class="row"><div class="col-sm-12"><hr/></div></div>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4 class="header-title m-t-0">Questions</h4>
-                        <p class="text-muted">Drag questions to re-arrange.</p>
-                    </div>
-                </div>
-
-                <draggable class="list-group" v-model="quizzes_selected" :options="dragOptions" @end="onDragEnd('{{ route('activity_buckets.save_quiz_order') }}', $event)">
-                    <div v-for="quiz in quizzes_selected" class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-2"><span class="drag_handle">&#9776;</span></div>
-                            <div class="col-xs-10">
-                                <h4 class="list-group-item-heading">@{{ quiz.title }}</h4>
-                                <p class="list-group-item-text">@{{ quiz.description }}</p>
+                <div class="list-group">
+                    @foreach($item->quizzes as $quiz)
+                    <div class="list-group-item">
+                        <h4 class="list-group-item-heading">{{ $quiz->title }}</h4>
+                        <p class="list-group-item-text">{{ $quiz->description }}</p>
+                        <div class="row m-t-15">
+                            <div class="col-xs-12">
+                                <ol>
+                                @foreach($quiz->questions as $key => $question)
+                                    <li>
+                                        @if($question->title)
+                                        <strong>{{ $question->title }}</strong>
+                                        @elseif($question->photo)
+                                        <img src="{{ $question->photo }}" class="img-responsive thumbnail">
+                                        @endif
+                                        <ul class="list-group m-t-10">
+                                            @foreach($question->answers as $answer)
+                                            <li class="list-group-item {{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
+                                                @if($answer->text)
+                                                {{ $answer->text }}
+                                                @elseif($answer->photo)
+                                                <img src="{{ $answer->photo }}" class="img-responsive thumbnail">
+                                                @endif
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endforeach
+                                </ol>
                             </div>
                         </div>
                     </div>
-                </draggable>
+                    @endforeach
+                </div>
 
                 <div class="row">
                     <div class="col-md-12 text-right">

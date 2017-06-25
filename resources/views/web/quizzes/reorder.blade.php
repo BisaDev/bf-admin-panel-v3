@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-quiz">
+    <div class="row create-container" id="create-quiz" data-quiz-id="{{ $item->id }}" data-questions="{{ json_encode($item->questions) }}">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
@@ -28,14 +28,6 @@
                     <div class="col-sm-6">
                         <label>Type</label>
                         <p>{{ $item->type->name }}</p>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 m-b-15">
-                        @foreach($item->tags as $tag)
-                        <span class="label label-primary">{{ $tag->name }}</span>
-                        @endforeach
                     </div>
                 </div>
 
@@ -55,30 +47,21 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h4 class="header-title m-t-0">Questions</h4>
-                        <ol>
-                        @foreach($item->questions as $key => $question)
-                            <li>
-                                @if($question->title)
-                                <strong>{{ $question->title }}</strong>
-                                @elseif($question->photo)
-                                <img src="{{ $question->photo }}" class="img-responsive thumbnail">
-                                @endif
-                                <ul class="list-group m-t-10">
-                                    @foreach($question->answers as $answer)
-                                    <li class="list-group-item {{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
-                                        @if($answer->text)
-                                        {{ $answer->text }}
-                                        @elseif($answer->photo)
-                                        <img src="{{ $answer->photo }}" class="img-responsive thumbnail">
-                                        @endif
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @endforeach
-                        </ol>
+                        <p class="text-muted">Drag questions to re-arrange.</p>
                     </div>
                 </div>
+
+                <draggable class="list-group" v-model="questions_selected" :options="dragOptions" @end="onDragEnd('{{ route('quizzes.save_question_order') }}', $event)">
+                    <div v-for="question in questions_selected" class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-2"><span class="drag_handle">&#9776;</span></div>
+                            <div class="col-xs-10">
+                                <h4 class="list-group-item-heading" v-if="question.title">@{{ question.title }}</h4>
+                                <img v-bind:src="question.photo" class="img-responsive thumbnail" v-if="question.photo">
+                            </div>
+                        </div>
+                    </div>
+                </draggable>
 
                 <div class="row">
                     <div class="col-md-12 text-right">

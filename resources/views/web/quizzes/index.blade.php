@@ -43,6 +43,7 @@
                         <th>Grade Level</th>
                         <th>Subject</th>
                         <th>Type</th>
+                        <th width="90" class="text-center">Reorder</th>
                         <th width="90" class="text-center">Edit</th>
                         <th width="90" class="text-center">Delete</th>
                     </tr>
@@ -54,6 +55,7 @@
                             <td>{{ $item->subject->grade_level->name }}</td>
                             <td>{{ $item->subject->name }}</td>
                             <td>{{ $item->type->name }}</td>
+                            <td class="text-center"><a href="{{ route('quizzes.reorder_questions', $item->id) }}" class="glyphicon glyphicon-sort"></a></td>
                             <td class="text-center"><a href="{{ route('quizzes.edit', $item->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">
                                 <a href="" @click="confirmDelete({{ $item->id }}, 0, $event)" class="icon icon-trash"></a>
@@ -69,7 +71,11 @@
 
                 <div class="row">
                     <div class="col-sm-12 text-right">
+                        @if(isset($search))
+                        {{ $list->appends(['search' => $search])->links() }}
+                        @else
                         {{ $list->links() }}
+                        @endif
                     </div>
                 </div>
             </div>

@@ -53,10 +53,10 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string',
-            'last_name' => 'required|string',
+            'name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
             'photo' => 'nullable|image',
-            'birthdate' => 'date_format:m/d/Y',
+            'birthdate' => 'nullable|date_format:m/d/Y',
             'location' => 'required'
         ]);
         
@@ -64,7 +64,7 @@ class StudentController extends Controller
             $birthdate = Carbon::createFromFormat('m/d/Y', $request->input('birthdate'));
             $birthdate_format = $birthdate->toDateString();
         }else{
-            $birthdate_format = "";
+            $birthdate_format = null;
         }
 
         $student = Student::create([
@@ -144,10 +144,10 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $this->validate($request, [
-            'name' => 'required|string',
-            'last_name' => 'required|string',
+            'name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
             'photo' => 'nullable|image',
-            'birthdate' => 'date_format:m/d/Y',
+            'birthdate' => 'nullable|date_format:m/d/Y',
             'location' => 'required'
         ]);
 
@@ -155,7 +155,7 @@ class StudentController extends Controller
             $birthdate = Carbon::createFromFormat('m/d/Y', $request->input('birthdate'));
             $birthdate_format = $birthdate->toDateString();
         }else{
-            $birthdate_format = "";
+            $birthdate_format = null;
         }
         
         $student->name = $request->input('name');
@@ -177,6 +177,30 @@ class StudentController extends Controller
 
             $student->photo = $this->createAndSavePhoto($request->file('photo'), Student::PHOTO_PATH);
             $student->save();
+        }
+
+        if($request->has('notes')){
+            $notes_ids = collect($request->get('notes'))->map(function($note){
+                return $note['id'];
+            })->toArray();
+
+            $notes_to_delete = $student->notes()->whereNotIn('id', $notes_ids)->delete();
+
+            foreach ($request->input('notes') as $key => $request_note) {
+                if(!is_null($request_note['id'])){
+
+                    $note = Note::find($request_note['id']);
+                    $note->title = $request_note['title'];
+                    $note->text = $request_note['text'];
+                    
+                    $note->save();
+                }else{
+                    $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
+                    $student->notes()->save($note);
+                }
+            }
+        }else{
+            $student->notes()->delete();
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Student was successfully edited']);

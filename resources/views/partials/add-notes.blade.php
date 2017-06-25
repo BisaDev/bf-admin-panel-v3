@@ -13,9 +13,10 @@
             <div class="panel-body">
                 <div class="form-group">
                     <input type="text" class="form-control" v-bind:name="'notes['+index+'][title]'" placeholder="Note title" v-model="note.name">
+                    <input type="hidden" v-bind:name="'notes['+index+'][id]'" v-model="note.id">
                 </div>
                 <div class="form-group">
-                    <textarea v-bind:name="'notes['+index+'][text]'" class="form-control"></textarea>
+                    <textarea v-bind:name="'notes['+index+'][text]'" class="form-control" v-model="note.text"></textarea>
                 </div>
             </div>
         </div>
