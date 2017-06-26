@@ -5,6 +5,8 @@ namespace Brightfox\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,10 +48,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-            return response()->json(['token2_expired_report_this_to_hector'], $e->getStatusCode());
-        } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-            return response()->json(['token2_invalid_report_this_to_hector'], $e->getStatusCode());
+        if ($exception instanceof TokenExpiredException) {
+            return response()->json(['token_expired'], $exception->getStatusCode());
+        } else if ($exception instanceof TokenInvalidException) {
+            return response()->json(['token_invalid'], $e->getStatusCode());
         }
 
         return parent::render($request, $exception);
