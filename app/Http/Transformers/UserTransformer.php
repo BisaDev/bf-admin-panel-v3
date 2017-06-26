@@ -14,8 +14,9 @@ class UserTransformer extends Transformer
     {
         return [
             'id' => (int)$user->id,
-            'name' => $user->name,
+            'name' => $user->full_name,
             'email' => $user->email,
+            'picture' => $user->user_detail->photo
         ];
     }
 

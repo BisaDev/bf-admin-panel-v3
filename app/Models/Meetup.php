@@ -2,6 +2,7 @@
 
 namespace Brightfox\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Meetup extends Model
@@ -37,5 +38,12 @@ class Meetup extends Model
     public function scopeForUser($query, $user)
     {
         return $query->where('user_id', $user->id);
+    }
+
+    public function scopeForWeek($query)
+    {
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+        return $query->where('start_time', '>', $startOfWeek)->where('start_time', '<', $endOfWeek);
     }
 }

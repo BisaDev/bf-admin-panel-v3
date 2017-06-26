@@ -33,7 +33,7 @@ class MeetupsController extends ApiController
      */
     public function all()
     {
-        $meetups = Meetup::forUser($this->user)->get();
+        $meetups = Meetup::forUser($this->user)->forWeek()->get();
         return $this->respond($this->transformer->transformCollection($meetups));
     }
 
