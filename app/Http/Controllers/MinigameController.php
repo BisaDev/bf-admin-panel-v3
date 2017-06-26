@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Minigame, Brightfox\Note;
+use Brightfox\Models\Minigame, Brightfox\Models\Note;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;

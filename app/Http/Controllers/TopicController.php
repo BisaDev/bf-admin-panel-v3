@@ -3,8 +3,8 @@
 namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Brightfox\Subject;
-use Brightfox\Topic;
+use Brightfox\Models\Subject;
+use Brightfox\Models\Topic;
 
 class TopicController extends Controller
 {

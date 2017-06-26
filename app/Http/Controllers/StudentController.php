@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Student, Brightfox\Location, Brightfox\Note;
+use Brightfox\Models\Student, Brightfox\Models\Location, Brightfox\Models\Note;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
 use Carbon\Carbon;

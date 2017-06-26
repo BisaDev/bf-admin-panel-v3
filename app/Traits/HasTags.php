@@ -1,7 +1,7 @@
 <?php
 
 namespace Brightfox\Traits;
-use Brightfox\Tag;
+use Brightfox\Models\Tag;
 
 trait HasTags
 {

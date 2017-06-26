@@ -3,7 +3,7 @@
 namespace Brightfox\Console\Commands;
 
 use Illuminate\Console\Command;
-use Brightfox\User, Brightfox\UserDetail;
+use Brightfox\Models\User, Brightfox\Models\UserDetail;
 
 class CreateAdmin extends Command
 {

@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Tag;
+use Brightfox\Models\Tag;
 use Illuminate\Http\Request;
 use DB;
 

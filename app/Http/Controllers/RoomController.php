@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Room, Brightfox\Location;
+use Brightfox\Models\Room, Brightfox\Models\Location;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller

@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\ActivityBucket, Brightfox\GradeLevel, Brightfox\Meetup, Brightfox\Minigame;
+use Brightfox\Models\ActivityBucket, Brightfox\Models\GradeLevel, Brightfox\Models\Meetup, Brightfox\Models\Minigame;
 use Illuminate\Http\Request;
 
 class ActivityBucketController extends Controller

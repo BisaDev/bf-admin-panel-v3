@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\User, Brightfox\UserDetail, Brightfox\Location;
+use Brightfox\Models\User, Brightfox\Models\UserDetail, Brightfox\Models\Location;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;

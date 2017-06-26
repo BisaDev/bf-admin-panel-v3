@@ -1,6 +1,6 @@
 <?php
 
-namespace Brightfox;
+namespace Brightfox\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Brightfox\Traits\HasPhoto;

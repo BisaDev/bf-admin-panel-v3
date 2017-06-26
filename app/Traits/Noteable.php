@@ -1,7 +1,7 @@
 <?php
 
 namespace Brightfox\Traits;
-use Brightfox\Note;
+use Brightfox\Models\Note;
 
 trait Noteable
 {

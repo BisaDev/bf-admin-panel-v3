@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers\Auth;
 
-use Brightfox\User;
+use Brightfox\Models\User;
 use Brightfox\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;

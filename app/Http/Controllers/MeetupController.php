@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Meetup, Brightfox\ActivityBucket, Brightfox\GradeLevel, Brightfox\Location;
+use Brightfox\Models\Meetup, Brightfox\Models\ActivityBucket, Brightfox\Models\GradeLevel, Brightfox\Models\Location;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;

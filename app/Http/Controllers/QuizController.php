@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Quiz, Brightfox\Question, Brightfox\GradeLevel, Brightfox\Tag;
+use Brightfox\Models\Quiz, Brightfox\Models\Question, Brightfox\Models\GradeLevel, Brightfox\Models\Tag;
 use Illuminate\Http\Request;
 use Brightfox\Traits\HasTags;
 

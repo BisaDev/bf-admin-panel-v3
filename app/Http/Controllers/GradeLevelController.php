@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\GradeLevel, Brightfox\Subject;
+use Brightfox\Models\GradeLevel, Brightfox\Models\Subject;
 use Illuminate\Http\Request;
 
 class GradeLevelController extends Controller

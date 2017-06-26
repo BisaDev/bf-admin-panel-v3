@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Question, Brightfox\Answer, Brightfox\GradeLevel, Brightfox\Tags;
+use Brightfox\Models\Question, Brightfox\Models\Answer, Brightfox\Models\GradeLevel, Brightfox\Models\Tags;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
 use Brightfox\Traits\HasTags;

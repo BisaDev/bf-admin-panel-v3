@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\FamilyMember, Brightfox\Student;
+use Brightfox\Models\FamilyMember, Brightfox\Models\Student;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;
