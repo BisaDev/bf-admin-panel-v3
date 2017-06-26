@@ -26,7 +26,7 @@
 
                         <div class="form-group col-md-12 {{ $errors->has('name')? 'has-error' : '' }}">
                             <label class="control-label" for="name">Topic Name:</label>
-                            <input type="text" name="name" class="form-control" value="{{ $item->name }}">
+                            <input type="text" name="name" class="form-control" value="{{ old('name', $item->name) }}">
                             @if($errors->has('name'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('name') }}</strong>

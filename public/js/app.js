@@ -16044,7 +16044,7 @@ if (token) {
                     var vue_instance = this;
 
                     $.each(answers, function (index, answer) {
-                        vue_instance.children.push({ name: answer.text, photo: answer.photo, is_correct: answer.is_correct == 1 ? true : false, remove_photo: false, id: answer.id });
+                        vue_instance.children.push({ name: answer.text, photo: answer.photo, is_correct: answer.is_correct == 1 || answer.is_correct == 'on' ? true : false, remove_photo: false, id: answer.id });
                     });
                 }
             }
