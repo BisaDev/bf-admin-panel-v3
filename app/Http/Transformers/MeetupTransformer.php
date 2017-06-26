@@ -10,15 +10,21 @@ namespace Brightfox\Http\Transformers;
 class MeetupTransformer extends Transformer
 {
     private $userTransformer;
+    private $roomTransformer;
+    private $activityBucketTransformer;
 
     /**
      * MeetupTransformer constructor.
      *
-     * @param \Brightfox\Http\Transformers\UserTransformer $userTransformer
+     * @param \Brightfox\Http\Transformers\UserTransformer           $userTransformer
+     * @param \Brightfox\Http\Transformers\RoomTransformer           $roomTransformer
+     * @param \Brightfox\Http\Transformers\ActivityBucketTransformer $activityBucketTransformer
      */
-    public function __construct(UserTransformer $userTransformer)
+    public function __construct(UserTransformer $userTransformer, RoomTransformer $roomTransformer, ActivityBucketTransformer $activityBucketTransformer)
     {
         $this->userTransformer = $userTransformer;
+        $this->roomTransformer = $roomTransformer;
+        $this->activityBucketTransformer = $activityBucketTransformer;
     }
 
     public function transform($meetup)
@@ -29,7 +35,9 @@ class MeetupTransformer extends Transformer
             'endTime' => $meetup->end_time->toDateTimeString(),
             'activity_bucket_id' => (int)$meetup->activity_bucket_id,
             'instructor' => $this->userTransformer->transform($meetup->user),
-            'room' => (int)$meetup->room_id,
+            'room' => $this->roomTransformer->transform($meetup->room),
+            'activityBucket' => $this->activityBucketTransformer->transform($meetup->activity_bucket),
+//            'activityBucket' => $meetup->activity_bucket->toArray(),
         ];
     }
 
