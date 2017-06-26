@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers\Api;
 
-use Brightfox\Meetup;
+use Brightfox\Models\Meetup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Brightfox\Http\Controllers\Controller;
