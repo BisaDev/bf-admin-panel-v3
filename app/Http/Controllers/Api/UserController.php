@@ -2,7 +2,6 @@
 
 namespace Brightfox\Http\Controllers\Api;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Brightfox\Http\Controllers\Controller;
