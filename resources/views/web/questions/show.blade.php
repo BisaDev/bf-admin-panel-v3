@@ -22,7 +22,7 @@
                         <div class="row">
                             @if($item->photo != '')
                             <div class="col-sm-6">
-                                <img src="{{ $item->photo }}" class="img-responsive thumbnail" alt="profile-image">
+                                <img src="{{ $item->photo }}" class="img-responsive thumbnail m-b-5" alt="profile-image">
                             </div>
                             @endif
                             <div class="col-xs-12">

@@ -44,17 +44,15 @@
                                 <ol>
                                 @foreach($quiz->questions as $key => $question)
                                     <li>
-                                        @if($question->title)
-                                        <strong>{{ $question->title }}</strong>
-                                        @elseif($question->photo)
-                                        <img src="{{ $question->photo }}" class="img-responsive thumbnail">
+                                        <strong>{{ $question->title or '' }}</strong>
+                                        @if($question->photo)
+                                        <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
                                         @endif
                                         <ul class="list-group m-t-10">
                                             @foreach($question->answers as $answer)
                                             <li class="list-group-item {{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
-                                                @if($answer->text)
-                                                {{ $answer->text }}
-                                                @elseif($answer->photo)
+                                                {{ $answer->text or '' }}
+                                                @if($answer->photo)
                                                 <img src="{{ $answer->photo }}" class="img-responsive thumbnail">
                                                 @endif
                                             </li>

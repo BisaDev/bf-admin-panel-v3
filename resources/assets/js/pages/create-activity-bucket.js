@@ -59,7 +59,13 @@ export default {
                     return _.findIndex(this.quizzes_selected, function(d) { return d.id == quiz.id;}) >= 0;
                 },
                 minigameSelected: function(quiz, minigame_id){
-                    return this.quizzes_selected[_.findIndex(this.quizzes_selected, function(d) { return d.id == quiz.id; })].pivot.minigame_id == minigame_id
+                    let quiz_selected = this.quizzes_selected[_.findIndex(this.quizzes_selected, function(d) { return d.id == quiz.id; })];
+                    if(quiz_selected != undefined){
+                        return quiz_selected.pivot.minigame_id == minigame_id    
+                    }else{
+                        return 0;
+                    }
+                    
                 }
             },
             computed: {
