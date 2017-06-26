@@ -31,7 +31,9 @@ export default {
             },
             methods: {
                 addChildren(){
-                    this.children.push({name: '', photo: '', is_correct: false, remove_photo: false});
+                    if(this.children.length < 4){
+                        this.children.push({name: '', photo: '', is_correct: false, remove_photo: false});
+                    }
                 },
                 removeChildren(index){
                     this.children.splice(index, 1);
