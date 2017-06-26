@@ -18,7 +18,7 @@ class MinigameController extends Controller
      */
     public function index()
     {
-        $list = Minigame::paginate(10);
+        $list = Minigame::paginate(50);
         
         return view('web.minigames.index', compact('list'));
     }

@@ -17,9 +17,9 @@ class LocationController extends Controller
     {
         if($request->has('search')){
             $search = $request->input('search');
-            $list = Location::search($search)->paginate(10);
+            $list = Location::search($search)->paginate(50);
         }else{
-            $list = Location::paginate(10);
+            $list = Location::paginate(50);
         }
 
         return view('web.locations.index', compact('list', 'search'));
@@ -76,9 +76,9 @@ class LocationController extends Controller
 
         if($request->has('search')){
             $search = $request->input('search');
-            $item->rooms = $item->rooms()->search($search)->paginate(10);
+            $item->rooms = $item->rooms()->search($search)->paginate(50);
         }else{
-            $item->rooms = $item->rooms()->paginate(10);
+            $item->rooms = $item->rooms()->paginate(50);
         }
 
         return view('web.locations.show', compact('item', 'search'));

@@ -22,9 +22,9 @@ class QuizController extends Controller
     {
         if($request->has('search')){
             $search = $request->input('search');
-            $list = Quiz::search($search)->with('subject.grade_level', 'questions')->paginate(10);
+            $list = Quiz::search($search)->with('subject.grade_level', 'questions')->paginate(50);
         }else{
-            $list = Quiz::with('subject.grade_level')->paginate(10);
+            $list = Quiz::with('subject.grade_level')->paginate(50);
         }
 
         return view('web.quizzes.index', compact('list', 'search'));

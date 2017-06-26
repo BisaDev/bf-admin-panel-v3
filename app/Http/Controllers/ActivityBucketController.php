@@ -16,9 +16,9 @@ class ActivityBucketController extends Controller
     {
         if($request->has('search')){
             $search = $request->input('search');
-            $list = ActivityBucket::search($search)->with('subject.grade_level', 'questions')->paginate(10);
+            $list = ActivityBucket::search($search)->with('subject.grade_level', 'questions')->paginate(50);
         }else{
-            $list = ActivityBucket::with('subject.grade_level')->paginate(10);
+            $list = ActivityBucket::with('subject.grade_level')->paginate(50);
         }
 
         return view('web.activity_buckets.index', compact('list', 'search'));

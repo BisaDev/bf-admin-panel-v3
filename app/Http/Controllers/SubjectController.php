@@ -61,9 +61,9 @@ class SubjectController extends Controller
 
         if($request->has('search')){
             $search = $request->input('search');
-            $item->topics = $item->topics()->search($search)->paginate(10);
+            $item->topics = $item->topics()->search($search)->paginate(50);
         }else{
-            $item->topics = $item->topics()->paginate(10);
+            $item->topics = $item->topics()->paginate(50);
         }
 
         return view('web.subjects.show', compact('item', 'search'));
