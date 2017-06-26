@@ -106,6 +106,9 @@ return [
         'answers.*.text' => [
             'required_without' => 'The answer field is required when an image is not present.',
             'required_with' => 'The answer field is required when an image is not present.',
+        ],
+        'rooms.*' => [
+            'distinct' => 'The room names have to be different.',
         ]
     ],
 
