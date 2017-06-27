@@ -37,8 +37,8 @@ class MeetupTransformer extends Transformer
             'instructor' => $this->userTransformer->transform($meetup->user),
             'room' => $this->roomTransformer->transform($meetup->room),
             'activityBucket' => $this->activityBucketTransformer->transform($meetup->activity_bucket),
-//            'activityBucket' => $meetup->activity_bucket->toArray(),
         ];
     }
+
 
 }

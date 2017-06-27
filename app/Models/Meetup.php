@@ -46,4 +46,13 @@ class Meetup extends Model
         $endOfWeek = Carbon::now()->endOfWeek();
         return $query->where('start_time', '>', $startOfWeek)->where('start_time', '<', $endOfWeek);
     }
+
+    public function checkOwner($user)
+    {
+        if ($user->id === $this->user_id) {
+            return true;
+        }
+
+        return false;
+    }
 }
