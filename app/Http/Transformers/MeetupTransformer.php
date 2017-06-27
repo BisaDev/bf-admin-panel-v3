@@ -35,7 +35,7 @@ class MeetupTransformer extends Transformer
             'endTime' => $meetup->end_time->toDateTimeString(),
             'instructor' => $this->userTransformer->transform($meetup->user),
             'room' => $this->roomTransformer->transform($meetup->room),
-            'activityBucket' => $this->activityBucketTransformer->transform($meetup->activity_bucket),
+            'activityBucket' => (is_null($meetup->activity_bucket)) ? null : $this->activityBucketTransformer->transform($meetup->activity_bucket),
         ];
     }
 
