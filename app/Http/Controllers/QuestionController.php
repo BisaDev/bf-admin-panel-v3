@@ -62,9 +62,8 @@ class QuestionController extends Controller
         $this->validate($request, [
             'type' => 'required',
             'topic' => 'required',
-            'answers' => 'required',
+            'answers' => 'required|require_one_correct',
             'answers.*.text' => 'required_without:answers.*.photo',
-            'answers.*.is_correct' => 'required'
         ]);
 
         $question = Question::create([
