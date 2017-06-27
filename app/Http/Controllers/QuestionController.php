@@ -24,9 +24,9 @@ class QuestionController extends Controller
     {
         if($request->has('search')){
             $search = $request->input('search');
-            $list = Question::search($search)->with('topic.subject.grade_level')->paginate(10);
+            $list = Question::search($search)->with('topic.subject.grade_level')->paginate(50);
         }else{
-            $list = Question::with('topic.subject.grade_level')->paginate(10);
+            $list = Question::with('topic.subject.grade_level')->paginate(50);
         }
 
         return view('web.questions.index', compact('list', 'search'));
@@ -64,6 +64,7 @@ class QuestionController extends Controller
             'topic' => 'required',
             'answers' => 'required',
             'answers.*.text' => 'required_without:answers.*.photo',
+            'answers.*.is_correct' => 'required'
         ]);
 
         $question = Question::create([

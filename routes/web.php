@@ -78,8 +78,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('activity_buckets/get_for_meetup',              'ActivityBucketController@get_activity_buckets_for_meetup')->name('activity_buckets.for_meetup');
     Route::post('activity_buckets/save_quiz_order',             'ActivityBucketController@save_quiz_order')->name('activity_buckets.save_quiz_order');
 
-    Route::resource('meetups',      'MeetupController');
-    Route::post('meetups/filter',   'MeetupController@index')->name('meetups.filter');
+    Route::resource('meetups',                  'MeetupController');
+    Route::get('meetups/attendance/{meetup}',   'MeetupController@attendance')->name('meetups.attendance');
+    Route::post('meetups/attendance/{meetup}',  'MeetupController@attendance_store')->name('meetups.attendance.store');
+    Route::post('meetups/filter',               'MeetupController@index')->name('meetups.filter');
 
     Route::post('tags/repository',  'TagController@repository')->name('tags.repository');
 });

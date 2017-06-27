@@ -22,9 +22,9 @@ class UserController extends Controller
     {
         if($request->has('search')){
             $search = $request->input('search');
-            $list = User::role(['director', 'instructor'])->search($search)->paginate(10);
+            $list = User::role(['director', 'instructor'])->search($search)->paginate(50);
         }else{
-            $list = User::role(['director', 'instructor'])->paginate(10);
+            $list = User::role(['director', 'instructor'])->paginate(50);
         }
 
         return view('web.users.index', compact('list', 'search'));

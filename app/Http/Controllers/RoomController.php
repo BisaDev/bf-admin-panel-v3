@@ -4,6 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\Models\Room, Brightfox\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class RoomController extends Controller
 {
@@ -29,8 +30,23 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:191|unique:rooms',
+            'name' => [
+                'required',
+                'string',
+                'max:191',
+                Rule::unique('rooms')->where(function ($query)use($request) {
+                    $query->where('location_id', $request->input('location_id'));
+                })
+            ],
             'location_id' => 'required|numeric',
+            'rooms.*' => [
+                'sometimes',
+                'distinct',
+                'max:191',
+                Rule::unique('rooms')->where(function ($query)use($request) {
+                    $query->where('location_id', $request->input('location_id'));
+                })
+            ]
         ]);
         
         Room::create($request->only(['name', 'location_id']));

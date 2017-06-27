@@ -22,7 +22,7 @@ class CreateStudentsTable extends Migration
             $table->string('gender');
             $table->string('photo')->nullable();
             $table->string('current_school')->nullable();
-            $table->integer('school_year')->nullable();
+            $table->string('school_year')->nullable();
             $table->string('teacher')->nullable();
             $table->string('former_school')->nullable();
             $table->integer('location_id')->unsigned()->nullable();

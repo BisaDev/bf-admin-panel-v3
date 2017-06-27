@@ -23,9 +23,9 @@ class StudentController extends Controller
     {
         if($request->has('search')){
             $search = $request->input('search');
-            $list = Student::search($search)->paginate(10);
+            $list = Student::search($search)->paginate(50);
         }else{
-            $list = Student::paginate(10);
+            $list = Student::paginate(50);
         }
 
         return view('web.students.index', compact('list', 'search'));
@@ -111,9 +111,9 @@ class StudentController extends Controller
 
         if($request->has('search')){
             $search = $request->input('search');
-            $item->family_members = $item->family_members()->search($search)->paginate(10);
+            $item->family_members = $item->family_members()->search($search)->paginate(50);
         }else{
-            $item->family_members = $item->family_members()->paginate(10);
+            $item->family_members = $item->family_members()->paginate(50);
         }
 
         return view('web.students.show', compact('item', 'search'));

@@ -15889,6 +15889,8 @@ if (token) {
             el: '#create-meetup',
             data: {
                 activity_buckets: [],
+                students: [],
+                students_selected: [],
                 subject: '',
                 add_existing_activity_bucket: false,
                 selected_activity_bucket: 0
@@ -15967,6 +15969,11 @@ if (token) {
 
                 activityBucketSelected: function activityBucketSelected(activity_bucket) {
                     return this.selected_activity_bucket == activity_bucket.id;
+                },
+                studentSelected: function studentSelected(student) {
+                    return _.findIndex(this.students_selected, function (d) {
+                        return d.id == student.id;
+                    }) >= 0;
                 }
             },
             mounted: function mounted() {
@@ -15985,6 +15992,24 @@ if (token) {
                     event.initEvent('change', true, true);
 
                     $('#location')[0].dispatchEvent(event);
+                }
+
+                if (this.$el.attributes['data-students'] !== undefined) {
+                    var students = $.parseJSON(this.$el.attributes['data-students'].value);
+                    var vue_instance = this;
+
+                    $.each(students, function (index, student) {
+                        vue_instance.students.push({ name: student.full_name, photo: student.photo, id: student.id });
+                    });
+                }
+
+                if (this.$el.attributes['data-students-selected'] !== undefined) {
+                    var students_selected = $.parseJSON(this.$el.attributes['data-students-selected'].value);
+                    var _vue_instance = this;
+
+                    $.each(students_selected, function (index, student) {
+                        _vue_instance.students_selected.push({ name: student.full_name, photo: student.photo, id: student.id });
+                    });
                 }
             }
         });
