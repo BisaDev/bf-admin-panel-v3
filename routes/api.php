@@ -14,12 +14,12 @@ use Illuminate\Http\Request;
 */
 
 Route::post('auth/login', 'Api\AuthController@authenticate');
+Route::get('activityBucket/{id}', 'Api\ActivityBucketsController@show');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::get('me', 'Api\UserController@me');
     Route::get('meetups', 'Api\MeetupsController@all');
     Route::get('meetups/{id}', 'Api\MeetupsController@show');
-    Route::get('activityBucket/{id}', 'Api\ActivityBuckets@show');
 });
 

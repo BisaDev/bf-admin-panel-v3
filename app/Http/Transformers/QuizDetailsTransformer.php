@@ -9,7 +9,7 @@ use Brightfox\Models\Minigame;
  *
  * @package \App\Http\Transformers
  */
-class QuizTransformer extends Transformer
+class QuizDetailsTransformer extends Transformer
 {
 
     private $subjectTransformer;
@@ -30,19 +30,19 @@ class QuizTransformer extends Transformer
         $this->questionTransformer = $questionTransformer;
     }
 
-    public function transform($quiz, $withQuestions = false)
+    public function transform($quiz)
     {
-        //@todo Diego Fix dis shit -_-!
         $miniGame = Minigame::where('id', $quiz->pivot->minigame_id)->first();
-        return [
+        return  [
             'id' => (int)$quiz->id,
             'title' => $quiz->title,
             'description' => $quiz->description,
             'type' => $quiz->type,
             'subject' => $this->subjectTransformer->transform($quiz->subject),
-            'questions' => $quiz->questions->count(),
-            'miniGame' => (is_null($miniGame)) ? null : $this->miniGameTransformer->transform($miniGame)
+            'miniGame' => (is_null($miniGame)) ? null : $this->miniGameTransformer->transform($miniGame),
+            'questions' => $this->questionTransformer->transformCollection($quiz->questions)
         ];
+
     }
 
 }
