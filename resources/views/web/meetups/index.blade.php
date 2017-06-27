@@ -71,7 +71,9 @@
                                     <p class="panel-subtitle">{{ $meetup->room->name }}</p>
                                 </div>
                                 <div class="panel-body">
+                                    @if(!is_null($meetup->activity_bucket)) 
                                     <p>{{ $meetup->activity_bucket->subject->grade_level->name }}, {{ $meetup->activity_bucket->subject->name }}</p>
+                                    @endif
                                     <p class="m-t-0">{{ $meetup->user->full_name }}</p>
                                     <p class="m-t-0"><small>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</small></p>
                                     <a href="{{ route('meetups.attendance', $meetup->id) }}" class="icon icon-user pull-right m-l-5"></a>
