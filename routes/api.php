@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('auth/login', 'Api\AuthController@authenticate');
-Route::get('registerIpad', 'Api\IpadsController@register');
+Route::post('registerIpad', 'Api\IpadsController@register');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
 
