@@ -18,13 +18,19 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        Validator::extend('require_one_correct', function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('require_one_correct_for_multiple_choice', function ($attribute, $value, $parameters, $validator) {
             
-            $is_correct_exists = array_filter($value, function($answer){
-                return array_key_exists('is_correct', $answer);
-            });
+            if($parameters[0] === '0'){
+                $answers_with_is_correct = array_filter($value, function($answer){
+                    return array_key_exists('is_correct', $answer);
+                });
 
-            return !empty($is_correct_exists);
+                $return = !empty($answers_with_is_correct);
+            }else{
+                $return = true;
+            }
+            
+            return $return;
         });
     }
 
