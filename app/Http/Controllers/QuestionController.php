@@ -64,6 +64,7 @@ class QuestionController extends Controller
             'topic' => 'required',
             'answers' => 'required',
             'answers.*.text' => 'required_without:answers.*.photo',
+            'answers.*.is_correct' => 'required'
         ]);
 
         $question = Question::create([
