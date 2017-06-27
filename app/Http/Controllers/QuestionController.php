@@ -251,12 +251,15 @@ class QuestionController extends Controller
             case '0':
             case '1':
             case '2':
+            case '3':
                 $type = '0';
                 break;
-            case '3':
+            case '4':
                 $type = '1';
                 break;
-            case '4':
+            case '5':
+            case '6':
+            case '7':
                 $type = '2';
                 break;
         }
