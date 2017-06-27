@@ -11,7 +11,7 @@ class Quiz extends Model
     use Eloquence, Taggable;
 
     const TYPES = [
-        'Multiple choice: General'
+        'Multiple choice: General',
         'Multiple choice: Two truths one lie', 
         'Multiple choice: Blitz', 
         'Multiple choice: Confidence level', 

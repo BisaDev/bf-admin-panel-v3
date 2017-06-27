@@ -34,7 +34,7 @@ class MeetupDetailsTransformer extends Transformer
     {
         $transformedMeetup = $this->meetupTransformer->transform($meetup);
         $transformedMeetup += [
-            'students' => $this->studentTransformer->transformCollection(Student::all()),
+            'students' => $this->studentTransformer->transformCollection($meetup->students),
             'quizzes' =>  $this->quizTransformer->transformCollection($meetup->activity_bucket->quizzes)
         ];
 
