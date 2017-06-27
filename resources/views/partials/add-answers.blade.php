@@ -2,9 +2,10 @@
     <div class="form-group col-md-12">
         <button type="button" class="btn btn-sm btn-default" @click="addChildren" >Add answer<span class="m-l-5"><i class="fa fa-plus"></i></span></button>
         <p class="text-muted m-t-5">{{ $help_text or '' }}</p>
-        @if($errors->has('answers.*'))
+        @if($errors->has('answers') || $errors->has('answers.*'))
             <div class="alert alert-danger" role="alert">
                 <ul>
+                    @if($errors->has('answers'))<li>{{ $errors->first('answers') }}</li>@endif
                     @foreach($errors->get('answers.*') as $answer_errors)
                         @foreach($answer_errors as $error)
                         <li>{{ $error }}</li>
