@@ -54,6 +54,11 @@ class Student extends Model
         return $this->belongsTo(Location::class);
     }
 
+    public function meetups()
+    {
+        return $this->belongsToMany(Meetup::class)->orderBy('meetups.start_time', 'asc');
+    }
+
     public static function boot() {
         parent::boot();
         

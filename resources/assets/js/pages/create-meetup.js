@@ -13,6 +13,8 @@ export default {
             el: '#create-meetup',
             data: {
                 activity_buckets: [],
+                students: [],
+                students_selected: [],
                 subject: '',
                 add_existing_activity_bucket: false,
                 selected_activity_bucket: 0
@@ -93,6 +95,9 @@ export default {
                 },
                 activityBucketSelected: function(activity_bucket){
                     return this.selected_activity_bucket == activity_bucket.id;
+                },
+                studentSelected: function(student){
+                    return _.findIndex(this.students_selected, function(d) { return d.id == student.id;}) >= 0;
                 }
             },
             mounted() {
@@ -111,6 +116,24 @@ export default {
                     event.initEvent('change', true, true);
                     
                     $('#location')[0].dispatchEvent(event);
+                }
+
+                if(this.$el.attributes['data-students'] !== undefined) {
+                    let students = $.parseJSON(this.$el.attributes['data-students'].value);
+                    let vue_instance = this;
+                    
+                    $.each(students, function(index, student){
+                        vue_instance.students.push({name: student.full_name, photo: student.photo, id: student.id});
+                    });
+                }
+
+                if(this.$el.attributes['data-students-selected'] !== undefined) {
+                    let students_selected = $.parseJSON(this.$el.attributes['data-students-selected'].value);
+                    let vue_instance = this;
+                    
+                    $.each(students_selected, function(index, student){
+                        vue_instance.students_selected.push({name: student.full_name, photo: student.photo, id: student.id});
+                    });
                 }
             }
         });

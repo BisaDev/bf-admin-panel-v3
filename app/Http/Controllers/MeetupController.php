@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Models\Meetup, Brightfox\Models\ActivityBucket, Brightfox\Models\GradeLevel, Brightfox\Models\Location;
+use Brightfox\Models\Meetup, Brightfox\Models\ActivityBucket, Brightfox\Models\GradeLevel, Brightfox\Models\Location, Brightfox\Models\Student;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -100,13 +100,39 @@ class MeetupController extends Controller
             $meetup->activity_bucket()->associate($activity_bucket);
             $meetup->save();
 
-            $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Meetup was created succesfully']);
-            $redirect = route('meetups.index');
+            $redirect = route('meetups.attendance', $meetup->id);
         }else{
             $redirect = route('activity_buckets.create', $meetup->id);
         }
 
         return redirect($redirect);
+    }
+
+    /**
+     * Choose meetup attendance.
+     *
+     * @param  \Brightfox\Meetup  $meetup
+     * @return \Illuminate\Http\Response
+     */
+    public function attendance(Meetup $meetup)
+    {
+        $students = Student::where('location_id', $meetup->room->location->id)->get();
+
+        return view('web.meetups.attendance', ['item' => $meetup, 'students' => $students]);
+    }
+
+    /**
+     * Choose meetup attendance.
+     *
+     * @param  \Brightfox\Meetup  $meetup
+     * @return \Illuminate\Http\Response
+     */
+    public function attendance_store(Request $request, Meetup $meetup)
+    {
+        $meetup->students()->sync($request->input('students'));
+
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Meetup was created succesfully']);
+        return redirect(route('meetups.index'));
     }
 
     /**
