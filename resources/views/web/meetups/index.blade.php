@@ -49,6 +49,9 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <input type="text" name="go_to_week" class="form-control datepicker-general" placeholder="Go to week">
+                        </div>
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">Filter</button>
                         </div>
                     </form>

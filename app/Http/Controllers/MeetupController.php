@@ -17,8 +17,10 @@ class MeetupController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('start_of_week')){
-            $start_of_week = Carbon::createFromFormat('Y-m-d', $request->get('start_of_week'))->startOfDay();
+        if($request->has('go_to_week')){
+            $start_of_week = Carbon::parse($request->get('go_to_week'))->startOfWeek()->startOfDay();
+        }elseif($request->has('start_of_week')){
+            $start_of_week = Carbon::parse($request->get('start_of_week'))->startOfDay();
         }else{
             $start_of_week = Carbon::today()->startOfWeek()->startOfDay();
         }
