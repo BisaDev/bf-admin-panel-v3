@@ -4,7 +4,7 @@
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Quizzes',
-        'link' => [ 'label' => 'Create Quizz', 'url' => route('quizzes.create')],
+        'link' => [ 'label' => 'Create Quiz', 'url' => route('quizzes.create')],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Quizzes', 'url' => route('quizzes.index')],

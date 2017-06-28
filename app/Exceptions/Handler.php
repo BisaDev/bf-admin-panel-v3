@@ -53,6 +53,8 @@ class Handler extends ExceptionHandler
             return response()->json(['token_expired'], $exception->getStatusCode());
         } else if ($exception instanceof TokenInvalidException) {
             return response()->json(['token_invalid'], $exception->getStatusCode());
+        } else if ($exception instanceof TokenMismatchException){
+            return redirect(route('login'));
         }
 
         return parent::render($request, $exception);
