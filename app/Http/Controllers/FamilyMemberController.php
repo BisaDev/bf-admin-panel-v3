@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Models\FamilyMember, Brightfox\Models\Student;
+use Brightfox\Models\FamilyMember, Brightfox\Models\Student, Brightfox\Models\Note;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
 use File;
@@ -63,6 +63,15 @@ class FamilyMemberController extends Controller
         if ($request->hasFile('photo')) {
             $family_member->photo = $this->createAndSavePhoto($request->file('photo'), FamilyMember::PHOTO_PATH);
             $family_member->save();
+        }
+
+        if($request->has('notes')){
+            foreach ($request->input('notes') as $note) {
+                if(!is_null($note['title']) && !is_null($note['text'])){
+                    $note = Note::create(['title' => $note['title'], 'text' => $note['text']]);
+                    $family_member->notes()->save($note);
+                }
+            }
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Family Member was successfully created']);
@@ -130,6 +139,30 @@ class FamilyMemberController extends Controller
 
             $family_member->photo = $this->createAndSavePhoto($request->file('photo'), FamilyMember::PHOTO_PATH);
             $family_member->save();
+        }
+
+        if($request->has('notes')){
+            $notes_ids = collect($request->get('notes'))->map(function($note){
+                return $note['id'];
+            })->toArray();
+
+            $notes_to_delete = $family_member->notes()->whereNotIn('id', $notes_ids)->delete();
+
+            foreach ($request->input('notes') as $key => $request_note) {
+                if(!is_null($request_note['id'])){
+
+                    $note = Note::find($request_note['id']);
+                    $note->title = $request_note['title'];
+                    $note->text = $request_note['text'];
+                    
+                    $note->save();
+                }else{
+                    $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
+                    $family_member->notes()->save($note);
+                }
+            }
+        }else{
+            $family_member->notes()->delete();
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Family Member was successfully edited']);

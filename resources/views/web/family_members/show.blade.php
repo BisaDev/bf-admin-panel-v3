@@ -67,6 +67,15 @@
                 </div>
 
                 <div class="row">
+                    @foreach($item->notes as $note)
+                    <div class="col-sm-6">
+                        <label>{{ $note->title }}</label>
+                        <p>{{ $note->text }}</p>
+                    </div>
+                    @endforeach
+                </div>
+                
+                <div class="row">
                     <div class="col-md-12 text-right">
                         <a href="{{ route('students.show', $item->student->id) }}" class="btn btn-md btn-info">Back</a>
                         <a href="{{ route('family_members.edit', $item->id) }}" class="btn btn-md btn-primary">Edit</a>
