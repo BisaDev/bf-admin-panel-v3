@@ -73,6 +73,7 @@
                     <thead>
                     <tr>
                         <th>Question</th>
+                        <th></th>
                         <th>Grade Level</th>
                         <th>Subject</th>
                         <th>Topic</th>
@@ -85,6 +86,7 @@
                     @foreach($list as $item)
                         <tr>
                             <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}@if($item->photo)<img src="{{ $item->photo }}" class="img-responsive">@endif</a></td>
+                            <td><span class="icon icon-picture {{ ($item->answers_have_images)? 'text-success' : 'text-muted' }}"></span></td>
                             <td>{{ $item->topic->subject->grade_level->name }}</td>
                             <td>{{ $item->topic->subject->name }}</td>
                             <td>{{ $item->topic->name }}</td>

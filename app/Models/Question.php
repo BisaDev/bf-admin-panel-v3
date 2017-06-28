@@ -65,6 +65,19 @@ class Question extends Model
         return $this->belongsToMany(Quiz::class);
     }
 
+    public function getAnswersHaveImagesAttribute()
+    {
+        $have_images = false;
+        foreach ($this->answers as $answer) {
+            if($answer->photo){
+                $have_images = true;
+                break;
+            }
+        }
+
+        return $have_images;
+    }
+
     public static function boot() {
         parent::boot();
         

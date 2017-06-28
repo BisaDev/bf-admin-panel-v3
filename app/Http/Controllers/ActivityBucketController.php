@@ -60,7 +60,8 @@ class ActivityBucketController extends Controller
         ]);
 
         if($request->has('quizzes')){
-            $activity_bucket->quizzes()->sync($request->input('quizzes'));
+            $quizzes_to_sync = array_intersect_key($request->input('quizzes_minigames'), $request->input('quizzes'));
+            $activity_bucket->quizzes()->sync($quizzes_to_sync);
         }
 
         if($request->has('meetup_id')){
@@ -141,7 +142,8 @@ class ActivityBucketController extends Controller
         $activity_bucket->save();
 
         if($request->has('quizzes')){
-            $activity_bucket->quizzes()->sync($request->input('quizzes'));
+            $quizzes_to_sync = array_intersect_key($request->input('quizzes_minigames'), $request->input('quizzes'));
+            $activity_bucket->quizzes()->sync($quizzes_to_sync);
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Activity Bucket was successfully edited']);

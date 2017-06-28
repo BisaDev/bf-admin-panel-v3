@@ -87,14 +87,14 @@
                             <tr v-for="(quiz, index) in quizzes">
                                 <td>
                                     <div class="checkbox checkbox-primary">
-                                        <input type="checkbox" name="quizzes[]" :value="quiz.id"  :checked="quizSelected(quiz)">
+                                        <input type="checkbox" :name="'quizzes['+quiz.id+']'" :value="quiz.id"  :checked="quizSelected(quiz)">
                                         <label></label>
                                     </div>
                                 </td>
                                 <td>@{{ quiz.title }}</td>
                                 <td>@{{ quiz.description }}</td>
                                 <td>
-                                    <select :name="'quizzes['+quiz.id+'][minigame_id]'" class="form-control">
+                                    <select :name="'quizzes_minigames['+quiz.id+'][minigame_id]'" class="form-control" v-if="quizAllowsMinigames(quiz.type.key)">
                                         <option value="">Select Minigame</option>
                                         @foreach($minigames as $minigame)
                                         <option value="{{ $minigame->id }}" :selected="minigameSelected(quiz, {{ $minigame->id }})">{{ $minigame->name }}</option>

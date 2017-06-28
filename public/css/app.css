@@ -27937,6 +27937,11 @@ img.thumbnail {
   max-width: 50px;
   max-height: 50px;
 }
+#index-container table td .icon-picture,
+#index-question table td .icon-picture {
+  font-size: 1.2em;
+  font-weight: 600;
+}
 .create-container .droppable {
   background: #5fbeaa;
   color: #FFF;
