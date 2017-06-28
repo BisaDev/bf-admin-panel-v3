@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Meetup extends Model
 {
+    const STATUS = [
+        'Incomplete',
+        'Ready',
+        'Done',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

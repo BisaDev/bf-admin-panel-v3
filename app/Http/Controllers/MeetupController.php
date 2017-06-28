@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use DB;
 class MeetupController extends Controller
 {
+    protected $status = Meetup::STATUS;
+
     /**
      * Display a listing of the resource.
      *
@@ -105,6 +107,9 @@ class MeetupController extends Controller
             $redirect = route('activity_buckets.create', $meetup->id);
         }
 
+        $meetup->status = json_encode(['key' => '0', 'name' => 'Incomplete'], JSON_FORCE_OBJECT);
+        $meetup->save();
+
         return redirect($redirect);
     }
 
@@ -130,6 +135,11 @@ class MeetupController extends Controller
     public function attendance_store(Request $request, Meetup $meetup)
     {
         $meetup->students()->sync($request->input('students'));
+
+        if(!is_null($meetup->activity_bucket)){
+            $meetup->status = json_encode(['key' => '1', 'name' => 'Ready'], JSON_FORCE_OBJECT);
+            $meetup->save();
+        }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Meetup was created succesfully']);
         return redirect(route('meetups.index'));

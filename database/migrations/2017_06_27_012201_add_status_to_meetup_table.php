@@ -14,7 +14,7 @@ class AddStatusToMeetupTable extends Migration
     public function up()
     {
         Schema::table('meetups', function (Blueprint $table) {
-            $table->string('status');
+            $table->string('status')->after('room_id')->nullable();
         });
     }
 

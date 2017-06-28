@@ -66,6 +66,11 @@ class ActivityBucketController extends Controller
         if($request->has('meetup_id')){
             $meetup = Meetup::find($request->input('meetup_id'));
             $meetup->activity_bucket()->associate($activity_bucket);
+            
+            if($meetup->students->count() > 0){
+                $meetup->status = json_encode(['key' => '1', 'name' => 'Ready'], JSON_FORCE_OBJECT);
+            }
+
             $meetup->save();
 
             $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Activity Bucket was created and associated with the Meetup']);
