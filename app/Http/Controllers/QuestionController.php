@@ -22,14 +22,44 @@ class QuestionController extends Controller
      */
     public function index(Request $request)
     {
+        $query = Question::with('topic.subject.grade_level');
+
+        $filters = [
+            'type' => $request->input('type'), 
+            'grade_level' => $request->input('grade_level'), 
+            'subject' =>  $request->input('subject'),
+            'topic' => $request->input('topic')
+        ];
+
         if($request->has('search')){
             $search = $request->input('search');
-            $list = Question::search($search)->with('topic.subject.grade_level')->paginate(50);
-        }else{
-            $list = Question::with('topic.subject.grade_level')->paginate(50);
+            $query->search($search);
         }
 
-        return view('web.questions.index', compact('list', 'search'));
+        if($request->has('type')){
+            $filters['type'] = $request->input('type');
+            $query->where('type', 'like', '%"key":"'.$filters['type'].'"%');
+        }
+
+        if(!is_null($filters['topic'])){
+            $query->where('topic_id', $filters['topic']);
+        }elseif(!is_null($filters['subject'])){
+            $query->whereHas('topic', function ($subquery)use($filters) {
+                $subquery->where('subject_id', $filters['subject']);
+            });
+        }elseif(!is_null($filters['grade_level'])){
+            $query->whereHas('topic', function ($subquery)use($filters) {
+                $subquery->whereHas('subject', function ($second_subquery)use($filters) {
+                    $second_subquery->where('grade_level_id', $filters['grade_level']);
+                });
+            });
+        }
+
+        $list = $query->paginate(50);
+        $grade_levels = GradeLevel::all();
+        $types = $this->types;
+
+        return view('web.questions.index', compact('list', 'search', 'grade_levels', 'types', 'filters'));
     }
 
     /**
