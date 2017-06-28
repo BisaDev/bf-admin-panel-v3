@@ -1,3 +1,4 @@
+import datepicker from 'bootstrap-datepicker';
 import swal from 'sweetalert2';
 
 var indexGeneral = {
@@ -64,7 +65,9 @@ var indexGeneral = {
         }
     },
     mounted() {
-        
+        $('.datepicker-general').datepicker({
+            autoclose: true,
+        });
     }
 }
 export default indexGeneral;
