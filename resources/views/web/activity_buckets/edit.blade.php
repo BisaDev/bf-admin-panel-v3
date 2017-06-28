@@ -79,7 +79,10 @@
                         <tr>
                             <th width="50">Add</th>
                             <th>Quiz</th>
-                            <th>Description</th>
+                            <th></th>
+                            <th>Type</th>
+                            <th># of questions</th>
+                            <th>Tags</th>
                             <th width="150">Minigames</th>
                         </tr>
                         </thead>
@@ -92,7 +95,12 @@
                                     </div>
                                 </td>
                                 <td>@{{ quiz.title }}</td>
-                                <td>@{{ quiz.description }}</td>
+                                <td><span :class="['icon', 'icon-picture', quiz.questions_have_images? 'text-success' : 'text-muted']"></span></td>
+                                <td>@{{ quiz.type.name }}</td>
+                                <td>@{{ quiz.number_of_questions }}</td>
+                                <td>
+                                    <span class="label label-primary m-r-5" v-for="tag in quiz.tags">@{{ tag.name }}</span>
+                                </td>
                                 <td>
                                     <select :name="'quizzes_minigames['+quiz.id+'][minigame_id]'" class="form-control" v-if="quizAllowsMinigames(quiz.type.key)">
                                         <option value="">Select Minigame</option>

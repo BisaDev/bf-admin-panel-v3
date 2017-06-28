@@ -15,7 +15,8 @@ export default {
                 activity_bucket_id: 0,
                 quizzes: [],
                 subject: '',
-                quizzes_selected: []
+                quizzes_selected: [],
+                iconClasses: 'icon icon-picture',
             },
             components:{
                 draggable

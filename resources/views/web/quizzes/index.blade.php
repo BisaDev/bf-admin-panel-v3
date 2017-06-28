@@ -71,10 +71,11 @@
                     <thead>
                     <tr>
                         <th>Quizz</th>
+                        <th></th>
                         <th>Grade Level</th>
                         <th>Subject</th>
                         <th>Type</th>
-                        <th># of Questions</th>
+                        <th># of questions</th>
                         <th width="90" class="text-center">Reorder</th>
                         <th width="90" class="text-center">Edit</th>
                         <th width="90" class="text-center">Delete</th>
@@ -84,10 +85,11 @@
                     @foreach($list as $item)
                         <tr>
                             <td><a href="{{ route('quizzes.show', $item->id) }}">{{ $item->title }}</a></td>
+                            <td><span class="icon icon-picture {{ ($item->questions_have_images)? 'text-success' : 'text-muted' }}"></span></td>
                             <td>{{ $item->subject->grade_level->name }}</td>
                             <td>{{ $item->subject->name }}</td>
                             <td>{{ $item->type->name }}</td>
-                            <td class="text-center">{{ $item->questions->count() }}</td>
+                            <td class="text-center">{{ $item->number_of_questions }}</td>
                             <td class="text-center"><a href="{{ route('quizzes.reorder_questions', $item->id) }}" class="glyphicon glyphicon-sort"></a></td>
                             <td class="text-center"><a href="{{ route('quizzes.edit', $item->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">

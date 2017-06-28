@@ -58,4 +58,29 @@ class Quiz extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+
+    public function getNumberOfQuestionsAttribute()
+    {
+        return $this->questions->count();
+    }
+
+    public function getQuestionsHaveImagesAttribute()
+    {
+        $have_images = false;
+        foreach ($this->questions as $question) {
+            if($question->photo){
+                $have_images = true;
+                break;
+            }
+        }
+
+        return $have_images;
+    }
+
+    protected function getArrayableAppends()
+    {
+        $this->appends = array_unique(array_merge($this->appends, ['number_of_questions', 'questions_have_images']));
+
+        return parent::getArrayableAppends();
+    }
 }

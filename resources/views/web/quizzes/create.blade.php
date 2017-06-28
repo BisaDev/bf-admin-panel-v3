@@ -103,6 +103,7 @@
                         <tr>
                             <th width="50">Add</th>
                             <th>Question</th>
+                            <th></th>
                             <th>Topic</th>
                             <th>Tags</th>
                         </tr>
@@ -119,6 +120,7 @@
                                     <div v-if="question.title">@{{ question.title }}</div>
                                     <img v-if="question.photo" v-bind:src="question.photo" class="img-responsive thumbnail">
                                 </td>
+                                <td><span :class="['icon', 'icon-picture', question.answers_have_images? 'text-success' : 'text-muted']"></span></td>
                                 <td>@{{ question.topic.name }}</td>
                                 <td>
                                     <span class="label label-primary m-r-5" v-for="tag in question.tags">@{{ tag.name }}</span>

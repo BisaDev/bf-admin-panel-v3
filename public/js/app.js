@@ -17980,7 +17980,8 @@ if (token) {
                 activity_bucket_id: 0,
                 quizzes: [],
                 subject: '',
-                quizzes_selected: []
+                quizzes_selected: [],
+                iconClasses: 'icon icon-picture'
             },
             components: {
                 draggable: __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default.a
