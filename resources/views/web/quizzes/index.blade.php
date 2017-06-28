@@ -71,7 +71,6 @@
                     <thead>
                     <tr>
                         <th>Quizz</th>
-                        <th></th>
                         <th>Grade Level</th>
                         <th>Subject</th>
                         <th>Type</th>
@@ -85,7 +84,6 @@
                     @foreach($list as $item)
                         <tr>
                             <td><a href="{{ route('quizzes.show', $item->id) }}">{{ $item->title }}</a></td>
-                            <td><span class="icon icon-picture {{ ($item->questions_have_images)? 'text-success' : 'text-muted' }}"></span></td>
                             <td>{{ $item->subject->grade_level->name }}</td>
                             <td>{{ $item->subject->name }}</td>
                             <td>{{ $item->type->name }}</td>

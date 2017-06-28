@@ -16,7 +16,6 @@ export default {
                 quizzes: [],
                 subject: '',
                 quizzes_selected: [],
-                iconClasses: 'icon icon-picture',
             },
             components:{
                 draggable

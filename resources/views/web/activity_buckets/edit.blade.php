@@ -79,7 +79,6 @@
                         <tr>
                             <th width="50">Add</th>
                             <th>Quiz</th>
-                            <th></th>
                             <th>Type</th>
                             <th># of questions</th>
                             <th>Tags</th>
@@ -95,7 +94,6 @@
                                     </div>
                                 </td>
                                 <td>@{{ quiz.title }}</td>
-                                <td><span :class="['icon', 'icon-picture', quiz.questions_have_images? 'text-success' : 'text-muted']"></span></td>
                                 <td>@{{ quiz.type.name }}</td>
                                 <td>@{{ quiz.number_of_questions }}</td>
                                 <td>
