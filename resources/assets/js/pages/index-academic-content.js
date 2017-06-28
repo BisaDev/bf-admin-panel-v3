@@ -3,14 +3,14 @@ import getAcademicContent from './mixins/getAcademicContent';
 
 export default {
     init () {
-        const domElement = 'index-question'
+        const domElement = 'index-academic-content'
         if(document.getElementById(domElement)) {
             this.execute()
         }
     },
     execute () {
         new Vue({
-            el: '#index-question',
+            el: '#index-academic-content',
             data: {
                 type: ''
             },

@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="index-question" data-model="question" data-search="{{ $search or '' }}" class="row">
+    <div id="index-academic-content" data-model="question" data-search="{{ $search or '' }}" class="row">
         <div class="col-sm-12">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
@@ -57,6 +57,9 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Filter</button>
+                                @if(!is_null($filters['type']) || !is_null($filters['grade_level']) || !is_null($filters['subject']) || !is_null($filters['topic']))
+                                <a href="{{ route('questions.index') }}" class="btn btn-white">&times; Clear filters</a>
+                                @endif
                             </div>
                             
                             <div class="form-group col-md-4 pull-right">

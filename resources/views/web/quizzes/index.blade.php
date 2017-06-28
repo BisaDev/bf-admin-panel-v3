@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="index-container" data-model="quiz" data-search="{{ $search or '' }}" class="row">
+    <div id="index-academic-content" data-model="quiz" data-search="{{ $search or '' }}" class="row">
         <div class="col-sm-12">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
@@ -24,14 +24,45 @@
             @endif
             <div class="card-box">
                 <div class="row">
-                    <div class="col-md-offset-8 col-md-4 m-t-10 m-b-10">
-                        <form class="form-inline" action="{{ route('quizzes.search') }}" method="POST">
+                    <div class="col-xs-12 m-t-10 m-b-10">
+                        <form id="filter-form" class="form-inline" action="{{ route('quizzes.search') }}" method="POST">
                             {{ csrf_field() }}
+
+                            <div class="form-group">
+                                <select id="type" name="type" class="form-control" v-model="type">
+                                    <option value="">Select Type</option>
+                                    @foreach($types as $key => $type)
+                                    <option value="{{ $key }}" {{ (!is_null($filters['type']) && (int)$filters['type'] === $key)? 'selected' : '' }}>{{ $type }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select id="grade_level" name="grade_level" class="form-control" data-selected="{{ $filters['grade_level'] }}" @change="getSubjectsFromGradeLevel('{{ route('subjects.by_grade') }}', $event)">
+                                    <option value="">Select Grade Level</option>
+                                    @foreach($grade_levels as $grade_level)
+                                    <option value="{{ $grade_level->id }}">{{ ucfirst($grade_level->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select id="subject" name="subject" class="form-control" data-selected="{{ $filters['subject'] }}" @change="getTopicsFromSubject('{{ route('topics.by_subject') }}', $event)">
+                                    <option value="">Select subject</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                                @if(!is_null($filters['type']) || !is_null($filters['grade_level']) || !is_null($filters['subject']))
+                                <a href="{{ route('quizzes.index') }}" class="btn btn-white">&times; Clear filters</a>
+                                @endif
+                            </div>
                             
-                            <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
-                                <input type="text" name="search" placeholder="Search" v-model="search" >
-                                <span @click="removeSearch('{{ route('quizzes.index') }}')" v-show="search">&times;</span>
-                            </span>
+                            <div class="form-group col-md-4 pull-right">
+                                <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
+                                    <input type="text" id="search" name="search" placeholder="Search" v-model="search" >
+                                    <span @click="removeSearch()" v-show="search">&times;</span>
+                                </span>
+                            </div>
                         </form>
                     </div>
                 </div>

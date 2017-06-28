@@ -27933,12 +27933,12 @@ img.thumbnail {
   margin: 0 auto;
 }
 #index-container table td img,
-#index-question table td img {
+#index-academic-content table td img {
   max-width: 50px;
   max-height: 50px;
 }
 #index-container table td .icon-picture,
-#index-question table td .icon-picture {
+#index-academic-content table td .icon-picture {
   font-size: 1.2em;
   font-weight: 600;
 }

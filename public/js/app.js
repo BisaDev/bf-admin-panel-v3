@@ -17011,7 +17011,7 @@ process.umask = function() { return 0; };
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_index__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_index_question__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_index_academic_content__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_create__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_create_question__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_create_quiz__ = __webpack_require__(42);
@@ -17037,7 +17037,7 @@ window.Vue = __webpack_require__(65);
 
 
 __WEBPACK_IMPORTED_MODULE_0__pages_index__["a" /* default */].init();
-__WEBPACK_IMPORTED_MODULE_1__pages_index_question__["a" /* default */].init();
+__WEBPACK_IMPORTED_MODULE_1__pages_index_academic_content__["a" /* default */].init();
 __WEBPACK_IMPORTED_MODULE_2__pages_create__["a" /* default */].init();
 __WEBPACK_IMPORTED_MODULE_3__pages_create_question__["a" /* default */].init();
 __WEBPACK_IMPORTED_MODULE_4__pages_create_quiz__["a" /* default */].init();
@@ -18461,14 +18461,14 @@ if (token) {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     init: function init() {
-        var domElement = 'index-question';
+        var domElement = 'index-academic-content';
         if (document.getElementById(domElement)) {
             this.execute();
         }
     },
     execute: function execute() {
         new Vue({
-            el: '#index-question',
+            el: '#index-academic-content',
             data: {
                 type: ''
             },

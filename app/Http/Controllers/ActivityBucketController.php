@@ -14,14 +14,30 @@ class ActivityBucketController extends Controller
      */
     public function index(Request $request)
     {
+        $query = ActivityBucket::with('subject.grade_level');
+
+        $filters = [
+            'grade_level' => $request->input('grade_level'), 
+            'subject' =>  $request->input('subject')
+        ];
+
         if($request->has('search')){
             $search = $request->input('search');
-            $list = ActivityBucket::search($search)->with('subject.grade_level', 'questions')->paginate(50);
-        }else{
-            $list = ActivityBucket::with('subject.grade_level')->paginate(50);
+            $query->search($search);
         }
 
-        return view('web.activity_buckets.index', compact('list', 'search'));
+        if(!is_null($filters['subject'])){
+            $query->where('subject_id', $filters['subject']);
+        }elseif(!is_null($filters['grade_level'])){
+            $query->whereHas('subject', function ($subquery)use($filters) {
+                $subquery->where('grade_level_id', $filters['grade_level']);
+            });
+        }
+
+        $list = $query->paginate(50);
+        $grade_levels = GradeLevel::all();
+
+        return view('web.activity_buckets.index', compact('list', 'search', 'grade_levels', 'filters'));
     }
 
     /**

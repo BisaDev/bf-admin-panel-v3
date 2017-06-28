@@ -19,15 +19,38 @@ class QuizController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+        $query = Quiz::with('subject.grade_level');
+
+        $filters = [
+            'type' => $request->input('type'), 
+            'grade_level' => $request->input('grade_level'), 
+            'subject' =>  $request->input('subject')
+        ];
+
         if($request->has('search')){
             $search = $request->input('search');
-            $list = Quiz::search($search)->with('subject.grade_level', 'questions')->paginate(50);
-        }else{
-            $list = Quiz::with('subject.grade_level')->paginate(50);
+            $query->search($search);
         }
 
-        return view('web.quizzes.index', compact('list', 'search'));
+        if($request->has('type')){
+            $filters['type'] = $request->input('type');
+            $query->where('type', 'like', '%"key":"'.$filters['type'].'"%');
+        }
+
+        if(!is_null($filters['subject'])){
+            $query->where('subject_id', $filters['subject']);
+        }elseif(!is_null($filters['grade_level'])){
+            $query->whereHas('subject', function ($subquery)use($filters) {
+                $subquery->where('grade_level_id', $filters['grade_level']);
+            });
+        }
+
+        $list = $query->paginate(50);
+        $grade_levels = GradeLevel::all();
+        $types = $this->types;
+
+        return view('web.quizzes.index', compact('list', 'search', 'grade_levels', 'types', 'filters'));
     }
 
     /**
