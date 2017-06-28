@@ -201,6 +201,10 @@
                     </div>
 
                     <div class="row">
+                        @include('partials.add-notes')
+                    </div>
+
+                    <div class="row">
                         <div class="form-group col-md-12 text-right">
                             <input type="hidden" name="student_id" value="{{ $student->id }}">
                             <a href="{{ route('students.show', $student->id) }}" class="btn btn-md btn-info">Cancel</a>

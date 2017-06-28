@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
 use Brightfox\Traits\HasFullName;
 use Brightfox\Traits\HasPhoto;
+use Brightfox\Traits\Noteable;
 use File;
 
 class FamilyMember extends Model
 {
-    use Eloquence, HasFullName, HasPhoto;
+    use Eloquence, HasFullName, HasPhoto, Noteable;
 
     const PHOTO_PATH = "uploads/profiles/";
     const DEFAULT_PHOTO = "default-profile.jpg";
