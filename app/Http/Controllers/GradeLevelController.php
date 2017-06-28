@@ -14,7 +14,7 @@ class GradeLevelController extends Controller
      */
     public function index()
     {
-        $list = GradeLevel::paginate(50);
+        $list = GradeLevel::orderBy('name', 'asc')->paginate(50);
         
         return view('web.grade_levels.index', compact('list'));
     }

@@ -25,7 +25,7 @@
                                 <img src="{{ $item->photo }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
                             </div>
                             <div class="col-xs-12 text-center">
-                                <h4 class="header-title">{{ $item->full_name }}</h4>
+                                <h2>{{ $item->full_name }}</h2>
                             </div>
                         </div>
                     </div>
