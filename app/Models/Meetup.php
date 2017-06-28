@@ -66,4 +66,9 @@ class Meetup extends Model
 
         return false;
     }
+
+    public function getStatusAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

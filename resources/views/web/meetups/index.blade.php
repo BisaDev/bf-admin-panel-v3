@@ -69,6 +69,7 @@
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ $meetup->room->location->name }}</a></h3>
                                     <p class="panel-subtitle">{{ $meetup->room->name }}</p>
+                                    <span class="status"><small>{{ $meetup->status->name }}</small></span>
                                 </div>
                                 <div class="panel-body">
                                     @if(!is_null($meetup->activity_bucket)) 
