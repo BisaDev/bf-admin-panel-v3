@@ -64,18 +64,18 @@
                     </div>
                 </div>
 
-                <ul class="list-group">
-                    @foreach($item->answers as $answer)                    
-                    <li class="list-group-item {{ $answer->is_correct? 'list-group-item-success' : '' }}">
-                        @if($answer->text)
-                        <h4 class="list-group-item-heading">{{ $answer->text }}</h4>
-                        @endif
-                        @if($answer->photo)
-                        <img src="{{ $answer->photo }}" class="img-responsive">
-                        @endif
-                    </li>
+                <div class="row answer-list m-t-10">
+                    @foreach($item->answers as $answer)
+                    <div class="col-lg-3 col-sm-6 text-center answer-item">
+                        <div class="{{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
+                            @if($answer->photo)
+                            <img src="{{ $answer->photo }}" class="img-responsive thumbnail m-b-5">
+                            @endif
+                            {{ $answer->text or '' }}
+                        </div>
+                    </div>
                     @endforeach
-                </ul>
+                </div>
 
                 <div class="row">
                     <div class="col-md-12 text-right">

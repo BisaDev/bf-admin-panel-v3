@@ -62,16 +62,18 @@
                                 @if($question->photo)
                                 <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
                                 @endif
-                                <ul class="list-group m-t-10">
+                                <div class="row answer-list m-t-10">
                                     @foreach($question->answers as $answer)
-                                    <li class="list-group-item {{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
-                                        {{ $answer->text or '' }}
-                                        @if($answer->photo)
-                                        <img src="{{ $answer->photo }}" class="img-responsive thumbnail">
-                                        @endif
-                                    </li>
+                                    <div class="col-lg-3 col-sm-6 text-center answer-item">
+                                        <div class="{{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
+                                            @if($answer->photo)
+                                            <img src="{{ $answer->photo }}" class="img-responsive thumbnail m-b-5">
+                                            @endif
+                                            {{ $answer->text or '' }}
+                                        </div>
+                                    </div>
                                     @endforeach
-                                </ul>
+                                </div>
                             </li>
                         @endforeach
                         </ol>

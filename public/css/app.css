@@ -27896,7 +27896,6 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   }
 }
 img.thumbnail {
-  max-width: 200px;
   height: auto;
   margin-bottom: 0;
   margin-top: 5px;
@@ -27904,6 +27903,17 @@ img.thumbnail {
 img.img-responsive {
   max-height: 200px;
   margin: 0 auto;
+}
+.answer-list {
+  margin-bottom: 10px;
+}
+.answer-list .answer-item {
+  margin-bottom: 10px;
+}
+.answer-list .answer-item > div {
+  padding: 10px;
+  border: 1px solid #ebeff2;
+  border-radius: 4px;
 }
 #calendar .calendar-nav {
   margin-bottom: 20px;
