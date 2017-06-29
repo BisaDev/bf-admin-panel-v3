@@ -1,5 +1,6 @@
 import datepicker from 'bootstrap-datepicker';
 import imagePreview from './mixins/imagePreview';
+import managesChildren from './mixins/managesChildren';
 
 export default {
     init () {
@@ -16,7 +17,7 @@ export default {
                 type: '',
                 photo: ''
             },
-            mixins: [imagePreview],
+            mixins: [imagePreview, managesChildren],
             beforeMount: function () {
 
                 //Look for question type and assign the selected to Vue data value
@@ -25,23 +26,9 @@ export default {
                 }
             },
             methods: {
-                addChildren(){
-                    this.children.push({name: ''});
-                },
-                removeChildren(index){
-                    this.children.splice(index, 1);
-                },
+
             },
             mounted() {
-
-                if(this.$el.attributes['data-notes'] !== undefined) {
-                    let notes = $.parseJSON(this.$el.attributes['data-notes'].value);
-                    let vue_instance = this;
-                    
-                    $.each(notes, function(index, notes){
-                        vue_instance.children.push({name: notes.title, text: notes.text, id: notes.id});
-                    });
-                }
 
                 $('.datepicker-birthday').datepicker({
                     autoclose: true,

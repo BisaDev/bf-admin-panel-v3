@@ -116,8 +116,8 @@
                         <div class="row">
                         @foreach($item->students as $student)
                             <div class="col-sm-3 col-xs-6 text-center">
-                                <img src="{{ $student->photo }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
-                                <h3>{{ $student->full_name }}</h3>
+                                <a href="{{ route('meetups.student_detail', [$item->id, $student->id]) }}"><img src="{{ $student->photo }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true"></a>
+                                <a href="{{ route('meetups.student_detail', [$item->id, $student->id]) }}"><h3>{{ $student->full_name }}</h3></a>
                             </div>
                         @endforeach
                         </div>

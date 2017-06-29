@@ -1,4 +1,5 @@
 import getAcademicContent from './mixins/getAcademicContent';
+import managesChildren from './mixins/managesChildren';
 import draggable from 'vuedraggable'
 
 export default {
@@ -22,7 +23,7 @@ export default {
             components:{
                 draggable
             },
-            mixins: [getAcademicContent],
+            mixins: [getAcademicContent, managesChildren],
             beforeMount: function () {
                 if($('#existing_ab').length > 0 && $('#existing_ab').data('checked') != ''){
                     this.add_existing_activity_bucket = true;

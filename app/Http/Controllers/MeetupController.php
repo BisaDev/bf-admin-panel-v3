@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Models\Meetup, Brightfox\Models\ActivityBucket, Brightfox\Models\GradeLevel, Brightfox\Models\Location, Brightfox\Models\Student;
+use Brightfox\Models\Meetup, Brightfox\Models\ActivityBucket, Brightfox\Models\GradeLevel, Brightfox\Models\Location, Brightfox\Models\Student, Brightfox\Models\Note;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -222,5 +222,34 @@ class MeetupController extends Controller
     public function destroy(Meetup $meetup)
     {
         //
+    }
+    
+    public function student_detail(Request $request, Meetup $meetup, Student $student)
+    {
+        if($request->has('notes')){
+            $notes_ids = collect($request->get('notes'))->map(function($note){
+                return $note['id'];
+            })->toArray();
+    
+            $student->meetup_student_pivot($meetup->id)->first()->notes()->whereNotIn('id', $notes_ids)->delete();
+        
+            foreach ($request->input('notes') as $key => $request_note) {
+                if(!is_null($request_note['id'])){
+                
+                    $note = Note::find($request_note['id']);
+                    $note->title = $request_note['title'];
+                    $note->text = $request_note['text'];
+                
+                    $note->save();
+                }else{
+                    $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
+                    $student->meetup_student_pivot($meetup->id)->first()->notes()->save($note);
+                }
+            }
+        }elseif($request->method() == 'POST'){
+            $student->meetup_student_pivot($meetup->id)->first()->notes()->delete();
+        }
+        
+        return view('web.meetups.student_detail', compact('meetup', 'student'));
     }
 }

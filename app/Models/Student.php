@@ -58,6 +58,11 @@ class Student extends Model
     {
         return $this->belongsToMany(Meetup::class)->orderBy('meetups.start_time', 'asc');
     }
+    
+    public function meetup_student_pivot($meetup_id)
+    {
+        return $this->hasMany(MeetupStudent::class)->where('meetup_student.meetup_id', $meetup_id);
+    }
 
     public static function boot() {
         parent::boot();

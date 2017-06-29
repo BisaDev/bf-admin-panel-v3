@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::match(['get', 'post'], 'locations/search',   'LocationController@index')->name('locations.search');
     Route::resource('locations',                        'LocationController');
     Route::post('locations/{location}',                 'LocationController@show')->name('locations.show.search');
-    Route::post('locations/toggle_active/{location}',   'LocationController@toggle_active')->name('locations.toggle_active');
+    Route::post('locations/{location}/toggle_active',   'LocationController@toggle_active')->name('locations.toggle_active');
 
     Route::resource('rooms',                            'RoomController', ['except' => ['index', 'create']]);
     Route::get('rooms/create/{location_id}',            'RoomController@create')->name('rooms.create');
@@ -56,8 +56,8 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('family_members',                           'FamilyMemberController', ['except' => ['index', 'create']]);
     Route::get('family_members/create/{subject_id}',            'FamilyMemberController@create')->name('family_members.create');
-    Route::post('family_members/toggle_pickup/{family_member}', 'FamilyMemberController@toggle_pickup')->name('family_members.toggle_pickup');
-    Route::post('family_members/toggle_active/{family_member}', 'FamilyMemberController@toggle_active')->name('family_members.toggle_active');
+    Route::post('family_members/{family_member}/toggle_pickup', 'FamilyMemberController@toggle_pickup')->name('family_members.toggle_pickup');
+    Route::post('family_members/{family_member}/toggle_active', 'FamilyMemberController@toggle_active')->name('family_members.toggle_active');
 
     Route::resource('minigames',    'MinigameController');
 
@@ -78,10 +78,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('activity_buckets/get_for_meetup',              'ActivityBucketController@get_activity_buckets_for_meetup')->name('activity_buckets.for_meetup');
     Route::post('activity_buckets/save_quiz_order',             'ActivityBucketController@save_quiz_order')->name('activity_buckets.save_quiz_order');
 
-    Route::resource('meetups',                  'MeetupController');
-    Route::get('meetups/attendance/{meetup}',   'MeetupController@attendance')->name('meetups.attendance');
-    Route::post('meetups/attendance/{meetup}',  'MeetupController@attendance_store')->name('meetups.attendance.store');
-    Route::post('meetups/filter',               'MeetupController@index')->name('meetups.filter');
+    Route::resource('meetups',                                          'MeetupController');
+    Route::get('meetups/{meetup}/attendance',                           'MeetupController@attendance')->name('meetups.attendance');
+    Route::post('meetups/{meetup}/attendance',                          'MeetupController@attendance_store')->name('meetups.attendance.store');
+    Route::post('meetups/filter',                                       'MeetupController@index')->name('meetups.filter');
+    Route::match(['get', 'post'], 'meetups/{meetup}/student/{student}', 'MeetupController@student_detail')->name('meetups.student_detail');
 
     Route::post('tags/repository',  'TagController@repository')->name('tags.repository');
 });
