@@ -36,7 +36,7 @@
 
                         <div class="form-group col-md-12 text-right">
                             <a href="{{ route('subjects.show', $item->subject->id) }}" class="btn btn-md btn-info">Cancel</a>
-                            <button type="submit" class="btn btn-md btn-primary">Edit</button>
+                            <button type="submit" class="btn btn-md btn-primary">Save</button>
                         </div>
 
                     </form>

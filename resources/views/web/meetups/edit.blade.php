@@ -167,7 +167,7 @@
                     <div class="row">
                         <div class="form-group col-md-12 text-right">
                             <a href="{{ route('meetups.index') }}" class="btn btn-md btn-info">Cancel</a>
-                            <button type="submit" class="btn btn-md btn-primary" v-if="add_existing_activity_bucket">Edit</button>
+                            <button type="submit" class="btn btn-md btn-primary" v-if="add_existing_activity_bucket">Save</button>
                             <button type="submit" class="btn btn-md btn-primary" v-else>Save and Next Step</button>
                         </div>
                     </div>

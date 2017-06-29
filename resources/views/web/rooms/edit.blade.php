@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="form-group col-md-12 text-right">
-                            <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Cancel</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-md btn-info">Save</a>
                             <button type="submit" class="btn btn-md btn-primary">Edit</button>
                         </div>
 
