@@ -1,0 +1,28 @@
+<?php
+
+namespace Brightfox\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Sofa\Eloquence\Eloquence;
+
+class StudentAnswer extends Model
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'answer_id', 'answer_text', 'is_correct', 'student_id', 'graded_quiz_question_id'
+    ];
+    
+    public function graded_quiz_question()
+    {
+        return $this->belongsTo(GradedQuizQuestion::class);
+    }
+    
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+}

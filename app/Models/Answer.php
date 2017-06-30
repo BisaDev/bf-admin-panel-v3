@@ -16,7 +16,7 @@ class Answer extends Model
      * @var array
      */
     protected $fillable = [
-        'text', 'type', 'is_correct', 'question_id'
+        'text', 'is_correct', 'question_id'
     ];
 
     public function getPhotoAttribute($value)

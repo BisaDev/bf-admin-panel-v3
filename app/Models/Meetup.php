@@ -45,6 +45,11 @@ class Meetup extends Model
     {
         return $this->belongsToMany(Student::class);
     }
+    
+    public function graded_quizzes()
+    {
+        return $this->hasMany(GradedQuiz::class);
+    }
 
     public function scopeForUser($query, $user)
     {

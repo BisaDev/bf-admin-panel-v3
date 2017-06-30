@@ -102,7 +102,7 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Brightfox\Student  $student
+     * @param  \Brightfox\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Student $student)
@@ -122,7 +122,7 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Brightfox\Student  $student
+     * @param  \Brightfox\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function edit(Student $student)
@@ -138,7 +138,7 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Brightfox\Student  $student
+     * @param  \Brightfox\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Student $student)
@@ -211,7 +211,7 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Brightfox\Student  $student
+     * @param  \Brightfox\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Student $student)

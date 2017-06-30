@@ -118,7 +118,7 @@ class MeetupController extends Controller
     /**
      * Choose meetup attendance.
      *
-     * @param  \Brightfox\Meetup  $meetup
+     * @param  \Brightfox\Models\Meetup  $meetup
      * @return \Illuminate\Http\Response
      */
     public function attendance(Meetup $meetup)
@@ -131,7 +131,7 @@ class MeetupController extends Controller
     /**
      * Choose meetup attendance.
      *
-     * @param  \Brightfox\Meetup  $meetup
+     * @param  \Brightfox\Models\Meetup  $meetup
      * @return \Illuminate\Http\Response
      */
     public function attendance_store(Request $request, Meetup $meetup)
@@ -150,7 +150,7 @@ class MeetupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Brightfox\Meetup  $meetup
+     * @param  \Brightfox\Models\Meetup  $meetup
      * @return \Illuminate\Http\Response
      */
     public function show(Meetup $meetup)
@@ -161,7 +161,7 @@ class MeetupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Brightfox\Meetup  $meetup
+     * @param  \Brightfox\Models\Meetup  $meetup
      * @return \Illuminate\Http\Response
      */
     public function edit(Meetup $meetup)
@@ -177,7 +177,7 @@ class MeetupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Brightfox\Meetup  $meetup
+     * @param  \Brightfox\Models\Meetup  $meetup
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Meetup $meetup)
@@ -216,7 +216,7 @@ class MeetupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Brightfox\Meetup  $meetup
+     * @param  \Brightfox\Models\Meetup  $meetup
      * @return \Illuminate\Http\Response
      */
     public function destroy(Meetup $meetup)
