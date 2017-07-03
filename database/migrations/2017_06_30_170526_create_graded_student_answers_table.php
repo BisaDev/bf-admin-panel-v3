@@ -18,6 +18,7 @@ class CreateGradedStudentAnswersTable extends Migration
             $table->integer('graded_quiz_question_id')->unsigned();
             $table->integer('student_id')->unsigned();
             $table->string('answer_text')->nullable();
+            $table->string('answer_image')->nullable();
             $table->string('answer_id')->nullable();
             $table->tinyInteger('is_correct')->default(0);
             $table->timestamps();

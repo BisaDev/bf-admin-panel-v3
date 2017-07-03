@@ -17,7 +17,7 @@ class CreateGradedQuizzesTable extends Migration
             $table->increments('id');
             $table->integer('meetup_id')->unsigned()->nullable();
             $table->integer('quiz_id')->unsigned()->nullable();
-            $table->string('quiz_name')->nullable();
+            $table->string('quiz_title')->nullable();
             $table->string('quiz_description')->nullable();
             $table->string('quiz_type')->nullable();
             $table->string('quiz_grade_level')->nullable();
