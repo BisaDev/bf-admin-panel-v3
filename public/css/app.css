@@ -27947,6 +27947,9 @@ img.img-responsive {
   width: 60%;
   margin: 0 auto;
 }
+table.model-list th a.fa-sort {
+  margin-left: 1em;
+}
 table.model-list td img {
   max-width: 50px;
   max-height: 50px;

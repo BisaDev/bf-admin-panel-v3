@@ -75,12 +75,12 @@
                 <table class="table table-responsive table-hover model-list">
                     <thead>
                     <tr>
-                        <th>Question</th>
+                        <th>Question <a href="{{ route('questions.index').'?sort_column=title&sort_value='.$sort_columns['title'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th></th>
-                        <th>Grade Level</th>
-                        <th>Subject</th>
-                        <th>Topic</th>
-                        <th>Type</th>
+                        <th>Grade Level <a href="{{ route('questions.index').'?sort_column=grade_level&sort_value='.$sort_columns['grade_level'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
+                        <th>Subject <a href="{{ route('questions.index').'?sort_column=subject&sort_value='.$sort_columns['subject'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
+                        <th>Topic <a href="{{ route('questions.index').'?sort_column=topic&sort_value='.$sort_columns['topic'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
+                        <th>Type <a href="{{ route('questions.index').'?sort_column=type&sort_value='.$sort_columns['type'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th width="90" class="text-center">Edit</th>
                         <th width="90" class="text-center">Delete</th>
                     </tr>
