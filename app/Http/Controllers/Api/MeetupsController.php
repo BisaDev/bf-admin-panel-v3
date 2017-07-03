@@ -50,4 +50,14 @@ class MeetupsController extends ApiController
         }
     }
 
+    public function freeze($id)
+    {
+        $meetup = Meetup::find($id);
+        if($meetup->checkOwner($this->user)){
+            return $this->respond($this->detailsTransformer->transform($meetup));
+        }else{
+            return $this->respondWithError('You Do not have permission to freeze this meetup');
+        }
+    }
+
 }

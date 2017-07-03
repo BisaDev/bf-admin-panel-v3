@@ -22,5 +22,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('meetups', 'Api\MeetupsController@all');
     Route::get('meetups/{id}', 'Api\MeetupsController@show');
     Route::get('activityBucket/{id}', 'Api\ActivityBucketsController@show');
+
+    //Results
+
+    Route::get('meetups/freeze/{id}', 'Api\MeetupsController@freeze');
 });
 
