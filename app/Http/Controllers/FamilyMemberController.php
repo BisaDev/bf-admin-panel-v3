@@ -212,4 +212,33 @@ class FamilyMemberController extends Controller
         $family_member->can_pickup = $request->input('status');
         $family_member->save();
     }
+    
+    public function save_notes(Request $request, FamilyMember $family_member)
+    {
+        if($request->has('notes')){
+            $notes_ids = collect($request->get('notes'))->map(function($note){
+                return $note['id'];
+            })->toArray();
+            
+            $family_member->notes()->whereNotIn('id', $notes_ids)->delete();
+            
+            foreach ($request->input('notes') as $key => $request_note) {
+                if(!is_null($request_note['id'])){
+                    
+                    $note = Note::find($request_note['id']);
+                    $note->title = $request_note['title'];
+                    $note->text = $request_note['text'];
+                    
+                    $note->save();
+                }else{
+                    $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
+                    $family_member->notes()->save($note);
+                }
+            }
+        }else{
+            $family_member->notes()->delete();
+        }
+        
+        return redirect(route('family_members.show', $family_member->id));
+    }
 }

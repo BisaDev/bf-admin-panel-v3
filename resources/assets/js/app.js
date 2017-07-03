@@ -16,14 +16,22 @@ import create_question from './pages/create-question';
 import create_quiz from './pages/create-quiz';
 import create_activity_bucket from './pages/create-activity-bucket';
 import create_meetup from './pages/create-meetup';
+import show_student from './pages/show-student';
 
-index.init();
-index_academic_content.init();
-create.init();
-create_question.init();
-create_quiz.init();
-create_activity_bucket.init();
-create_meetup.init();
+const vue_elements = [
+    index,
+    index_academic_content,
+    create,
+    create_question,
+    create_quiz,
+    create_activity_bucket,
+    create_meetup,
+    show_student
+];
+
+vue_elements.forEach(function(element){
+    element.init();
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

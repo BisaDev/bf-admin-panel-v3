@@ -52,10 +52,12 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::match(['get', 'post'], 'students/search',    'StudentController@index')->name('students.search');
     Route::resource('students',                         'StudentController');
+    Route::post('students/{student}/save_notes',        'StudentController@save_notes')->name('students.save_notes');
     Route::post('students/{student}',                   'StudentController@show')->name('students.show.search');
 
     Route::resource('family_members',                           'FamilyMemberController', ['except' => ['index', 'create']]);
     Route::get('family_members/create/{subject_id}',            'FamilyMemberController@create')->name('family_members.create');
+    Route::post('family_members/{family_member}/save_notes',    'FamilyMemberController@save_notes')->name('family_members.save_notes');
     Route::post('family_members/{family_member}/toggle_pickup', 'FamilyMemberController@toggle_pickup')->name('family_members.toggle_pickup');
     Route::post('family_members/{family_member}/toggle_active', 'FamilyMemberController@toggle_active')->name('family_members.toggle_active');
 
