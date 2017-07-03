@@ -70,10 +70,10 @@
                 <table class="table table-responsive table-hover model-list">
                     <thead>
                     <tr>
-                        <th>Quizz</th>
-                        <th>Grade Level</th>
-                        <th>Subject</th>
-                        <th>Type</th>
+                        <th nowrap>Quiz <a href="{{ route('quizzes.index').'?sort_column=title&sort_value='.$sort_columns['title'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
+                        <th nowrap>Grade Level <a href="{{ route('quizzes.index').'?sort_column=grade_level&sort_value='.$sort_columns['grade_level'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
+                        <th nowrap>Subject <a href="{{ route('quizzes.index').'?sort_column=subject&sort_value='.$sort_columns['subject'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
+                        <th nowrap>Type <a href="{{ route('quizzes.index').'?sort_column=type&sort_value='.$sort_columns['type'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th># of questions</th>
                         <th width="90" class="text-center">Reorder</th>
                         <th width="90" class="text-center">Edit</th>
