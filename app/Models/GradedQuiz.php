@@ -13,7 +13,7 @@ class GradedQuiz extends Model
      * @var array
      */
     protected $fillable = [
-        'quiz_name', 'quiz_description', 'quiz_type', 'quiz_grade_level', 'quiz_subject', 'meetup_id'
+        'quiz_id', 'quiz_title', 'quiz_description', 'quiz_type', 'quiz_grade_level', 'quiz_subject', 'meetup_id'
     ];
 
     public function meetup()

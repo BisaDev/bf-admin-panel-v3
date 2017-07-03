@@ -3,7 +3,7 @@
 namespace Brightfox\Http\Controllers\Api;
 
 use Brightfox\Http\Transformers\MeetupDetailsTransformer;
-use Brightfox\Models\Meetup;
+use Brightfox\Models\Meetup, Brightfox\Models\GradedQuiz, Brightfox\Models\GradedQuizQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Brightfox\Http\Controllers\Controller;
@@ -54,7 +54,32 @@ class MeetupsController extends ApiController
     {
         $meetup = Meetup::find($id);
         if($meetup->checkOwner($this->user)){
-            return $this->respond($this->detailsTransformer->transform($meetup));
+            
+            foreach($meetup->activity_bucket->quizzes as $quiz){
+                $graded_quiz = GradedQuiz::create([
+                    'quiz_id' => $quiz->id,
+                    'quiz_title' => $quiz->title,
+                    'quiz_description' => $quiz->description,
+                    'quiz_type' => json_encode($quiz->type),
+                    'quiz_grade_level' => $quiz->subject->grade_level->name,
+                    'quiz_subject' => $quiz->subject->name,
+                    'meetup_id' => $meetup->id
+                ]);
+                
+                foreach($quiz->questions as $question){
+                    GradedQuizQuestion::create([
+                        
+                        'question_id' => $question->id,
+                        'question_title' => $question->title,
+                        'question_photo' => $question->getOriginal('photo'),
+                        'question_topic' => $question->topic->name,
+                        'answers' => $question->answers->toJson(),
+                        'graded_quiz_id' => $graded_quiz->id
+                    ]);
+                }
+            }
+            
+            return $this->respond('Meetup froze correctly');
         }else{
             return $this->respondWithError('You Do not have permission to freeze this meetup');
         }
