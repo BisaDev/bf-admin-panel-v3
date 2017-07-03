@@ -27947,8 +27947,7 @@ img.img-responsive {
   width: 60%;
   margin: 0 auto;
 }
-#index-container table td img,
-#index-academic-content table td img {
+table.model-list td img {
   max-width: 50px;
   max-height: 50px;
 }

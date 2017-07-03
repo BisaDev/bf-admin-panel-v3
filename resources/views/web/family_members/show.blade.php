@@ -15,7 +15,7 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-container">
+    <div class="row create-container" id="create-container" data-notes="{{ $item->notes->toJson() }}">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
@@ -65,15 +65,22 @@
                         <p>{{ $item->secondary_email }}</p>
                     </div>
                 </div>
-
-                <div class="row">
-                    @foreach($item->notes as $note)
-                    <div class="col-sm-6">
-                        <label>{{ $note->title }}</label>
-                        <p>{{ $note->text }}</p>
+    
+                <div class="row"><div class="col-sm-12"><hr/></div></div>
+    
+                <form action="{{ route('family_members.save_notes', $item->id) }}" method="POST">
+                    {{ csrf_field() }}
+        
+                    <div class="row">
+                        @include('partials.add-notes')
                     </div>
-                    @endforeach
-                </div>
+        
+                    <div class="row">
+                        <div class="form-group col-md-12 text-right">
+                            <button type="submit" class="btn btn-md btn-primary">Save notes</button>
+                        </div>
+                    </div>
+                </form>
                 
                 <div class="row">
                     <div class="col-md-12 text-right">

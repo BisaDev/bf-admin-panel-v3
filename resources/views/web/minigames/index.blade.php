@@ -24,7 +24,7 @@
             @endif
             <div class="card-box">
 
-                <table class="table table-responsive table-hover">
+                <table class="table table-responsive table-hover model-list">
                     <thead>
                     <tr>
                         <th>Minigame</th>

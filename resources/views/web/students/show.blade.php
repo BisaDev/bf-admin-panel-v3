@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="index-container" data-model="family_member" data-search="{{ $search or '' }}" class="row">
+    <div id="show-student" class="row" data-model="family_member" data-search="{{ $search or '' }}" data-notes="{{ $item->notes->toJson() }}">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
@@ -75,21 +75,20 @@
                 </div>
 
                 <div class="row"><div class="col-sm-12"><hr/></div></div>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4 class="header-title m-t-0 m-b-15">Notes</h4>
+    
+                <form action="{{ route('students.save_notes', $item->id) }}" method="POST">
+                    {{ csrf_field() }}
+        
+                    <div class="row">
+                        @include('partials.add-notes')
                     </div>
-                </div>
-
-                <div class="row">
-                    @foreach($item->notes as $note)
-                    <div class="col-sm-6">
-                        <label>{{ $note->title }}</label>
-                        <p>{{ $note->text }}</p>
+        
+                    <div class="row">
+                        <div class="form-group col-md-12 text-right">
+                            <button type="submit" class="btn btn-md btn-primary">Save notes</button>
+                        </div>
                     </div>
-                    @endforeach
-                </div>
+                </form>
 
                 <div class="row">
                     <div class="col-md-12 text-right">
@@ -121,7 +120,7 @@
                     </div>
                 </div>
 
-                <table class="table table-responsive table-hover">
+                <table class="table table-responsive table-hover model-list">
                     <thead>
                         <tr>
                             <th></th>
