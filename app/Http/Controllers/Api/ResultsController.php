@@ -8,4 +8,9 @@ use Brightfox\Http\Controllers\Controller;
 class ResultsController extends ApiController
 {
 
+    public function gradeQuiz(Request $request, $id)
+    {
+
+    }
+
 }
