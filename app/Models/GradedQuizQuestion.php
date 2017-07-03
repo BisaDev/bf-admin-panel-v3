@@ -15,14 +15,19 @@ class GradedQuizQuestion extends Model
     protected $fillable = [
         'question_title', 'question_image', 'question_topic', 'answers', 'graded_quiz_id'
     ];
-    
+
     public function graded_quiz()
     {
         return $this->belongsTo(GradedQuiz::class);
     }
-    
+
     public function student_answers()
     {
         return $this->hasMany(StudentAnswer::class);
+    }
+
+    public function scopeFindByQuestionId($query, $questionId)
+    {
+        return $query->where('question_id', $questionId);
     }
 }

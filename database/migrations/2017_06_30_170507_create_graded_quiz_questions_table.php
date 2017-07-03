@@ -16,6 +16,7 @@ class CreateGradedQuizQuestionsTable extends Migration
         Schema::create('graded_quiz_questions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('graded_quiz_id')->unsigned();
+            $table->integer('question_id')->unsigned()->nullable();
             $table->string('quiz_title')->nullable();
             $table->string('quiz_image')->nullable();
             $table->string('quiz_topic')->nullable();

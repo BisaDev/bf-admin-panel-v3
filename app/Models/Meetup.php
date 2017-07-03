@@ -4,6 +4,9 @@ namespace Brightfox\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Intervention\Image\Exception\NotFoundException;
+use Mockery\Exception;
 
 class Meetup extends Model
 {
@@ -45,7 +48,7 @@ class Meetup extends Model
     {
         return $this->belongsToMany(Student::class);
     }
-    
+
     public function graded_quizzes()
     {
         return $this->hasMany(GradedQuiz::class);
@@ -68,8 +71,12 @@ class Meetup extends Model
         if ($user->id === $this->user_id) {
             return true;
         }
-
         return false;
+    }
+
+    public function hasQuiz($quizId)
+    {
+        return $this->activity_bucket->quizzes->contains('id', $quizId);
     }
 
     public function getStatusAttribute($value)
