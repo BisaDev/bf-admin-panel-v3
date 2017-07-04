@@ -1,7 +1,7 @@
 <div class="topbar">
     <div class="topbar-left">
         <div class="text-center">
-            <a href="index.html" class="logo">
+            <a href="{{ route('dashboard') }}" class="logo">
                 <i class="icon-c-logo"> <img src="{{ asset('images/logo_sm.png') }}" /> </i>
                 <span><img src="{{ asset('images/logo.png') }}"/></span>
             </a>
