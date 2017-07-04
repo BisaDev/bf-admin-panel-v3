@@ -30,4 +30,9 @@ class GradedQuizQuestion extends Model
     {
         return $query->where('question_id', $questionId);
     }
+    
+    public function getAnswersAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

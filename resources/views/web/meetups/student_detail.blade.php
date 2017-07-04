@@ -80,6 +80,61 @@
                     </div>
                 </form>
                 
+                
+                <div class="list-group">
+                    @foreach($meetup->graded_quizzes as $key => $graded_quiz)
+                        <div class="list-group-item">
+                            <h4 class="list-group-item-heading">
+                                <a role="button" data-toggle="collapse" href="#collapse{{ $key }}">
+                                    {{ $graded_quiz->quiz_title }}
+                                </a>
+                            </h4>
+                            <div id="collapse{{ $key }}" class="panel-collapse collapse">
+                                <p class="list-group-item-text">{{ $graded_quiz->quiz_description }}</p>
+                                <div class="row m-t-15">
+                                    <div class="col-xs-12">
+                                        <ol>
+                                            @foreach($graded_quiz->questions as $key => $question)
+                                                <li>
+                                                    <strong>{{ $question->question_title or '' }}</strong>
+                                                    @if($question->question_photo)
+                                                        <img src="{{ $question->question_photo }}" class="img-responsive thumbnail m-t-5">
+                                                    @endif
+                                                    <div class="row answer-list m-t-10">
+                                                        @foreach($question->answers as $answer)
+                                                            <div class="col-lg-3 col-sm-6 text-center answer-item">
+                                                                <div class="{{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
+                                                                    @if($answer->photo)
+                                                                        <img src="{{ $answer->photo }}" class="img-responsive thumbnail m-b-5">
+                                                                    @endif
+                                                                    {{ $answer->text or '' }}
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                    @if($student->graded_answer($question->id)->first())
+                                                    <div class="row answer-list m-t-5">
+                                                        <div class="col-sm-6 text-center answer-item">
+                                                            <h3>{{ $student->name  }} answered:</h3>
+                                                            <div class="{{ ($student->graded_answer($question->id)->first()->is_correct)? 'list-group-item-success' : '' }}">
+                                                                @if($student->graded_answer($question->id)->first()->answer_photo)
+                                                                    <img src="{{ $student->graded_answer($question->id)->first()->answer_photo }}" class="img-responsive thumbnail m-b-5">
+                                                                @endif
+                                                                {{ $student->graded_answer($question->id)->first()->answer_text or '' }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                
             </div>
         </div>
     </div>
