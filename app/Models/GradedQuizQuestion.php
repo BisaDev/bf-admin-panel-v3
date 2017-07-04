@@ -7,6 +7,8 @@ use Sofa\Eloquence\Eloquence;
 
 class GradedQuizQuestion extends Model
 {
+    const PHOTO_PATH = "uploads/activities/";
+    
     /**
      * The attributes that are mass assignable.
      *
