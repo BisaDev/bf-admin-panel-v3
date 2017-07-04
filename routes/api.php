@@ -25,6 +25,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     //Results
     Route::get('meetups/freeze/{id}', 'Api\MeetupsController@freeze');
-    Route::post('results/meetup/{meetupId}/quiz/{quizId}', 'Api\ResultsController@gradeQuiz');
+    Route::post('results/meetup/{meetupId}/quiz/{quizId}/student/{studentId}', 'Api\ResultsController@gradeQuiz');
 });
 

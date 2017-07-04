@@ -18,6 +18,13 @@ class Answer extends Model
     protected $fillable = [
         'text', 'is_correct', 'question_id'
     ];
+    
+    /**
+     * The attributes that should be hidden for arrays, json.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function getPhotoAttribute($value)
     {

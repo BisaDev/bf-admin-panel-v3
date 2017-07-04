@@ -83,4 +83,9 @@ class Meetup extends Model
     {
         return json_decode($value);
     }
+
+    public function hasStudent($studentId)
+    {
+        return $this->students->contains('id', $studentId);
+    }
 }

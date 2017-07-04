@@ -17,9 +17,9 @@ class CreateGradedQuizQuestionsTable extends Migration
             $table->increments('id');
             $table->integer('graded_quiz_id')->unsigned();
             $table->integer('question_id')->unsigned()->nullable();
-            $table->string('quiz_title')->nullable();
-            $table->string('quiz_image')->nullable();
-            $table->string('quiz_topic')->nullable();
+            $table->string('question_title')->nullable();
+            $table->string('question_photo')->nullable();
+            $table->string('question_topic')->nullable();
             $table->text('answers')->nullable();
             $table->timestamps();
     
