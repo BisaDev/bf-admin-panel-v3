@@ -35,4 +35,12 @@ class GradedQuizQuestion extends Model
     {
         return json_decode($value);
     }
+    
+    public function getQuestionPhotoAttribute($value)
+    {
+        if (!$value || $value == ''){
+            return $value;
+        }
+        return asset(self::PHOTO_PATH . $value);
+    }
 }

@@ -13,7 +13,7 @@ class StudentAnswer extends Model
      * @var array
      */
     protected $fillable = [
-        'answer_id', 'answer_text', 'is_correct', 'student_id', 'graded_quiz_question_id'
+        'answer_id', 'answer_text', 'answer_image','is_correct', 'student_id', 'graded_quiz_question_id'
     ];
     
     public function graded_quiz_question()
@@ -24,5 +24,13 @@ class StudentAnswer extends Model
     public function student()
     {
         return $this->belongsTo(Student::class);
+    }
+    
+    public function getAnswerImageAttribute($value)
+    {
+        if (!$value || $value == ''){
+            return $value;
+        }
+        return asset(self::PHOTO_PATH . $value);
     }
 }
