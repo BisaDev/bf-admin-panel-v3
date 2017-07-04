@@ -15,7 +15,8 @@ class ActivityBucketController extends Controller
     public function index(Request $request)
     {
         $query = ActivityBucket::with('subject.grade_level');
-
+    
+        /* TABLE FILTERS */
         $filters = [
             'grade_level' => $request->input('grade_level'), 
             'subject' =>  $request->input('subject')
@@ -33,11 +34,42 @@ class ActivityBucketController extends Controller
                 $subquery->where('grade_level_id', $filters['grade_level']);
             });
         }
+    
+        /* TABLE SORTING */
+        $sort_columns = [
+            'title' => 'asc',
+            'grade_level' => 'asc',
+            'subject' => 'asc',
+        ];
+        $sort = ['column' => 'id', 'value' => 'desc'];
+    
+        if($request->has('sort_column')){
+            $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
+            $sort_columns[$sort['column']] = ($sort['value'] == 'asc')? 'desc' : 'asc';
+        }
+    
+        switch ($sort['column']) {
+            case 'title':
+                $query->orderBy($sort['column'], $sort['value']);
+                break;
+        
+            case 'grade_level':
+                $query->leftJoin('subjects','subjects.id','=','activity_buckets.subject_id')
+                    ->leftJoin('grade_levels','grade_levels.id','=','subjects.grade_level_id')
+                    ->orderBy('grade_levels.name', $sort['value']);
+                break;
+        
+            case 'subject':
+                $query->leftJoin('subjects','subjects.id','=','activity_buckets.subject_id')
+                    ->orderBy('subjects.name', $sort['value']);
+                break;
+        }
 
         $list = $query->paginate(50);
         $grade_levels = GradeLevel::all();
+        $filter_string = http_build_query($filters);
 
-        return view('web.activity_buckets.index', compact('list', 'search', 'grade_levels', 'filters'));
+        return view('web.activity_buckets.index', compact('list', 'search', 'grade_levels', 'filters', 'sort_columns', 'filter_string'));
     }
 
     /**
