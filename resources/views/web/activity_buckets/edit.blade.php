@@ -100,7 +100,7 @@
                                     <span class="label label-primary m-r-5" v-for="tag in quiz.tags">@{{ tag.name }}</span>
                                 </td>
                                 <td>
-                                    <select :name="'quizzes_minigames['+quiz.id+'][minigame_id]'" class="form-control" v-if="quizAllowsMinigames(quiz.type.key)">
+                                    <select :name="'quizzes_minigames['+quiz.id+'][minigame_id]'" class="form-control" v-show="quizAllowsMinigames(quiz.type.key)">
                                         <option value="">Select Minigame</option>
                                         @foreach($minigames as $minigame)
                                         <option value="{{ $minigame->id }}" :selected="minigameSelected(quiz, {{ $minigame->id }})">{{ $minigame->name }}</option>
