@@ -229,7 +229,6 @@ class QuestionController extends Controller
         $this->validate($request, [
             'type' => 'required',
             'topic' => 'required',
-            'title' => 'required_without:photo',
             'answers' => 'required|require_one_correct_for_multiple_choice:'.$request->input('type'),
             'answers.*.text' => 'required_without_all:answers.*.id,answers.*.photo|required_with:answers.*.remove_photo',
         ]);
