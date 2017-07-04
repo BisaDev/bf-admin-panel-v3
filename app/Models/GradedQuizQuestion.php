@@ -35,7 +35,15 @@ class GradedQuizQuestion extends Model
     
     public function getAnswersAttribute($value)
     {
-        return json_decode($value);
+        $answers_array = json_decode($value);
+        
+        foreach($answers_array as $answer){
+            if ($answer->original_photo != ''){
+                $answer->original_photo = asset(self::PHOTO_PATH . $answer->original_photo);
+            }
+        }
+        
+        return $answers_array;
     }
     
     public function getQuestionPhotoAttribute($value)

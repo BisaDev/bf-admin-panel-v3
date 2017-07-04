@@ -19,12 +19,16 @@ class Answer extends Model
         'text', 'is_correct', 'question_id'
     ];
     
+    protected $appends = [
+        'original_photo'
+    ];
+    
     /**
      * The attributes that should be hidden for arrays, json.
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['photo', 'created_at', 'updated_at'];
 
     public function getPhotoAttribute($value)
     {
@@ -32,6 +36,11 @@ class Answer extends Model
             return $value;
         }
         return asset(self::PHOTO_PATH . $value);
+    }
+    
+    public function getOriginalPhotoAttribute()
+    {
+        return $this->getOriginal('photo');
     }
 
     public function question()

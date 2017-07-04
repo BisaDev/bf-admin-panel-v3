@@ -104,8 +104,8 @@
                                                         @foreach($question->answers as $answer)
                                                             <div class="col-lg-3 col-sm-6 text-center answer-item">
                                                                 <div class="{{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
-                                                                    @if($answer->photo)
-                                                                        <img src="{{ $answer->photo }}" class="img-responsive thumbnail m-b-5">
+                                                                    @if($answer->original_photo)
+                                                                        <img src="{{ $answer->original_photo }}" class="img-responsive thumbnail m-b-5">
                                                                     @endif
                                                                     {{ $answer->text or '' }}
                                                                 </div>
