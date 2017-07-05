@@ -100,9 +100,9 @@
                 <div class="row">
                     <div class="col-sm-12 text-right">
                         @if(isset($search))
-                        {{ $list->appends(['search' => $search])->links() }}
+                            {{ $list->appends(array_merge(['search' => $search], $filters))->links() }}
                         @else
-                        {{ $list->links() }}
+                            {{ $list->appends($filters)->links() }}
                         @endif
                     </div>
                 </div>
