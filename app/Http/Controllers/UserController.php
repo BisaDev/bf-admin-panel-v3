@@ -20,14 +20,37 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $query = User::with('user_detail');
+    
+        /* TABLE FILTERS */
+        $filters = [
+            'location' => $request->input('location'),
+            'role' => $request->input('role'),
+        ];
+        
         if($request->has('search')){
             $search = $request->input('search');
-            $list = User::role(['director', 'instructor'])->search($search)->paginate(50);
-        }else{
-            $list = User::role(['director', 'instructor'])->paginate(50);
+            $query->search($search);
         }
+    
+        if(!is_null($filters['location'])){
+            $query->whereHas('user_detail', function ($subquery)use($filters) {
+                $subquery->where('location_id', $filters['location']);
+            });
+        }
+    
+        if(!is_null($filters['role'])){
+            $query->role($filters['role']);
+        }else{
+            $query->role(['Director', 'Instructor']);
+        }
+    
+        $list = $query->paginate(50);
+    
+        $locations = Location::all();
+        $roles = Role::where('name', '!=', 'admin')->get();
 
-        return view('web.users.index', compact('list', 'search'));
+        return view('web.users.index', compact('list', 'search', 'filters', 'locations', 'roles'));
     }
 
     /**

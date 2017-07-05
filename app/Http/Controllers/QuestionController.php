@@ -37,8 +37,7 @@ class QuestionController extends Controller
             $query->search($search);
         }
 
-        if($request->has('type')){
-            $filters['type'] = $request->input('type');
+        if(!is_null($filters['type'])){
             $query->where('type', 'like', '%"key":"'.$filters['type'].'"%');
         }
 

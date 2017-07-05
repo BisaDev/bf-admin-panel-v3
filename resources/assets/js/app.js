@@ -11,6 +11,7 @@ window.Vue = require('vue');
 
 import index from './pages/index';
 import index_academic_content from './pages/index-academic-content';
+import index_users from './pages/index-users';
 import create from './pages/create';
 import create_question from './pages/create-question';
 import create_quiz from './pages/create-quiz';
@@ -21,6 +22,7 @@ import show_student from './pages/show-student';
 const vue_elements = [
     index,
     index_academic_content,
+    index_users,
     create,
     create_question,
     create_quiz,
