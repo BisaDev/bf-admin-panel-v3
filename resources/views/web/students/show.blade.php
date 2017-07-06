@@ -89,8 +89,38 @@
                         </div>
                     </div>
                 </form>
-
+    
+                <div class="row"><div class="col-sm-12"><hr/></div></div>
+                
                 <div class="row">
+                    <div class="col-xs-12">
+                        <h3>Attended Meetups</h3>
+                    </div>
+                    <div class="col-xs-12">
+                        <table class="table table-responsive table-hover model-list">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Activity</th>
+                                <th>Hour</th>
+                                <th width="90" class="text-center"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($item->meetups as $meetup)
+                                <tr>
+                                    <td>{{ $meetup->start_time->format('m/d/Y') }}</td>
+                                    <td>{{ $meetup->activity_bucket->title }}</td>
+                                    <td>{{ $meetup->start_time->format('g:i a') }}</td>
+                                    <td><a href="{{ route('meetups.student_detail', [$meetup->id, $item->id]) }}" class="btn btn-default">Details</a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row m-t-20">
                     <div class="col-md-12 text-right">
                         <a href="{{ route('students.index') }}" class="btn btn-md btn-info">Back</a>
                         <a href="{{ route('students.edit', $item->id) }}" class="btn btn-md btn-primary">Edit</a>

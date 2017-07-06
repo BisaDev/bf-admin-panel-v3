@@ -27904,6 +27904,10 @@ img.img-responsive {
   max-height: 200px;
   margin: 0 auto;
 }
+.list-group-item ol li {
+  border-top: 1px dotted #CCC;
+  padding-top: 10px;
+}
 .answer-list {
   margin-bottom: 10px;
 }

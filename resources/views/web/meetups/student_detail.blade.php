@@ -25,22 +25,22 @@
                     </div>
                     <div class="col-sm-6 text-right">
                         <div class="row">
-                            <div class="col-xs-3 col-xs-offset-3 col-sm-offset-5">
-                                <img src="{{ $meetup->user->user_detail->photo }}" class="img-responsive img-circle">
-                            </div>
-                            <div class="col-sm-4 col-xs-6">
+                            <div class="col-xs-6 col-xs-offset-3 col-sm-9 col-sm-offset-0">
                                 <label>Instructor</label>
                                 <h4 class="m-b-20">{{ $meetup->user->full_name }}</h4>
+                            </div>
+                            <div class="col-xs-3">
+                                <img src="{{ $meetup->user->user_detail->photo }}" class="img-responsive img-circle">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-xs-6 col-lg-3">
                         <label>Date</label>
                         <p>{{ $meetup->start_time->format('m/d/Y') }}</p>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6 col-lg-3">
                         <label>Time</label>
                         <p>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</p>
                     </div>
@@ -80,6 +80,13 @@
                     </div>
                 </form>
                 
+                @if($meetup->graded_quizzes->count() > 0)
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>Results</h3>
+                    </div>
+                </div>
+                @endif
                 
                 <div class="list-group">
                     @foreach($meetup->graded_quizzes as $key => $graded_quiz)
@@ -117,8 +124,8 @@
                                                         <div class="col-sm-6 text-center answer-item">
                                                             <h3>{{ $student->name  }} answered:</h3>
                                                             <div class="{{ ($student->graded_answer($question->id)->first()->is_correct)? 'list-group-item-success' : '' }}">
-                                                                @if($student->graded_answer($question->id)->first()->answer_photo)
-                                                                    <img src="{{ $student->graded_answer($question->id)->first()->answer_photo }}" class="img-responsive thumbnail m-b-5">
+                                                                @if($student->graded_answer($question->id)->first()->answer_image)
+                                                                    <img src="{{ $student->graded_answer($question->id)->first()->answer_image }}" class="img-responsive thumbnail m-b-5">
                                                                 @endif
                                                                 {{ $student->graded_answer($question->id)->first()->answer_text or '' }}
                                                             </div>
