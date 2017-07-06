@@ -70,15 +70,15 @@
                         <div class="col-xs-12 col-sm-4 col-md-12">
                             <div class="panel panel-border panel-primary">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ $meetup->room->location->name }}</a></h3>
-                                    <p class="panel-subtitle">{{ $meetup->room->name }}</p>
+                                    <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ ($meetup->room)? $meetup->room->location->name : '' }}</a></h3>
+                                    <p class="panel-subtitle">{{ ($meetup->room)? $meetup->room->name : '' }}</p>
                                     <span class="status"><small>{{ $meetup->status->name }}</small></span>
                                 </div>
                                 <div class="panel-body">
                                     @if(!is_null($meetup->activity_bucket)) 
-                                    <p>{{ $meetup->activity_bucket->subject->grade_level->name }}, {{ $meetup->activity_bucket->subject->name }}</p>
+                                    <p>{{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->grade_level->name : ''}}, {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }}</p>
                                     @endif
-                                    <p class="m-t-0">{{ $meetup->user->full_name }}</p>
+                                    <p class="m-t-0">{{ ($meetup->user)? $meetup->user->full_name : '' }}</p>
                                     <p class="m-t-0"><small>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</small></p>
                                     <a href="{{ route('meetups.attendance', $meetup->id) }}" class="icon icon-user pull-right m-l-5"></a>
                                     <a href="{{ route('meetups.edit', $meetup->id) }}" class="icon icon-pencil pull-right"></a>

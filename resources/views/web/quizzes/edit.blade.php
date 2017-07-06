@@ -63,7 +63,7 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-4 {{ $errors->has('grade_level')? 'has-error' : '' }}">
                             <label class="control-label" for="grade_level">Grade Level:</label>
-                            <select id="grade_level" name="grade_level" class="form-control" data-selected="{{ old('grade_level', $item->subject->grade_level->id) }}" @change="getSubjectsFromGradeLevel('{{ route('subjects.by_grade') }}', $event)">
+                            <select id="grade_level" name="grade_level" class="form-control" data-selected="{{ old('grade_level', ($item->subject)? $item->subject->grade_level->id : '') }}" @change="getSubjectsFromGradeLevel('{{ route('subjects.by_grade') }}', $event)">
                                 <option value="">Select Grade Level</option>
                                 @foreach($grade_levels as $grade_level)
                                 <option value="{{ $grade_level->id }}">{{ ucfirst($grade_level->name) }}</option>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-4 {{ $errors->has('subject')? 'has-error' : '' }}">
                             <label class="control-label" for="subject">Subject:</label>
-                            <select id="subject" name="subject" class="form-control" data-selected="{{ old('subject', $item->subject->id) }}" v-model="subject" @change="loadQuestions('{{ route('questions.for_quiz') }}', $event)">
+                            <select id="subject" name="subject" class="form-control" data-selected="{{ old('subject', ($item->subject)? $item->subject->id : '') }}" v-model="subject" @change="loadQuestions('{{ route('questions.for_quiz') }}', $event)">
                             </select>
                             @if($errors->has('subject'))
                                 <span class="help-block">

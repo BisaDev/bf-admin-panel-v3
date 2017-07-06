@@ -34,11 +34,11 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <label class="control-label">Grade Level:</label>
-                        <p>{{ $item->subject->grade_level->name }}</p>
+                        <p>{{ ($item->subject)? $item->subject->grade_level->name : '' }}</p>
                     </div>
                     <div class="col-sm-6">
                         <label class="control-label">Subject:</label>
-                        <p>{{ $item->subject->name }}</p>
+                        <p>{{ ($item->subject)? $item->subject->name : '' }}</p>
                     </div>
                 </div>
 

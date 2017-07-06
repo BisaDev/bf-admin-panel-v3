@@ -19,25 +19,29 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="m-t-0">{{ $item->room->location->name }}</h3>
-                        <h4 class="m-b-20">{{ $item->room->name }}</h4>
+                        <h3 class="m-t-0">{{ ($item->room)? $item->room->location->name : '' }}</h3>
+                        <h4 class="m-b-20">{{ ($item->room)? $item->room->name : '' }}</h4>
                     </div>
                     <div class="col-sm-6 text-right">
-                        <label>Instructor</label>
-                        <h4 class="m-b-20">{{ $item->user->full_name }}</h4>
                         <div class="row">
-                            <div class="col-xs-6 col-sm-3 pull-right">
-                                <img src="{{ $item->user->user_detail->photo }}" class="img-responsive img-circle">  
+                            <div class="col-xs-6 col-xs-offset-3 col-sm-9 col-sm-offset-0">
+                                <label>Instructor</label>
+                                <h4 class="m-b-20">{{ ($item->user)? $item->user->full_name : '' }}</h4>
+                            </div>
+                            <div class="col-xs-3">
+                                @if(!is_null($item->user))
+                                <img src="{{ $item->user->user_detail->photo }}" class="img-responsive img-circle">
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-xs-6 col-lg-3">
                         <label>Date</label>
                         <p>{{ $item->start_time->format('m/d/Y') }}</p>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6 col-lg-3">
                         <label>Time</label>
                         <p>{{ $item->start_time->format('g:i a') }} - {{ $item->end_time->format('g:i a') }}</p>
                     </div>
@@ -57,7 +61,8 @@
                         </a> 
                     </li>
                 </ul>
-
+    
+                @if(!is_null($item->activity_bucket))
                 <div class="tab-content">
                     <div class="tab-pane active" id="activities"> 
                         <div class="row">
@@ -69,54 +74,15 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label class="control-label">Grade Level:</label>
-                                <p>{{ $item->activity_bucket->subject->grade_level->name }}</p>
+                                <p>{{ ($item->activity_bucket->subject)? $item->activity_bucket->subject->grade_level->name : '' }}</p>
                             </div>
                             <div class="col-sm-6">
                                 <label class="control-label">Subject:</label>
-                                <p>{{ $item->activity_bucket->subject->name }}</p>
+                                <p>{{ ($item->activity_bucket->subject)? $item->activity_bucket->subject->name : '' }}</p>
                             </div>
                         </div>
-
-                        <div class="list-group">
-                            @foreach($item->activity_bucket->quizzes as $key => $quiz)
-                            <div class="list-group-item">
-                                <h4 class="list-group-item-heading">
-                                    <a role="button" data-toggle="collapse" href="#collapse{{ $key }}">
-                                        {{ $quiz->title }}
-                                    </a>
-                                </h4>
-                                <div id="collapse{{ $key }}" class="panel-collapse collapse">
-                                    <p class="list-group-item-text">{{ $quiz->description }}</p>
-                                    <div class="row m-t-15">
-                                        <div class="col-xs-12">
-                                            <ol>
-                                            @foreach($quiz->questions as $key => $question)
-                                                <li>
-                                                    <strong>{{ $question->title or '' }}</strong>
-                                                    @if($question->photo)
-                                                    <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
-                                                    @endif
-                                                    <div class="row answer-list m-t-10">
-                                                        @foreach($question->answers as $answer)
-                                                        <div class="col-lg-3 col-sm-6 text-center answer-item">
-                                                            <div class="{{ ($answer->is_correct)? 'list-group-item-success' : '' }}">
-                                                                @if($answer->photo)
-                                                                <img src="{{ $answer->photo }}" class="img-responsive thumbnail m-b-5">
-                                                                @endif
-                                                                {{ $answer->text or '' }}
-                                                            </div>
-                                                        </div>
-                                                        @endforeach
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                            </ol>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
+    
+                        @include('partials.quizzes-list', ['quizzes' => $item->activity_bucket->quizzes])
                     </div>
                     <div class="tab-pane" id="student-details">
                         <div class="row">
@@ -129,8 +95,9 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
-                <div class="row">
+                <div class="row m-t-20">
                     <div class="col-md-12 text-right">
                         <a href="{{ route('meetups.index') }}" class="btn btn-md btn-info">Back</a>
                         <a href="{{ route('meetups.edit', $item->id) }}" class="btn btn-md btn-primary">Edit</a>

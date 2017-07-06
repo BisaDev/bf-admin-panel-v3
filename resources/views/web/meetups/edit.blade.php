@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="form-group col-sm-6 {{ $errors->has('location')? 'has-error' : '' }}">
                             <label class="control-label" for="location">Location:</label>
-                            <select id="location" name="location" class="form-control" data-selected="{{ old('location', $item->room->location->id) }}" @change="getRoomsAndInstructorsFromLocation('{{ route('rooms.by_location') }}', '{{ route('employees.by_location') }}', $event)">
+                            <select id="location" name="location" class="form-control" data-selected="{{ old('location', ($item->room)? $item->room->location->id : '') }}" @change="getRoomsAndInstructorsFromLocation('{{ route('rooms.by_location') }}', '{{ route('employees.by_location') }}', $event)">
                                 <option value="">Select Location</option>
                                 @foreach($locations as $location)
                                 <option value="{{ $location->id }}">{{ ucfirst($location->name) }}</option>
@@ -72,7 +72,7 @@
                     <div class="row">
                         <div class="form-group col-sm-6 {{ $errors->has('room')? 'has-error' : '' }}">
                             <label class="control-label" for="room">Room:</label>
-                            <select id="room" name="room" class="form-control" data-selected="{{ old('room', $item->room->id) }}">
+                            <select id="room" name="room" class="form-control" data-selected="{{ old('room', ($item->room)? $item->room->id : '') }}">
                             </select>
                             @if($errors->has('room'))
                                 <span class="help-block">
@@ -82,7 +82,7 @@
                         </div>
                         <div class="form-group col-sm-6 {{ $errors->has('user')? 'has-error' : '' }}">
                             <label class="control-label" for="user">Instructor:</label>
-                            <select id="user" name="user" class="form-control" data-selected="{{ old('user', $item->user->id) }}">
+                            <select id="user" name="user" class="form-control" data-selected="{{ old('user', ($item->user)? $item->user->id : '') }}">
                             </select>
                             @if($errors->has('user'))
                                 <span class="help-block">
@@ -107,7 +107,7 @@
                         <div class="row">
                             <div class="form-group col-sm-6 {{ $errors->has('grade_level')? 'has-error' : '' }}">
                                 <label class="control-label" for="grade_level">Grade Level:</label>
-                                <select id="grade_level" name="grade_level" class="form-control" data-selected="{{ old('grade_level', $item->activity_bucket->subject->grade_level->id) }}" @change="getSubjectsFromGradeLevel('{{ route('subjects.by_grade') }}', $event)">
+                                <select id="grade_level" name="grade_level" class="form-control" data-selected="{{ old('grade_level', ($item->activity_bucket && $item->activity_bucket->subject)? $item->activity_bucket->subject->grade_level->id : '') }}" @change="getSubjectsFromGradeLevel('{{ route('subjects.by_grade') }}', $event)">
                                     <option value="">Select Grade Level</option>
                                     @foreach($grade_levels as $grade_level)
                                     <option value="{{ $grade_level->id }}">{{ ucfirst($grade_level->name) }}</option>
@@ -121,7 +121,7 @@
                             </div>
                             <div class="form-group col-sm-6 {{ $errors->has('subject')? 'has-error' : '' }}">
                                 <label class="control-label" for="subject">Subject:</label>
-                                <select id="subject" name="subject" class="form-control" data-selected="{{ old('subject', $item->activity_bucket->subject->id) }}" v-model="subject" @change="loadActivityBuckets('{{ route('activity_buckets.for_meetup') }}', $event)">
+                                <select id="subject" name="subject" class="form-control" data-selected="{{ old('subject', ($item->activity_bucket && $item->activity_bucket->subject)? $item->activity_bucket->subject->id : '') }}" v-model="subject" @change="loadActivityBuckets('{{ route('activity_buckets.for_meetup') }}', $event)">
                                 </select>
                                 @if($errors->has('subject'))
                                     <span class="help-block">

@@ -84,8 +84,8 @@
                     @foreach($list as $item)
                         <tr>
                             <td><a href="{{ route('quizzes.show', $item->id) }}">{{ $item->title }}</a></td>
-                            <td>{{ $item->subject->grade_level->name }}</td>
-                            <td>{{ $item->subject->name }}</td>
+                            <td>{{ ($item->subject)? $item->subject->grade_level->name : '' }}</td>
+                            <td>{{ ($item->subject)? $item->subject->name : '' }}</td>
                             <td>{{ $item->type->name }}</td>
                             <td class="text-center">{{ $item->number_of_questions }}</td>
                             <td class="text-center"><a href="{{ route('quizzes.reorder_questions', $item->id) }}" class="glyphicon glyphicon-sort"></a></td>

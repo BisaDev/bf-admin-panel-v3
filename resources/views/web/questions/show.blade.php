@@ -44,15 +44,15 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <label class="control-label">Grade Level:</label>
-                        <p>{{ $item->topic->subject->grade_level->name }}</p>
+                        <p>{{ ($item->topic)? $item->topic->subject->grade_level->name : '' }}</p>
                     </div>
                     <div class="col-sm-4">
                         <label class="control-label">Subject:</label>
-                        <p>{{ $item->topic->subject->name }}</p>
+                        <p>{{ ($item->topic)? $item->topic->subject->name : '' }}</p>
                     </div>
                     <div class="col-sm-4">
                         <label class="control-label">Topic:</label>
-                        <p>{{ $item->topic->name }}</p>
+                        <p>{{ ($item->topic)? $item->topic->name : '' }}</p>
                     </div>
                 </div>
 
