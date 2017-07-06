@@ -11,15 +11,18 @@ class ActivityBucketDetailsTransformer extends Transformer
 {
 
     private $quizTransformer;
+    private $gradeLevelTransformer;
 
     /**
      * ActivityBucketDetailsTransformer constructor.
      *
      * @param $quizTransformer
+     * @param \Brightfox\Http\Transformers\GradeLevelTransformer           $gradeLevelTransformer
      */
-    public function __construct(QuizDetailsTransformer $quizTransformer)
+    public function __construct(QuizDetailsTransformer $quizTransformer, GradeLevelTransformer $gradeLevelTransformer)
     {
         $this->quizTransformer = $quizTransformer;
+        $this->gradeLevelTransformer = $gradeLevelTransformer;
     }
 
 
@@ -28,7 +31,7 @@ class ActivityBucketDetailsTransformer extends Transformer
         return [
             'id' => (int)$activityBucket->id,
             'name' => $activityBucket->title,
-            'gradeLevel' => 'Under Implementation',
+            'gradeLevel' => $this->gradeLevelTransformer->transform($activityBucket->subject->grade_level),
             'quizzes' => $this->quizTransformer->transformCollection($activityBucket->quizzes)
         ];
     }

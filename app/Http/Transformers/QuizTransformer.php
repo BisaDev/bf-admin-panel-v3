@@ -40,6 +40,9 @@ class QuizTransformer extends Transformer
             'description' => $quiz->description,
             'type' => $quiz->type,
             'subject' => $this->subjectTransformer->transform($quiz->subject),
+            'topics' => implode(',', $quiz->questions->map(function($question){
+                return $question->topic->name;
+            })->unique()->toArray()),
             'questions' => $quiz->questions->count(),
             'miniGame' => (is_null($miniGame)) ? null : $this->miniGameTransformer->transform($miniGame)
         ];
