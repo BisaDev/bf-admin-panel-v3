@@ -252,4 +252,42 @@ class MeetupController extends Controller
         
         return view('web.meetups.student_detail', compact('meetup', 'student'));
     }
+    
+    /**
+     * @param Meetup $meetup
+     * @param Student $student
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function student_detail_print(Meetup $meetup, Student $student)
+    {
+        $quizzes_performance = [];
+        foreach($meetup->graded_quizzes as $key => $graded_quiz){
+    
+            $graded_quiz_answers = $student->graded_answers($graded_quiz->id)->get();
+            $quizzes_performance[$graded_quiz->id] = [
+                'total_questions' => $graded_quiz_answers->count(),
+                'correct' => 0
+            ];
+            
+            foreach($graded_quiz_answers as $student_answer){
+                if($student_answer->is_correct){
+                    $quizzes_performance[$graded_quiz->id]['correct']++;
+                }
+            }
+            
+            if($quizzes_performance[$graded_quiz->id]['total_questions'] > 0){
+                $quizzes_performance[$graded_quiz->id]['percentage'] = round(($quizzes_performance[$graded_quiz->id]['correct']/$quizzes_performance[$graded_quiz->id]['total_questions'])*100, 0);
+            }else{
+                $quizzes_performance[$graded_quiz->id]['percentage'] = 0;
+            }
+            
+            if($quizzes_performance[$graded_quiz->id]['percentage'] >= 85){
+                $quizzes_performance[$graded_quiz->id]['example'] = $student->graded_answers($graded_quiz->id)->correct()->first();
+            }else{
+                $quizzes_performance[$graded_quiz->id]['example'] = $student->graded_answers($graded_quiz->id)->incorrect()->first();
+            }
+        }
+        
+        return view('web.meetups.student_detail_print', compact('meetup', 'student', 'quizzes_performance'));
+    }
 }

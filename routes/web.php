@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('meetups/{meetup}/attendance',                          'MeetupController@attendance_store')->name('meetups.attendance.store');
     Route::post('meetups/filter',                                       'MeetupController@index')->name('meetups.filter');
     Route::match(['get', 'post'], 'meetups/{meetup}/student/{student}', 'MeetupController@student_detail')->name('meetups.student_detail');
+    Route::get('meetups/{meetup}/student/{student}/print',              'MeetupController@student_detail_print')->name('meetups.student_detail_print');
 
     Route::post('tags/repository',  'TagController@repository')->name('tags.repository');
 });

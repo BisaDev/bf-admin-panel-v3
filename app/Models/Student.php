@@ -68,6 +68,13 @@ class Student extends Model
     {
         return $this->hasMany(StudentAnswer::class, 'student_id')->where('student_answers.graded_quiz_question_id', $graded_quiz_question_id);
     }
+    
+    public function graded_answers($graded_quiz_id)
+    {
+        return $this->hasMany(StudentAnswer::class, 'student_id')
+            ->leftJoin('graded_quiz_questions','graded_quiz_questions.id','=','student_answers.graded_quiz_question_id')
+            ->where('graded_quiz_questions.graded_quiz_id', $graded_quiz_id);
+    }
 
     public static function boot() {
         parent::boot();

@@ -35,4 +35,14 @@ class StudentAnswer extends Model
         }
         return asset(self::PHOTO_PATH . $value);
     }
+    
+    public function scopeCorrect($query)
+    {
+        return $query->where('is_correct', 1);
+    }
+    
+    public function scopeIncorrect($query)
+    {
+        return $query->where('is_correct', 0);
+    }
 }

@@ -20,17 +20,19 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="m-t-0">{{ $meetup->room->location->name }}</h3>
-                        <h4 class="m-b-20">{{ $meetup->room->name }}</h4>
+                        <h3 class="m-t-0">{{ ($meetup->room)? $meetup->room->location->name : ''}}</h3>
+                        <h4 class="m-b-20">{{ ($meetup->room)? $meetup->room->name : ''}}</h4>
                     </div>
                     <div class="col-sm-6 text-right">
                         <div class="row">
                             <div class="col-xs-6 col-xs-offset-3 col-sm-9 col-sm-offset-0">
                                 <label>Instructor</label>
-                                <h4 class="m-b-20">{{ $meetup->user->full_name }}</h4>
+                                <h4 class="m-b-20">{{ ($meetup->user)? $meetup->user->full_name : '' }}</h4>
                             </div>
                             <div class="col-xs-3">
+                                @if($meetup->user)
                                 <img src="{{ $meetup->user->user_detail->photo }}" class="img-responsive img-circle">
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -81,11 +83,23 @@
                 </form>
                 
                 @if($meetup->graded_quizzes->count() > 0)
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h3>Results</h3>
+                    <div class="row results-title">
+                        <div class="col-xs-12">
+                            <h3>{{ $meetup->activity_bucket->title }} - Results</h3>
+                        </div>
+                    
+                        <div class="col-sm-5">
+                            <label class="control-label">Grade Level:</label>
+                            <p>{{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->grade_level->name : '' }}</p>
+                        </div>
+                        <div class="col-sm-5">
+                            <label class="control-label">Subject:</label>
+                            <p>{{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }}</p>
+                        </div>
+                        <div class="col-sm-2 text-right">
+                            <a href="{{ route('meetups.student_detail_print', [$meetup->id, $student->id]) }}" class="icon icon-printer"></a>
+                        </div>
                     </div>
-                </div>
                 @endif
                 
                 <div class="list-group">
@@ -121,7 +135,7 @@
                                                     </div>
                                                     @if($student->graded_answer($question->id)->first())
                                                     <div class="row answer-list m-t-5">
-                                                        <div class="col-sm-6 text-center answer-item">
+                                                        <div class="col-sm-6 col-sm-offset-3 text-center answer-item">
                                                             <h3>{{ $student->name  }} answered:</h3>
                                                             <div class="{{ ($student->graded_answer($question->id)->first()->is_correct)? 'list-group-item-success' : '' }}">
                                                                 @if($student->graded_answer($question->id)->first()->answer_image)
