@@ -95,7 +95,9 @@
                                     <p class="list-group-item-text">{{ $graded_quiz->quiz_type->name }}</p>
                                 </div>
                                 <div class="col-xs-6">
+                                    @if(strpos($graded_quiz->quiz_type->name, 'Trivia') === false)
                                     <p><strong>Performance:</strong> {{ $quizzes_performance[$graded_quiz->id]['correct'] }}/{{ $quizzes_performance[$graded_quiz->id]['total_questions'] }} correct ({{ $quizzes_performance[$graded_quiz->id]['percentage'] }}%)</p>
+                                    @endif
                                 </div>
                             </div>
                             @if($quizzes_performance[$graded_quiz->id]['example'])
@@ -106,6 +108,7 @@
                                     @if($question->question_photo)
                                         <img src="{{ $question->question_photo }}" class="img-responsive thumbnail m-t-5">
                                     @endif
+                                    
                                     <div class="row answer-list m-t-10">
                                         @foreach($question->answers as $answer)
                                             <div class="col-xs-3 text-center answer-item">
@@ -118,6 +121,7 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    
                                     @if($student->graded_answer($question->id)->first())
                                         <div class="row answer-list m-t-5">
                                             <div class="col-xs-6 col-xs-offset-3 text-center answer-item">

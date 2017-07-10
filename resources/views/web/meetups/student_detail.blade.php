@@ -121,6 +121,7 @@
                                                     @if($question->question_photo)
                                                         <img src="{{ $question->question_photo }}" class="img-responsive thumbnail m-t-5">
                                                     @endif
+                                                    @if(strpos($graded_quiz->quiz_type->name, 'Trivia') === false)
                                                     <div class="row answer-list m-t-10">
                                                         @foreach($question->answers as $answer)
                                                             <div class="col-lg-3 col-sm-6 text-center answer-item">
@@ -133,6 +134,7 @@
                                                             </div>
                                                         @endforeach
                                                     </div>
+                                                    @endif
                                                     @if($student->graded_answer($question->id)->first())
                                                     <div class="row answer-list m-t-5">
                                                         <div class="col-sm-6 col-sm-offset-3 text-center answer-item">
