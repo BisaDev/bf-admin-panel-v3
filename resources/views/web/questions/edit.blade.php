@@ -107,7 +107,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" v-show="type != 3">
                         @include('partials.add-answers')
                     </div>
 

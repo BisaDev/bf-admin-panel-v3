@@ -18,7 +18,8 @@ class Quiz extends Model
         'Fill the blank', 
         'Trivia: Celebrity',
         'Trivia: Forbidden fruit',
-        'Trivia: Questions'
+        'Trivia: Questions',
+        'Apple Pencil'
     ];
     
     /**

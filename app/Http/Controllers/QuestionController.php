@@ -137,7 +137,8 @@ class QuestionController extends Controller
             'type' => 'required',
             'topic' => 'required',
             'title' => 'required_without:photo',
-            'answers' => 'required|require_one_correct_for_multiple_choice:'.$request->input('type'),
+            'photo' => 'required_if:type,3',
+            'answers' => 'required_unless:type,3|require_one_correct_for_multiple_choice:'.$request->input('type'),
             'answers.*.text' => 'required_without:answers.*.photo',
         ]);
 
@@ -336,6 +337,9 @@ class QuestionController extends Controller
             case '6':
             case '7':
                 $type = '2';
+                break;
+            case '8':
+                $type = '3';
                 break;
         }
 
