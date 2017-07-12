@@ -49,6 +49,18 @@ class MeetupsController extends ApiController
             return $this->respondWithError('You Do not have permission to view this meetup');
         }
     }
+    
+    public function done($id)
+    {
+        $meetup = Meetup::find($id);
+        if($meetup->checkOwner($this->user)){
+            $meetup->status = json_encode(['key' => '2', 'name' => 'Done'], JSON_FORCE_OBJECT);
+            $meetup->save();
+            return $this->respond('Meetup status changed');
+        }else{
+            return $this->respondWithError('You Do not have permission to view this meetup');
+        }
+    }
 
     public function freeze($id)
     {
