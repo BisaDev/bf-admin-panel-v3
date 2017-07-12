@@ -126,7 +126,7 @@
                                         <div class="row answer-list m-t-5">
                                             <div class="col-xs-6 col-xs-offset-3 text-center answer-item">
                                                 <h3>{{ $student->name  }} answered:</h3>
-                                                <div class="{{ ($student->graded_answer($question->id)->first()->is_correct)? 'list-group-item-success' : '' }}">
+                                                <div class="{{ ($student->graded_answer($question->id)->first()->is_correct)? 'list-group-item-success' : 'list-group-item-danger' }}">
                                                     @if($student->graded_answer($question->id)->first()->answer_image)
                                                         <img src="{{ $student->graded_answer($question->id)->first()->answer_image }}" class="img-responsive thumbnail m-b-5">
                                                     @endif
