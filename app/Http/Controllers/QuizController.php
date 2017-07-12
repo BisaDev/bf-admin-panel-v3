@@ -150,17 +150,6 @@ class QuizController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \Brightfox\Quiz  $quiz
-     * @return \Illuminate\Http\Response
-     */
-    public function reorder_questions(Quiz $quiz)
-    {
-        return view('web.quizzes.reorder', ['item' => $quiz]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \Brightfox\Quiz  $quiz
@@ -225,6 +214,16 @@ class QuizController extends Controller
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully deleted']);
         
         return redirect(route('quizzes.index'));
+    }
+    
+    public function reorder_questions(Quiz $quiz)
+    {
+        return view('web.quizzes.reorder', ['item' => $quiz]);
+    }
+    
+    public function show_print(Quiz $quiz)
+    {
+        return view('web.quizzes.show_print', ['item' => $quiz]);
     }
 
     public function get_quizzes_for_activity_bucket(Request $request)

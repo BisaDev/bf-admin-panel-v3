@@ -82,6 +82,7 @@
 
                 <div class="row">
                     <div class="col-md-12 text-right">
+                        <a href="{{ route('quizzes.show_print', $item->id) }}" class="btn btn-md btn-info" target="_blank">Print blank Quiz</a>
                         <a href="{{ route('quizzes.index') }}" class="btn btn-md btn-info">Back</a>
                         <a href="{{ route('quizzes.edit', $item->id) }}" class="btn btn-md btn-primary">Edit</a>
                     </div>

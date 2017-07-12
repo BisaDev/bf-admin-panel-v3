@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('quizzes/{quiz}/reorder',            'QuizController@reorder_questions')->name('quizzes.reorder_questions');
     Route::post('quizzes/get_for_activity_bucket',  'QuizController@get_quizzes_for_activity_bucket')->name('quizzes.for_activity_bucket');
     Route::post('quizzes/save_question_order',      'QuizController@save_question_order')->name('quizzes.save_question_order');
+    Route::get('quizzes/{quiz}/print',              'QuizController@show_print')->name('quizzes.show_print');
 
     Route::match(['get', 'post'], 'activity_buckets/search',    'ActivityBucketController@index')->name('activity_buckets.search');
     Route::resource('activity_buckets',                         'ActivityBucketController');
