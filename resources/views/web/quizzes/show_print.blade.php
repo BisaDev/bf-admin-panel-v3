@@ -43,6 +43,7 @@
                                         <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
                                     @endif
                                     <div class="row answer-list m-t-10">
+                                        @if($item->type->name != 'Fill the blank')
                                         @foreach($question->answers as $answer)
                                             <div class="col-lg-3 col-sm-6 text-center answer-item">
                                                 <div>
@@ -53,6 +54,7 @@
                                                 </div>
                                             </div>
                                         @endforeach
+                                        @endif
                                     </div>
                                 </li>
                             @endforeach
