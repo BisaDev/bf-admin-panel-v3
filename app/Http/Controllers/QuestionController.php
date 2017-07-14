@@ -162,7 +162,7 @@ class QuestionController extends Controller
                 ]);
 
                 if ($request->hasFile('answers.'.$key.'.photo')) {
-                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 400, null);
+                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 280, null);
                     $answer->save();
                 }
             }
@@ -284,7 +284,7 @@ class QuestionController extends Controller
                         File::delete(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
                     }
 
-                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 400, null);
+                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 280, null);
                     $answer->save();
                 }
             }
