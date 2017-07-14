@@ -102,13 +102,14 @@
                             </div>
                             @if($quizzes_performance[$graded_quiz->id]['example'])
                             <div class="row m-t-15">
-                                <div class="col-xs-12">
+                                <div class="col-xs-4">
                                     @php $question = $graded_quiz->questions()->where('id', $quizzes_performance[$graded_quiz->id]['example']->id)->first() @endphp
                                     <strong>{{ $question->question_title or '' }}</strong>
                                     @if($question->question_photo)
                                         <img src="{{ $question->question_photo }}" class="img-responsive thumbnail m-t-5">
                                     @endif
-                                    
+                                </div>
+                                <div class="col-xs-8">
                                     <div class="row answer-list m-t-10">
                                         @foreach($question->answers as $answer)
                                             <div class="col-xs-3 text-center answer-item">
