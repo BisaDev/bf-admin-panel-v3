@@ -55,7 +55,9 @@ class ResultsController extends ApiController
 
             $questions->each(function ($question) use ($gradedQuiz, $student) {
                 $gradedQuizQuestion = $gradedQuiz->questions()->findByQuestionId($question['id'])->first();
-
+                
+                $image_name = explode('/', $question['answer']['image']);
+                
                 $studentAnswer = StudentAnswer::updateOrCreate(
                     [
                         'graded_quiz_question_id' => $gradedQuizQuestion->id,
@@ -64,7 +66,7 @@ class ResultsController extends ApiController
                     ],
                     [
                         'answer_text' => $question['answer']['text'],
-                        'answer_image' => $question['answer']['image'],
+                        'answer_image' => end($image_name),
                         'is_correct' => $question['answer']['is_correct'],
                     ]);
             });
