@@ -13,7 +13,7 @@ class Question extends Model
 
     const PHOTO_PATH = "uploads/activities/";
     const DEFAULT_PHOTO = "default-image.png";
-    const TYPES = ['Multiple choice', 'Fill the blank', 'Trivia', 'Apple Pencil'];
+    const TYPES = ['Multiple choice', 'Fill the blank', 'Trivia', 'Apple pencil', 'Drag and drop'];
 
     /**
      * The attributes that are mass assignable.

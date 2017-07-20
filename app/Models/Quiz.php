@@ -19,7 +19,7 @@ class Quiz extends Model
         'Trivia: Celebrity',
         'Trivia: Forbidden fruit',
         'Trivia: Questions',
-        'Apple Pencil'
+        'Apple pencil'
     ];
     
     /**

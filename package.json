@@ -15,6 +15,7 @@
     "bootstrap-datepicker": "^1.6.4",
     "bootstrap-timepicker": "^0.5.2",
     "cross-env": "^3.2.3",
+    "fabric": "^1.7.16",
     "jquery": "^3.1.1",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",

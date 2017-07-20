@@ -1,6 +1,6 @@
 <div id="add-children">
     <div class="form-group col-md-12">
-        <button type="button" class="btn btn-sm btn-default" @click="addChildren" >Add answer<span class="m-l-5"><i class="fa fa-plus"></i></span></button>
+        <button type="button" class="btn btn-sm btn-default" @click="addChildren" v-if="type != 4" >Add answer<span class="m-l-5"><i class="fa fa-plus"></i></span></button>
         <p class="text-muted m-t-5">{{ $help_text or '' }}</p>
         @if($errors->has('answers') || $errors->has('answers.*'))
             <div class="alert alert-danger" role="alert">
