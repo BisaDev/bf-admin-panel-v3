@@ -28,6 +28,7 @@ class QuestionTransformer extends Transformer
             'title' => $question->title,
             'picture' => $question->photo,
             'type' => $question->type,
+            'objectData' => $question->object_data,
             'answers' => $this->answersTransformer->transformCollection($question->answers)
         ];
     }
