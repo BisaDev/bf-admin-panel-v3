@@ -140,15 +140,19 @@ class QuestionController extends Controller
             'answers' => 'required_unless:type,3|require_one_correct_for_multiple_choice:'.$request->input('type'),
             'answers.*.text' => 'required_without:answers.*.photo',
         ]);
+        
+        $question_type = $request->input('type');
 
         $question = Question::create([
-            'type' => json_encode(['key' => $request->input('type'), 'name' => $this->types[$request->input('type')]], JSON_FORCE_OBJECT),
+            'type' => json_encode(['key' => $question_type, 'name' => $this->types[$question_type]], JSON_FORCE_OBJECT),
             'title' => $request->input('title'),
             'topic_id' => $request->input('topic')
         ]);
 
         if ($request->hasFile('photo')) {
-            $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, 400, null);
+            $image_width = ($question_type =! 4)? 400 : null;
+            
+            $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
         }
 
@@ -163,6 +167,11 @@ class QuestionController extends Controller
 
                 if ($request->hasFile('answers.'.$key.'.photo')) {
                     $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 280, null);
+                    $answer->save();
+                }
+    
+                if ($request->has('answers.'.$key.'.obj_data')) {
+                    $answer->object_data = $request->input('answers.'.$key.'.obj_data');
                     $answer->save();
                 }
             }
@@ -231,8 +240,10 @@ class QuestionController extends Controller
             'answers' => 'required_unless:type,3|require_one_correct_for_multiple_choice:'.$request->input('type'),
             'answers.*.text' => 'required_without_all:answers.*.id,answers.*.photo|required_with:answers.*.remove_photo',
         ]);
+    
+        $question_type = $request->input('type');
         
-        $question->type = json_encode(['key' => $request->input('type'), 'name' => $this->types[$request->input('type')]], JSON_FORCE_OBJECT);
+        $question->type = json_encode(['key' => $question_type, 'name' => $this->types[$question_type]], JSON_FORCE_OBJECT);
         $question->title = $request->input('title');
         $question->topic_id = $request->input('topic');
         $question->save();
@@ -241,8 +252,10 @@ class QuestionController extends Controller
             if(!is_null($question->getOriginal('photo')) || $question->getOriginal('photo') != ''){
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
             }
+    
+            $image_width = ($question_type =! 4)? 400 : null;
 
-            $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, 400, null);
+            $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
         }
 
@@ -285,6 +298,11 @@ class QuestionController extends Controller
                     }
 
                     $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 280, null);
+                    $answer->save();
+                }
+    
+                if ($request->has('answers.'.$key.'.obj_data')) {
+                    $answer->object_data = $request->input('answers.'.$key.'.obj_data');
                     $answer->save();
                 }
             }

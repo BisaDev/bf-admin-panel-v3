@@ -100,8 +100,16 @@
                             @endif
                         </div>
                     </div>
+                    
+                    <div class="row" v-show="type == 4">
+                        <div class="col-xs-12">
+                            <p class="text-mute" v-if="!photo">Add question image to create canvas</p>
+                            <p class="text-mute" v-else>Click on the canvas to add answer areas</p>
+                            <canvas id="dnd-canvas"></canvas>
+                        </div>
+                    </div>
 
-                    <div class="row" v-show="type != 3">
+                    <div class="row" v-show="questionTypeAllowsAnswers()">
                         @include('partials.add-answers')
                     </div>
 

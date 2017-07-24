@@ -24,12 +24,16 @@ trait CreatesAndSavesPhotos
             }
         }
         
-        $image->resize($width, $height, function ($constraint) use($preserve_aspect_ratio) {
-            
-            if($preserve_aspect_ratio){
-                $constraint->aspectRatio();
-            }
-        })->save(public_path($path . $filename));
+        if(!is_null($width) && !is_null($height)){
+            $image->resize($width, $height, function ($constraint) use($preserve_aspect_ratio) {
+        
+                if($preserve_aspect_ratio){
+                    $constraint->aspectRatio();
+                }
+            });
+        }
+        
+        $image->save(public_path($path . $filename));
         
         return $filename;
     }
