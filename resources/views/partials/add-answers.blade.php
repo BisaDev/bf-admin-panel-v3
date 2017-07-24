@@ -30,8 +30,8 @@
                         <input type="hidden" v-bind:name="'answers['+index+'][id]'" v-model="answer.id">
                     </div>
                 </div>
-                <div class="row" v-show="type == 0">
-                    <div class="form-group col-md-4">
+                <div class="row" v-show="questionAnswersHaveAdditionalData()">
+                    <div class="form-group col-md-4" v-show="type == 0">
                         <div class="checkbox checkbox-primary">
                             <input v-bind:id="'is_correct_'+index" type="checkbox" v-model="answer.is_correct" v-bind:name="'answers['+index+'][is_correct]'">
                             <label v-bind:for="'is_correct_'+index">Correct</label>
@@ -48,6 +48,7 @@
                             <label v-bind:for="'remove_photo_'+index">Remove photo</label>
                         </div>
                     </div>
+                    <input type="hidden" v-bind:name="'answers['+index+'][obj_data]'" v-model="answer.obj_data">
                 </div>
             </div>
         </div>

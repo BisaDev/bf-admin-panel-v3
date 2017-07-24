@@ -31,7 +31,7 @@ export default {
                 }
             },
             watch: {
-                photo: function (val) {
+                photo: function(val){
                     let image = new Image();
                     let vue_instance = this;
 
@@ -41,12 +41,27 @@ export default {
                         vue_instance.canvas.setDimensions({width: image.width, height: image.height});
                     }
                     image.src = val;
+                },
+                type: function(val){
+                    if(val == '4'){
+                        this.children = [];
+                    }
                 }
             },
             methods: {
-                addChildren(event, obj_id){
+                addChildren(event, obj){
                     if(this.children.length < 4){
-                        this.children.push({name: '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id});
+
+                        let obj_data, obj_id;
+                        if(obj !== undefined){
+                            obj_data = this.prepareObjectData(obj);
+                            obj_id = obj.obj_id;
+                        }else{
+                            obj_data = '';
+                            obj_id = '';
+                        }
+
+                        this.children.push({name: '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id, obj_data: obj_data});
                     }
                 },
                 removeChildren(index){
@@ -59,7 +74,7 @@ export default {
                         let square = _.find(canvas_objects, function(o) { return o.obj_id == obj_id; });
 
                         if(square){
-                            square.remove();
+                            this.canvas.remove(square);
                         }
                     }
                 },
@@ -76,18 +91,46 @@ export default {
                     }
 
                     return allows;
+                },
+                questionAnswersHaveAdditionalData(){
+                    let hasData = false;
+
+                    switch(this.type){
+                        case '0':
+                        case '4':
+                            hasData = true;
+                            break;
+                    }
+
+                    return hasData;
+                },
+                createObject(left, top, width, height, obj_id, id_offset){
+                    let square = new fabric.Rect({
+                        width: width,
+                        height: height,
+                        left: left,
+                        top: top,
+                        stroke: '#000',
+                        fill: 'transparent',
+                    });
+
+                    let tag = new fabric.Text('Answer '+(this.children.length+id_offset), {
+                        fontSize: 12,
+                        left: left+5,
+                        top: top+5
+                    });
+
+                    let group = new fabric.Group([square, tag], {
+                        obj_id: obj_id
+                    });
+
+                    return group;
+                },
+                prepareObjectData(obj){
+                    return JSON.stringify({top: obj.top, left: obj.left, width: obj.width*obj.scaleX-1, height: obj.height*obj.scaleY-1});
                 }
             },
             mounted() {
-
-                if(this.$el.attributes['data-answers'] !== undefined) {
-                    let answers = $.parseJSON(this.$el.attributes['data-answers'].value);
-                    let vue_instance = this;
-                    
-                    $.each(answers, function(index, answer){
-                        vue_instance.children.push({name: answer.text, photo: answer.photo, is_correct: (answer.is_correct == 1 || answer.is_correct == 'on')? true : false, remove_photo: false, id: answer.id});
-                    });
-                }
 
                 if($('#dnd-canvas').length > 0){
                     let canvas = new fabric.Canvas('dnd-canvas', {
@@ -100,26 +143,33 @@ export default {
                     let started, x, y;
                     let vue_instance = this;
 
-                    canvas.on('object:added', function(obj){
-                        let obj_id = obj.target.obj_id;
+                    canvas.on('object:added', function(event){
+                        let obj = event.target;
 
-                        if(!_.find(vue_instance.children, function(o) { return o.obj_id == obj_id; })){
-                            vue_instance.addChildren(obj_id);
+                        if(!_.find(vue_instance.children, function(o) { return o.obj_id == obj.obj_id; })){
+                            vue_instance.addChildren(null, obj);
                         }
                     });
 
-                    canvas.on('object:removed', function(obj){
-                        let obj_id = obj.target.obj_id;
+                    canvas.on('object:removed', function(event){
 
-                        let answer_index = _.findIndex(vue_instance.children, function(o) { return o.obj_id == obj_id; });
+                        let canvas_objects = canvas.getObjects();
 
-                        if(answer_index != -1){
-                            vue_instance.removeChildren(answer_index);
-                        }
+                        $.each(vue_instance.children, function(index, answer){
+
+                            let square = _.find(canvas_objects, function(o) { return o.obj_id == answer.obj_id; });
+
+                            square.getObjects()[1].setText('Answer '+(index+1));
+                            canvas.renderAll();
+                        });
                     });
 
-                    canvas.on('object:modified', function(obj){
-                        console.log('Top: '+obj.target.top+' Left:'+obj.target.left+' Width:'+obj.target.width+' Height:'+obj.target.height);
+                    canvas.on('object:modified', function(event){
+                        let obj = event.target;
+
+                        let answer = _.find(vue_instance.children, function(o) { return o.obj_id == obj.obj_id; });
+
+                        answer.obj_data = vue_instance.prepareObjectData(obj);
                     });
 
                     canvas.on('mouse:down', function(options) {
@@ -133,59 +183,43 @@ export default {
                             x = pointer.x;
                             y = pointer.y;
 
-                            var square = new fabric.Rect({
-                                width: 100,
-                                height: 100,
-                                left: x,
-                                top: y,
-                                stroke: '#000',
-                                fill: 'transparent',
-                            });
-
-                            var tag = new fabric.Text('Answer '+(vue_instance.children.length+1), {
-                                fontSize: 12,
-                                left: x+5,
-                                top: y+5
-                            });
-
-                            var group = new fabric.Group([square, tag], {
-                                obj_id: _.uniqueId('rect')
-                            });
+                            let group = vue_instance.createObject(x, y, 99, 99, _.uniqueId('rect'), 1);
 
                             canvas.add(group);
                             canvas.setActiveObject(group);
                         }
                     });
+                }
 
-                    /*canvas.on('mouse:move', function(options) {
-                        if(!started) {
-                            return false;
+                if(this.$el.attributes['data-answers'] !== undefined) {
+                    let answers = $.parseJSON(this.$el.attributes['data-answers'].value);
+                    let vue_instance = this;
+
+                    $.each(answers, function(index, answer){
+
+                        vue_instance.children.push({
+                            name: answer.text,
+                            photo: answer.photo,
+                            is_correct: (answer.is_correct == 1 || answer.is_correct == 'on')? true : false,
+                            remove_photo: false,
+                            obj_id: 'rect'+index,
+                            obj_data: answer.object_data,
+                            id: answer.id
+                        });
+
+                        if(vue_instance.type == '4'){
+
+                            let object_data = JSON.parse(answer.object_data);
+
+                            let group = vue_instance.createObject(object_data.left, object_data.top, object_data.width, object_data.height, 'rect'+index, 0);
+
+                            vue_instance.canvas.add(group);
                         }
-
-                        var pointer = canvas.getPointer(options.e);
-                        var w = Math.abs(pointer.x - x),
-                            h = Math.abs(pointer.y - y);
-
-                        if (!w || !h) {
-                            return false;
-                        }
-
-                        var square = canvas.getActiveObject();
-                        square.set('width', w).set('height', h);
                     });
 
-                    canvas.on('mouse:up', function(options) {
-                        var square = canvas.getActiveObject();
-
-                        if(started && (square.width < 50 || square.height < 50)){
-                            canvas.remove(square);
-                        }
-
-                        if(started) {
-                            started = false;
-
-                        }
-                    });*/
+                    if(vue_instance.type == '4'){
+                        vue_instance.photo = $('#question_photo').attr('src');
+                    }
                 }
             }
         });

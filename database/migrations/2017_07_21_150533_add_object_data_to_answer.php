@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStatusToMeetupTable extends Migration
+class AddObjectDataToAnswer extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddStatusToMeetupTable extends Migration
      */
     public function up()
     {
-        Schema::table('meetups', function (Blueprint $table) {
-            $table->string('status')->after('room_id')->nullable();
+        Schema::table('answers', function (Blueprint $table) {
+            $table->text('object_data')->after('is_correct')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddStatusToMeetupTable extends Migration
      */
     public function down()
     {
-        Schema::table('meetups', function (Blueprint $table) {
-            $table->dropColumn('status');
+        Schema::table('answers', function (Blueprint $table) {
+            $table->dropColumn('object_data');
         });
     }
 }

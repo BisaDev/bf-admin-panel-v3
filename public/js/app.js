@@ -23732,12 +23732,28 @@ if (token) {
                         vue_instance.canvas.setDimensions({ width: image.width, height: image.height });
                     };
                     image.src = val;
+                },
+                type: function type(val) {
+                    if (val == '4') {
+                        this.children = [];
+                    }
                 }
             },
             methods: {
-                addChildren: function addChildren(event, obj_id) {
+                addChildren: function addChildren(event, obj) {
                     if (this.children.length < 4) {
-                        this.children.push({ name: '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id });
+
+                        var obj_data = void 0,
+                            obj_id = void 0;
+                        if (obj !== undefined) {
+                            obj_data = this.prepareObjectData(obj);
+                            obj_id = obj.obj_id;
+                        } else {
+                            obj_data = '';
+                            obj_id = '';
+                        }
+
+                        this.children.push({ name: '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id, obj_data: obj_data });
                     }
                 },
                 removeChildren: function removeChildren(index) {
@@ -23752,7 +23768,7 @@ if (token) {
                         });
 
                         if (square) {
-                            square.remove();
+                            this.canvas.remove(square);
                         }
                     }
                 },
@@ -23769,18 +23785,46 @@ if (token) {
                     }
 
                     return allows;
+                },
+                questionAnswersHaveAdditionalData: function questionAnswersHaveAdditionalData() {
+                    var hasData = false;
+
+                    switch (this.type) {
+                        case '0':
+                        case '4':
+                            hasData = true;
+                            break;
+                    }
+
+                    return hasData;
+                },
+                createObject: function createObject(left, top, width, height, obj_id, id_offset) {
+                    var square = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Rect({
+                        width: width,
+                        height: height,
+                        left: left,
+                        top: top,
+                        stroke: '#000',
+                        fill: 'transparent'
+                    });
+
+                    var tag = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Text('Answer ' + (this.children.length + id_offset), {
+                        fontSize: 12,
+                        left: left + 5,
+                        top: top + 5
+                    });
+
+                    var group = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Group([square, tag], {
+                        obj_id: obj_id
+                    });
+
+                    return group;
+                },
+                prepareObjectData: function prepareObjectData(obj) {
+                    return JSON.stringify({ top: obj.top, left: obj.left, width: obj.width * obj.scaleX - 1, height: obj.height * obj.scaleY - 1 });
                 }
             },
             mounted: function mounted() {
-
-                if (this.$el.attributes['data-answers'] !== undefined) {
-                    var answers = $.parseJSON(this.$el.attributes['data-answers'].value);
-                    var vue_instance = this;
-
-                    $.each(answers, function (index, answer) {
-                        vue_instance.children.push({ name: answer.text, photo: answer.photo, is_correct: answer.is_correct == 1 || answer.is_correct == 'on' ? true : false, remove_photo: false, id: answer.id });
-                    });
-                }
 
                 if ($('#dnd-canvas').length > 0) {
                     var canvas = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Canvas('dnd-canvas', {
@@ -23793,32 +23837,41 @@ if (token) {
                     var started = void 0,
                         x = void 0,
                         y = void 0;
-                    var _vue_instance = this;
+                    var vue_instance = this;
 
-                    canvas.on('object:added', function (obj) {
-                        var obj_id = obj.target.obj_id;
+                    canvas.on('object:added', function (event) {
+                        var obj = event.target;
 
-                        if (!_.find(_vue_instance.children, function (o) {
-                            return o.obj_id == obj_id;
+                        if (!_.find(vue_instance.children, function (o) {
+                            return o.obj_id == obj.obj_id;
                         })) {
-                            _vue_instance.addChildren(obj_id);
+                            vue_instance.addChildren(null, obj);
                         }
                     });
 
-                    canvas.on('object:removed', function (obj) {
-                        var obj_id = obj.target.obj_id;
+                    canvas.on('object:removed', function (event) {
 
-                        var answer_index = _.findIndex(_vue_instance.children, function (o) {
-                            return o.obj_id == obj_id;
+                        var canvas_objects = canvas.getObjects();
+
+                        $.each(vue_instance.children, function (index, answer) {
+
+                            var square = _.find(canvas_objects, function (o) {
+                                return o.obj_id == answer.obj_id;
+                            });
+
+                            square.getObjects()[1].setText('Answer ' + (index + 1));
+                            canvas.renderAll();
+                        });
+                    });
+
+                    canvas.on('object:modified', function (event) {
+                        var obj = event.target;
+
+                        var answer = _.find(vue_instance.children, function (o) {
+                            return o.obj_id == obj.obj_id;
                         });
 
-                        if (answer_index != -1) {
-                            _vue_instance.removeChildren(answer_index);
-                        }
-                    });
-
-                    canvas.on('object:modified', function (obj) {
-                        console.log('Top: ' + obj.target.top + ' Left:' + obj.target.left + ' Width:' + obj.target.width + ' Height:' + obj.target.height);
+                        answer.obj_data = vue_instance.prepareObjectData(obj);
                     });
 
                     canvas.on('mouse:down', function (options) {
@@ -23826,58 +23879,49 @@ if (token) {
                             return;
                         }
 
-                        if (_vue_instance.children.length < 4) {
+                        if (vue_instance.children.length < 4) {
                             started = true;
                             var pointer = canvas.getPointer(options.e);
                             x = pointer.x;
                             y = pointer.y;
 
-                            var square = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Rect({
-                                width: 100,
-                                height: 100,
-                                left: x,
-                                top: y,
-                                stroke: '#000',
-                                fill: 'transparent'
-                            });
-
-                            var tag = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Text('Answer ' + (_vue_instance.children.length + 1), {
-                                fontSize: 12,
-                                left: x + 5,
-                                top: y + 5
-                            });
-
-                            var group = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Group([square, tag], {
-                                obj_id: _.uniqueId('rect')
-                            });
+                            var group = vue_instance.createObject(x, y, 99, 99, _.uniqueId('rect'), 1);
 
                             canvas.add(group);
                             canvas.setActiveObject(group);
                         }
                     });
+                }
 
-                    /*canvas.on('mouse:move', function(options) {
-                        if(!started) {
-                            return false;
+                if (this.$el.attributes['data-answers'] !== undefined) {
+                    var answers = $.parseJSON(this.$el.attributes['data-answers'].value);
+                    var _vue_instance = this;
+
+                    $.each(answers, function (index, answer) {
+
+                        _vue_instance.children.push({
+                            name: answer.text,
+                            photo: answer.photo,
+                            is_correct: answer.is_correct == 1 || answer.is_correct == 'on' ? true : false,
+                            remove_photo: false,
+                            obj_id: 'rect' + index,
+                            obj_data: answer.object_data,
+                            id: answer.id
+                        });
+
+                        if (_vue_instance.type == '4') {
+
+                            var object_data = JSON.parse(answer.object_data);
+
+                            var group = _vue_instance.createObject(object_data.left, object_data.top, object_data.width, object_data.height, 'rect' + index, 0);
+
+                            _vue_instance.canvas.add(group);
                         }
-                         var pointer = canvas.getPointer(options.e);
-                        var w = Math.abs(pointer.x - x),
-                            h = Math.abs(pointer.y - y);
-                         if (!w || !h) {
-                            return false;
-                        }
-                         var square = canvas.getActiveObject();
-                        square.set('width', w).set('height', h);
                     });
-                     canvas.on('mouse:up', function(options) {
-                        var square = canvas.getActiveObject();
-                         if(started && (square.width < 50 || square.height < 50)){
-                            canvas.remove(square);
-                        }
-                         if(started) {
-                            started = false;
-                         }
-                    });*/
+
+                    if (_vue_instance.type == '4') {
+                        _vue_instance.photo = $('#question_photo').attr('src');
+                    }
                 }
             }
         });
