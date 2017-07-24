@@ -17,6 +17,7 @@ class AnswerTransformer extends Transformer
             'text' => $answer->text,
             'picture' => $answer->photo,
             'isCorrect' => ($answer->is_correct) ? true : false,
+            'objectData' => $answer->object_data,
         ];
     }
 
