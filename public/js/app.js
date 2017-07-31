@@ -23729,7 +23729,7 @@ if (token) {
                     var vue_instance = this;
 
                     image.onload = function () {
-                        if (this.type == 4) {
+                        if (vue_instance.type == 4) {
                             //Drag and drop
                             vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas));
                             vue_instance.canvas.setDimensions({ width: image.width, height: image.height });
@@ -23827,7 +23827,7 @@ if (token) {
                     return group;
                 },
                 prepareObjectData: function prepareObjectData(obj) {
-                    return JSON.stringify({ top: obj.top, left: obj.left, width: obj.width * obj.scaleX - 1, height: obj.height * obj.scaleY - 1 });
+                    return JSON.stringify({ top: obj.top.toFixed(2), left: obj.left.toFixed(2), width: obj.width * obj.scaleX - 1, height: obj.height * obj.scaleY - 1 });
                 }
             },
             mounted: function mounted() {
