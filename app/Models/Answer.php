@@ -28,7 +28,7 @@ class Answer extends Model
      *
      * @var array
      */
-    protected $hidden = ['photo', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function getPhotoAttribute($value)
     {

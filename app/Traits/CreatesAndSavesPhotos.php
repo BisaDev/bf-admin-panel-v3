@@ -24,7 +24,7 @@ trait CreatesAndSavesPhotos
             }
         }
         
-        if(!is_null($width) && !is_null($height)){
+        if(!(is_null($width) && is_null($height))){
             $image->resize($width, $height, function ($constraint) use($preserve_aspect_ratio) {
         
                 if($preserve_aspect_ratio){

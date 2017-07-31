@@ -23822,7 +23822,7 @@ if (token) {
                     return group;
                 },
                 prepareObjectData: function prepareObjectData(obj) {
-                    return JSON.stringify({ top: obj.top.toFixed(2), left: obj.left.toFixed(2), width: obj.width * obj.scaleX - 1, height: obj.height * obj.scaleY - 1 });
+                    return JSON.stringify({ top: parseFloat(obj.top.toFixed(2)), left: parseFloat(obj.left.toFixed(2)), width: obj.width * obj.scaleX - 1, height: obj.height * obj.scaleY - 1 });
                 }
             },
             mounted: function mounted() {
@@ -23899,14 +23899,14 @@ if (token) {
                     var _vue_instance = this;
 
                     $.each(answers, function (index, answer) {
-
+                        console.log(answer);
                         _vue_instance.children.push({
                             name: answer.text,
                             photo: answer.photo,
                             is_correct: answer.is_correct == 1 || answer.is_correct == 'on' ? true : false,
                             remove_photo: false,
                             obj_id: 'rect' + index,
-                            obj_data: answer.object_data,
+                            obj_data: JSON.stringify(answer.object_data),
                             id: answer.id
                         });
 
