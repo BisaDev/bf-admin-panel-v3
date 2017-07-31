@@ -150,7 +150,7 @@ class QuestionController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $image_width = $this.question_type_resize($question_type);
+            $image_width = $this->question_type_resize($question_type);
             
             $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
@@ -253,7 +253,7 @@ class QuestionController extends Controller
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
             }
     
-            $image_width = $this.question_type_resize($question_type);
+            $image_width = $this->question_type_resize($question_type);
 
             $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
