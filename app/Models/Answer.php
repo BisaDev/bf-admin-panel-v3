@@ -42,6 +42,11 @@ class Answer extends Model
     {
         return $this->getOriginal('photo');
     }
+    
+    public function getObjectDataAttribute($value)
+    {
+        return json_decode($value);
+    }
 
     public function question()
     {

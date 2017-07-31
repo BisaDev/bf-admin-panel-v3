@@ -43,11 +43,6 @@ export default {
                         }
                     }
                     image.src = val;
-                },
-                type: function(val){
-                    if(val == '4'){
-                        this.children = [];
-                    }
                 }
             },
             methods: {
@@ -211,7 +206,7 @@ export default {
 
                         if(vue_instance.type == '4'){
 
-                            let object_data = JSON.parse(answer.object_data);
+                            let object_data = answer.object_data;
 
                             let group = vue_instance.createObject(object_data.left, object_data.top, object_data.width, object_data.height, 'rect'+index, 0);
 
