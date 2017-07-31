@@ -23736,11 +23736,6 @@ if (token) {
                         }
                     };
                     image.src = val;
-                },
-                type: function type(val) {
-                    if (val == '4') {
-                        this.children = [];
-                    }
                 }
             },
             methods: {
@@ -23917,7 +23912,7 @@ if (token) {
 
                         if (_vue_instance.type == '4') {
 
-                            var object_data = JSON.parse(answer.object_data);
+                            var object_data = answer.object_data;
 
                             var group = _vue_instance.createObject(object_data.left, object_data.top, object_data.width, object_data.height, 'rect' + index, 0);
 
