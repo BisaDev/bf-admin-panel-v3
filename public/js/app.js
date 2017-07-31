@@ -23500,6 +23500,7 @@ if (token) {
                         case '6':
                         case '7':
                         case '8':
+                        case '9':
                             allow = false;
                     }
 
@@ -23723,13 +23724,16 @@ if (token) {
             },
             watch: {
                 photo: function photo(val) {
+
                     var image = new Image();
                     var vue_instance = this;
 
                     image.onload = function () {
-
-                        vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas));
-                        vue_instance.canvas.setDimensions({ width: image.width, height: image.height });
+                        if (this.type == 4) {
+                            //Drag and drop
+                            vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas));
+                            vue_instance.canvas.setDimensions({ width: image.width, height: image.height });
+                        }
                     };
                     image.src = val;
                 },
@@ -23781,6 +23785,7 @@ if (token) {
 
                     switch (this.type) {
                         case "3":
+                            //Apple pencil
                             allows = false;
                     }
 
@@ -23790,8 +23795,9 @@ if (token) {
                     var hasData = false;
 
                     switch (this.type) {
-                        case '0':
+                        case '0': //Multiple choice
                         case '4':
+                            //Drag and drop
                             hasData = true;
                             break;
                     }

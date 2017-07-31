@@ -150,7 +150,7 @@ class QuestionController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $image_width = ($question_type =! 4)? 400 : null;
+            $image_width = $this.question_type_resize($question_type);
             
             $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
@@ -253,7 +253,7 @@ class QuestionController extends Controller
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
             }
     
-            $image_width = ($question_type =! 4)? 400 : null;
+            $image_width = $this.question_type_resize($question_type);
 
             $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
@@ -358,6 +358,9 @@ class QuestionController extends Controller
             case '8':
                 $type = '3';
                 break;
+            case '9':
+                $type = '4';
+                break;
         }
 
         $questions = Question::whereHas('topic', function ($query)use($request) {
@@ -365,5 +368,19 @@ class QuestionController extends Controller
         })->where('type', 'like', '%"key":"'.$type.'"%')->with('topic', 'tags')->get();
 
         return response()->json($questions);
+    }
+    
+    public function question_type_resize($type){
+        
+        $width = 400;
+        
+        switch($type) {
+            case 3:
+            case 4:
+                $return = null;
+                break;
+        }
+        
+        return $width;
     }
 }
