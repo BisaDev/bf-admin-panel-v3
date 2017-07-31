@@ -32,13 +32,15 @@ export default {
             },
             watch: {
                 photo: function(val){
+
                     let image = new Image();
                     let vue_instance = this;
 
-                    image.onload = function(){
-
-                        vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas))
-                        vue_instance.canvas.setDimensions({width: image.width, height: image.height});
+                    image.onload = function () {
+                        if(this.type == 4) { //Drag and drop
+                            vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas))
+                            vue_instance.canvas.setDimensions({width: image.width, height: image.height});
+                        }
                     }
                     image.src = val;
                 },
@@ -86,7 +88,7 @@ export default {
                     let allows = true;
 
                     switch(this.type){
-                        case "3":
+                        case "3": //Apple pencil
                             allows = false;
                     }
 
@@ -96,8 +98,8 @@ export default {
                     let hasData = false;
 
                     switch(this.type){
-                        case '0':
-                        case '4':
+                        case '0': //Multiple choice
+                        case '4': //Drag and drop
                             hasData = true;
                             break;
                     }
