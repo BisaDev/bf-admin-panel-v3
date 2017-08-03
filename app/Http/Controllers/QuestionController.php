@@ -377,7 +377,7 @@ class QuestionController extends Controller
         switch($type) {
             case 3:
             case 4:
-                $return = null;
+                $width = null;
                 break;
         }
         
