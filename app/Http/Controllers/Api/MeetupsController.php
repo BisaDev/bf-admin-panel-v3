@@ -88,6 +88,7 @@ class MeetupsController extends ApiController
                             'question_photo' => $question->getOriginal('photo'),
                             'question_topic' => $question->topic->name,
                             'answers' => $question->answers->toJson(),
+                            'tags' => $question->tags->toJson(),
                             'graded_quiz_id' => $graded_quiz->id
                         ]);
                     }

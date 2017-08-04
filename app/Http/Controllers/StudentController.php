@@ -251,4 +251,85 @@ class StudentController extends Controller
     
         return redirect(route('students.show', $student->id));
     }
+    
+    public function student_progress_print(Student $student)
+    {
+        $student_data = [];
+        $total_questions = 0;
+        
+        foreach($student->meetups->reverse() as $meetup){
+            foreach($meetup->graded_quizzes as $graded_quiz){
+        
+                $graded_quiz_answers = $student->graded_answers($graded_quiz->id)->get();
+        
+                foreach($graded_quiz_answers as $student_answer){
+                    
+                    $subject = $graded_quiz->quiz_subject;
+                    $topic = $student_answer->graded_quiz_question->question_topic;
+                    
+                    if(!array_key_exists($subject, $student_data)){
+                        $student_data[$subject] = [];
+                    }
+                    if(!array_key_exists($topic, $student_data[$subject])){
+                        $student_data[$subject][$topic] = [];
+                    }
+                    
+                    $tags = collect(json_decode($student_answer->graded_quiz_question->tags));
+                    
+                    $level_tags = $tags->filter(function($value, $key){
+                        return strpos($value->name, 'lvl-') !== false;
+                    });
+                    
+                    foreach($level_tags as $level_tag){
+                        $level = $graded_quiz->quiz_grade_level.'-'.substr($level_tag->name, 4, 1);
+                        
+                        if(!array_key_exists($level, $student_data[$subject][$topic])){
+                            $student_data[$subject][$topic][$level] = [
+                                'total_questions' => 0,
+                                'total_correct' => 0,
+                                'percentage_correct' => 0,
+                                'date_mastered' => 'N/A'
+                            ];
+                        }
+                        
+                        $student_data[$subject][$topic][$level]['total_questions'] += 1;
+                        $total_questions += 1;
+                        if($student_answer->is_correct){
+                            $student_data[$subject][$topic][$level]['total_correct'] += 1;
+                        }
+    
+                        $percentage_correct = round((100 * $student_data[$subject][$topic][$level]['total_correct'])/$student_data[$subject][$topic][$level]['total_questions']);
+    
+                        if($student_data[$subject][$topic][$level]['total_questions'] >= 200 && $student_data[$subject][$topic][$level]['date_mastered'] == 'N/A'){
+        
+                            if($percentage_correct > 85){
+                                $student_data[$subject][$topic][$level]['date_mastered'] = $meetup->start_time->format('F jS');
+                            }
+                        }
+    
+                        $student_data[$subject][$topic][$level]['percentage_correct'] = $percentage_correct;
+                    }
+                }
+            }
+        }
+    
+        $meetup_hours = ['total' => 0, 'subjects' => []];
+        foreach($student->meetups as $meetup){
+            $subject = $meetup->graded_quizzes()->first();
+            if(!is_null($subject)){
+                if(!array_key_exists($subject->quiz_subject, $meetup_hours)){
+                    $meetup_hours['subjects'][$subject->quiz_subject] = 0;
+                }
+    
+                $time = new Carbon($meetup->start_time);
+                $end_time =new Carbon($meetup->end_time);
+                $meeting_time = $time->diffInHours($end_time);
+                $meetup_hours['total'] += $meeting_time;
+                $meetup_hours['subjects'][$subject->quiz_subject] += $meeting_time;
+            }
+        }
+        
+        //dd($student_data);
+        return view('web.students.progress', compact('student', 'student_data', 'meetup_hours', 'total_questions'));
+    }
 }

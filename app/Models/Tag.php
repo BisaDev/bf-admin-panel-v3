@@ -14,7 +14,14 @@ class Tag extends Model
     protected $fillable = [
         'name'
     ];
-
+    
+    /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
+    protected $visible = ['name'];
+    
     public function quizzes()
     {
         return $this->morphedByMany(Quiz::class, 'taggable');

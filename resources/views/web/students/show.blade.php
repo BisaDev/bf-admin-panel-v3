@@ -96,6 +96,10 @@
                     <div class="col-xs-12">
                         <h3>Attended Meetups</h3>
                     </div>
+                    <div class="col-sm-offset-8 col-sm-4 text-right results-title">
+                        <label class="control-label">Progress report</label>
+                        <a href="{{ route('students.progress', $item->id) }}" class="icon icon-printer"></a>
+                    </div>
                     <div class="col-xs-12">
                         <table class="table table-responsive table-hover model-list">
                             <thead>

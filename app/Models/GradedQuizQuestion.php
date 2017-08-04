@@ -15,7 +15,7 @@ class GradedQuizQuestion extends Model
      * @var array
      */
     protected $fillable = [
-        'question_id', 'question_title', 'question_photo', 'question_topic', 'answers', 'graded_quiz_id'
+        'question_id', 'question_title', 'question_photo', 'question_topic', 'answers', 'tags', 'graded_quiz_id'
     ];
 
     public function graded_quiz()

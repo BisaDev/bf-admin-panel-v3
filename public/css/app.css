@@ -27893,6 +27893,13 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
 body.print {
   background-color: #FFF !important;
 }
+body.print .print-logo {
+  max-width: 250px;
+  width: 100%;
+}
+body.print .list-group-item {
+  page-break-inside: avoid;
+}
 @media (min-width: 992px) {
   .col-md-custom {
     width: 20%;

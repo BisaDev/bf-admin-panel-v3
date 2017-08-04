@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('students',                         'StudentController');
     Route::post('students/{student}/save_notes',        'StudentController@save_notes')->name('students.save_notes');
     Route::post('students/{student}',                   'StudentController@show')->name('students.show.search');
+    Route::get('students/{student}/progress',           'StudentController@student_progress_print')->name('students.progress');
 
     Route::resource('family_members',                           'FamilyMemberController', ['except' => ['index', 'create']]);
     Route::get('family_members/create/{subject_id}',            'FamilyMemberController@create')->name('family_members.create');

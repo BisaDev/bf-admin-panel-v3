@@ -7,6 +7,7 @@
         <div class="col-xs-12">
                 <div class="row">
                     <div class="col-xs-6">
+                        <img src="{{ asset('images/logo.png') }}" class="print-logo" />
                         <h3 class="m-t-0">{{ ($meetup->room)? $meetup->room->location->name : ''}}</h3>
                         <h4 class="m-b-20">{{ ($meetup->room)? $meetup->room->name : ''}}</h4>
                     </div>
