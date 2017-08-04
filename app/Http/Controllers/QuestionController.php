@@ -372,7 +372,7 @@ class QuestionController extends Controller
     
     public function question_type_resize($type){
         
-        $width = 400;
+        $width = 580;
         
         switch($type) {
             case 3:
