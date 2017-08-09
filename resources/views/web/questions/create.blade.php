@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     
-                    <div class="row" v-show="type == 4">
+                    <div class="row" v-show="type_has_canvas">
                         <div class="col-xs-12">
                             <p class="text-mute" v-if="!photo">Add question image to create canvas</p>
                             <p class="text-mute" v-else>Click on the canvas to add answer areas</p>
@@ -109,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div class="row" v-show="questionTypeAllowsAnswers()">
+                    <div class="row" v-show="allows_answers">
                         @include('partials.add-answers')
                     </div>
 

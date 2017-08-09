@@ -360,6 +360,8 @@ class QuestionController extends Controller
                 break;
             case '9':
                 $type = '4';
+            case '10':
+                $type = '5';
                 break;
         }
 
@@ -377,6 +379,7 @@ class QuestionController extends Controller
         switch($type) {
             case 3:
             case 4:
+            case 5:
                 $width = null;
                 break;
         }

@@ -21,6 +21,11 @@ export default {
                 children: [],
                 type: '',
                 photo: '',
+                number_of_answers_allowed: 4,
+                allows_answers: false,
+                type_has_canvas: false,
+                type_shows_answers: true,
+                type_answer_has_additional_data: false,
             },
             mixins: [getAcademicContent, imagePreview, tagRepository],
             beforeMount: function () {
@@ -28,6 +33,7 @@ export default {
                 //Look for question type and assign the selected to Vue data value
                 if($('#type').length > 0){
                     this.type = $('#type').children('option:selected').val();
+                    this.assignValuesOnType(this.type);
                 }
             },
             watch: {
@@ -37,17 +43,20 @@ export default {
                     let vue_instance = this;
 
                     image.onload = function () {
-                        if(vue_instance.type == 4) { //Drag and drop
+                        if(vue_instance.type_has_canvas) {
                             vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas))
                             vue_instance.canvas.setDimensions({width: image.width, height: image.height});
                         }
                     }
                     image.src = val;
+                },
+                type: function (val) {
+                    this.assignValuesOnType(val);
                 }
             },
             methods: {
                 addChildren(event, obj){
-                    if(this.children.length < 4){
+                    if(this.children.length < this.number_of_answers_allowed){
 
                         let obj_data, obj_id;
                         if(obj !== undefined){
@@ -58,14 +67,14 @@ export default {
                             obj_id = '';
                         }
 
-                        this.children.push({name: '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id, obj_data: obj_data});
+                        this.children.push({name: (this.type == 5)? 'Touch select' : '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id, obj_data: obj_data});
                     }
                 },
                 removeChildren(index){
                     let obj_id = this.children[index].obj_id;
                     this.children.splice(index, 1);
 
-                    if(this.type == 4){
+                    if(this.type_has_canvas){
                         let canvas_objects = this.canvas.getObjects();
 
                         let square = _.find(canvas_objects, function(o) { return o.obj_id == obj_id; });
@@ -78,28 +87,6 @@ export default {
                 saveQuestionAndAddMore(event){
                     $(event.target).siblings('[name="add_more"]').val('true');
                     this.$el.children[0].submit();
-                },
-                questionTypeAllowsAnswers(){
-                    let allows = true;
-
-                    switch(this.type){
-                        case "3": //Apple pencil
-                            allows = false;
-                    }
-
-                    return allows;
-                },
-                questionAnswersHaveAdditionalData(){
-                    let hasData = false;
-
-                    switch(this.type){
-                        case '0': //Multiple choice
-                        case '4': //Drag and drop
-                            hasData = true;
-                            break;
-                    }
-
-                    return hasData;
                 },
                 createObject(left, top, width, height, obj_id, id_offset){
                     let square = new fabric.Rect({
@@ -125,7 +112,32 @@ export default {
                 },
                 prepareObjectData(obj){
                     return JSON.stringify({top: parseFloat(obj.top.toFixed(2)), left: parseFloat(obj.left.toFixed(2)), width: obj.width*obj.scaleX-1, height: obj.height*obj.scaleY-1});
-                }
+                },
+                assignValuesOnType(type){
+                    this.number_of_answers_allowed = 4;
+                    this.allows_answers = true;
+                    this.type_has_canvas = false;
+                    this.type_shows_answers = true;
+                    this.type_answer_has_additional_data = false;
+
+                    switch(type){
+                        case '0': //Mutiple choice
+                            this.type_answer_has_additional_data = true;
+                            break;
+                        case '3': //Apple pencil
+                            this.allows_answers = false;
+                            break;
+                        case '4': //Drag and drop
+                            this.type_has_canvas = true;
+                            this.type_answer_has_additional_data = true;
+                            break;
+                        case '5': //Touch select
+                            this.number_of_answers_allowed = 1;
+                            this.type_has_canvas = true;
+                            this.type_shows_answers = false;
+                            break;
+                    }
+                },
             },
             mounted() {
 
@@ -174,7 +186,7 @@ export default {
                             return;
                         }
 
-                        if(vue_instance.children.length < 4) {
+                        if(vue_instance.children.length < vue_instance.number_of_answers_allowed) {
                             started = true;
                             var pointer = canvas.getPointer(options.e);
                             x = pointer.x;
@@ -193,7 +205,7 @@ export default {
                     let vue_instance = this;
 
                     $.each(answers, function(index, answer){
-                        console.log(answer);
+                        
                         vue_instance.children.push({
                             name: answer.text,
                             photo: answer.photo,
@@ -204,7 +216,7 @@ export default {
                             id: answer.id
                         });
 
-                        if(vue_instance.type == '4'){
+                        if(vue_instance.type_has_canvas){
 
                             let object_data = answer.object_data;
 
@@ -214,7 +226,7 @@ export default {
                         }
                     });
 
-                    if(vue_instance.type == '4'){
+                    if(vue_instance.type_has_canvas){
                         vue_instance.photo = $('#question_photo').attr('src');
                     }
                 }

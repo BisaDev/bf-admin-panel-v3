@@ -23712,7 +23712,12 @@ if (token) {
             data: {
                 children: [],
                 type: '',
-                photo: ''
+                photo: '',
+                number_of_answers_allowed: 4,
+                allows_answers: false,
+                type_has_canvas: false,
+                type_shows_answers: true,
+                type_answer_has_additional_data: false
             },
             mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__["a" /* default */]],
             beforeMount: function beforeMount() {
@@ -23720,6 +23725,7 @@ if (token) {
                 //Look for question type and assign the selected to Vue data value
                 if ($('#type').length > 0) {
                     this.type = $('#type').children('option:selected').val();
+                    this.assignValuesOnType(this.type);
                 }
             },
             watch: {
@@ -23729,18 +23735,20 @@ if (token) {
                     var vue_instance = this;
 
                     image.onload = function () {
-                        if (vue_instance.type == 4) {
-                            //Drag and drop
+                        if (vue_instance.type_has_canvas) {
                             vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas));
                             vue_instance.canvas.setDimensions({ width: image.width, height: image.height });
                         }
                     };
                     image.src = val;
+                },
+                type: function type(val) {
+                    this.assignValuesOnType(val);
                 }
             },
             methods: {
                 addChildren: function addChildren(event, obj) {
-                    if (this.children.length < 4) {
+                    if (this.children.length < this.number_of_answers_allowed) {
 
                         var obj_data = void 0,
                             obj_id = void 0;
@@ -23752,14 +23760,14 @@ if (token) {
                             obj_id = '';
                         }
 
-                        this.children.push({ name: '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id, obj_data: obj_data });
+                        this.children.push({ name: this.type == 5 ? 'Touch select' : '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id, obj_data: obj_data });
                     }
                 },
                 removeChildren: function removeChildren(index) {
                     var obj_id = this.children[index].obj_id;
                     this.children.splice(index, 1);
 
-                    if (this.type == 4) {
+                    if (this.type_has_canvas) {
                         var canvas_objects = this.canvas.getObjects();
 
                         var square = _.find(canvas_objects, function (o) {
@@ -23774,30 +23782,6 @@ if (token) {
                 saveQuestionAndAddMore: function saveQuestionAndAddMore(event) {
                     $(event.target).siblings('[name="add_more"]').val('true');
                     this.$el.children[0].submit();
-                },
-                questionTypeAllowsAnswers: function questionTypeAllowsAnswers() {
-                    var allows = true;
-
-                    switch (this.type) {
-                        case "3":
-                            //Apple pencil
-                            allows = false;
-                    }
-
-                    return allows;
-                },
-                questionAnswersHaveAdditionalData: function questionAnswersHaveAdditionalData() {
-                    var hasData = false;
-
-                    switch (this.type) {
-                        case '0': //Multiple choice
-                        case '4':
-                            //Drag and drop
-                            hasData = true;
-                            break;
-                    }
-
-                    return hasData;
                 },
                 createObject: function createObject(left, top, width, height, obj_id, id_offset) {
                     var square = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Rect({
@@ -23823,6 +23807,35 @@ if (token) {
                 },
                 prepareObjectData: function prepareObjectData(obj) {
                     return JSON.stringify({ top: parseFloat(obj.top.toFixed(2)), left: parseFloat(obj.left.toFixed(2)), width: obj.width * obj.scaleX - 1, height: obj.height * obj.scaleY - 1 });
+                },
+                assignValuesOnType: function assignValuesOnType(type) {
+                    this.number_of_answers_allowed = 4;
+                    this.allows_answers = true;
+                    this.type_has_canvas = false;
+                    this.type_shows_answers = true;
+                    this.type_answer_has_additional_data = false;
+
+                    switch (type) {
+                        case '0':
+                            //Mutiple choice
+                            this.type_answer_has_additional_data = true;
+                            break;
+                        case '3':
+                            //Apple pencil
+                            this.allows_answers = false;
+                            break;
+                        case '4':
+                            //Drag and drop
+                            this.type_has_canvas = true;
+                            this.type_answer_has_additional_data = true;
+                            break;
+                        case '5':
+                            //Touch select
+                            this.number_of_answers_allowed = 1;
+                            this.type_has_canvas = true;
+                            this.type_shows_answers = false;
+                            break;
+                    }
                 }
             },
             mounted: function mounted() {
@@ -23880,7 +23893,7 @@ if (token) {
                             return;
                         }
 
-                        if (vue_instance.children.length < 4) {
+                        if (vue_instance.children.length < vue_instance.number_of_answers_allowed) {
                             started = true;
                             var pointer = canvas.getPointer(options.e);
                             x = pointer.x;
@@ -23899,7 +23912,7 @@ if (token) {
                     var _vue_instance = this;
 
                     $.each(answers, function (index, answer) {
-                        console.log(answer);
+
                         _vue_instance.children.push({
                             name: answer.text,
                             photo: answer.photo,
@@ -23910,7 +23923,7 @@ if (token) {
                             id: answer.id
                         });
 
-                        if (_vue_instance.type == '4') {
+                        if (_vue_instance.type_has_canvas) {
 
                             var object_data = answer.object_data;
 
@@ -23920,7 +23933,7 @@ if (token) {
                         }
                     });
 
-                    if (_vue_instance.type == '4') {
+                    if (_vue_instance.type_has_canvas) {
                         _vue_instance.photo = $('#question_photo').attr('src');
                     }
                 }

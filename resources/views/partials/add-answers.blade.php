@@ -1,6 +1,6 @@
 <div id="add-children">
     <div class="form-group col-md-12">
-        <button type="button" class="btn btn-sm btn-default" @click="addChildren" v-if="type != 4" >Add answer<span class="m-l-5"><i class="fa fa-plus"></i></span></button>
+        <button type="button" class="btn btn-sm btn-default" @click="addChildren" v-if="!type_has_canvas" >Add answer<span class="m-l-5"><i class="fa fa-plus"></i></span></button>
         <p class="text-muted m-t-5">{{ $help_text or '' }}</p>
         @if($errors->has('answers') || $errors->has('answers.*'))
             <div class="alert alert-danger" role="alert">
@@ -16,7 +16,7 @@
         @endif
     </div>
 
-    <div class="col-sm-6" v-for="(answer, index) in children">
+    <div class="col-sm-6" v-for="(answer, index) in children" v-show="type_shows_answers">
         <div class="panel panel-border panel-info">
             <div class="panel-heading input-clear active">
                 <h3 class="panel-title">Answer @{{ index+1 }}</h3>
@@ -30,7 +30,7 @@
                         <input type="hidden" v-bind:name="'answers['+index+'][id]'" v-model="answer.id">
                     </div>
                 </div>
-                <div class="row" v-show="questionAnswersHaveAdditionalData()">
+                <div class="row" v-show="type_answer_has_additional_data">
                     <div class="form-group col-md-4" v-show="type == 0">
                         <div class="checkbox checkbox-primary">
                             <input v-bind:id="'is_correct_'+index" type="checkbox" v-model="answer.is_correct" v-bind:name="'answers['+index+'][is_correct]'">

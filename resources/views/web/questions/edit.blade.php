@@ -90,7 +90,7 @@
                         <div class="form-group col-md-4 {{ $errors->has('photo')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Image</label>
                             @if($item->photo)
-                            <div class="col-xs-12 m-b-10 text-center" v-show="type != 4">
+                            <div class="col-xs-12 m-b-10 text-center" v-show="!type_has_canvas">
                                 <img src="{{ $item->photo }}" id="question_photo" class="img-responsive center-block">
                             </div>
                             @endif
@@ -107,7 +107,7 @@
                         </div>
                     </div>
     
-                    <div class="row" v-show="type == 4">
+                    <div class="row" v-show="type_has_canvas">
                         <div class="col-xs-12">
                             <p class="text-mute" v-if="!photo">Add question image to create canvas</p>
                             <p class="text-mute" v-else>Click on the canvas to add answer areas</p>
@@ -115,7 +115,7 @@
                         </div>
                     </div>
 
-                    <div class="row" v-show="questionTypeAllowsAnswers()">
+                    <div class="row" v-show="allows_answers">
                         @include('partials.add-answers')
                     </div>
 

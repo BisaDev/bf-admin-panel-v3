@@ -20,7 +20,8 @@ class Quiz extends Model
         'Trivia: Forbidden fruit',
         'Trivia: Questions',
         'Apple pencil',
-        'Drag and Drop'
+        'Drag and Drop',
+        'Touch select'
     ];
     
     /**
