@@ -11,6 +11,7 @@ use Brightfox\Models\StudentAnswer;
 use Illuminate\Http\Request;
 use Brightfox\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Image;
 
 class ResultsController extends ApiController
 {
