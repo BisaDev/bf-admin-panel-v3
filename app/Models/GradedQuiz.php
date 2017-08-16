@@ -26,9 +26,9 @@ class GradedQuiz extends Model
         return $this->hasMany(GradedQuizQuestion::class, 'graded_quiz_id');
     }
 
-    public function scopeByQuizId($query, $quizId)
+    public function scopeByMeetupAndQuizId($query, $meetupId, $quizId)
     {
-        return $query->where('quiz_id', $quizId);
+        return $query->where('quiz_id', $quizId)->where('meetup_id', $meetupId);
     }
     
     public function getQuizTypeAttribute($value)

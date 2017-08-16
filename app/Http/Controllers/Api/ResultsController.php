@@ -51,13 +51,11 @@ class ResultsController extends ApiController
         } elseif (!$meetup->hasStudent($student->id)) {
             return $this->respondWithError('The student does not belongs to the meetup');
         } else {
-            $gradedQuiz = GradedQuiz::byQuizId($quizId)->first();
+            $gradedQuiz = GradedQuiz::byMeetupAndQuizId($meetupId, $quizId)->first();
             $questions = collect($request->get('questions'));
 
             $questions->each(function ($question) use ($gradedQuiz, $student) {
-                $gradedQuizQuestion = $gradedQuiz->questions->first(function ($question_object, $key) use($question) {
-                    return $question_object->id == $question['id'];
-                });
+                $gradedQuizQuestion = $gradedQuiz->questions()->findByQuestionId($question['id'])->first();
 
                 if(strpos(basename($question['answer']['image']), '.')){
                     $filename = explode('.', basename($question['answer']['image']));
