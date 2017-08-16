@@ -54,9 +54,22 @@ class ResultsController extends ApiController
             $questions = collect($request->get('questions'));
 
             $questions->each(function ($question) use ($gradedQuiz, $student) {
-                $gradedQuizQuestion = $gradedQuiz->questions()->findByQuestionId($question['id'])->first();
-                
-                $image_name = explode('/', $question['answer']['image']);
+                $gradedQuizQuestion = $gradedQuiz->questions->first(function ($question_object, $key) use($question) {
+                    return $question_object->id == $question['id'];
+                });
+
+                if(strpos(basename($question['answer']['image']), '.')){
+                    $filename = explode('.', basename($question['answer']['image']));
+                    $extension = $filename[1];
+                }else{
+                    $extension = '.jpg';
+                }
+
+                $filename = str_replace('.', '_', microtime(true)) . '.' . $extension;
+
+                $image = Image::make($question['answer']['image']);
+
+                $image->save(public_path(StudentAnswer::PHOTO_PATH . $filename));
                 
                 $studentAnswer = StudentAnswer::updateOrCreate(
                     [
@@ -66,7 +79,7 @@ class ResultsController extends ApiController
                     ],
                     [
                         'answer_text' => $question['answer']['text'],
-                        'answer_image' => end($image_name),
+                        'answer_image' => $filename,
                         'is_correct' => $question['answer']['is_correct'],
                     ]);
             });
