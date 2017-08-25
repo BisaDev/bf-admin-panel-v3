@@ -280,8 +280,9 @@ class StudentController extends Controller
                         return strpos($value->name, 'lvl-') !== false;
                     });
                     
-                    foreach($level_tags as $level_tag){
-                        $level = $graded_quiz->quiz_grade_level.'-'.substr($level_tag->name, 4, 1);
+                    //foreach($level_tags as $level_tag){
+                        //$level = $graded_quiz->quiz_grade_level.'-'.substr($level_tag->name, 4, 1);
+                        $level = $graded_quiz->quiz_grade_level;
                         
                         if(!array_key_exists($level, $student_data[$subject][$topic])){
                             $student_data[$subject][$topic][$level] = [
@@ -303,12 +304,12 @@ class StudentController extends Controller
                         if($student_data[$subject][$topic][$level]['total_questions'] >= 200 && $student_data[$subject][$topic][$level]['date_mastered'] == 'N/A'){
         
                             if($percentage_correct > 85){
-                                $student_data[$subject][$topic][$level]['date_mastered'] = $meetup->start_time->format('F jS');
+                                $student_data[$subject][$topic][$level]['date_mastered'] = $meetup->start_time->format('F jS, Y');
                             }
                         }
     
                         $student_data[$subject][$topic][$level]['percentage_correct'] = $percentage_correct;
-                    }
+                    //}
                 }
             }
         }
