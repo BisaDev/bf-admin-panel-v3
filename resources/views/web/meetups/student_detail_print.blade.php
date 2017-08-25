@@ -95,66 +95,66 @@
     </div>
 
     <div class="container-alt">
-        <div class="quiz-container">
         @foreach($meetup->graded_quizzes as $key => $graded_quiz)
-        <div class="row print-section quiz-header">
-            <div class="col-xs-6">
-                <p class="subhead"><strong>{{ $graded_quiz->quiz_title }} quiz</strong></p>
-            </div>
-            <div class="col-xs-6 text-right performance-chart">
-                @if(strpos($graded_quiz->quiz_type->name, 'Trivia') === false)
-                <p class="performance">{{ $quizzes_performance[$graded_quiz->id]['correct'] }}/{{ $quizzes_performance[$graded_quiz->id]['total_questions'] }} Correct</p>
-                <input class="knob" data-width="80" data-height="80" data-linecap=round data-fgColor="#FC7044" value="{{ $quizzes_performance[$graded_quiz->id]['percentage'] }}" data-angleOffset="180" data-readOnly=true data-thickness=".15"/>
-                @endif
-            </div>
-        </div>
-        @if($quizzes_performance[$graded_quiz->id]['example'])
-        <div class="row m-t-20">
-            @php $question = $graded_quiz->questions()->where('id', $quizzes_performance[$graded_quiz->id]['example']->id)->first() @endphp
-            <div class="col-xs-12">
-                <p class="subhead">Control question: <span>{{ $question->question_title or '' }}</span></p>
-                <div class="row">
-                    <div class="col-xs-3">
-                        @if($question->question_photo && $graded_quiz->quiz_type->name != 'Apple pencil')
-                            <img src="{{ $question->question_photo }}" class="img-responsive">
+            <div class="quiz-container">
+                <div class="row print-section quiz-header">
+                    <div class="col-xs-6">
+                        <p class="subhead"><strong>{{ $graded_quiz->quiz_title }} quiz</strong></p>
+                    </div>
+                    <div class="col-xs-6 text-right performance-chart">
+                        @if(strpos($graded_quiz->quiz_type->name, 'Trivia') === false)
+                        <p class="performance">{{ $quizzes_performance[$graded_quiz->id]['correct'] }}/{{ $quizzes_performance[$graded_quiz->id]['total_questions'] }} Correct</p>
+                        <input class="knob" data-width="80" data-height="80" data-linecap=round data-fgColor="#FC7044" value="{{ $quizzes_performance[$graded_quiz->id]['percentage'] }}" data-angleOffset="180" data-readOnly=true data-thickness=".15"/>
                         @endif
                     </div>
                 </div>
-            </div>
-            <div class="col-xs-12">
-                <div class="row answer-list">
-                    @php $student_answer = $student->graded_answer($question->id)->first() @endphp
-                    @foreach($question->answers as $answer)
-                        <div class="col-xs-3 answer-item">
-                            <span class="status-icon-container">
-                                @if($student_answer && ($answer->id == $student_answer->answer_id) && !$student_answer->is_correct)
-                                    <img src="{{ asset('images/icon-notok.png') }}" /> {{ $student->name.' answered' }}
-                                @elseif($answer->is_correct)
-                                    <img src="{{ asset('images/icon-ok.png') }}" /> {{ 'Correct answer' }}
-                                @else
-                                    {{ '&nbsp;' }}
+                @if($quizzes_performance[$graded_quiz->id]['example'])
+                <div class="row m-t-20">
+                    @php $question = $graded_quiz->questions()->where('id', $quizzes_performance[$graded_quiz->id]['example']->id)->first() @endphp
+                    <div class="col-xs-12">
+                        <p class="subhead">Control question: <span>{{ $question->question_title or '' }}</span></p>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                @if($question->question_photo && $graded_quiz->quiz_type->name != 'Apple pencil')
+                                    <img src="{{ $question->question_photo }}" class="img-responsive">
                                 @endif
-                            </span>
-                            @if($answer->original_photo)
-                                <img src="{{ $answer->original_photo }}" class="img-responsive">
-                            @endif
-                            <div class="text-center {{ ($answer->is_correct)? 'answer-correct' : (($student_answer && ($answer->id == $student_answer->answer_id) && !$student_answer->is_correct)? 'answer-incorrect' : '') }}">
-                                {{ $answer->text or '' }}
                             </div>
                         </div>
-                    @endforeach
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="row answer-list">
+                            @php $student_answer = $student->graded_answer($question->id)->first() @endphp
+                            @foreach($question->answers as $answer)
+                                <div class="col-xs-3 answer-item">
+                                    <span class="status-icon-container">
+                                        @if($student_answer && ($answer->id == $student_answer->answer_id) && !$student_answer->is_correct)
+                                            <img src="{{ asset('images/icon-notok.png') }}" /> {{ $student->name.' answered' }}
+                                        @elseif($answer->is_correct)
+                                            <img src="{{ asset('images/icon-ok.png') }}" /> {{ 'Correct answer' }}
+                                        @else
+                                            {{ '&nbsp;' }}
+                                        @endif
+                                    </span>
+                                    @if($answer->original_photo)
+                                        <img src="{{ $answer->original_photo }}" class="img-responsive">
+                                    @endif
+                                    <div class="text-center {{ ($answer->is_correct)? 'answer-correct' : (($student_answer && ($answer->id == $student_answer->answer_id) && !$student_answer->is_correct)? 'answer-incorrect' : '') }}">
+                                        {{ $answer->text or '' }}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
+                @endif
+            
+                @if(!$loop->last)
+                <div class="row">
+                    <div class="col-xs-12"><hr/></div>
+                </div>
+                @endif
             </div>
-        </div>
-        @endif
-    
-        @if(!$loop->last)
-        <div class="row">
-            <div class="col-xs-12"><hr/></div>
-        </div>
-        @endif
         @endforeach
-        </div>
     </div>
 
 @endsection
