@@ -94,7 +94,8 @@
         <hr/>
     </div>
 
-    <div class="container-alt quiz-container">
+    <div class="container-alt">
+        <div class="quiz-container">
         @foreach($meetup->graded_quizzes as $key => $graded_quiz)
         <div class="row print-section quiz-header">
             <div class="col-xs-6">
@@ -153,6 +154,7 @@
         </div>
         @endif
         @endforeach
+        </div>
     </div>
 
 @endsection
