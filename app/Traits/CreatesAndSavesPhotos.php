@@ -11,11 +11,9 @@ trait CreatesAndSavesPhotos
         $filename = str_replace('.', '_', microtime(true)) . '.' . $photo->getClientOriginalExtension();
         
         $image = Image::make($photo);
-    
-        $preserve_aspect_ratio = false;
+        
         if($width != $height){
             
-            $preserve_aspect_ratio = true;
             //Swap width and height if image is portrait
             if($image->height() > $image->width()){
                 $tmp = $width;
@@ -25,12 +23,14 @@ trait CreatesAndSavesPhotos
         }
         
         if(!(is_null($width) && is_null($height))){
-            $image->resize($width, $height, function ($constraint) use($preserve_aspect_ratio) {
-        
-                if($preserve_aspect_ratio){
-                    $constraint->aspectRatio();
-                }
+    
+            $image->resize($width, $height, function ($constraint) {
+                $constraint->aspectRatio();
             });
+            
+            if($width == $height){
+                $image->fit($width);
+            }
         }
         
         $image->save(public_path($path . $filename));

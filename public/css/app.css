@@ -27890,16 +27890,6 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
 .bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
-body.print {
-  background-color: #FFF !important;
-}
-body.print .print-logo {
-  max-width: 250px;
-  width: 100%;
-}
-body.print .list-group-item {
-  page-break-inside: avoid;
-}
 @media (min-width: 992px) {
   .col-md-custom {
     width: 20%;
@@ -28124,4 +28114,256 @@ span.icon-picture {
 }
 .tt-suggestion p {
   margin: 0;
+}
+@media only screen {
+  body.print {
+    padding: 25px 0;
+  }
+}
+@media only print {
+  body.print {
+    padding: 0;
+  }
+  @page {
+    margin: 25px 0;
+  }
+}
+@media screen, print {
+  body.print {
+    -webkit-print-color-adjust: exact;
+    background-color: #FFF !important;
+    color: #505458 !important;
+  }
+  body.print .print-logo {
+    max-width: 250px !important;
+    width: 100%;
+  }
+  body.print .print-logo.small {
+    max-width: 170px !important;
+  }
+  body.print h1,
+  body.print h2,
+  body.print .subhead {
+    color: #336ca2 !important;
+  }
+  body.print h1 {
+    font-weight: bold;
+    font-family: Helvetica;
+    font-size: 30px;
+  }
+  body.print h2,
+  body.print h3 {
+    margin-top: 0;
+  }
+  body.print h3 {
+    font-size: 26px;
+    padding-bottom: 10px;
+    position: relative;
+  }
+  body.print h3:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 23px;
+    height: 2px;
+    background: #FC7044;
+  }
+  body.print .subhead {
+    font-size: 18px;
+  }
+  body.print .subhead span {
+    color: #505458 !important;
+  }
+  body.print .m-b-40 {
+    margin-bottom: 40px;
+  }
+  body.print .student-photo {
+    width: 100px;
+    height: 100px;
+    border: 5px solid #FC7044;
+  }
+  body.print .student-photo.progress-photo {
+    position: absolute;
+    bottom: 0;
+  }
+  body.print .profile-photo {
+    width: 80px;
+    height: 80px;
+    border: 5px solid #336ca2;
+  }
+  body.print .container-alt > .row,
+  body.print .container-fluid > .row {
+    padding: 0 25px;
+  }
+  body.print .container-alt {
+    width: 750px;
+  }
+  body.print .container-fluid {
+    padding: 0;
+  }
+  body.print .row {
+    padding: 0;
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  body.print .row.print-section {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  body.print .row.print-section.results-header,
+  body.print .row.print-section.quiz-header {
+    padding-bottom: 0;
+  }
+  body.print .row.print-section.quiz-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  body.print .row.print-section.quiz-header .performance-chart {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  body.print .student-instructor-details {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  body.print .student-instructor-details > div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  body.print .student-instructor-details > div:nth-child(odd) {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
+  body.print .student-instructor-details > div:nth-child(even) {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  body.print .student-details > p {
+    margin: 0;
+  }
+  body.print .student-details > p span {
+    color: #FC7044 !important;
+  }
+  body.print .knob {
+    font-size: 22px !important;
+    margin-top: 28px !important;
+    color: #336ca2 !important;
+  }
+  body.print .knob:after {
+    content: '%';
+  }
+  body.print .meetup-notes {
+    background-color: rgba(235, 239, 242, 0.6) !important;
+  }
+  body.print .performance {
+    font-size: 16px;
+    margin-right: 15px;
+    margin-bottom: 0;
+  }
+  body.print .answer-list {
+    padding-top: 50px;
+  }
+  body.print .answer-list .answer-item > span {
+    padding-bottom: 10px;
+    color: #336ca2;
+  }
+  body.print .answer-list .answer-item > div {
+    border-radius: 0;
+    border: none;
+    background-color: #ddd !important;
+    padding: 20px 10px;
+  }
+  body.print .answer-list .answer-item > div.answer-correct {
+    background-color: #336ca2 !important;
+    color: #FFF !important;
+  }
+  body.print .answer-list .answer-item > div.answer-incorrect {
+    background-color: #FC7044 !important;
+    color: #FFF !important;
+  }
+  body.print .status-icon-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
+  body.print .status-icon-container > img {
+    margin-right: 5px;
+  }
+  body.print .student-data-section {
+    padding-top: 30px;
+  }
+  body.print .student-data-section .meetup-notes {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  body.print p.total-hours {
+    font-family: "Helvetica Neue";
+    color: #336ca2 !important;
+    font-size: 60px;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 40px;
+  }
+  body.print p.total-hours > span.hours {
+    font-size: 42px;
+  }
+  body.print p.total-hours > span.at {
+    color: #7a8c9a !important;
+    font-weight: normal;
+    font-size: 24px;
+  }
+  body.print p.total-questions {
+    font-size: 18px;
+  }
+  body.print p.total-questions > span {
+    color: #FC7044 !important;
+    font-weight: bold;
+  }
+  body.print .subject-data-container + .subject-data-container {
+    margin-top: 35px;
+  }
+  body.print .progress-table .progress-table-body {
+    background-color: rgba(235, 239, 242, 0.6) !important;
+  }
+  body.print .progress-table .progress-table-body .data-row {
+    margin-top: 15px;
+    background-color: #EBEFF2 !important;
+    color: #336ca2 !important;
+  }
+  body.print .progress-table .five-columns {
+    width: 20%;
+    text-align: center;
+  }
+  body.print .progress-table .five-columns:first-of-type {
+    text-align: left;
+  }
 }

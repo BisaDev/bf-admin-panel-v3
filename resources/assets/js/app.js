@@ -18,6 +18,7 @@ import create_quiz from './pages/create-quiz';
 import create_activity_bucket from './pages/create-activity-bucket';
 import create_meetup from './pages/create-meetup';
 import show_student from './pages/show-student';
+import print from './pages/print';
 
 const vue_elements = [
     index,
@@ -28,7 +29,8 @@ const vue_elements = [
     create_quiz,
     create_activity_bucket,
     create_meetup,
-    show_student
+    show_student,
+    print
 ];
 
 vue_elements.forEach(function(element){

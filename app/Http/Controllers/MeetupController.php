@@ -280,11 +280,15 @@ class MeetupController extends Controller
             }else{
                 $quizzes_performance[$graded_quiz->id]['percentage'] = 0;
             }
-            
-            if($quizzes_performance[$graded_quiz->id]['percentage'] >= 85){
-                $quizzes_performance[$graded_quiz->id]['example'] = $student->graded_answers($graded_quiz->id)->correct()->first();
+    
+            if(strpos($graded_quiz->quiz_type->name, 'Trivia') === false && $graded_quiz->quiz_type->name != 'Drag and Drop' && $graded_quiz->quiz_type->name != 'Touch Select'){
+                if($quizzes_performance[$graded_quiz->id]['percentage'] >= 85){
+                    $quizzes_performance[$graded_quiz->id]['example'] = $student->graded_answers($graded_quiz->id)->correct()->first();
+                }else{
+                    $quizzes_performance[$graded_quiz->id]['example'] = $student->graded_answers($graded_quiz->id)->incorrect()->first();
+                }
             }else{
-                $quizzes_performance[$graded_quiz->id]['example'] = $student->graded_answers($graded_quiz->id)->incorrect()->first();
+                $quizzes_performance[$graded_quiz->id]['example'] = false;
             }
         }
         

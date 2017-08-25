@@ -17,10 +17,7 @@
 <body class="print">
 <div id="wrapper">
     <div class="content">
-        <div class="container">
-            @yield('breadcrumbs')
-            @yield('content')
-        </div>
+        @yield('content')
     </div>
 </div>
 

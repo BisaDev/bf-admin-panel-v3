@@ -24,7 +24,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'public/vendor/switchery.min.js',
         'public/vendor/jquery.core.js',
         'public/vendor/jquery.app.js',
-        'public/vendor/bootstrap-inputmask.min.js'
+        'public/vendor/bootstrap-inputmask.min.js',
+        'public/vendor/jquery.knob.js'
     ], 'public/js/vendor.js')
     .less('resources/assets/less/app.less', 'public/css');
 
