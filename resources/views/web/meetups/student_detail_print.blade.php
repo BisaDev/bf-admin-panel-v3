@@ -114,7 +114,7 @@
                 <p class="subhead">Control question: <span>{{ $question->question_title or '' }}</span></p>
                 <div class="row">
                     <div class="col-xs-3">
-                        @if($question->question_photo)
+                        @if($question->question_photo && $graded_quiz->quiz_type->name != 'Apple pencil')
                             <img src="{{ $question->question_photo }}" class="img-responsive">
                         @endif
                     </div>
