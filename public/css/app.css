@@ -28234,6 +28234,9 @@ span.icon-picture {
         -ms-flex-align: center;
             align-items: center;
   }
+  body.print .quiz-container {
+    page-break-inside: avoid;
+  }
   body.print .student-instructor-details {
     display: -webkit-box;
     display: -ms-flexbox;
