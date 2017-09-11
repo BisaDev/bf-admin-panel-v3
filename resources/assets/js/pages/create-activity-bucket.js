@@ -70,12 +70,14 @@ export default {
                 quizAllowsMinigames(quiz_type_key){
                     let allow = true;
 
+                    //Use quiz id (check Quiz model)
                     switch(quiz_type_key){
                         case '5':
                         case '6':
                         case '7':
                         case '8':
                         case '9':
+                        case '10':
                             allow = false;
                     }
                     

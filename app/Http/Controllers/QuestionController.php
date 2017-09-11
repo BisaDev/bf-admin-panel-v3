@@ -63,7 +63,7 @@ class QuestionController extends Controller
             'topic' => 'asc',
             'type' => 'asc',
         ];
-        $sort = ['column' => 'id', 'value' => 'desc'];
+        $sort = ['column' => 'crated_at', 'value' => 'asc'];
         
         if($request->has('sort_column')){
             $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];

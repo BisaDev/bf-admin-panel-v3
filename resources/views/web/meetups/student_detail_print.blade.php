@@ -143,6 +143,9 @@
                                     </div>
                                 </div>
                             @endforeach
+                            @if($graded_quiz->quiz_type->name == 'Apple pencil')
+                            
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -192,7 +192,7 @@ export default {
                             x = pointer.x;
                             y = pointer.y;
 
-                            let group = vue_instance.createObject(x, y, 99, 99, _.uniqueId('rect'), 1);
+                            let group = vue_instance.createObject(x, y, 129, 129, _.uniqueId('rect'), 1);
 
                             canvas.add(group);
                             canvas.setActiveObject(group);

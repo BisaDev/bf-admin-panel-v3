@@ -2,9 +2,9 @@
 @extends('layouts.print')
 
 @section('content')
-    
-    <div class="row create-container" id="create-quiz">
-        <div class="col-xs-12">
+    <div class="container-alt">
+        <div class="row create-container" id="create-quiz">
+            <div class="col-xs-12">
                 <div class="row">
                     <div class="col-xs-12">
                         <h3 class="m-b-20">{{ $item->title }}</h3>
@@ -30,7 +30,11 @@
                     </div>
                 </div>
                 
-                <div class="row"><div class="col-sm-12"><hr/></div></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <hr/>
+                    </div>
+                </div>
                 
                 <div class="row">
                     <div class="col-sm-12">
@@ -44,16 +48,17 @@
                                     @endif
                                     <div class="row answer-list m-t-10">
                                         @if($item->type->name != 'Fill the blank')
-                                        @foreach($question->answers as $answer)
-                                            <div class="col-lg-3 col-sm-6 text-center answer-item">
-                                                <div>
-                                                    @if($answer->photo)
-                                                        <img src="{{ $answer->photo }}" class="img-responsive thumbnail m-b-5">
-                                                    @endif
-                                                    {{ $answer->text or '' }}
+                                            @foreach($question->answers as $answer)
+                                                <div class="col-lg-3 col-sm-6 text-center answer-item">
+                                                    <div>
+                                                        @if($answer->photo)
+                                                            <img src="{{ $answer->photo }}"
+                                                                 class="img-responsive thumbnail m-b-5">
+                                                        @endif
+                                                        {{ $answer->text or '' }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
                                         @endif
                                     </div>
                                 </li>
@@ -61,6 +66,7 @@
                         </ol>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 

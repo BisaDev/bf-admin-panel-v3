@@ -89,7 +89,7 @@
                     @foreach($list as $item)
                         <tr>
                             <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}@if($item->photo)<img src="{{ $item->photo }}" class="img-responsive">@endif</a></td>
-                            <td><span class="icon icon-picture {{ ($item->answers_have_images)? 'text-success' : 'text-muted' }}"></span></td>
+                            <td><img class="icon-images" src="{{ ($item->answers_have_images)? asset('images/icon-have-image.png') : asset('images/icon-no-image.png') }}" ></td>
                             <td>{{ ($item->topic)? $item->topic->subject->grade_level->name : '' }}</td>
                             <td>{{ ($item->topic)? $item->topic->subject->name : '' }}</td>
                             <td>{{ ($item->topic)? $item->topic->name : '' }}</td>

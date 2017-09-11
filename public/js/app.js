@@ -23497,12 +23497,14 @@ if (token) {
                 quizAllowsMinigames: function quizAllowsMinigames(quiz_type_key) {
                     var allow = true;
 
+                    //Use quiz id (check Quiz model)
                     switch (quiz_type_key) {
                         case '5':
                         case '6':
                         case '7':
                         case '8':
                         case '9':
+                        case '10':
                             allow = false;
                     }
 
@@ -23901,7 +23903,7 @@ if (token) {
                             x = pointer.x;
                             y = pointer.y;
 
-                            var group = vue_instance.createObject(x, y, 99, 99, _.uniqueId('rect'), 1);
+                            var group = vue_instance.createObject(x, y, 129, 129, _.uniqueId('rect'), 1);
 
                             canvas.add(group);
                             canvas.setActiveObject(group);

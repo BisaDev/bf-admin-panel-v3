@@ -27962,6 +27962,10 @@ table.model-list td img {
   max-width: 50px;
   max-height: 50px;
 }
+table.model-list td img.icon-images {
+  max-width: 25px;
+  max-height: 25px;
+}
 span.icon-picture {
   font-size: 1.2em;
   font-weight: 600;
@@ -28167,7 +28171,7 @@ span.icon-picture {
     top: 100%;
     width: 23px;
     height: 2px;
-    background: #FC7044;
+    background: #FC7044 !important;
   }
   body.print .subhead {
     font-size: 18px;
@@ -28181,7 +28185,7 @@ span.icon-picture {
   body.print .student-photo {
     width: 100px;
     height: 100px;
-    border: 5px solid #FC7044;
+    border: 5px solid #FC7044 !important;
   }
   body.print .student-photo.progress-photo {
     position: absolute;
@@ -28190,7 +28194,7 @@ span.icon-picture {
   body.print .profile-photo {
     width: 80px;
     height: 80px;
-    border: 5px solid #336ca2;
+    border: 5px solid #336ca2 !important;
   }
   body.print .container-alt > .row,
   body.print .container-fluid > .row {

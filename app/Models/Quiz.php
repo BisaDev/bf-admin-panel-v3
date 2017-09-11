@@ -11,17 +11,17 @@ class Quiz extends Model
     use Eloquence, Taggable;
 
     const TYPES = [
-        'Multiple choice: General',
-        'Multiple choice: Two truths one lie', 
-        'Multiple choice: Blitz', 
-        'Multiple choice: Confidence level', 
-        'Fill the blank', 
-        'Trivia: Celebrity',
-        'Trivia: Forbidden fruit',
-        'Trivia: Questions',
-        'Apple pencil',
-        'Drag and Drop',
-        'Touch select'
+        'Multiple choice: General', //id: 0
+        'Multiple choice: Two truths one lie', //id: 1
+        'Multiple choice: Blitz', //id: 2
+        'Multiple choice: Confidence level', //id: 3
+        'Fill the blank', //id: 4
+        'Trivia: Celebrity', //id: 5
+        'Trivia: Forbidden fruit', //id: 6
+        'Trivia: Questions', //id: 7
+        'Apple pencil', //id: 8
+        'Drag and Drop', //id: 9
+        'Touch select' //id: 10
     ];
     
     /**
