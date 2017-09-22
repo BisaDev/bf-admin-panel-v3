@@ -6,7 +6,7 @@
         {{-- PAGE HEADER --}}
         <div class="row">
             <div class="col-xs-6">
-                <h1>Meetup Detail</h1>
+                <h1>Meetup Summary</h1>
                 <p class="subhead">{{ $meetup->start_time->format('F jS, Y') }} {{ $meetup->start_time->format('g:i') }} - {{ $meetup->end_time->format('g:i a') }}</p>
             </div>
             <div class="col-xs-6 text-right">
@@ -21,7 +21,7 @@
             </div>
             <div class="col-xs-4 student-details">
                 <h2>{{ $student->full_name }}</h2>
-                <p>{{ $student->school_year }}</p>
+                <!--p>{{ $student->school_year }}</p-->
                 <p>{{ $student->current_school }}</p>
             </div>
             <div class="col-xs-2 col-xs-offset-1">
@@ -44,7 +44,7 @@
         {{-- CLASSMATES ROW --}}
         <div class="row print-section">
             <div class="col-xs-12">
-                <h3 class="m-b-40">{{ $student->name }}'s classmates for today</h3>
+                <h3 class="m-b-40">{{ $student->name }}'s teammates today</h3>
             </div>
             @foreach($meetup->students as $classmate)
                 @if($student->id != $classmate->id)
@@ -62,7 +62,7 @@
         <div class="container-alt">
             <div class="row print-section">
                 <div class="col-xs-12">
-                    <h3 class="m-b-40">Notes about the student for this meetup</h3>
+                    <h3 class="m-b-40">Notes about today</h3>
                 </div>
                 @if($student->meetup_student_pivot($meetup->id)->first()->notes->count() > 0)
                     <div class="col-xs-12">
@@ -79,13 +79,13 @@
         {{-- RESULTS HEADER --}}
         <div class="row print-section results-header">
             <div class="col-xs-12">
-                <h3 class="m-b-30">This day activities results</h3>
+                <h3 class="m-b-30">Today's results</h3>
             </div>
             <div class="col-xs-6">
-                <p class="subhead">Activity subject for the day: {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }}</p>
+                <p class="subhead">Subject: {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }}</p>
             </div>
             <div class="col-xs-6 text-right">
-                <p class="subhead">Activities grade level: {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->grade_level->name : '' }}</p>
+                <!--p class="subhead">Activities grade level: {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->grade_level->name : '' }}</p-->
             </div>
         </div>
     </div>
@@ -112,7 +112,7 @@
                 <div class="row m-t-20">
                     @php $question = $graded_quiz->questions()->where('id', $quizzes_performance[$graded_quiz->id]['example']->id)->first() @endphp
                     <div class="col-xs-12">
-                        <p class="subhead">Control question: <span>{{ $question->question_title or '' }}</span></p>
+                        <p class="subhead">Sample question: <span>{{ $question->question_title or '' }}</span></p>
                         <div class="row">
                             <div class="col-xs-3">
                                 @if($question->question_photo && $graded_quiz->quiz_type->name != 'Apple pencil')
