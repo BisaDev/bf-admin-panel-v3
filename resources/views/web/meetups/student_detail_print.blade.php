@@ -145,8 +145,8 @@
                             @endforeach
                             @if($graded_quiz->quiz_type->name == 'Apple pencil')
                                 <div class="col-xs-3 answer-item">
-                                    @if($answer->answer_image)
-                                        <img src="{{ $answer->answer_image }}" class="img-responsive">
+                                    @if($student_answer->answer_image)
+                                        <img src="{{ $student_answer->answer_image }}" class="img-responsive">
                                     @endif
                                 </div>
                             @endif
