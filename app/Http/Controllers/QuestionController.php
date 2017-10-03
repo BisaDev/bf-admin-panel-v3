@@ -166,7 +166,7 @@ class QuestionController extends Controller
                 ]);
 
                 if ($request->hasFile('answers.'.$key.'.photo')) {
-                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 280, null);
+                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, null, null);
                     $answer->save();
                 }
     
@@ -297,7 +297,7 @@ class QuestionController extends Controller
                         File::delete(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
                     }
 
-                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, 280, null);
+                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, null, null);
                     $answer->save();
                 }
     
@@ -345,24 +345,24 @@ class QuestionController extends Controller
             case '1':
             case '2':
             case '3':
-                $type = '0';
+                $type = '0'; //Multiple Choice
                 break;
             case '4':
-                $type = '1';
+                $type = '1'; //Fill in the blank
                 break;
             case '5':
             case '6':
             case '7':
-                $type = '2';
+                $type = '2'; //Trivia
                 break;
             case '8':
-                $type = '3';
+                $type = '3'; //Apple Pencil
                 break;
             case '9':
-                $type = '4';
+                $type = '4'; //Drag and Drop
                 break;
             case '10':
-                $type = '5';
+                $type = '5'; //Touch Select
                 break;
             case '11':
                 $type = '6';
@@ -381,10 +381,12 @@ class QuestionController extends Controller
         $width = 580;
         
         switch($type) {
+            case 0:
+            case 1:
             case 3:
             case 4:
             case 5:
-                $width = null;
+                $width = null; // 10/2017 removed resizing of all question types because of problems with Unity
                 break;
         }
         
