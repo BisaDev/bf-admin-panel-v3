@@ -111,6 +111,7 @@
 
                     <div class="row" v-show="allows_answers">
                         @include('partials.add-answers')
+                        @include('partials.add-answers-drag-drop')
                     </div>
 
                     <div class="row">

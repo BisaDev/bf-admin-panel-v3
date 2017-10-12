@@ -16,7 +16,7 @@ class Answer extends Model
      * @var array
      */
     protected $fillable = [
-        'text', 'is_correct', 'question_id'
+        'text', 'is_correct', 'question_id', 'group'
     ];
     
     protected $appends = [

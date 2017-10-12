@@ -5,7 +5,7 @@ import {fabric} from 'fabric'
 
 export default {
     init () {
-        const domElement = 'create-question'
+        const domElement = 'create-question';
         if(document.getElementById(domElement)) {
 
             require('typeahead.js');
@@ -19,6 +19,7 @@ export default {
             el: '#create-question',
             data: {
                 children: [],
+                answer_groups: [],
                 type: '',
                 photo: '',
                 number_of_answers_allowed: 4,
@@ -31,8 +32,9 @@ export default {
             beforeMount: function () {
 
                 //Look for question type and assign the selected to Vue data value
-                if($('#type').length > 0){
-                    this.type = $('#type').children('option:selected').val();
+                let type_select = $('#type');
+                if(type_select.length > 0){
+                    this.type = type_select.children('option:selected').val();
                     this.assignValuesOnType(this.type);
                 }
             },
@@ -44,22 +46,23 @@ export default {
 
                     image.onload = function () {
                         if(vue_instance.type_has_canvas) {
-                            vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas))
+                            vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas));
                             vue_instance.canvas.setDimensions({width: image.width, height: image.height});
                         }
-                    }
+                    };
+
                     image.src = val;
                 },
                 type: function (val) {
                     this.assignValuesOnType(val);
-                }
+                },
             },
             methods: {
-                addChildren(event, obj){
+                addChildren(event, obj, group){
                     if(this.children.length < this.number_of_answers_allowed){
 
                         let obj_data, obj_id;
-                        if(obj !== undefined){
+                        if(obj !== undefined && obj !== null){
                             obj_data = this.prepareObjectData(obj);
                             obj_id = obj.obj_id;
                         }else{
@@ -67,12 +70,48 @@ export default {
                             obj_id = '';
                         }
 
-                        this.children.push({name: (this.type == 5)? 'Touch select' : '', photo: '', is_correct: false, remove_photo: false, obj_id: obj_id, obj_data: obj_data});
+                        this.children.push({
+                            name: (this.type == 5)? 'Touch select' : '',
+                            photo: '',
+                            is_correct: false,
+                            remove_photo: false,
+                            obj_id: obj_id,
+                            obj_data: obj_data,
+                            answer_group: group
+                        });
                     }
                 },
                 removeChildren(index){
+                    //Get object_id for removal in canvas later
                     let obj_id = this.children[index].obj_id;
+                    //Get answer_group for removal in case it's the last answer of the group
+                    let answer_group = this.children[index].answer_group;
+                    //Remove answer
                     this.children.splice(index, 1);
+
+                    //Find another answer in the same group
+                    let group_member = _.find(this.children, function(g) { return g.answer_group == answer_group; });
+                    if(!group_member){
+                        //If no other answer in group, remove group
+                        let group_index = _.findIndex(this.answer_groups, function(g) { return g.group_number == answer_group; });
+                        this.answer_groups.splice(group_index, 1);
+
+                        let answer_list = this.children;
+                        _.each(this.answer_groups, function(answer_group, index){
+                            if(index >= group_index){
+                                //Look for answers in a group above the one we deleted
+                                let answers = _.filter(answer_list, function(a) {
+                                    //Return answers 2 numbers above, if we removed Group 1, the index was 0,
+                                    //so we need answers on Group 2 to moved them to Group 1
+                                    return a.answer_group == index+2;
+                                });
+
+                                _.each(answers, function(answer){
+                                    answer.answer_group = index+1;
+                                });
+                            }
+                        });
+                    }
 
                     if(this.type_has_canvas){
                         let canvas_objects = this.canvas.getObjects();
@@ -98,17 +137,21 @@ export default {
                         fill: 'transparent',
                     });
 
-                    let tag = new fabric.Text('Answer '+(this.children.length+id_offset), {
+                    let tag_text = 'Answer '+(this.children.length+id_offset);
+
+                    if(this.type == 4){
+                        tag_text = 'Group '+(this.answer_groups.length+id_offset);
+                    }
+
+                    let tag = new fabric.Text(tag_text, {
                         fontSize: 12,
                         left: left+5,
                         top: top+5
                     });
 
-                    let group = new fabric.Group([square, tag], {
+                    return new fabric.Group([square, tag], {
                         obj_id: obj_id
                     });
-
-                    return group;
                 },
                 prepareObjectData(obj){
                     return JSON.stringify({top: parseFloat(obj.top.toFixed(2)), left: parseFloat(obj.left.toFixed(2)), width: obj.width*obj.scaleX-1, height: obj.height*obj.scaleY-1});
@@ -156,7 +199,15 @@ export default {
                         let obj = event.target;
 
                         if(!_.find(vue_instance.children, function(o) { return o.obj_id == obj.obj_id; })){
-                            vue_instance.addChildren(null, obj);
+                            let group = 0;
+                            if(vue_instance.type == 4){ //Drag and Drop
+                                group = vue_instance.answer_groups.length+1;
+
+                                vue_instance.answer_groups.push({
+                                    group_number: group
+                                });
+                            }
+                            vue_instance.addChildren(null, obj, group);
                         }
                     });
 
@@ -168,8 +219,17 @@ export default {
 
                             let square = _.find(canvas_objects, function(o) { return o.obj_id == answer.obj_id; });
 
-                            square.getObjects()[1].setText('Answer '+(index+1));
-                            canvas.renderAll();
+                            //If answer is second in group, it doesn't have canvas object information
+                            if(square){
+                                let tag_text = 'Answer '+(index+1);
+
+                                if(vue_instance.type == 4){
+                                    tag_text = 'Group '+(index+1);
+                                }
+
+                                square.getObjects()[1].setText(tag_text);
+                                canvas.renderAll();
+                            }
                         });
                     });
 
@@ -188,7 +248,7 @@ export default {
 
                         if(vue_instance.children.length < vue_instance.number_of_answers_allowed) {
                             started = true;
-                            var pointer = canvas.getPointer(options.e);
+                            let pointer = canvas.getPointer(options.e);
                             x = pointer.x;
                             y = pointer.y;
 
@@ -209,20 +269,33 @@ export default {
                         vue_instance.children.push({
                             name: answer.text,
                             photo: answer.photo,
-                            is_correct: (answer.is_correct == 1 || answer.is_correct == 'on')? true : false,
+                            is_correct: (answer.is_correct == 1 || answer.is_correct == 'on'),
                             remove_photo: false,
                             obj_id: 'rect'+index,
                             obj_data: JSON.stringify(answer.object_data),
-                            id: answer.id
+                            answer_group: answer.group,
+                            id: answer.id,
                         });
 
                         if(vue_instance.type_has_canvas){
 
+                            if(vue_instance.type == 4 && answer.group != null){ //Drag and drop
+                                let group_exists = _.find(vue_instance.answer_groups, function(g) { return g.group_number == answer.group; });
+
+                                if(!group_exists){
+                                    vue_instance.answer_groups.push({
+                                        group_number: answer.group
+                                    });
+                                }
+                            }
+
                             let object_data = answer.object_data;
 
-                            let group = vue_instance.createObject(object_data.left, object_data.top, object_data.width, object_data.height, 'rect'+index, 0);
+                            if(object_data !== null) {
+                                let group = vue_instance.createObject(object_data.left, object_data.top, object_data.width, object_data.height, 'rect' + index, 0);
 
-                            vue_instance.canvas.add(group);
+                                vue_instance.canvas.add(group);
+                            }
                         }
                     });
 
@@ -230,7 +303,7 @@ export default {
                         vue_instance.photo = $('#question_photo').attr('src');
                     }
                 }
-            }
+            },
         });
     },
 }

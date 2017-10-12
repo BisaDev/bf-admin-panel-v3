@@ -162,6 +162,7 @@ class QuestionController extends Controller
                 $answer = Answer::create([
                     'text' => $request_answer['text'], 
                     'is_correct' => (array_key_exists('is_correct', $request_answer) && !is_null($request_answer['is_correct']))? 1 : 0,
+                    'group' => (array_key_exists('group', $request_answer))? $request_answer['group'] : '',
                     'question_id' => $question->id
                 ]);
 

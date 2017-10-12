@@ -30,7 +30,7 @@ const vue_elements = [
     create_activity_bucket,
     create_meetup,
     show_student,
-    print
+    print,
 ];
 
 vue_elements.forEach(function(element){
