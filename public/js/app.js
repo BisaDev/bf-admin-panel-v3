@@ -23779,11 +23779,12 @@ if (token) {
                     }
                 },
                 removeChildren: function removeChildren(index) {
-                    //Get object_id for removal in canvas later
+                    //Get object_id and object_data to copy to another answer OR for removal in canvas later
                     var obj_id = this.children[index].obj_id;
+                    var obj_data = this.children[index].obj_data;
                     //Get answer_group for removal in case it's the last answer of the group
                     var answer_group = this.children[index].answer_group;
-                    //Remove answer
+                    //Remove answer from answers array
                     this.children.splice(index, 1);
 
                     //Find another answer in the same group
@@ -23803,7 +23804,7 @@ if (token) {
                                 //Look for answers in a group above the one we deleted
                                 var answers = _.filter(answer_list, function (a) {
                                     //Return answers 2 numbers above, if we removed Group 1, the index was 0,
-                                    //so we need answers on Group 2 to moved them to Group 1
+                                    //so we need answers on Group 2 to move them to Group 1
                                     return a.answer_group == index + 2;
                                 });
 
@@ -23812,18 +23813,24 @@ if (token) {
                                 });
                             }
                         });
-                    }
 
-                    if (this.type_has_canvas) {
-                        var canvas_objects = this.canvas.getObjects();
+                        //Remove object from canvas only if there are no more answers in group
+                        if (this.type_has_canvas) {
+                            var canvas_objects = this.canvas.getObjects();
 
-                        var square = _.find(canvas_objects, function (o) {
-                            return o.obj_id == obj_id;
-                        });
+                            var square = _.find(canvas_objects, function (o) {
+                                return o.obj_id == obj_id;
+                            });
 
-                        if (square) {
-                            this.canvas.remove(square);
+                            if (square) {
+                                this.canvas.remove(square);
+                            }
                         }
+                    } else if (group_member && obj_id != "") {
+                        //If there's another answer in group and we're removing the answer with obj_id and obj_data, move data to
+                        //other answer in group
+                        group_member.obj_id = obj_id;
+                        group_member.obj_data = obj_data;
                     }
                 },
                 saveQuestionAndAddMore: function saveQuestionAndAddMore(event) {
