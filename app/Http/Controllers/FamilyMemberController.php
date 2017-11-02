@@ -38,8 +38,8 @@ class FamilyMemberController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
-            'email' => 'required|email',
-            'email_confirmation' => 'same:email',
+            //'email' => 'required|email',
+            //'email_confirmation' => 'same:email',
             'secondary_email' => 'nullable|email',
             'photo' => 'nullable|image',
         ]);
@@ -113,7 +113,7 @@ class FamilyMemberController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
-            'email' => 'required|email',
+            //'email' => 'required|email',
             'secondary_email' => 'nullable|email',
             'photo' => 'nullable|image',
         ]);
