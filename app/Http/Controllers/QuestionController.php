@@ -6,7 +6,7 @@ use Brightfox\Models\Question, Brightfox\Models\Answer, Brightfox\Models\GradeLe
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
 use Brightfox\Traits\HasTags;
-use File;
+use File, Carbon\Carbon;;
 
 class QuestionController extends Controller
 {
@@ -23,13 +23,14 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $query = Question::with('topic.subject.grade_level');
-
+        
         /* TABLE FILTERS */
         $filters = [
             'type' => $request->input('type'), 
             'grade_level' => $request->input('grade_level'), 
             'subject' =>  $request->input('subject'),
-            'topic' => $request->input('topic')
+            'topic' => $request->input('topic'),
+            'created_at' => $request->has('created_at')? Carbon::parse($request->input('created_at'))->format('Y-m-d') : null
         ];
 
         if($request->has('search')){
@@ -39,6 +40,11 @@ class QuestionController extends Controller
 
         if(!is_null($filters['type'])){
             $query->where('type', 'like', '%"key":"'.$filters['type'].'"%');
+        }
+    
+        if(!is_null($filters['created_at'])){
+            $query->where('created_at', 'like', $filters['created_at'].'%');
+            $filters['created_at'] = $request->has('created_at')? Carbon::parse($request->input('created_at'))->format('m/d/Y') : null;
         }
 
         if(!is_null($filters['topic'])){
@@ -62,14 +68,15 @@ class QuestionController extends Controller
             'subject' => 'asc',
             'topic' => 'asc',
             'type' => 'asc',
+            'created_at' => 'asc',
         ];
-        $sort = ['column' => 'crated_at', 'value' => 'asc'];
+        $sort = ['column' => 'created_at', 'value' => 'desc'];
         
         if($request->has('sort_column')){
             $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
             $sort_columns[$sort['column']] = ($sort['value'] == 'asc')? 'desc' : 'asc';
         }
-    
+        
         switch ($sort['column']) {
             case 'title':
                 $query->orderBy($sort['column'], $sort['value']);
@@ -95,6 +102,10 @@ class QuestionController extends Controller
     
             case 'type':
                 $query->orderBy('type', $sort['value']);
+                break;
+    
+            case 'created_at':
+                $query->orderBy('created_at', $sort['value']);
                 break;
         }
 
@@ -137,7 +148,7 @@ class QuestionController extends Controller
             'type' => 'required',
             'topic' => 'required',
             'title' => 'required_without:photo',
-            'answers' => 'required_unless:type,3|require_one_correct_for_multiple_choice:'.$request->input('type'),
+            'answers' => 'required_unless:type,3,type,6|require_one_correct_for_multiple_choice:'.$request->input('type'), //Apple Pencil and Research and Report back don't need answers
             'answers.*.text' => 'required_without:answers.*.photo',
         ]);
         
@@ -366,13 +377,19 @@ class QuestionController extends Controller
                 $type = '5'; //Touch Select
                 break;
             case '11':
-                $type = '6';
+                $type = '6'; //Research and Report back
                 break;
         }
-
-        $questions = Question::whereHas('topic', function ($query)use($request) {
+        
+        $questions_query = Question::whereHas('topic', function ($query)use($request) {
             $query->where('subject_id', $request->get('subject'));
-        })->where('type', 'like', '%"key":"'.$type.'"%')->with('topic', 'tags')->get();
+        })->where('type', 'like', '%"key":"'.$type.'"%')->with('topic', 'tags');
+
+        if($request->get('created_at') != ''){
+            $questions_query->where('created_at', 'like', Carbon::parse($request->input('created_at'))->format('Y-m-d').'%');
+        }
+        
+        $questions = $questions_query->get();
 
         return response()->json($questions);
     }
@@ -387,6 +404,7 @@ class QuestionController extends Controller
             case 3:
             case 4:
             case 5:
+            case 6:
                 $width = null; // 10/2017 removed resizing of all question types because of problems with Unity
                 break;
         }

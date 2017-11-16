@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-quiz">
+    <div class="row create-container" id="create-quiz" data-questions-url="{{ route('questions.for_quiz') }}">
         <form action="{{ route('quizzes.store') }}" method="POST">
             {{ csrf_field() }}
 
@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-4 {{ $errors->has('type')? 'has-error' : '' }}">
                             <label class="control-label" for="type">Type:</label>
-                            <select id="type" name="type" class="form-control" v-model="type" @change="loadQuestions('{{ route('questions.for_quiz') }}', $event)">
+                            <select id="type" name="type" class="form-control" v-model="type" @change="loadQuestions()">
                                 <option value="">Select Type</option>
                                 @foreach($types as $key => $type)
                                 <option value="{{ $key }}" {{ (!is_null(old('type')) && (int)old('type') === $key)? 'selected' : '' }}>{{ $type }}</option>
@@ -76,13 +76,20 @@
                         </div>
                         <div class="form-group col-sm-6 col-md-4 {{ $errors->has('subject')? 'has-error' : '' }}">
                             <label class="control-label" for="subject">Subject:</label>
-                            <select id="subject" name="subject" class="form-control" data-selected="{{ old('subject') }}" v-model="subject" @change="loadQuestions('{{ route('questions.for_quiz') }}', $event)">
+                            <select id="subject" name="subject" class="form-control" data-selected="{{ old('subject') }}" v-model="subject" @change="loadQuestions()">
                             </select>
                             @if($errors->has('subject'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('subject') }}</strong>
                                 </span>
                             @endif
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-4">
+                            <input type="text" name="created_at" class="form-control datepicker-general" placeholder="Created Date" v-model="created_at" >
+                            <a href="javascript:void(0)" class="btn btn-white" v-show="created_at != ''" @click="clearFilter()">&times; Clear date filter</a>
                         </div>
                     </div>
 
@@ -105,6 +112,7 @@
                             <th>Question</th>
                             <th></th>
                             <th>Topic</th>
+                            <th>Created</th>
                             <th>Tags</th>
                         </tr>
                         </thead>
@@ -112,7 +120,7 @@
                             <tr v-for="question in questions">
                                 <td>
                                     <div class="checkbox checkbox-primary">
-                                        <input type="checkbox" name="questions[]" v-bind:value="question.id">
+                                        <input type="checkbox" name="questions[]" v-bind:value="question.id" @click="selectQuestion(question)">
                                         <label></label>
                                     </div>
                                 </td>
@@ -122,6 +130,7 @@
                                 </td>
                                 <td><span :class="['icon', 'icon-picture', question.answers_have_images? 'text-success' : 'text-muted']"></span></td>
                                 <td>@{{ question.topic.name }}</td>
+                                <td>@{{ question.date_created }}</td>
                                 <td>
                                     <span class="label label-primary m-r-5" v-for="tag in question.tags">@{{ tag.name }}</span>
                                 </td>

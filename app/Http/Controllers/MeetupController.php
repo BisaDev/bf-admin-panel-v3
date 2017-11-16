@@ -6,6 +6,7 @@ use Brightfox\Models\Meetup, Brightfox\Models\ActivityBucket, Brightfox\Models\G
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
+
 class MeetupController extends Controller
 {
     protected $status = Meetup::STATUS;

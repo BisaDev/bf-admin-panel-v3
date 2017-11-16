@@ -175,6 +175,7 @@ export default {
                             this.type_answer_has_additional_data = true;
                             break;
                         case '3': //Apple pencil
+                        case '6': //Research and Report back
                             this.allows_answers = false;
                             break;
                         case '4': //Drag and drop
@@ -230,7 +231,7 @@ export default {
                             if(square){
                                 let tag_text = 'Answer '+(index+1);
 
-                                if(vue_instance.type == 4){
+                                if(vue_instance.type == 4){ //Drag and drop
                                     tag_text = 'Group '+(index+1);
                                 }
 

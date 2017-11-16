@@ -13,7 +13,15 @@ class Question extends Model
 
     const PHOTO_PATH = "uploads/activities/";
     const DEFAULT_PHOTO = "default-image.png";
-    const TYPES = ['Multiple choice', 'Fill the blank', 'Trivia', 'Apple pencil', 'Drag and drop', 'Touch select'];
+    const TYPES = [
+        'Multiple choice',
+        'Fill the blank',
+        'Trivia',
+        'Apple pencil',
+        'Drag and drop',
+        'Touch select',
+        'Research and report back'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +40,10 @@ class Question extends Model
     protected $searchableColumns = [
         'title', 'type', 'topic.name'
     ];
+    
+    protected $appends = [
+        'date_created'
+    ];
 
     public function getTitleAttribute($value){
         return str_replace('[#blank]', '_____', $value);
@@ -48,6 +60,11 @@ class Question extends Model
     public function getTypeAttribute($value)
     {
         return json_decode($value);
+    }
+    
+    public function getDateCreatedAttribute()
+    {
+        return $this->created_at->format('m/d/Y');
     }
 
     public function answers()

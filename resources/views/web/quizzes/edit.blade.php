@@ -14,7 +14,7 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-quiz" data-questions="{{ json_encode($item->questions) }}">
+    <div class="row create-container" id="create-quiz" data-questions="{{ json_encode($item->questions) }}" data-questions-url="{{ route('questions.for_quiz') }}">
         <form action="{{ route('quizzes.update', $item->id) }}" method="POST">
             {{ csrf_field() }}
             {{ method_field('put') }}
@@ -86,6 +86,15 @@
                             @endif
                         </div>
                     </div>
+    
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-4">
+                            <input type="text" name="created_at" class="form-control datepicker-general" placeholder="Created Date" v-model="created_at" >
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4">
+                            <a href="javascript:void(0)" class="btn btn-white" v-show="created_at != ''" @click="clearFilter()">&times; Clear date filter</a>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-12">
@@ -106,6 +115,7 @@
                             <th>Question</th>
                             <th></th>
                             <th>Topic</th>
+                            <th>Created</th>
                             <th>Tags</th>
                         </tr>
                         </thead>
@@ -113,7 +123,7 @@
                             <tr v-for="question in questions">
                                 <td>
                                     <div class="checkbox checkbox-primary">
-                                        <input type="checkbox" name="questions[]" :value="question.id" :checked="questionSelected(question)">
+                                        <input type="checkbox" name="questions[]" :value="question.id" :checked="questionSelected(question)" @click="selectQuestion(question)">
                                         <label></label>
                                     </div>
                                 </td>
@@ -123,6 +133,7 @@
                                 </td>
                                 <td><span :class="['icon', 'icon-picture', question.answers_have_images? 'text-success' : 'text-muted']"></span></td>
                                 <td>@{{ question.topic.name }}</td>
+                                <td>@{{ question.date_created }}</td>
                                 <td>
                                     <span class="label label-primary m-r-5" v-for="tag in question.tags">@{{ tag.name }}</span>
                                 </td>

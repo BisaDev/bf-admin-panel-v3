@@ -23,9 +23,9 @@
                 </div>
             @endif
             <div class="card-box">
-                <div class="row">
-                    <div class="col-xs-12 m-t-10 m-b-10">
-                        <form id="filter-form" class="form-inline" action="{{ route('questions.search') }}" method="POST">
+                <form id="filter-form" class="form-inline" action="{{ route('questions.search') }}" method="POST">
+                    <div class="row">
+                        <div class="col-xs-12 m-t-10 m-b-10">
                             {{ csrf_field() }}
 
                             <div class="form-group">
@@ -36,11 +36,26 @@
                                     @endforeach
                                 </select>
                             </div>
+    
+                            <div class="form-group">
+                                <input type="text" name="created_at" class="form-control datepicker-general" placeholder="Created Date" value="{{ $filters['created_at'] or '' }}" >
+                            </div>
+                            
+                            <div class="form-group col-md-4 pull-right">
+                                <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
+                                    <input type="text" id="search" name="search" placeholder="Search" v-model="search" >
+                                    <span @click="removeSearch()" v-show="search">&times;</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 m-b-10">
                             <div class="form-group">
                                 <select id="grade_level" name="grade_level" class="form-control" data-selected="{{ $filters['grade_level'] }}" @change="getSubjectsFromGradeLevel('{{ route('subjects.by_grade') }}', $event)">
                                     <option value="">Select Grade Level</option>
                                     @foreach($grade_levels as $grade_level)
-                                    <option value="{{ $grade_level->id }}">{{ ucfirst($grade_level->name) }}</option>
+                                        <option value="{{ $grade_level->id }}">{{ ucfirst($grade_level->name) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -54,23 +69,16 @@
                                     <option value="">Select topic</option>
                                 </select>
                             </div>
-
+    
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Filter</button>
-                                @if(!is_null($filters['type']) || !is_null($filters['grade_level']) || !is_null($filters['subject']) || !is_null($filters['topic']))
-                                <a href="{{ route('questions.index') }}" class="btn btn-white">&times; Clear filters</a>
+                                @if(!is_null($filters['type']) || !is_null($filters['grade_level']) || !is_null($filters['subject']) || !is_null($filters['topic']) || !is_null($filters['created_at']) )
+                                    <a href="{{ route('questions.index') }}" class="btn btn-white">&times; Clear filters</a>
                                 @endif
                             </div>
-                            
-                            <div class="form-group col-md-4 pull-right">
-                                <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
-                                    <input type="text" id="search" name="search" placeholder="Search" v-model="search" >
-                                    <span @click="removeSearch()" v-show="search">&times;</span>
-                                </span>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
 
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -81,6 +89,7 @@
                         <th nowrap>Subject <a href="{{ route('questions.index').'?sort_column=subject&sort_value='.$sort_columns['subject'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th nowrap>Topic <a href="{{ route('questions.index').'?sort_column=topic&sort_value='.$sort_columns['topic'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th nowrap>Type <a href="{{ route('questions.index').'?sort_column=type&sort_value='.$sort_columns['type'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
+                        <th nowrap>Created <a href="{{ route('questions.index').'?sort_column=created_at&sort_value='.$sort_columns['created_at'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th width="90" class="text-center">Edit</th>
                         <th width="90" class="text-center">Delete</th>
                     </tr>
@@ -94,6 +103,7 @@
                             <td>{{ ($item->topic)? $item->topic->subject->name : '' }}</td>
                             <td>{{ ($item->topic)? $item->topic->name : '' }}</td>
                             <td>{{ $item->type->name }}</td>
+                            <td>{{ $item->date_created }}</td>
                             <td class="text-center"><a href="{{ route('questions.edit', $item->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">
                                 <a href="" @click="confirmDelete({{ $item->id }}, 0, $event)" class="icon icon-trash"></a>

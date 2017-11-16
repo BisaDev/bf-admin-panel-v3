@@ -1,3 +1,4 @@
+import datepicker from 'bootstrap-datepicker';
 import getAcademicContent from './mixins/getAcademicContent';
 import imagePreview from './mixins/imagePreview';
 import tagRepository from './mixins/tagRepository';
@@ -22,7 +23,9 @@ export default {
                 questions: [],
                 type: '',
                 subject: '',
-                questions_selected: []
+                created_at: '',
+                questions_selected: [],
+                questions_url: '',
             },
             components:{
                 draggable
@@ -39,16 +42,23 @@ export default {
                     this.quiz_id = this.$el.attributes['data-quiz-id'].value;
                 }
             },
+            watch: {
+                created_at: function (val) {
+                    this.loadQuestions();
+                },
+            },
             methods: {
-                loadQuestions(url, event){
+                loadQuestions(){
+
                     if(this.type != '' && this.subject != ''){
-                        
+
                         this.questions = [];
                         let questions = this.questions;
 
-                        axios.post(url, {
+                        axios.post(this.questions_url, {
                             type: this.type,
-                            subject: this.subject
+                            subject: this.subject,
+                            created_at: this.created_at,
                         })
                         .then(function (response) {
 
@@ -69,7 +79,13 @@ export default {
                 },
                 questionSelected: function(question){
                     return _.findIndex(this.questions_selected, function(d) { return d.id == question.id;}) >= 0;
-                }
+                },
+                selectQuestion: function(question){
+                    this.questions_selected.push({title: question.title, photo: question.photo, id: question.id});
+                },
+                clearFilter: function(){
+                    this.created_at = '';
+                },
             },
             computed: {
                 dragOptions () {
@@ -83,10 +99,22 @@ export default {
                     let questions = $.parseJSON(this.$el.attributes['data-questions'].value);
                     let vue_instance = this;
                     
-                    $.each(questions, function(index, questions){
-                        vue_instance.questions_selected.push({title: questions.title, photo: questions.photo, id: questions.id});
+                    $.each(questions, function(index, question){
+                        vue_instance.questions_selected.push({title: question.title, photo: question.photo, id: question.id});
                     });
                 }
+
+                if(this.$el.attributes['data-questions-url'] !== undefined) {
+                    this.questions_url = this.$el.attributes['data-questions-url'].value;
+                }
+
+                let datepicker_input = $('.datepicker-general');
+
+                datepicker_input.datepicker({
+                    autoclose: true,
+                }).on(
+                    "changeDate", () => { this.created_at = datepicker_input.val() }
+                );
             }
         });
     },

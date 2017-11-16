@@ -23878,8 +23878,9 @@ if (token) {
                             //Mutiple choice
                             this.type_answer_has_additional_data = true;
                             break;
-                        case '3':
-                            //Apple pencil
+                        case '3': //Apple pencil
+                        case '6':
+                            //Research and Report back
                             this.allows_answers = false;
                             break;
                         case '4':
@@ -23945,6 +23946,7 @@ if (token) {
                                 var tag_text = 'Answer ' + (index + 1);
 
                                 if (vue_instance.type == 4) {
+                                    //Drag and drop
                                     tag_text = 'Group ' + (index + 1);
                                 }
 
@@ -24039,11 +24041,14 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuedraggable__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuedraggable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_imagePreview__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_tagRepository__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuedraggable__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vuedraggable__);
+
 
 
 
@@ -24068,12 +24073,14 @@ if (token) {
                 questions: [],
                 type: '',
                 subject: '',
-                questions_selected: []
+                created_at: '',
+                questions_selected: [],
+                questions_url: ''
             },
             components: {
-                draggable: __WEBPACK_IMPORTED_MODULE_3_vuedraggable___default.a
+                draggable: __WEBPACK_IMPORTED_MODULE_4_vuedraggable___default.a
             },
-            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__["a" /* default */]],
+            mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_tagRepository__["a" /* default */]],
             beforeMount: function beforeMount() {
 
                 //Look for question type and assign the selected to Vue data value
@@ -24085,16 +24092,23 @@ if (token) {
                     this.quiz_id = this.$el.attributes['data-quiz-id'].value;
                 }
             },
+            watch: {
+                created_at: function created_at(val) {
+                    this.loadQuestions();
+                }
+            },
             methods: {
-                loadQuestions: function loadQuestions(url, event) {
+                loadQuestions: function loadQuestions() {
+
                     if (this.type != '' && this.subject != '') {
 
                         this.questions = [];
                         var questions = this.questions;
 
-                        axios.post(url, {
+                        axios.post(this.questions_url, {
                             type: this.type,
-                            subject: this.subject
+                            subject: this.subject,
+                            created_at: this.created_at
                         }).then(function (response) {
 
                             $.each(response.data, function (i, item) {
@@ -24114,6 +24128,12 @@ if (token) {
                     return _.findIndex(this.questions_selected, function (d) {
                         return d.id == question.id;
                     }) >= 0;
+                },
+                selectQuestion: function selectQuestion(question) {
+                    this.questions_selected.push({ title: question.title, photo: question.photo, id: question.id });
+                },
+                clearFilter: function clearFilter() {
+                    this.created_at = '';
                 }
             },
             computed: {
@@ -24124,14 +24144,28 @@ if (token) {
                 }
             },
             mounted: function mounted() {
+                var _this = this;
+
                 if (this.$el.attributes['data-questions'] !== undefined) {
                     var questions = $.parseJSON(this.$el.attributes['data-questions'].value);
                     var vue_instance = this;
 
-                    $.each(questions, function (index, questions) {
-                        vue_instance.questions_selected.push({ title: questions.title, photo: questions.photo, id: questions.id });
+                    $.each(questions, function (index, question) {
+                        vue_instance.questions_selected.push({ title: question.title, photo: question.photo, id: question.id });
                     });
                 }
+
+                if (this.$el.attributes['data-questions-url'] !== undefined) {
+                    this.questions_url = this.$el.attributes['data-questions-url'].value;
+                }
+
+                var datepicker_input = $('.datepicker-general');
+
+                datepicker_input.datepicker({
+                    autoclose: true
+                }).on("changeDate", function () {
+                    _this.created_at = datepicker_input.val();
+                });
             }
         });
     }
