@@ -82,6 +82,15 @@
                             </div>
                         </div>
     
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @if($item->activity_bucket->presentation_file)
+                                    <label class="control-label">Presentation File:</label>
+                                    <p><a href="{{ $item->activity_bucket->presentation_file }}" target="_blank">Open</a></p>
+                                @endif
+                            </div>
+                        </div>
+    
                         @include('partials.quizzes-list', ['quizzes' => $item->activity_bucket->quizzes])
                     </div>
                     <div class="tab-pane" id="student-details">

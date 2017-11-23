@@ -98,6 +98,7 @@ class ActivityBucketController extends Controller
     {   
         $this->validate($request, [
             'title' => 'required|string|max:191',
+            'presentation_file' => 'nullable|url',
             'subject' => 'required',
             'quizzes' => 'required',
         ]);
@@ -181,6 +182,7 @@ class ActivityBucketController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|string|max:191',
+            'presentation_file' => 'nullable|url',
             'subject' => 'required',
             'quizzes' => 'required',
         ]);

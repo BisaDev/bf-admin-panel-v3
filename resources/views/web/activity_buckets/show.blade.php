@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div class="row m-b-20">
+                <div class="row m-b-10">
                     <div class="col-sm-6">
                         <label class="control-label">Grade Level:</label>
                         <p>{{ ($item->subject)? $item->subject->grade_level->name : '' }}</p>
@@ -31,6 +31,15 @@
                     <div class="col-sm-6">
                         <label class="control-label">Subject:</label>
                         <p>{{ ($item->subject)? $item->subject->name : '' }}</p>
+                    </div>
+                </div>
+    
+                <div class="row m-b-20">
+                    <div class="col-sm-6">
+                        @if($item->presentation_file)
+                        <label class="control-label">Presentation File:</label>
+                        <p><a href="{{ $item->presentation_file }}" target="_blank">Open</a></p>
+                        @endif
                     </div>
                 </div>
     
