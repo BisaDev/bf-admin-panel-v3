@@ -104,6 +104,7 @@ class ActivityBucketController extends Controller
 
         $activity_bucket = ActivityBucket::create([
             'title' => $request->input('title'),
+            'presentation_file' => $request->input('presentation_file'),
             'subject_id' => $request->input('subject')
         ]);
 
@@ -187,6 +188,7 @@ class ActivityBucketController extends Controller
         
         $activity_bucket->title = $request->input('title');
         $activity_bucket->subject_id = $request->input('subject');
+        $activity_bucket->presentation_file = $request->input('presentation_file');
         $activity_bucket->save();
 
         if($request->has('quizzes')){
@@ -211,7 +213,7 @@ class ActivityBucketController extends Controller
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Activity Bucket was successfully deleted']);
         
-        return redirect(route('activity_bucket.index'));
+        return redirect(route('activity_buckets.index'));
     }
 
     public function get_activity_buckets_for_meetup(Request $request)

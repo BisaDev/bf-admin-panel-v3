@@ -15,7 +15,7 @@ class ActivityBucket extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'subject_id'
+        'title', 'presentation_file', 'subject_id'
     ];
 
     /**

@@ -39,13 +39,14 @@ export default {
                 }
             },
             watch: {
-                photo: function(val){
+                photo: function (val) {
 
                     let image = new Image();
                     let vue_instance = this;
 
                     image.onload = function () {
-                        if(vue_instance.type_has_canvas) {
+
+                        if (vue_instance.type_has_canvas) {
                             vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas));
                             vue_instance.canvas.setDimensions({width: image.width, height: image.height});
                         }

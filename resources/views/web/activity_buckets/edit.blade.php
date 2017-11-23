@@ -31,6 +31,15 @@
                                 </span>
                             @endif
                         </div>
+                        <div class="form-group col-xs-12 {{ $errors->has('presentation_file')? 'has-error' : '' }}">
+                            <label class="control-label" for="presentation_file">Presentation File Link:</label>
+                            <input type="text" name="presentation_file" class="form-control" value="{{ old('presentation_file', $item->presentation_file) }}">
+                            @if($errors->has('presentation_file'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('presentation_file') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
