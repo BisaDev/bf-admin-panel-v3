@@ -31,15 +31,15 @@ let imagePreview = {
                             text = 'Answer images must be square.';
                         }else{
                             switch (vm.type) {
+                                case '4': //Drag and drop
+                                    title = 'Invalid Image';
+                                    text = 'Image must be 1366 x 512.';
+                                    break;
                                 case '3': //Apple pencil
                                 case '5': //Touch select
                                 case '6': //Research and Report back
                                     title = 'Invalid Image';
-                                    text = 'Image must be 1366 x 512.';
-                                    break;
-                                case '4': //Drag and drop
-                                    title = 'Invalid Image';
-                                    text = 'Image must be 1024 x 512.';
+                                    text = 'Image must be 1024 x 512.';1366
                                     break;
                                 case '':
                                     title = 'Select Question Type';
@@ -81,14 +81,14 @@ let imagePreview = {
                     }
                 }else{
                     switch (vue_instance.type) {
-                        case '3': //Apple pencil
-                        case '5': //Touch select
-                        case '6': //Research and Report back
+                        case '4': //Drag and drop
                             if (image.width !== 1366 || image.height !== 512) {
                                 invalid_image = true;
                             }
                             break;
-                        case '4': //Drag and drop
+                        case '3': //Apple pencil
+                        case '5': //Touch select
+                        case '6': //Research and Report back
                             if (image.width !== 1024 || image.height !== 512) {
                                 invalid_image = true;
                             }
