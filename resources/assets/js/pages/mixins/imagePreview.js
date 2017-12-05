@@ -39,7 +39,7 @@ let imagePreview = {
                                 case '5': //Touch select
                                 case '6': //Research and Report back
                                     title = 'Invalid Image';
-                                    text = 'Image must be 1024 x 512.';1366
+                                    text = 'Image must be 1024 x 512.';
                                     break;
                                 case '':
                                     title = 'Select Question Type';
