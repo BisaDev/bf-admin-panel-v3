@@ -123,7 +123,7 @@
                             <tr v-for="question in questions">
                                 <td>
                                     <div class="checkbox checkbox-primary">
-                                        <input type="checkbox" name="questions[]" :value="question.id" :checked="questionSelected(question)" @click="selectQuestion(question)">
+                                        <input type="checkbox" name="questions[]" v-bind:value="question.id" :checked="questionSelected(question)" @click="selectQuestion(question)">
                                         <label></label>
                                     </div>
                                 </td>

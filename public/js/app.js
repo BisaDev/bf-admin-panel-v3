@@ -25869,7 +25869,14 @@ if (token) {
                     }) >= 0;
                 },
                 selectQuestion: function selectQuestion(question) {
-                    this.questions_selected.push({ title: question.title, photo: question.photo, id: question.id });
+                    var index = _.findIndex(this.questions_selected, function (d) {
+                        return d.id == question.id;
+                    });
+                    if (index === -1) {
+                        this.questions_selected.push({ title: question.title, photo: question.photo, id: question.id });
+                    } else {
+                        this.questions_selected.splice(index, 1);
+                    }
                 },
                 clearFilter: function clearFilter() {
                     this.created_at = '';
