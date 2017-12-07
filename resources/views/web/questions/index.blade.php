@@ -36,11 +36,11 @@
                                     @endforeach
                                 </select>
                             </div>
-    
+
                             <div class="form-group">
                                 <input type="text" name="created_at" class="form-control datepicker-general" placeholder="Created Date" value="{{ $filters['created_at'] or '' }}" >
                             </div>
-                            
+
                             <div class="form-group col-md-4 pull-right">
                                 <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
                                     <input type="text" id="search" name="search" placeholder="Search" v-model="search" >
@@ -69,7 +69,7 @@
                                     <option value="">Select topic</option>
                                 </select>
                             </div>
-    
+
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Filter</button>
                                 @if(!is_null($filters['type']) || !is_null($filters['grade_level']) || !is_null($filters['subject']) || !is_null($filters['topic']) || !is_null($filters['created_at']) )
@@ -97,7 +97,7 @@
                     <tbody>
                     @foreach($list as $item)
                         <tr>
-                            <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}@if($item->photo)<img src="{{ $item->photo }}" class="img-responsive">@endif</a></td>
+                            <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}</a> <lightbox thumbnail="{{ $item->photo }}" :images="['{{ $item->photo }}']"></lightbox> </td>
                             <td><img class="icon-images" src="{{ ($item->answers_have_images)? asset('images/icon-have-image.png') : asset('images/icon-no-image.png') }}" ></td>
                             <td>{{ ($item->topic)? $item->topic->subject->grade_level->name : '' }}</td>
                             <td>{{ ($item->topic)? $item->topic->subject->name : '' }}</td>
@@ -129,4 +129,5 @@
             </div>
         </div>
     </div>
+
 @endsection

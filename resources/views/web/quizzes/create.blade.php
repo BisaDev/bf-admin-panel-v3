@@ -85,7 +85,7 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-4">
                             <input type="text" name="created_at" class="form-control datepicker-general" placeholder="Created Date" v-model="created_at" >
@@ -126,7 +126,8 @@
                                 </td>
                                 <td>
                                     <div v-if="question.title">@{{ question.title }}</div>
-                                    <img v-if="question.photo" v-bind:src="question.photo" class="img-responsive thumbnail">
+
+                                    <lightbox v-if="question.photo" :thumbnail="question.photo" :images="[question.photo]"></lightbox>
                                 </td>
                                 <td><span :class="['icon', 'icon-picture', question.answers_have_images? 'text-success' : 'text-muted']"></span></td>
                                 <td>@{{ question.topic.name }}</td>

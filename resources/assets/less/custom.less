@@ -4,6 +4,11 @@
     }
 }
 
+table.model-list td img{
+  max-width: 100px;
+  max-height: 100px;
+}
+
 img.thumbnail{
     height: auto;
     margin-bottom: 0;
@@ -53,9 +58,9 @@ img.img-responsive{
             margin: 10px 0;
             padding: 6px;
             background: #FFF;
-        }    
+        }
     }
-    
+
     .weekday-title{
         h3{
             margin-top: 0;
@@ -165,7 +170,7 @@ span.icon-picture{
 
 // Draw and X on certain text fields
 .input-clear{
-    
+
     display: flex;
     justify-content: space-between;
     input{
@@ -284,3 +289,22 @@ span.icon-picture{
 
 
 @import "print";
+
+
+.lightbox{
+  z-index:999!important;
+}
+
+
+.lightbox__element{
+  width:auto!important;
+}
+table.model-list td img{
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.lightbox__image img{
+  max-width: 800px!important;
+  max-height: 800px!important;
+}
