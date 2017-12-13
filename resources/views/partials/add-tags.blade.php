@@ -7,6 +7,12 @@
             <option value="{{ $tag->name }}">{{ $tag->name }}</option>
             @endforeach
         @endif
+
+        @if(isset($oldtags))
+            @foreach($oldtags as $tag)
+            <option value="{{ $tag}}">{{ $tag }}</option>
+            @endforeach
+        @endif
         </select>
         @if($errors->has('tags'))
             <span class="help-block">

@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -8,6 +7,10 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+import Lightbox from 'vue-pure-lightbox';
+
+Vue.use(Lightbox);
 
 import index from './pages/index';
 import index_academic_content from './pages/index-academic-content';
@@ -21,20 +24,20 @@ import show_student from './pages/show-student';
 import print from './pages/print';
 
 const vue_elements = [
-    index,
-    index_academic_content,
-    index_users,
-    create,
-    create_question,
-    create_quiz,
-    create_activity_bucket,
-    create_meetup,
-    show_student,
-    print,
+  index,
+  index_academic_content,
+  index_users,
+  create,
+  create_question,
+  create_quiz,
+  create_activity_bucket,
+  create_meetup,
+  show_student,
+  print,
 ];
 
-vue_elements.forEach(function(element){
-    element.init();
+vue_elements.forEach(function(element) {
+  element.init();
 });
 
 /**
@@ -42,5 +45,3 @@ vue_elements.forEach(function(element){
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-

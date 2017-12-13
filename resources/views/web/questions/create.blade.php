@@ -71,14 +71,14 @@
                         </div>
                     </div>
 
-                    @include('partials.add-tags')
+                    @include('partials.add-tags',['oldtags'=>$prefilled_fields['tags']])
 
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
                         <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Question / Phrase:</label>
-                            <input type="text" name="title" class="form-control" value="{{ old('title') }}">
+                            <input type="text" name="title" class="form-control" value="{{ old('title', $prefilled_fields['title']) }}">
                             <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>
                             @if($errors->has('title'))
                                 <span class="help-block">
@@ -93,6 +93,7 @@
                                 <img v-else :src="photo" />
                                 <input name="photo" type="file" @change="createImage">
                             </div>
+
                             @if($errors->has('photo'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('photo') }}</strong>
@@ -100,7 +101,7 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="row" v-show="type_has_canvas">
                         <div class="col-xs-12">
                             <p class="text-mute" v-if="!photo">Add question image to create canvas</p>
@@ -119,7 +120,7 @@
                             <input type="hidden" name="add_more">
                             <a href="{{ route('questions.index') }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
-                            <button type="button" class="btn btn-md btn-primary" @click="saveQuestionAndAddMore">Create and add more</button>
+                            <button type="button" class="btn btn-md btn-primary" @click="saveQuestionAndAddMore">Create and Clone Question</button>
                         </div>
                     </div>
                 </div>

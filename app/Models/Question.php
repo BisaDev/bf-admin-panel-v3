@@ -17,9 +17,9 @@ class Question extends Model
         'Multiple choice',
         'Fill the blank',
         'Trivia',
-        'Apple pencil',
+        'PenPal',
         'Drag and drop',
-        'Touch select',
+        'Tap Time',
         'Research and report back'
     ];
 
@@ -40,18 +40,19 @@ class Question extends Model
     protected $searchableColumns = [
         'title', 'type', 'topic.name'
     ];
-    
+
     protected $appends = [
         'date_created'
     ];
 
-    public function getTitleAttribute($value){
+    public function getTitleAttribute($value)
+    {
         return str_replace('[#blank]', '_____', $value);
     }
 
     public function getPhotoAttribute($value)
     {
-        if (!$value || $value == ''){
+        if (!$value || $value == '') {
             return $value;
         }
         return asset(self::PHOTO_PATH . $value);
@@ -61,7 +62,7 @@ class Question extends Model
     {
         return json_decode($value);
     }
-    
+
     public function getDateCreatedAttribute()
     {
         return $this->created_at->format('m/d/Y');
@@ -86,7 +87,7 @@ class Question extends Model
     {
         $have_images = false;
         foreach ($this->answers as $answer) {
-            if($answer->photo){
+            if ($answer->photo) {
                 $have_images = true;
                 break;
             }
@@ -95,11 +96,12 @@ class Question extends Model
         return $have_images;
     }
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
-        
+
         self::deleting(function ($object) {
-            if(!is_null($object->getOriginal('photo')) || $object->getOriginal('photo') != ''){
+            if (!is_null($object->getOriginal('photo')) || $object->getOriginal('photo') != '') {
                 File::delete(public_path(self::PHOTO_PATH . $object->getOriginal('photo')));
             }
         });
