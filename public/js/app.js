@@ -25800,341 +25800,367 @@ if (token) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    init: function init() {
-        var domElement = 'create-question';
-        if (document.getElementById(domElement)) {
+  init: function init() {
+    var domElement = 'create-question';
+    if (document.getElementById(domElement)) {
 
-            __webpack_require__(39);
-            __webpack_require__(26);
+      __webpack_require__(39);
+      __webpack_require__(26);
 
-            this.execute();
-        }
-    },
-    execute: function execute() {
-        new Vue({
-            el: '#create-question',
-            data: {
-                children: [],
-                answer_groups: [],
-                type: '',
-                photo: '',
-                number_of_answers_allowed: 4,
-                allows_answers: false,
-                type_has_canvas: false,
-                type_shows_answers: true,
-                type_answer_has_additional_data: false
-            },
-            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__["a" /* default */]],
-            beforeMount: function beforeMount() {
-
-                //Look for question type and assign the selected to Vue data value
-                var type_select = $('#type');
-                if (type_select.length > 0) {
-                    this.type = type_select.children('option:selected').val();
-                    this.assignValuesOnType(this.type);
-                }
-            },
-            watch: {
-                photo: function photo(val) {
-
-                    var image = new Image();
-                    var vue_instance = this;
-
-                    image.onload = function () {
-
-                        if (vue_instance.type_has_canvas) {
-                            vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas));
-                            vue_instance.canvas.setDimensions({ width: image.width, height: image.height });
-                        }
-                    };
-
-                    image.src = val;
-                },
-                type: function type(val) {
-                    this.assignValuesOnType(val);
-                }
-            },
-            methods: {
-                addChildren: function addChildren(event, obj, group) {
-                    if (this.children.length < this.number_of_answers_allowed) {
-
-                        var obj_data = void 0,
-                            obj_id = void 0;
-                        if (obj !== undefined && obj !== null) {
-                            obj_data = this.prepareObjectData(obj);
-                            obj_id = obj.obj_id;
-                        } else {
-                            obj_data = '';
-                            obj_id = '';
-                        }
-
-                        this.children.push({
-                            name: this.type == 5 ? 'Touch select' : '',
-                            photo: '',
-                            is_correct: false,
-                            remove_photo: false,
-                            obj_id: obj_id,
-                            obj_data: obj_data,
-                            answer_group: group
-                        });
-                    }
-                },
-                removeChildren: function removeChildren(index) {
-                    //Get object_id and object_data to copy to another answer OR for removal in canvas later
-                    var obj_id = this.children[index].obj_id;
-                    var obj_data = this.children[index].obj_data;
-                    //Get answer_group for removal in case it's the last answer of the group
-                    var answer_group = this.children[index].answer_group;
-                    //Remove answer from answers array
-                    this.children.splice(index, 1);
-
-                    //Find another answer in the same group
-                    var group_member = _.find(this.children, function (g) {
-                        return g.answer_group == answer_group;
-                    });
-                    if (!group_member) {
-                        //If no other answer in group, remove group
-                        var group_index = _.findIndex(this.answer_groups, function (g) {
-                            return g.group_number == answer_group;
-                        });
-                        this.answer_groups.splice(group_index, 1);
-
-                        var answer_list = this.children;
-                        _.each(this.answer_groups, function (answer_group, index) {
-                            if (index >= group_index) {
-                                //Look for answers in a group above the one we deleted
-                                var answers = _.filter(answer_list, function (a) {
-                                    //Return answers 2 numbers above, if we removed Group 1, the index was 0,
-                                    //so we need answers on Group 2 to move them to Group 1
-                                    return a.answer_group == index + 2;
-                                });
-
-                                _.each(answers, function (answer) {
-                                    answer.answer_group = index + 1;
-                                });
-                            }
-                        });
-
-                        //Remove object from canvas only if there are no more answers in group
-                        if (this.type_has_canvas) {
-                            var canvas_objects = this.canvas.getObjects();
-
-                            var square = _.find(canvas_objects, function (o) {
-                                return o.obj_id == obj_id;
-                            });
-
-                            if (square) {
-                                this.canvas.remove(square);
-                            }
-                        }
-                    } else if (group_member && obj_id != "") {
-                        //If there's another answer in group and we're removing the answer with obj_id and obj_data, move data to
-                        //other answer in group
-                        group_member.obj_id = obj_id;
-                        group_member.obj_data = obj_data;
-                    }
-                },
-                saveQuestionAndAddMore: function saveQuestionAndAddMore(event) {
-                    $(event.target).siblings('[name="add_more"]').val('true');
-                    this.$el.children[0].submit();
-                },
-                createObject: function createObject(left, top, width, height, obj_id, id_offset) {
-                    var square = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Rect({
-                        width: width,
-                        height: height,
-                        left: left,
-                        top: top,
-                        stroke: '#000',
-                        fill: 'transparent'
-                    });
-
-                    var tag_text = 'Answer ' + (this.children.length + id_offset);
-
-                    if (this.type == 4) {
-                        tag_text = 'Group ' + (this.answer_groups.length + id_offset);
-                    }
-
-                    var tag = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Text(tag_text, {
-                        fontSize: 12,
-                        left: left + 5,
-                        top: top + 5
-                    });
-
-                    return new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Group([square, tag], {
-                        obj_id: obj_id
-                    });
-                },
-                prepareObjectData: function prepareObjectData(obj) {
-                    return JSON.stringify({ top: parseFloat(obj.top.toFixed(2)), left: parseFloat(obj.left.toFixed(2)), width: obj.width * obj.scaleX - 1, height: obj.height * obj.scaleY - 1 });
-                },
-                assignValuesOnType: function assignValuesOnType(type) {
-                    this.number_of_answers_allowed = 4;
-                    this.allows_answers = true;
-                    this.type_has_canvas = false;
-                    this.type_shows_answers = true;
-                    this.type_answer_has_additional_data = false;
-
-                    switch (type) {
-                        case '0':
-                            //Mutiple choice
-                            this.type_answer_has_additional_data = true;
-                            break;
-                        case '3': //Apple pencil
-                        case '6':
-                            //Research and Report back
-                            this.allows_answers = false;
-                            break;
-                        case '4':
-                            //Drag and drop
-                            this.type_has_canvas = true;
-                            this.type_answer_has_additional_data = true;
-                            break;
-                        case '5':
-                            //Touch select
-                            this.number_of_answers_allowed = 1;
-                            this.type_has_canvas = true;
-                            this.type_shows_answers = false;
-                            break;
-                    }
-                }
-            },
-            mounted: function mounted() {
-
-                if ($('#dnd-canvas').length > 0) {
-                    var canvas = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Canvas('dnd-canvas', {
-                        width: '0',
-                        height: '0',
-                        renderOnAddRemove: true
-                    });
-
-                    this.canvas = canvas;
-                    var started = void 0,
-                        x = void 0,
-                        y = void 0;
-                    var vue_instance = this;
-
-                    canvas.on('object:added', function (event) {
-                        var obj = event.target;
-
-                        if (!_.find(vue_instance.children, function (o) {
-                            return o.obj_id == obj.obj_id;
-                        })) {
-                            var group = 0;
-                            if (vue_instance.type == 4) {
-                                //Drag and Drop
-                                group = vue_instance.answer_groups.length + 1;
-
-                                vue_instance.answer_groups.push({
-                                    group_number: group
-                                });
-                            }
-                            vue_instance.addChildren(null, obj, group);
-                        }
-                    });
-
-                    canvas.on('object:removed', function (event) {
-
-                        var canvas_objects = canvas.getObjects();
-
-                        $.each(vue_instance.children, function (index, answer) {
-
-                            var square = _.find(canvas_objects, function (o) {
-                                return o.obj_id == answer.obj_id;
-                            });
-
-                            //If answer is second in group, it doesn't have canvas object information
-                            if (square) {
-                                var tag_text = 'Answer ' + (index + 1);
-
-                                if (vue_instance.type == 4) {
-                                    //Drag and drop
-                                    tag_text = 'Group ' + (index + 1);
-                                }
-
-                                square.getObjects()[1].setText(tag_text);
-                                canvas.renderAll();
-                            }
-                        });
-                    });
-
-                    canvas.on('object:modified', function (event) {
-                        var obj = event.target;
-
-                        var answer = _.find(vue_instance.children, function (o) {
-                            return o.obj_id == obj.obj_id;
-                        });
-
-                        answer.obj_data = vue_instance.prepareObjectData(obj);
-                    });
-
-                    canvas.on('mouse:down', function (options) {
-                        if (canvas.getActiveObject()) {
-                            return;
-                        }
-
-                        if (vue_instance.children.length < vue_instance.number_of_answers_allowed) {
-                            started = true;
-                            var pointer = canvas.getPointer(options.e);
-                            x = pointer.x;
-                            y = pointer.y;
-
-                            var group = vue_instance.createObject(x, y, 129, 129, _.uniqueId('rect'), 1);
-
-                            canvas.add(group);
-                            canvas.setActiveObject(group);
-                        }
-                    });
-                }
-
-                if (this.$el.attributes['data-answers'] !== undefined) {
-                    var answers = $.parseJSON(this.$el.attributes['data-answers'].value);
-                    var _vue_instance = this;
-
-                    $.each(answers, function (index, answer) {
-
-                        _vue_instance.children.push({
-                            name: answer.text,
-                            photo: answer.photo,
-                            is_correct: answer.is_correct == 1 || answer.is_correct == 'on',
-                            remove_photo: false,
-                            obj_id: 'rect' + index,
-                            obj_data: JSON.stringify(answer.object_data),
-                            answer_group: answer.group,
-                            id: answer.id
-                        });
-
-                        if (_vue_instance.type_has_canvas) {
-
-                            if (_vue_instance.type == 4 && answer.group != null) {
-                                //Drag and drop
-                                var group_exists = _.find(_vue_instance.answer_groups, function (g) {
-                                    return g.group_number == answer.group;
-                                });
-
-                                if (!group_exists) {
-                                    _vue_instance.answer_groups.push({
-                                        group_number: answer.group
-                                    });
-                                }
-                            }
-
-                            var object_data = answer.object_data;
-
-                            if (object_data !== null) {
-                                var group = _vue_instance.createObject(object_data.left, object_data.top, object_data.width, object_data.height, 'rect' + index, 0);
-
-                                _vue_instance.canvas.add(group);
-                            }
-                        }
-                    });
-
-                    if (_vue_instance.type_has_canvas) {
-                        _vue_instance.photo = $('#question_photo').attr('src');
-                    }
-                }
-            }
-        });
+      this.execute();
     }
+  },
+  execute: function execute() {
+    new Vue({
+      el: '#create-question',
+      data: {
+        children: [],
+        answer_groups: [],
+        type: '',
+        photo: '',
+        number_of_answers_allowed: 4,
+        allows_answers: false,
+        type_has_canvas: false,
+        type_shows_answers: true,
+        type_answer_has_additional_data: false
+      },
+      mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__["a" /* default */]],
+      beforeMount: function beforeMount() {
+
+        //Look for question type and assign the selected to Vue data value
+        var type_select = $('#type');
+        if (type_select.length > 0) {
+          this.type = type_select.children('option:selected').val();
+          this.assignValuesOnType(this.type);
+        }
+      },
+      watch: {
+        photo: function photo(val) {
+
+          var image = new Image();
+          var vue_instance = this;
+
+          image.onload = function () {
+
+            if (vue_instance.type_has_canvas) {
+              vue_instance.canvas.setBackgroundImage(val, vue_instance.canvas.renderAll.bind(vue_instance.canvas));
+              vue_instance.canvas.setDimensions({
+                width: image.width,
+                height: image.height
+              });
+            }
+          };
+
+          image.src = val;
+        },
+        type: function type(val) {
+          this.assignValuesOnType(val);
+        }
+      },
+      methods: {
+        setDefaultQuestions: function setDefaultQuestions(event) {
+          if (this.type == 0) {
+            for (var c = 0; c < 4; c++) {
+
+              this.children.push({
+                name: '',
+                photo: '',
+                is_correct: false,
+                remove_photo: false,
+                obj_id: '',
+                obj_data: '',
+                answer_group: null
+              });
+            }
+          } else {
+            this.children = [];
+          }
+        },
+        addChildren: function addChildren(event, obj, group) {
+          if (this.children.length < this.number_of_answers_allowed) {
+
+            var obj_data = void 0,
+                obj_id = void 0;
+            if (obj !== undefined && obj !== null) {
+              obj_data = this.prepareObjectData(obj);
+              obj_id = obj.obj_id;
+            } else {
+              obj_data = '';
+              obj_id = '';
+            }
+
+            this.children.push({
+              name: this.type == 5 ? 'Touch select' : '',
+              photo: '',
+              is_correct: false,
+              remove_photo: false,
+              obj_id: obj_id,
+              obj_data: obj_data,
+              answer_group: group
+            });
+          }
+        },
+        removeChildren: function removeChildren(index) {
+          //Get object_id and object_data to copy to another answer OR for removal in canvas later
+          var obj_id = this.children[index].obj_id;
+          var obj_data = this.children[index].obj_data;
+          //Get answer_group for removal in case it's the last answer of the group
+          var answer_group = this.children[index].answer_group;
+          //Remove answer from answers array
+          this.children.splice(index, 1);
+
+          //Find another answer in the same group
+          var group_member = _.find(this.children, function (g) {
+            return g.answer_group == answer_group;
+          });
+          if (!group_member) {
+            //If no other answer in group, remove group
+            var group_index = _.findIndex(this.answer_groups, function (g) {
+              return g.group_number == answer_group;
+            });
+            this.answer_groups.splice(group_index, 1);
+
+            var answer_list = this.children;
+            _.each(this.answer_groups, function (answer_group, index) {
+              if (index >= group_index) {
+                //Look for answers in a group above the one we deleted
+                var answers = _.filter(answer_list, function (a) {
+                  //Return answers 2 numbers above, if we removed Group 1, the index was 0,
+                  //so we need answers on Group 2 to move them to Group 1
+                  return a.answer_group == index + 2;
+                });
+
+                _.each(answers, function (answer) {
+                  answer.answer_group = index + 1;
+                });
+              }
+            });
+
+            //Remove object from canvas only if there are no more answers in group
+            if (this.type_has_canvas) {
+              var canvas_objects = this.canvas.getObjects();
+
+              var square = _.find(canvas_objects, function (o) {
+                return o.obj_id == obj_id;
+              });
+
+              if (square) {
+                this.canvas.remove(square);
+              }
+            }
+          } else if (group_member && obj_id != "") {
+            //If there's another answer in group and we're removing the answer with obj_id and obj_data, move data to
+            //other answer in group
+            group_member.obj_id = obj_id;
+            group_member.obj_data = obj_data;
+          }
+        },
+        saveQuestionAndAddMore: function saveQuestionAndAddMore(event) {
+          $(event.target).siblings('[name="add_more"]').val('true');
+          this.$el.children[0].submit();
+        },
+        createObject: function createObject(left, top, width, height, obj_id, id_offset) {
+          var square = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Rect({
+            width: width,
+            height: height,
+            left: left,
+            top: top,
+            stroke: '#000',
+            fill: 'transparent'
+          });
+
+          var tag_text = 'Answer ' + (this.children.length + id_offset);
+
+          if (this.type == 4) {
+            tag_text = 'Group ' + (this.answer_groups.length + id_offset);
+          }
+
+          var tag = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Text(tag_text, {
+            fontSize: 12,
+            left: left + 5,
+            top: top + 5
+          });
+
+          return new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Group([square, tag], {
+            obj_id: obj_id
+          });
+        },
+        prepareObjectData: function prepareObjectData(obj) {
+          return JSON.stringify({
+            top: parseFloat(obj.top.toFixed(2)),
+            left: parseFloat(obj.left.toFixed(2)),
+            width: obj.width * obj.scaleX - 1,
+            height: obj.height * obj.scaleY - 1
+          });
+        },
+        assignValuesOnType: function assignValuesOnType(type) {
+          this.number_of_answers_allowed = 4;
+          this.allows_answers = true;
+          this.type_has_canvas = false;
+          this.type_shows_answers = true;
+          this.type_answer_has_additional_data = false;
+
+          switch (type) {
+            case '0':
+              //Mutiple choice
+              this.type_answer_has_additional_data = true;
+              break;
+            case '3': //Apple pencil
+            case '6':
+              //Research and Report back
+              this.allows_answers = false;
+              break;
+            case '4':
+              //Drag and drop
+              this.type_has_canvas = true;
+              this.type_answer_has_additional_data = true;
+              break;
+            case '5':
+              //Touch select
+              this.number_of_answers_allowed = 1;
+              this.type_has_canvas = true;
+              this.type_shows_answers = false;
+              break;
+          }
+        }
+      },
+      mounted: function mounted() {
+
+        if ($('#dnd-canvas').length > 0) {
+          var canvas = new __WEBPACK_IMPORTED_MODULE_3_fabric__["fabric"].Canvas('dnd-canvas', {
+            width: '0',
+            height: '0',
+            renderOnAddRemove: true
+          });
+
+          this.canvas = canvas;
+          var started = void 0,
+              x = void 0,
+              y = void 0;
+          var vue_instance = this;
+
+          canvas.on('object:added', function (event) {
+            var obj = event.target;
+
+            if (!_.find(vue_instance.children, function (o) {
+              return o.obj_id == obj.obj_id;
+            })) {
+              var group = 0;
+              if (vue_instance.type == 4) {
+                //Drag and Drop
+                group = vue_instance.answer_groups.length + 1;
+
+                vue_instance.answer_groups.push({
+                  group_number: group
+                });
+              }
+              vue_instance.addChildren(null, obj, group);
+            }
+          });
+
+          canvas.on('object:removed', function (event) {
+
+            var canvas_objects = canvas.getObjects();
+
+            $.each(vue_instance.children, function (index, answer) {
+
+              var square = _.find(canvas_objects, function (o) {
+                return o.obj_id == answer.obj_id;
+              });
+
+              //If answer is second in group, it doesn't have canvas object information
+              if (square) {
+                var tag_text = 'Answer ' + (index + 1);
+
+                if (vue_instance.type == 4) {
+                  //Drag and drop
+                  tag_text = 'Group ' + (index + 1);
+                }
+
+                square.getObjects()[1].setText(tag_text);
+                canvas.renderAll();
+              }
+            });
+          });
+
+          canvas.on('object:modified', function (event) {
+            var obj = event.target;
+
+            var answer = _.find(vue_instance.children, function (o) {
+              return o.obj_id == obj.obj_id;
+            });
+
+            answer.obj_data = vue_instance.prepareObjectData(obj);
+          });
+
+          canvas.on('mouse:down', function (options) {
+            if (canvas.getActiveObject()) {
+              return;
+            }
+
+            if (vue_instance.children.length < vue_instance.number_of_answers_allowed) {
+              started = true;
+              var pointer = canvas.getPointer(options.e);
+              x = pointer.x;
+              y = pointer.y;
+
+              var group = vue_instance.createObject(x, y, 129, 129, _.uniqueId('rect'), 1);
+
+              canvas.add(group);
+              canvas.setActiveObject(group);
+            }
+          });
+        }
+
+        if (this.$el.attributes['data-answers'] !== undefined) {
+          var answers = $.parseJSON(this.$el.attributes['data-answers'].value);
+          var _vue_instance = this;
+
+          $.each(answers, function (index, answer) {
+
+            _vue_instance.children.push({
+              name: answer.text,
+              photo: answer.photo,
+              is_correct: answer.is_correct == 1 || answer.is_correct == 'on',
+              remove_photo: false,
+              obj_id: 'rect' + index,
+              obj_data: JSON.stringify(answer.object_data),
+              answer_group: answer.group,
+              id: answer.id
+            });
+
+            if (_vue_instance.type_has_canvas) {
+
+              if (_vue_instance.type == 4 && answer.group != null) {
+                //Drag and drop
+                var group_exists = _.find(_vue_instance.answer_groups, function (g) {
+                  return g.group_number == answer.group;
+                });
+
+                if (!group_exists) {
+                  _vue_instance.answer_groups.push({
+                    group_number: answer.group
+                  });
+                }
+              }
+
+              var object_data = answer.object_data;
+
+              if (object_data !== null) {
+                var group = _vue_instance.createObject(object_data.left, object_data.top, object_data.width, object_data.height, 'rect' + index, 0);
+
+                _vue_instance.canvas.add(group);
+              }
+            }
+          });
+
+          if (_vue_instance.type_has_canvas) {
+            _vue_instance.photo = $('#question_photo').attr('src');
+          }
+        }
+      }
+    });
+  }
 });
 
 /***/ }),

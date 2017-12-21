@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-xs-12"><hr/></div>
         </div>
-    
+
         {{-- CLASSMATES ROW --}}
         <div class="row print-section">
             <div class="col-xs-12">
@@ -56,7 +56,7 @@
             @endforeach
         </div>
     </div>
-        
+
     <div class="container-fluid meetup-notes">
         {{-- NOTES ROW --}}
         <div class="container-alt">
@@ -94,8 +94,12 @@
         <hr/>
     </div>
 
+
+
+
     <div class="container-alt">
         @foreach($meetup->graded_quizzes as $key => $graded_quiz)
+        @if($quizzes_performance[$graded_quiz->id]['percentage']!=0)
             <div class="quiz-container">
                 <div class="row print-section quiz-header">
                     <div class="col-xs-6">
@@ -154,13 +158,14 @@
                     </div>
                 </div>
                 @endif
-            
+
                 @if(!$loop->last)
                 <div class="row">
                     <div class="col-xs-12"><hr/></div>
                 </div>
                 @endif
             </div>
+            @endif
         @endforeach
     </div>
 

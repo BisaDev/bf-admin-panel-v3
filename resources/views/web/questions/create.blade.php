@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 {{ $errors->has('type')? 'has-error' : '' }}">
                             <label class="control-label" for="type">Type:</label>
-                            <select id="type" name="type" class="form-control" v-model="type">
+                            <select id="type" name="type" class="form-control" v-model="type" @change="setDefaultQuestions">
                                 <option value="">Select Type</option>
                                 @foreach($types as $key => $type)
                                 <option value="{{ $key }}" {{ (!is_null(old('type', $prefilled_fields['type'])) && (int)old('type', $prefilled_fields['type']) === $key)? 'selected' : '' }}>{{ $type }}</option>
@@ -71,14 +71,14 @@
                         </div>
                     </div>
 
-                    @include('partials.add-tags',['oldtags'=>$prefilled_fields['tags']])
+                    @include('partials.add-tags')
 
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
                         <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Question / Phrase:</label>
-                            <input type="text" name="title" class="form-control" value="{{ old('title', $prefilled_fields['title']) }}">
+                            <input type="text" name="title" class="form-control" value="{{ old('title') }}">
                             <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>
                             @if($errors->has('title'))
                                 <span class="help-block">
@@ -93,7 +93,6 @@
                                 <img v-else :src="photo" />
                                 <input name="photo" type="file" @change="createImage">
                             </div>
-
                             @if($errors->has('photo'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('photo') }}</strong>
@@ -120,7 +119,7 @@
                             <input type="hidden" name="add_more">
                             <a href="{{ route('questions.index') }}" class="btn btn-md btn-info">Cancel</a>
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
-                            <button type="button" class="btn btn-md btn-primary" @click="saveQuestionAndAddMore">Create and Clone Question</button>
+                            <button type="button" class="btn btn-md btn-primary" @click="saveQuestionAndAddMore">Create and add more</button>
                         </div>
                     </div>
                 </div>
