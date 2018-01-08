@@ -1,5 +1,5 @@
 const {mix} = require('laravel-mix');
-mix.browserSync('brightfoxv2.dev');
+mix.browserSync('brightfoxv2.test/');
 
 /*
  |--------------------------------------------------------------------------
