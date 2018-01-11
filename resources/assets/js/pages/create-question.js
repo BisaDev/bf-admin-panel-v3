@@ -1,6 +1,7 @@
 import getAcademicContent from './mixins/getAcademicContent';
 import imagePreview from './mixins/imagePreview';
 import tagRepository from './mixins/tagRepository';
+import cropImages from './mixins/cropImages';
 import {
   fabric
 } from 'fabric'
@@ -30,7 +31,7 @@ export default {
         type_shows_answers: true,
         type_answer_has_additional_data: false,
       },
-      mixins: [getAcademicContent, imagePreview, tagRepository],
+      mixins: [getAcademicContent, imagePreview, tagRepository, cropImages],
       beforeMount: function() {
 
         //Look for question type and assign the selected to Vue data value
@@ -64,6 +65,15 @@ export default {
         },
       },
       methods: {
+        /**
+         * Handle the data when the crop process is finished.
+         *
+         * @param {String} imageData
+         */
+        handleCrop(imageData) {
+          this.photo = imageData;
+        },
+
         setDefaultQuestions(event) {
           if (this.type == 0) {
             for (var c = 0; c < 4; c++) {
