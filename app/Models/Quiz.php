@@ -19,9 +19,9 @@ class Quiz extends Model
         'Trivia: Celebrity', //id: 5
         'Trivia: Forbidden fruit', //id: 6
         'Trivia: Questions', //id: 7
-        'Apple pencil', //id: 8
+        'PenPal', //id: 8
         'Drag and Drop', //id: 9
-        'Touch select', //id: 10
+        'Tap Time', //id: 10
         'Research and report back' //id: 11
     ];
     
