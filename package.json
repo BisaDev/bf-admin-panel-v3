@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "bootstrap-tagsinput": "^0.7.1",
+    "cropperjs": "^1.2.2",
     "lightbox2": "^2.10.0",
     "vue-pure-lightbox": "^2.1.4"
   }

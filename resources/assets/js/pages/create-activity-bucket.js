@@ -72,12 +72,13 @@ export default {
 
                     //Use quiz id (check Quiz model)
                     switch(quiz_type_key){
-                        case '5':
-                        case '6':
-                        case '7':
-                        case '8':
-                        case '9':
-                        case '10':
+                        case '5': // Trivia
+                        case '6': // Trivia
+                        case '7': // Trivia
+                        case '8': // PenPal
+                        case '9': // Drag and Drop
+                        case '10': // Tap Time
+                        case '11': // Research and Report Back
                             allow = false;
                     }
                     

@@ -21,7 +21,7 @@
         @include('partials.sidebar')
 
         <div class="content-page">
-            <div class="content">
+            <div id="content-page-content" class="content">
                 <div class="container">
                     @yield('breadcrumbs')
                     @yield('content')
