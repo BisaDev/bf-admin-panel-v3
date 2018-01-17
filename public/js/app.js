@@ -34658,7 +34658,7 @@ exports.push([module.i, "/*!\n * Cropper.js v1.2.2\n * https://github.com/fengyu
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(28)();
-exports.push([module.i, "\n.crop-wrapper[data-v-4948a2bc] {\n    position: absolute;\n    padding: 15px;\n    top: 0;\n    left: 0;\n    width: 95%;\n    z-index: 1000;\n}\n.crop-container[data-v-4948a2bc] {\n    margin-bottom: 1em;\n    height: 500px;\n}\n.crop-image[data-v-4948a2bc] {\n    /* This rule is required, see: https://github.com/fengyuanchen/cropperjs#usage */\n    max-width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.crop-wrapper[data-v-4948a2bc] {\n    position: absolute;\n    padding: 15px;\n    top: 0;\n    left: 50%;\n    -webkit-transform: translateX(-50%);\n            transform: translateX(-50%);\n    width: 80%;\n    z-index: 1000;\n}\n.crop-container[data-v-4948a2bc] {\n    margin-bottom: 1em;\n    height: 500px;\n}\n.crop-image[data-v-4948a2bc] {\n    /* This rule is required, see: https://github.com/fengyuanchen/cropperjs#usage */\n    max-width: 100%;\n}\n", ""]);
 
 /***/ }),
 /* 95 */

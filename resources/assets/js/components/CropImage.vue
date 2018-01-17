@@ -101,8 +101,9 @@
         position: absolute;
         padding: 15px;
         top: 0;
-        left: 0;
-        width: 95%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
         z-index: 1000;
     }
 
