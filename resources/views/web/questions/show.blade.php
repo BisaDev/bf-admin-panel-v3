@@ -55,6 +55,13 @@
                         <p>{{ ($item->topic)? $item->topic->name : '' }}</p>
                     </div>
                 </div>
+    
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="control-label">Created by:</label>
+                        <p>{{ ($item->user)? $item->user->full_name : '' }}</p>
+                    </div>
+                </div>
 
                 <div class="row"><div class="col-sm-12"><hr/></div></div>
 

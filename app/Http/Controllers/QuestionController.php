@@ -74,6 +74,7 @@ class QuestionController extends Controller
             'subject' => 'asc',
             'topic' => 'asc',
             'type' => 'asc',
+            'user' => 'asc',
             'created_at' => 'asc',
         ];
         $sort = ['column' => 'created_at', 'value' => 'desc'];
@@ -108,6 +109,11 @@ class QuestionController extends Controller
 
             case 'type':
                 $query->orderBy('type', $sort['value']);
+                break;
+    
+            case 'user':
+                $query->leftJoin('users', 'users.id', '=', 'questions.user_id')
+                    ->orderBy('users.name', $sort['value']);
                 break;
 
             case 'created_at':
@@ -165,7 +171,8 @@ class QuestionController extends Controller
         $question = Question::create([
             'type' => json_encode(['key' => $question_type, 'name' => $this->types[$question_type]], JSON_FORCE_OBJECT),
             'title' => $request->input('title'),
-            'topic_id' => $request->input('topic')
+            'topic_id' => $request->input('topic'),
+            'user_id' => auth()->user()->id
         ]);
 
         if ($request->hasFile('photo')) {

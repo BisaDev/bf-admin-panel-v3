@@ -89,6 +89,7 @@
                         <th nowrap>Subject <a href="{{ route('questions.index').'?sort_column=subject&sort_value='.$sort_columns['subject'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th nowrap>Topic <a href="{{ route('questions.index').'?sort_column=topic&sort_value='.$sort_columns['topic'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th nowrap>Type <a href="{{ route('questions.index').'?sort_column=type&sort_value='.$sort_columns['type'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
+                        <th nowrap>User <a href="{{ route('questions.index').'?sort_column=user&sort_value='.$sort_columns['user'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th nowrap>Created <a href="{{ route('questions.index').'?sort_column=created_at&sort_value='.$sort_columns['created_at'] }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="fa fa-sort"></a></th>
                         <th width="90" class="text-center">Edit</th>
                         <th width="90" class="text-center">Delete</th>
@@ -103,6 +104,7 @@
                             <td>{{ ($item->topic)? $item->topic->subject->name : '' }}</td>
                             <td>{{ ($item->topic)? $item->topic->name : '' }}</td>
                             <td>{{ $item->type->name }}</td>
+                            <td>{{ ($item->user)? $item->user->full_name : '' }}</td>
                             <td>{{ $item->date_created }}</td>
                             <td class="text-center"><a href="{{ route('questions.edit', $item->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">

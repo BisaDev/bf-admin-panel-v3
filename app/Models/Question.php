@@ -29,7 +29,7 @@ class Question extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'image', 'type', 'topic_id'
+        'title', 'image', 'type', 'topic_id', 'user_id'
     ];
 
     /**
@@ -76,6 +76,11 @@ class Question extends Model
     public function topic()
     {
         return $this->belongsTo(Topic::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function quizzes()

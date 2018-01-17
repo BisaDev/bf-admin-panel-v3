@@ -13329,8 +13329,8 @@ var imagePreview = {
                                     title = 'Invalid Image';
                                     text = 'Image must be 1366 x 512.';
                                     break;
-                                case '3': //Apple pencil / Pen Pal
-                                case '5': //Touch select / Tap Time
+                                case '3': //Apple pencil
+                                case '5': //Touch select
                                 case '6':
                                     //Research and Report back
                                     title = 'Invalid Image';
