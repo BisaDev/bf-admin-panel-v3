@@ -14,7 +14,7 @@ class AddUserToQuestionsTable extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->text('user_id')->after('topic_id')->nullable();
+            $table->integer('user_id')->unsigned()->after('topic_id')->nullable();
             
             $table->foreign('user_id')
                 ->references('id')->on('users')
