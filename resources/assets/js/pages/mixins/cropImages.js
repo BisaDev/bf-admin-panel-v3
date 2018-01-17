@@ -17,7 +17,11 @@ export default {
          * @returns {*|void}
          */
         openCropImage(e, handleCrop, imageType, index = null) {
+
+            let file_input = $(e.target);
+
             if (imageType === '') {
+                file_input.val('');
                 return this.$_cropImages_alertSelectQuestionType();
             }
 
@@ -47,6 +51,7 @@ export default {
                  */
                 const cropToolConstructor = Vue.extend(Object.assign({}, cropImage, {
                     destroyed() {
+                        file_input.val('');
                         contentPageContent.removeChild(this.$el);
                     }
                 }));
