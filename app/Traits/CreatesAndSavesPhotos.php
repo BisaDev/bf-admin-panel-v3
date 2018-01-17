@@ -6,9 +6,15 @@ use Image;
 
 trait CreatesAndSavesPhotos
 {
-    public function createAndSavePhoto(UploadedFile $photo, $path, $width = 512, $height = 512)
+    public function createAndSavePhoto($photo, $path, $width = 512, $height = 512)
     {
-        $filename = str_replace('.', '_', microtime(true)) . '.' . $photo->getClientOriginalExtension();
+        $filename = str_replace('.', '_', microtime(true)) . '.';
+    
+        if($photo instanceof UploadedFile){
+            $filename .= $photo->getClientOriginalExtension();
+        } else {
+            $filename .= 'jpg';
+        }
         
         $image = Image::make($photo);
         

@@ -37,6 +37,7 @@
                                 <span v-if="!answer.photo">Drag an image or click to browse</span>
                                 <img v-else :src="answer.photo" />
                                 <input v-bind:name="'answers['+index2+'][photo]'" type="file" @change="createImage($event, index2)">
+                                <input v-bind:name="'answers['+index2+'][photo_cropped]'" type="hidden" :value="answer.photo" >
                             </div>
                             <div class="checkbox checkbox-info m-b-0" v-if="answer.photo">
                                 <input v-bind:id="'remove_photo_'+index2" type="checkbox" v-model="answer.remove_photo" v-bind:name="'answers['+index2+'][remove_photo]'">

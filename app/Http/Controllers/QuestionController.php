@@ -161,9 +161,9 @@ class QuestionController extends Controller
         $this->validate($request, [
             'type' => 'required',
             'topic' => 'required',
-            'title' => 'required_without:photo',
+            'title' => 'required_without:photo_cropped',
             'answers' => 'required_unless:type,3,type,6|require_one_correct_for_multiple_choice:'.$request->input('type'), //Apple Pencil and Research and Report back don't need answers
-            'answers.*.text' => 'required_without:answers.*.photo',
+            'answers.*.text' => 'required_without:answers.*.photo_cropped',
         ]);
 
         $question_type = $request->input('type');
@@ -175,10 +175,10 @@ class QuestionController extends Controller
             'user_id' => auth()->user()->id
         ]);
 
-        if ($request->hasFile('photo')) {
+        if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
             $image_width = $this->question_type_resize($question_type);
 
-            $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, $image_width, null);
+            $question->photo = $this->createAndSavePhoto($request->input('photo_cropped'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
         }
 
