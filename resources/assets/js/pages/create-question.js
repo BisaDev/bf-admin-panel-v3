@@ -70,25 +70,20 @@ export default {
          *
          * @param {String} imageData
          */
-        handleCrop(imageData) {
-          this.photo = imageData;
+        handleCrop(imageData, index = null) {
+
+          if (index === null) {
+            this.photo = imageData;
+          } else {
+            this.children[index].photo = imageData;
+          }
         },
 
         setDefaultQuestions(event) {
           if (this.type == 0) {
-            for (var c = 0; c < 4; c++) {
-
-              this.children.push({
-                name: '',
-                photo: '',
-                is_correct: false,
-                remove_photo: false,
-                obj_id: '',
-                obj_data: '',
-                answer_group: null
-              });
+            for (let c = 0; c < 4; c++) {
+              this.addChildren();
             }
-
           } else {
             this.children = [];
           }

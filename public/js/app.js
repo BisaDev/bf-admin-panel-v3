@@ -25861,7 +25861,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * handler.
          */
         crop: function crop() {
-            this.options.handleCrop(this.cropTool.getCroppedCanvas().toDataURL('image/jpeg'));
+
+            this.options.handleCrop(this.cropTool.getCroppedCanvas().toDataURL('image/jpeg'), this.options.index);
 
             this.close();
         }
@@ -26277,21 +26278,19 @@ if (token) {
          * @param {String} imageData
          */
         handleCrop: function handleCrop(imageData) {
-          this.photo = imageData;
+          var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+
+          if (index === null) {
+            this.photo = imageData;
+          } else {
+            this.children[index].photo = imageData;
+          }
         },
         setDefaultQuestions: function setDefaultQuestions(event) {
           if (this.type == 0) {
             for (var c = 0; c < 4; c++) {
-
-              this.children.push({
-                name: '',
-                photo: '',
-                is_correct: false,
-                remove_photo: false,
-                obj_id: '',
-                obj_data: '',
-                answer_group: null
-              });
+              this.addChildren();
             }
           } else {
             this.children = [];
@@ -26992,7 +26991,7 @@ if (token) {
          * @returns {Object}
          */
         $_cropImages_buildCropOptions: function $_cropImages_buildCropOptions(imageDataURL, handleCrop, imageType, index) {
-            var options = { imageDataURL: imageDataURL, handleCrop: handleCrop, fixedCropBox: true, size: null };
+            var options = { imageDataURL: imageDataURL, handleCrop: handleCrop, fixedCropBox: true, size: null, index: index };
 
             switch (imageType) {
                 case '4':

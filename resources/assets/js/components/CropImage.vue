@@ -85,8 +85,10 @@
              * handler.
              */
             crop() {
+
                 this.options.handleCrop(
-                    this.cropTool.getCroppedCanvas().toDataURL('image/jpeg')
+                    this.cropTool.getCroppedCanvas().toDataURL('image/jpeg'),
+                    this.options.index
                 );
 
                 this.close();

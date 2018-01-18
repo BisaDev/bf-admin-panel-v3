@@ -101,7 +101,7 @@ export default {
          * @returns {Object}
          */
         $_cropImages_buildCropOptions(imageDataURL, handleCrop, imageType, index) {
-            const options = {imageDataURL, handleCrop, fixedCropBox: true, size: null};
+            const options = {imageDataURL, handleCrop, fixedCropBox: true, size: null, index: index};
 
             switch (imageType) {
                 case '4': // Drag & Drop

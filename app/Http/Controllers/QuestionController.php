@@ -191,8 +191,8 @@ class QuestionController extends Controller
                     'question_id' => $question->id
                 ]);
 
-                if ($request->hasFile('answers.'.$key.'.photo')) {
-                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, null, null);
+                if ($request->has('answers.'.$key.'.photo_cropped') && $request->input('answers.'.$key.'.photo_cropped')) {
+                    $answer->photo = $this->createAndSavePhoto($request->input('answers.'.$key.'.photo_cropped'), Answer::PHOTO_PATH, null, null);
                     $answer->save();
                 }
 
@@ -266,7 +266,7 @@ class QuestionController extends Controller
             'type' => 'required',
             'topic' => 'required',
             'answers' => 'required_unless:type,3|require_one_correct_for_multiple_choice:'.$request->input('type'),
-            'answers.*.text' => 'required_without_all:answers.*.id,answers.*.photo|required_with:answers.*.remove_photo',
+            'answers.*.text' => 'required_without_all:answers.*.id,answers.*.photo_cropped|required_with:answers.*.remove_photo',
         ]);
 
         $question_type = $request->input('type');
@@ -275,15 +275,15 @@ class QuestionController extends Controller
         $question->title = $request->input('title');
         $question->topic_id = $request->input('topic');
         $question->save();
-
-        if ($request->hasFile('photo')) {
+    
+        if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
             if (!is_null($question->getOriginal('photo')) || $question->getOriginal('photo') != '') {
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
             }
 
             $image_width = $this->question_type_resize($question_type);
 
-            $question->photo = $this->createAndSavePhoto($request->file('photo'), Question::PHOTO_PATH, $image_width, null);
+            $question->photo = $this->createAndSavePhoto($request->input('photo_cropped'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
         }
 
@@ -317,13 +317,13 @@ class QuestionController extends Controller
                         'question_id' => $question->id
                     ]);
                 }
-
-                if ($request->hasFile('answers.'.$key.'.photo')) {
+    
+                if ($request->has('answers.'.$key.'.photo_cropped') && $request->input('answers.'.$key.'.photo_cropped')) {
                     if (!is_null($answer->getOriginal('photo')) || $answer->getOriginal('photo') != '') {
                         File::delete(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
                     }
 
-                    $answer->photo = $this->createAndSavePhoto($request->file('answers.'.$key.'.photo'), Answer::PHOTO_PATH, null, null);
+                    $answer->photo = $this->createAndSavePhoto($request->input('answers.'.$key.'.photo_cropped'), Answer::PHOTO_PATH, null, null);
                     $answer->save();
                 }
 
