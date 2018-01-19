@@ -25825,12 +25825,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.cropTool = new __WEBPACK_IMPORTED_MODULE_0_cropperjs___default.a(this.$refs.image, {
                 viewMode: 2,
-                dragMode: 'none',
                 zoomable: false,
+                dragMode: 'none',
                 // The crop box will be resizable only if it is not fixed.
-                cropBoxResizable: !this.options.fixedCropBox,
+                //cropBoxResizable: !this.options.fixedCropBox,
                 // The aspect ratio es free only if the size isn't a square.
-                aspectRatio: this.options.size === 'square' ? 1 : NaN,
+                aspectRatio: vm.options.size === 'square' ? 1 : vm.options.size.width / vm.options.size.height,
 
                 ready: function ready() {
                     vm.cropToolReady = true;
@@ -25844,6 +25844,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         });
                     }
                 }
+            });
+
+            $(this.$refs.image).on('cropmove', function (e) {
+                // Call getData() or getImageData() or getCanvasData() or
+                // whatever fits your needs
+                var data = vm.cropTool.getData();
+
+                // Modify the dimensions to quit from disabled mode
+                if (data.height < vm.options.size.height || data.width < vm.options.size.width) {
+                    data.width = vm.options.size.width;
+                    data.height = vm.options.size.height;
+
+                    vm.cropTool.setData(data);
+                }
+
+                //console.log("data = %o", data);
+
+                // Analyze the result
+                if (data.height < vm.options.size.height || data.width < vm.options.size.width) {
+                    //console.log("Minimum size reached!");
+
+                    // Stop resize
+                    return false;
+                }
+
+                // Continue resize
+                return true;
             });
         },
 
@@ -26908,10 +26935,10 @@ if (token) {
             var index = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
 
-            var file_input = $(e.target);
+            var file_input = e.target;
 
             if (imageType === '') {
-                file_input.val('');
+                file_input.value = null;
                 return this.$_cropImages_alertSelectQuestionType();
             }
 
@@ -26941,19 +26968,55 @@ if (token) {
                  */
                 var cropToolConstructor = Vue.extend(Object.assign({}, __WEBPACK_IMPORTED_MODULE_1__components_cropImage___default.a, {
                     destroyed: function destroyed() {
-                        file_input.val('');
+                        file_input.value = null;
                         contentPageContent.removeChild(this.$el);
                     }
                 }));
 
-                /*
-                 * Instantiate the Vue component and mount it over the element
-                 * created before, then just call the "open" method of the
-                 * component to start using it.
-                 */
-                var cropTool = new cropToolConstructor();
-                cropTool.$mount(cropToolModal);
-                cropTool.open(_this.$_cropImages_buildCropOptions(loadEvent.target.result, handleCrop, imageType, index));
+                var $this = _this;
+
+                $this.$_cropImages_validateImageRequirements(loadEvent.target.result, imageType, function (invalid) {
+
+                    if (invalid) {
+                        file_input.value = null;
+                        var title = void 0,
+                            text = void 0;
+
+                        switch (imageType) {
+                            case '4':
+                                //Drag and drop
+                                title = 'Invalid Image';
+                                text = 'Image must be at least 1366 x 512.';
+                                break;
+                            case '3': //Apple pencil
+                            case '5': //Touch select
+                            case '6':
+                                //Research and Report back
+                                title = 'Invalid Image';
+                                text = 'Image must be at least 1024 x 512.';
+                                break;
+                        }
+
+                        __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default()({
+                            title: title,
+                            text: text,
+                            type: 'warning',
+                            confirmButtonColor: '#23527c',
+                            cancelButtonColor: '#f05050',
+                            confirmButtonText: 'Dismiss'
+                        });
+                    } else {
+
+                        /*
+                         * Instantiate the Vue component and mount it over the element
+                         * created before, then just call the "open" method of the
+                         * component to start using it.
+                         */
+                        var cropTool = new cropToolConstructor();
+                        cropTool.$mount(cropToolModal);
+                        cropTool.open($this.$_cropImages_buildCropOptions(loadEvent.target.result, handleCrop, imageType, index));
+                    }
+                });
             };
 
             fileReader.readAsDataURL(files[0]);
@@ -26979,6 +27042,37 @@ if (token) {
                 cancelButtonColor: '#f05050',
                 confirmButtonText: 'Dismiss'
             });
+        },
+        $_cropImages_validateImageRequirements: function $_cropImages_validateImageRequirements(image_src, type, callback) {
+            var image = new Image();
+
+            image.onload = function () {
+
+                var invalid_image = false;
+
+                switch (type) {
+                    case '4':
+                        //Drag and drop
+                        if (image.width < 1366 || image.height < 512) {
+                            invalid_image = true;
+                        }
+                        break;
+                    case '3': //Apple pencil
+                    case '5': //Touch select
+                    case '6':
+                        //Research and Report back
+                        if (image.width < 1024 || image.height < 512) {
+                            invalid_image = true;
+                        }
+                        break;
+                    case '':
+                        invalid_image = true;
+                }
+
+                callback(invalid_image);
+            };
+
+            image.src = image_src;
         },
 
 

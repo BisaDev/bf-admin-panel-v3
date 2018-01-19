@@ -18,10 +18,10 @@ export default {
          */
         openCropImage(e, handleCrop, imageType, index = null) {
 
-            let file_input = $(e.target);
+            const file_input = e.target;
 
             if (imageType === '') {
-                file_input.val('');
+                file_input.value = null;
                 return this.$_cropImages_alertSelectQuestionType();
             }
 
@@ -51,21 +51,54 @@ export default {
                  */
                 const cropToolConstructor = Vue.extend(Object.assign({}, cropImage, {
                     destroyed() {
-                        file_input.val('');
+                        file_input.value = null;
                         contentPageContent.removeChild(this.$el);
                     }
                 }));
 
-                /*
-                 * Instantiate the Vue component and mount it over the element
-                 * created before, then just call the "open" method of the
-                 * component to start using it.
-                 */
-                const cropTool = new cropToolConstructor();
-                cropTool.$mount(cropToolModal);
-                cropTool.open(
-                    this.$_cropImages_buildCropOptions(loadEvent.target.result, handleCrop, imageType, index)
-                );
+                const $this = this;
+
+                $this.$_cropImages_validateImageRequirements(loadEvent.target.result, imageType, function(invalid){
+
+                    if(invalid){
+                        file_input.value = null;
+                        let title, text;
+
+                        switch (imageType) {
+                            case '4': //Drag and drop
+                                title = 'Invalid Image';
+                                text = 'Image must be at least 1366 x 512.';
+                                break;
+                            case '3': //Apple pencil
+                            case '5': //Touch select
+                            case '6': //Research and Report back
+                                title = 'Invalid Image';
+                                text = 'Image must be at least 1024 x 512.';
+                                break;
+                        }
+
+                        swal({
+                            title: title,
+                            text: text,
+                            type: 'warning',
+                            confirmButtonColor: '#23527c',
+                            cancelButtonColor: '#f05050',
+                            confirmButtonText: 'Dismiss'
+                        })
+                    }else{
+
+                        /*
+                         * Instantiate the Vue component and mount it over the element
+                         * created before, then just call the "open" method of the
+                         * component to start using it.
+                         */
+                        const cropTool = new cropToolConstructor();
+                        cropTool.$mount(cropToolModal);
+                        cropTool.open(
+                            $this.$_cropImages_buildCropOptions(loadEvent.target.result, handleCrop, imageType, index)
+                        );
+                    }
+                });
             };
 
             fileReader.readAsDataURL(files[0]);
@@ -90,6 +123,37 @@ export default {
                 cancelButtonColor: '#f05050',
                 confirmButtonText: 'Dismiss',
             });
+        },
+
+
+        $_cropImages_validateImageRequirements(image_src, type, callback) {
+            const image = new Image();
+
+            image.onload = function () {
+
+                let invalid_image = false;
+
+                switch (type) {
+                    case '4': //Drag and drop
+                        if (image.width < 1366 || image.height < 512) {
+                            invalid_image = true;
+                        }
+                        break;
+                    case '3': //Apple pencil
+                    case '5': //Touch select
+                    case '6': //Research and Report back
+                        if (image.width < 1024 || image.height < 512) {
+                            invalid_image = true;
+                        }
+                        break;
+                    case '':
+                        invalid_image = true;
+                }
+
+                callback(invalid_image);
+            };
+
+            image.src = image_src
         },
 
         /**

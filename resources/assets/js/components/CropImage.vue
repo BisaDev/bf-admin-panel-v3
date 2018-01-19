@@ -51,12 +51,12 @@
 
                 this.cropTool = new Cropper(this.$refs.image, {
                     viewMode: 2,
-                    dragMode: 'none',
                     zoomable: false,
+                    dragMode: 'none',
                     // The crop box will be resizable only if it is not fixed.
-                    cropBoxResizable: !this.options.fixedCropBox,
+                    //cropBoxResizable: !this.options.fixedCropBox,
                     // The aspect ratio es free only if the size isn't a square.
-                    aspectRatio: this.options.size === 'square' ? 1 : NaN,
+                    aspectRatio: vm.options.size === 'square' ? 1 : (vm.options.size.width/vm.options.size.height),
 
                     ready() {
                         vm.cropToolReady = true;
@@ -70,6 +70,33 @@
                             });
                         }
                     },
+                });
+
+                $(this.$refs.image).on('cropmove', function (e) {
+                    // Call getData() or getImageData() or getCanvasData() or
+                    // whatever fits your needs
+                    let data = vm.cropTool.getData();
+
+                    // Modify the dimensions to quit from disabled mode
+                    if (data.height < vm.options.size.height || data.width < vm.options.size.width) {
+                        data.width = vm.options.size.width;
+                        data.height = vm.options.size.height;
+
+                        vm.cropTool.setData(data);
+                    }
+
+                    //console.log("data = %o", data);
+
+                    // Analyze the result
+                    if (data.height < vm.options.size.height || data.width < vm.options.size.width) {
+                        //console.log("Minimum size reached!");
+
+                        // Stop resize
+                        return false;
+                    }
+
+                    // Continue resize
+                    return true;
                 });
             },
 
