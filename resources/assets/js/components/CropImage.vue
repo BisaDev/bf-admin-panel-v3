@@ -127,9 +127,9 @@
 <style src="cropperjs/dist/cropper.css"></style>
 <style scoped>
     .crop-wrapper {
-        position: absolute;
+        position: fixed;
         padding: 15px;
-        top: 0;
+        top: 15px;
         left: 50%;
         transform: translateX(-50%);
         width: 80%;
