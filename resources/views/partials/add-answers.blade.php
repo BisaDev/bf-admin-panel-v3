@@ -44,12 +44,19 @@
                             <input v-bind:name="'answers['+index+'][photo]'" type="file" @change="openCropImage($event, handleCrop, type, index)">
                             <input v-bind:name="'answers['+index+'][photo_cropped]'" type="hidden" :value="answer.photo" >
                         </div>
-                        <div class="checkbox checkbox-info m-b-0" v-if="answer.photo">
+                    </div>
+                    <input type="hidden" v-bind:name="'answers['+index+'][obj_data]'" v-model="answer.obj_data">
+                </div>
+                <div class="row" v-show="type_answer_has_additional_data" v-if="answer.current_photo">
+                    <div class="form-group col-md-4 m-b-0">
+                        <img class="img-responsive" :src="answer.current_photo" />
+                    </div>
+                    <div class="form-group col-md-8 m-b-0">
+                        <div class="checkbox checkbox-info m-b-0">
                             <input v-bind:id="'remove_photo_'+index" type="checkbox" v-model="answer.remove_photo" v-bind:name="'answers['+index+'][remove_photo]'">
                             <label v-bind:for="'remove_photo_'+index">Remove photo</label>
                         </div>
                     </div>
-                    <input type="hidden" v-bind:name="'answers['+index+'][obj_data]'" v-model="answer.obj_data">
                 </div>
             </div>
         </div>

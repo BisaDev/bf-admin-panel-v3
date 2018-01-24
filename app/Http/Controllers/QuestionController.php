@@ -296,6 +296,7 @@ class QuestionController extends Controller
         });
 
         if ($request->has('answers')) {
+            
             foreach ($request->input('answers') as $key => $request_answer) {
                 if (!is_null($request_answer['id'])) {
                     $answer = Answer::find($request_answer['id']);
@@ -304,6 +305,7 @@ class QuestionController extends Controller
 
                     if (array_key_exists('remove_photo', $request_answer) && !is_null($request_answer['remove_photo'])) {
                         if (!is_null($answer->getOriginal('photo')) || $answer->getOriginal('photo') != '') {
+                            
                             File::delete(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
                         }
                         $answer->photo = null;

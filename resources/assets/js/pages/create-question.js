@@ -323,7 +323,8 @@ export default {
 
             vue_instance.children.push({
               name: answer.text,
-              photo: answer.photo,
+              current_photo: answer.photo,
+              photo: '',
               is_correct: (answer.is_correct == 1 || answer.is_correct == 'on'),
               remove_photo: false,
               obj_id: 'rect' + index,

@@ -98,6 +98,7 @@
                                 <span v-if="!photo">Drag an image or click to browse</span>
                                 <img v-else :src="photo" />
                                 <input name="photo" type="file" @change="openCropImage($event, handleCrop, type)">
+                                <input type="hidden" name="photo_cropped" :value="photo" >
                             </div>
                             @if($errors->has('photo'))
                                 <span class="help-block">
