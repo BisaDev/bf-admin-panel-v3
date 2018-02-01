@@ -222,7 +222,7 @@ class UserController extends Controller
     {
         $employees = User::whereHas('user_detail', function ($query)use($request) {
             $query->where('location_id', $request->get('location_id'));
-        })->role('instructor')->get();
+        })->get();
 
         return response()->json($employees);
     }

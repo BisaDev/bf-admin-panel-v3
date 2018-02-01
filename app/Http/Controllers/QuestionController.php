@@ -162,7 +162,7 @@ class QuestionController extends Controller
             'type' => 'required',
             'topic' => 'required',
             'title' => 'required_without:photo_cropped',
-            'answers' => 'required_unless:type,3,type,6|require_one_correct_for_multiple_choice:'.$request->input('type'), //Apple Pencil and Research and Report back don't need answers
+            'answers' => 'required_unless:type,2,type,3,type,6|require_one_correct_for_multiple_choice:'.$request->input('type'), //Apple Pencil and Research and Report back don't need answers
             'answers.*.text' => 'required_without:answers.*.photo_cropped',
         ]);
 
