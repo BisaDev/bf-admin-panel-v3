@@ -79,17 +79,19 @@ class ResultsController extends ApiController
                     $new_filename = '';
                 }
                 
-                $studentAnswer = StudentAnswer::updateOrCreate(
-                    [
-                        'graded_quiz_question_id' => $gradedQuizQuestion->id,
-                        'answer_id' => $question['answer']['id'],
-                        'student_id' => $student->id
-                    ],
-                    [
-                        'answer_text' => $question['answer']['text'],
-                        'answer_image' => $new_filename,
-                        'is_correct' => $question['answer']['is_correct'],
-                    ]);
+                if($question['answer']['id'] !== -1) {
+                    $studentAnswer = StudentAnswer::updateOrCreate(
+                        [
+                            'graded_quiz_question_id' => $gradedQuizQuestion->id,
+                            'answer_id' => $question['answer']['id'],
+                            'student_id' => $student->id
+                        ],
+                        [
+                            'answer_text' => $question['answer']['text'],
+                            'answer_image' => $new_filename,
+                            'is_correct' => $question['answer']['is_correct'],
+                        ]);
+                }
             });
 
             return $this->respond('Quiz successfully graded');
