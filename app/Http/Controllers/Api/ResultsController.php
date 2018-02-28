@@ -79,19 +79,17 @@ class ResultsController extends ApiController
                     $new_filename = '';
                 }
                 
-                if($question['answer']['id'] !== 0 && $gradedQuiz->quiz_type->name !== 'PenPal') {
-                    $studentAnswer = StudentAnswer::updateOrCreate(
-                        [
-                            'graded_quiz_question_id' => $gradedQuizQuestion->id,
-                            'answer_id' => $question['answer']['id'],
-                            'student_id' => $student->id
-                        ],
-                        [
-                            'answer_text' => $question['answer']['text'],
-                            'answer_image' => $new_filename,
-                            'is_correct' => $question['answer']['is_correct'],
-                        ]);
-                }
+                $studentAnswer = StudentAnswer::updateOrCreate(
+                    [
+                        'graded_quiz_question_id' => $gradedQuizQuestion->id,
+                        'answer_id' => $question['answer']['id'],
+                        'student_id' => $student->id
+                    ],
+                    [
+                        'answer_text' => $question['answer']['text'],
+                        'answer_image' => $new_filename,
+                        'is_correct' => $question['answer']['is_correct'],
+                    ]);
             });
 
             return $this->respond('Quiz successfully graded');
