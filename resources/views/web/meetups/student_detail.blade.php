@@ -121,7 +121,7 @@
                                                     @if($question->question_photo)
                                                         <img src="{{ $question->question_photo }}" class="img-responsive thumbnail m-t-5">
                                                     @endif
-                                                    @if(strpos($graded_quiz->quiz_type->name, 'Trivia') === false)
+                                                    @if(strpos($graded_quiz->quiz_type->name, 'Trivia') === false && $graded_quiz->quiz_type->name !== 'Tap Time')
                                                     <div class="row answer-list m-t-10">
                                                         @foreach($question->answers as $answer)
                                                             <div class="col-lg-3 col-sm-6 text-center answer-item">

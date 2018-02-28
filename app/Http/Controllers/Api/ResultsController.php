@@ -79,7 +79,7 @@ class ResultsController extends ApiController
                     $new_filename = '';
                 }
                 
-                if($question['answer']['id'] !== 0) {
+                if($question['answer']['id'] !== 0 && $gradedQuiz->quiz_type->name !== 'PenPal') {
                     $studentAnswer = StudentAnswer::updateOrCreate(
                         [
                             'graded_quiz_question_id' => $gradedQuizQuestion->id,
