@@ -41,7 +41,7 @@
                         <div class="droppable droppable-small">
                             <span v-if="!answer.photo">Drag an image or click to browse</span>
                             <img v-else :src="answer.photo" />
-                            <input v-bind:name="'answers['+index+'][photo]'" type="file" @change="openCropImage($event, handleCrop, type, index)">
+                            <input v-bind:name="'answers['+index+'][photo]'" type="file" @change="openCropImage($event, handleCrop, null, index)">
                             <input v-bind:name="'answers['+index+'][photo_cropped]'" type="hidden" :value="answer.photo" >
                         </div>
                     </div>
