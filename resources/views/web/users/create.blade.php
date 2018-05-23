@@ -31,7 +31,7 @@
                                     <div class="droppable">
                                         <span v-if="!photo">Drag an image or click to browse</span>
                                         <img v-else :src="photo" />
-                                        <input name="photo" type="file" @change="onFileChange">
+                                        <input name="photo" type="file" @change="createImage">
                                     </div>
                                     @if($errors->has('photo'))
                                         <span class="help-block">

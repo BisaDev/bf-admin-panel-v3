@@ -2,12 +2,6 @@ import swal from 'sweetalert2';
 
 let imagePreview = {
     methods: {
-        /*onFileChange(e, index = null){
-            let files = e.target.files || e.dataTransfer.files;
-            if (!files.length)
-                return;
-            this.createImage(files[0], index);
-        },*/
         createImage(e, index = null){
 
             let files = e.target.files || e.dataTransfer.files;
@@ -75,26 +69,28 @@ let imagePreview = {
 
             image.onload = function () {
 
-                if(index !== null){
-                    if (image.width !== image.height) {
-                        invalid_image = true;
-                    }
-                }else{
-                    switch (vue_instance.type) {
-                        case '4': //Drag and drop
-                            if (image.width !== 1366 || image.height !== 512) {
-                                invalid_image = true;
-                            }
-                            break;
-                        case '3': //Apple pencil
-                        case '5': //Touch select
-                        case '6': //Research and Report back
-                            if (image.width !== 1024 || image.height !== 512) {
-                                invalid_image = true;
-                            }
-                            break;
-                        case '':
+                if(vue_instance.type !== 'not-question'){
+                    if(index !== null){
+                        if (image.width !== image.height) {
                             invalid_image = true;
+                        }
+                    }else{
+                        switch (vue_instance.type) {
+                            case '4': //Drag and drop
+                                if (image.width !== 1366 || image.height !== 512) {
+                                    invalid_image = true;
+                                }
+                                break;
+                            case '3': //Apple pencil
+                            case '5': //Touch select
+                            case '6': //Research and Report back
+                                if (image.width !== 1024 || image.height !== 512) {
+                                    invalid_image = true;
+                                }
+                                break;
+                            case '':
+                                invalid_image = true;
+                        }
                     }
                 }
 

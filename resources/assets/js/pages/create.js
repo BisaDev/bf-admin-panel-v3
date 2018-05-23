@@ -14,7 +14,7 @@ export default {
             el: '#create-container',
             data: {
                 children: [],
-                type: '',
+                type: 'not-question',
                 photo: ''
             },
             mixins: [imagePreview, managesChildren],
