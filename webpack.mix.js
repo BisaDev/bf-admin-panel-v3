@@ -1,5 +1,4 @@
 const {mix} = require('laravel-mix');
-mix.browserSync('brightfoxv2.test/');
 
 /*
  |--------------------------------------------------------------------------
@@ -29,3 +28,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
     ], 'public/js/vendor.js')
     .less('resources/assets/less/app.less', 'public/css');
 
+mix.browserSync({
+    proxy: 'brightfoxv2.test',
+    host: 'brightfoxv2.test',
+    open: 'external'
+});
