@@ -23,7 +23,7 @@ class Student extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'middle_name', 'last_name', 'birthdate', 'gender', 'school_year', 'current_school', 'teacher', 'former_school', 'location_id'
+        'name', 'middle_name', 'last_name', 'birthdate', 'gender', 'school_year', 'current_school', 'teacher', 'former_school', 'location_id', 'user_id'
     ];
 
     protected $dates = [
@@ -47,6 +47,11 @@ class Student extends Model
     public function family_members()
     {
         return $this->hasMany(FamilyMember::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     public function location()

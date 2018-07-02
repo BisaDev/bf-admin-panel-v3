@@ -26,11 +26,11 @@ Route::domain('students.brightfoxv2.test')->group(function () {
 
     Route::group(['middleware' => ['auth']], function(){
 
-        Route::get('/', 'DashboardController@index')->name('dashboard');
+        Route::get('/', 'DashboardController@index')->name('dashboard');;
     });
 });
 
-Route::group(['middleware' => ['auth']], function(){
+Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], function(){
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
     Route::resource('grade_levels',                     'GradeLevelController');

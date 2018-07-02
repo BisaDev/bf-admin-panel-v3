@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b51a610ab610e6bad3c92e48ae3e8b5",
+    "content-hash": "a7084b349e9c23401e96e8f9d535199d",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1446,31 +1446,37 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "2.1.6",
+            "version": "2.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "f2f2fb1b2b22c75e55404eec49f4e7089d7deb51"
+                "reference": "2affce0021cb9b6f4e249f7c5d94eb68039ffccc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/f2f2fb1b2b22c75e55404eec49f4e7089d7deb51",
-                "reference": "f2f2fb1b2b22c75e55404eec49f4e7089d7deb51",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/2affce0021cb9b6f4e249f7c5d94eb68039ffccc",
+                "reference": "2affce0021cb9b6f4e249f7c5d94eb68039ffccc",
                 "shasum": ""
             },
             "require": {
-                "illuminate/auth": "~5.4.0",
-                "illuminate/container": "~5.4.0",
-                "illuminate/contracts": "~5.4.0",
-                "illuminate/database": "~5.4.0",
+                "illuminate/auth": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+                "illuminate/container": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+                "illuminate/contracts": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+                "illuminate/database": "~5.4.0|~5.5.0|~5.6.0",
                 "php": ">=7.0"
             },
             "require-dev": {
-                "monolog/monolog": "^1.22",
-                "orchestra/testbench": "~3.4.2",
-                "phpunit/phpunit": "^6.0"
+                "orchestra/testbench": "~3.3.0|~3.4.2|^3.5.0",
+                "phpunit/phpunit": "^5.7|6.2|^7.0"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Permission\\PermissionServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Spatie\\Permission\\": "src"
@@ -1500,7 +1506,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2017-06-06T16:16:04+00:00"
+            "time": "2018-06-14T02:52:40+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

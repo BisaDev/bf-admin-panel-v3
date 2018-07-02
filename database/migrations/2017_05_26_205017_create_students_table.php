@@ -26,12 +26,16 @@ class CreateStudentsTable extends Migration
             $table->string('teacher')->nullable();
             $table->string('former_school')->nullable();
             $table->integer('location_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('location_id')
                 ->references('id')->on('locations')
                 ->onDelete('set null');
-                
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('set null');
         });
     }
 
