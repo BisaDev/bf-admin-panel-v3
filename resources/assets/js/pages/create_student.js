@@ -26,9 +26,10 @@ export default {
                     startView: 'decade'
                 });
 
-                if($('input[name="add_user"]').data('old') === 'on'){
+                if ($('input[name="add_user"]').data('old') === 'on') {
                     this.studentUserShow = true;
                 }
+            }
         });
     },
 }
