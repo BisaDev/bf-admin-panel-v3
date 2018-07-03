@@ -32,16 +32,6 @@ class CreateStudentsTable extends Migration
                 ->references('id')->on('locations')
                 ->onDelete('set null');
         });
-
-        Schema::table('students', function($table)
-        {
-            $table->integer('user_id')->unsigned()->nullable()->after('location_id');
-
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('set null');
-        });
-
     }
 
     /**
