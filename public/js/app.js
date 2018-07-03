@@ -24868,6 +24868,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_index_users__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_create__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_create_student__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_create_student___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__pages_create_student__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_create_question__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_create_quiz__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_create_activity_bucket__ = __webpack_require__(65);
@@ -24900,7 +24901,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_pure_lightbox___default.a);
 
 
 
-var vue_elements = [__WEBPACK_IMPORTED_MODULE_1__pages_index__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__pages_index_academic_content__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__pages_index_users__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__pages_create__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__pages_create_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__pages_create_question__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__pages_create_quiz__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__pages_create_activity_bucket__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__pages_create_meetup__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__pages_show_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__pages_print__["a" /* default */]];
+var vue_elements = [__WEBPACK_IMPORTED_MODULE_1__pages_index__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__pages_index_academic_content__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__pages_index_users__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__pages_create__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__pages_create_student__["default"], __WEBPACK_IMPORTED_MODULE_6__pages_create_question__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__pages_create_quiz__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__pages_create_activity_bucket__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__pages_create_meetup__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__pages_show_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__pages_print__["a" /* default */]];
 
 vue_elements.forEach(function (element) {
   element.init();
@@ -26808,40 +26809,10 @@ if (token) {
 
 /***/ }),
 /* 70 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_imagePreview__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_managesChildren__ = __webpack_require__(10);
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    init: function init() {
-        var domElement = 'create-student';
-        if (document.getElementById(domElement)) {
-            this.execute();
-        }
-    },
-    execute: function execute() {
-        new Vue({
-            el: '#create-student',
-            data: {
-                photo: '',
-                children: [],
-                studentUserShow: false
-            },
-            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_managesChildren__["a" /* default */]],
-            methods: {},
-            mounted: function mounted() {
-                $('.datepicker-birthday').datepicker({
-                    autoclose: true,
-                    startView: 'decade'
-                });
-            }
-        });
-    }
-});
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (32:9)\n\n\u001b[0m \u001b[90m 30 | \u001b[39m                    \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mstudentUserShow \u001b[33m=\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 31 | \u001b[39m                }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 32 | \u001b[39m        })\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 33 | \u001b[39m    }\u001b[33m,\u001b[39m\n \u001b[90m 34 | \u001b[39m}\n \u001b[90m 35 | \u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 71 */

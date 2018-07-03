@@ -171,7 +171,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="control-label" >Add Student User</label>
-                            <input type="checkbox" name="add_user" v-model="studentUserShow" data-plugin="switchery" data-color="#FC7044" data-size="small"/>
+                            <input type="checkbox" name="add_user" v-model="studentUserShow" data-old="{{ old('add_user') }}" data-plugin="switchery" data-color="#FC7044" data-size="small"/>
                         </div>
                     </div>
 

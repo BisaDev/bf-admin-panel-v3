@@ -25,7 +25,10 @@ export default {
                     autoclose: true,
                     startView: 'decade'
                 });
-            }
+
+                if($('input[name="add_user"]').data('old') === 'on'){
+                    this.studentUserShow = true;
+                }
         });
     },
 }
