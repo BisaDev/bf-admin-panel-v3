@@ -53,13 +53,27 @@ class StudentController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
+        $validationArray = [
             'name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
             'photo' => 'nullable|image',
             'birthdate' => 'nullable|date_format:m/d/Y',
             'location' => 'required'
-        ]);
+        ];
+
+        if($request->has('add_user')){
+
+            $validationArray = array_merge($validationArray, [
+                'email' => 'required|unique:users|email',
+                'email_confirmation' => 'same:email',
+                'password' => 'required',
+                'password_confirmation' => 'same:password',
+                'secondary_email' => 'nullable|email',
+            ]);
+
+        }
+
+        $this->validate($request, $validationArray);
         
         if($request->input('birthdate')){
             $birthdate = Carbon::createFromFormat('m/d/Y', $request->input('birthdate'));
@@ -95,15 +109,7 @@ class StudentController extends Controller
             }
         }
 
-        if($request->input('add_user')) {
-
-            $this->validate($request, [
-                'email' => 'required|unique:users|email',
-                'email_confirmation' => 'same:email',
-                'password' => 'required',
-                'password_confirmation' => 'same:password',
-                'secondary_email' => 'nullable|email',
-            ]);
+        if($request->has('add_user')) {
 
             $user = User::create([
                 'name' => $request->input('name'),
