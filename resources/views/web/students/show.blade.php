@@ -64,36 +64,39 @@
                         <label>Teacher:</label>
                         <p>{{ $item->teacher }}</p>
                     </div>
+                    <div class="col-xs-6">
+                        <label>Cohort:</label>
+                        <p>{{ $item->cohort_tag }}</p>
+                    </div>
+                </div>
 
+                <div class="row">
                     <div class="col-xs-6">
                         <label>Former School:</label>
                         <p>{{ $item->former_school }}</p>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-6">
                         <label>Location:</label>
                         <p>{{ (!is_null($item->location))? $item->location->name : 'N/A' }}</p>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-xs-6">
                         <label>Email:</label>
                         <p>{{ (!is_null($item->user))?((!is_null($item->user->email))? $item->user->email: 'N/A'): 'N/A' }}</p>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-6">
                         <label>Phone:</label>
                         <p>{{ (!is_null($item->user))?((!is_null($item->user->user_detail->phone))? $item->user->user_detail->phone: 'N/A'): 'N/A' }}</p>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-xs-6">
                         <label>Mobile Phone:</label>
                         <p>{{ (!is_null($item->user))?((!is_null($item->user->user_detail->mobile_phone))? $item->user->user_detail->mobile_phone: 'N/A'): 'N/A' }}</p>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-6">
                         <label>Secondary Email:</label>
                         <p>{{ (!is_null($item->user))?((!is_null($item->user->user_detail->secondary_email))? $item->user->user_detail->secondary_email: 'N/A'): 'N/A' }}</p>

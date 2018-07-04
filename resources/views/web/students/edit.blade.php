@@ -109,7 +109,7 @@
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
-                        <div class="form-group col-md-2 {{ $errors->has('school_year')? 'has-error' : '' }}">
+                        <div class="form-group col-md-6 {{ $errors->has('school_year')? 'has-error' : '' }}">
                             <label class="control-label" for="school_year">School Year:</label>
                             <input type="text" name="school_year" class="form-control" value="{{ old('school_year', $item->school_year) }}">
                             @if($errors->has('school_year'))
@@ -119,7 +119,7 @@
                             @endif
                         </div>
 
-                        <div class="form-group col-md-5 {{ $errors->has('current_school')? 'has-error' : '' }}">
+                        <div class="form-group col-md-6 {{ $errors->has('current_school')? 'has-error' : '' }}">
                             <label class="control-label" for="current_school">Current School:</label>
                             <input type="text" name="current_school" class="form-control" value="{{ old('current_school', $item->current_school) }}">
                             @if($errors->has('current_school'))
@@ -128,13 +128,24 @@
                                 </span>
                             @endif
                         </div>
+                    </div>
 
-                        <div class="form-group col-md-5 {{ $errors->has('teacher')? 'has-error' : '' }}">
+                    <div class="row">
+                        <div class="form-group col-md-6 {{ $errors->has('teacher')? 'has-error' : '' }}">
                             <label class="control-label" for="teacher">Teacher:</label>
                             <input type="text" name="teacher" class="form-control" value="{{ old('teacher', $item->teacher) }}">
                             @if($errors->has('teacher'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('teacher') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="form-group col-md-6 {{ $errors->has('cohort_tag')? 'has-error' : '' }}">
+                            <label class="control-label" for="cohort_tag">Cohort:</label>
+                            <input type="text" name="cohort_tag" class="form-control" value="{{ old('cohort_tag', $item->cohort_tag) }}">
+                            @if($errors->has('cohort_tag'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('cohort_tag') }}</strong>
                                 </span>
                             @endif
                         </div>

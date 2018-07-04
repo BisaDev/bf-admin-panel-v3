@@ -56,6 +56,7 @@ class StudentController extends Controller
         $validationArray = [
             'name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
+            'cohort_tag' => 'nullable|string|max:191',
             'photo' => 'nullable|image',
             'birthdate' => 'nullable|date_format:m/d/Y',
             'location' => 'required'
@@ -87,6 +88,7 @@ class StudentController extends Controller
             'middle_name' => $request->input('middle_name'),
             'last_name' => $request->input('last_name'),
             'birthdate' => $birthdate_format,
+            'cohort_tag' => $request->input('cohort_tag'),
             'gender' => json_encode(['key' => $request->input('gender'), 'name' => $this->genders[$request->input('gender')]], JSON_FORCE_OBJECT),
             'school_year' => $request->input('school_year'),
             'current_school' => $request->input('current_school'),
@@ -189,6 +191,7 @@ class StudentController extends Controller
             'name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
             'photo' => 'nullable|image',
+            'cohort_tag' => 'nullable|string|max:191',
             'birthdate' => 'nullable|date_format:m/d/Y',
             'location' => 'required'
         ]);
@@ -204,6 +207,7 @@ class StudentController extends Controller
         $student->middle_name = $request->input('middle_name');
         $student->last_name = $request->input('last_name');
         $student->birthdate = $birthdate_format;
+        $student->cohort_tag = $request->input('cohort_tag');
         $student->gender = json_encode(['key' => $request->input('gender'), 'name' => $this->genders[$request->input('gender')]], JSON_FORCE_OBJECT);
         $student->school_year = $request->input('school_year');
         $student->current_school = $request->input('current_school');
