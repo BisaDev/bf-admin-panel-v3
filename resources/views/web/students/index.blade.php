@@ -43,6 +43,7 @@
                         <th>Student</th>
                         <th>School Year</th>
                         <th>Location</th>
+                        <th>Cohort</th>
                         <th width="90" class="text-center">Edit</th>
                         <th width="90" class="text-center">Delete</th>
                     </tr>
@@ -54,6 +55,7 @@
                             <td><a href="{{ route('students.show', $item->id) }}">{{ $item->full_name }}</a></td>
                             <td>{{ $item->school_year }}</td>
                             <td>{{ (!is_null($item->location))? $item->location->name : 'N/A' }}</td>
+                            <td> {{ (!is_null($item->cohort_tag ))? $item->cohort_tag : 'N/A' }}</td>
                             <td class="text-center"><a href="{{ route('students.edit', $item->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">
                                 <a href="" @click="confirmDelete({{ $item->id }}, {{ $item->family_members->count() }}, $event)" class="icon icon-trash"></a>
