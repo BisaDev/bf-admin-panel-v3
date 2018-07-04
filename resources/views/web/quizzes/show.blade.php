@@ -33,9 +33,18 @@
 
                 <div class="row">
                     <div class="col-sm-6 m-b-15">
-                        @foreach($item->tags as $tag)
-                        <span class="label label-primary">{{ $tag->name }}</span>
-                        @endforeach
+                        <label>Tags:</label><br>
+                            @foreach($item->tags as $tag)
+                            <span class="label label-primary">{{ $tag->name }}</span>
+                            @endforeach
+                    </div>
+                    <div class="col-sm-6 m-b-15">
+                        <label>Topics:</label>
+                            <ul class="list-inline">
+                                @foreach($item->subject->topics as $topic)
+                                    <li class=" list-inline-item">{{ $topic->name }}</li>
+                                @endforeach
+                            </ul>
                     </div>
                 </div>
 
