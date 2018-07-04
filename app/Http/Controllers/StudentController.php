@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Models\Student, Brightfox\Models\Location, Brightfox\Models\Note;
+use Brightfox\Models\Student, Brightfox\Models\Location, Brightfox\Models\Note, Brightfox\Models\User, Brightfox\Models\UserDetail;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
 use Carbon\Carbon;
@@ -52,13 +52,28 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+
+        $validationArray = [
             'name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
             'photo' => 'nullable|image',
             'birthdate' => 'nullable|date_format:m/d/Y',
             'location' => 'required'
-        ]);
+        ];
+
+        if($request->has('add_user')){
+
+            $validationArray = array_merge($validationArray, [
+                'email' => 'required|unique:users|email',
+                'email_confirmation' => 'same:email',
+                'password' => 'required',
+                'password_confirmation' => 'same:password',
+                'secondary_email' => 'nullable|email',
+            ]);
+
+        }
+
+        $this->validate($request, $validationArray);
         
         if($request->input('birthdate')){
             $birthdate = Carbon::createFromFormat('m/d/Y', $request->input('birthdate'));
@@ -93,6 +108,33 @@ class StudentController extends Controller
                 }
             }
         }
+
+        if($request->has('add_user')) {
+
+            $user = User::create([
+                'name' => $request->input('name'),
+                'middle_name' => $request->input('middle_name'),
+                'last_name' => $request->input('last_name'),
+                'email' => $request->input('email'),
+                'student_id' => $student->id,
+                'password'  => bcrypt($request->input('password'))
+            ]);
+
+            UserDetail::create([
+                'secondary_email' => $request->input('secondary_email'),
+                'phone' => $request->input('phone'),
+                'mobile_phone' => $request->input('mobile_phone'),
+                'location_id' => $request->input('location'),
+                'user_id' => $user->id
+            ]);
+
+            $user->assignRole('student');
+            $user->save();
+            $student->user_id = $user->id;
+            $student->save();
+
+        }
+
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Student was successfully created']);
         
@@ -203,6 +245,36 @@ class StudentController extends Controller
             $student->notes()->delete();
         }
 
+        if ($student->user) {
+            $user = User::find($student->user_id);
+
+            $this->validate($request, [
+                'email' => 'required|unique:users,email,'.$user->id.'|email',
+                'secondary_email' => 'nullable|email',
+                'password' => 'sometimes|nullable',
+                'password_confirmation' => 'sometimes|same:password',
+                'photo' => 'nullable|image',
+            ]);
+
+            $user->name = $request->input('name');
+            $user->middle_name = $request->input('middle_name');
+            $user->last_name = $request->input('last_name');
+            $user->email = $request->input('email');
+
+            if($request->has('password')){
+                $user->password = bcrypt($request->input('password'));
+            }
+
+            $user->user_detail->secondary_email = $request->input('secondary_email');
+            $user->user_detail->phone = $request->input('phone');
+            $user->user_detail->mobile_phone = $request->input('mobile_phone');
+
+            $user->user_detail->save();
+            $user->save();
+        }
+
+
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Student was successfully edited']);
         
         return redirect(route('students.index'));
@@ -216,6 +288,11 @@ class StudentController extends Controller
      */
     public function destroy(Request $request, Student $student)
     {
+        if ($student->user) {
+            $user = User::find($student->user_id);
+            $user->delete();
+        }
+
         $student->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Student was successfully deleted']);

@@ -22,7 +22,15 @@ Route::get('password/reset',            ['as' => 'password.request', 'uses' => '
 Route::post('password/reset',           ['as' => '', 'uses' => 'Auth\ResetPasswordController@reset']);
 Route::get('password/reset/{token}',    ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
 
-Route::group(['middleware' => ['auth']], function(){
+Route::domain('students.brightfoxv2.test')->group(function () {
+
+    Route::group(['middleware' => ['auth']], function(){
+
+        Route::get('/', 'DashboardController@index')->name('dashboard');;
+    });
+});
+
+Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], function(){
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
     Route::resource('grade_levels',                     'GradeLevelController');

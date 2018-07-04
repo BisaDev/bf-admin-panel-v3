@@ -16,6 +16,7 @@ import index from './pages/index';
 import index_academic_content from './pages/index-academic-content';
 import index_users from './pages/index-users';
 import create from './pages/create';
+import create_student from './pages/create_student';
 import create_question from './pages/create-question';
 import create_quiz from './pages/create-quiz';
 import create_activity_bucket from './pages/create-activity-bucket';
@@ -28,6 +29,7 @@ const vue_elements = [
   index_academic_content,
   index_users,
   create,
+  create_student,
   create_question,
   create_quiz,
   create_activity_bucket,

@@ -31,7 +31,6 @@ class CreateStudentsTable extends Migration
             $table->foreign('location_id')
                 ->references('id')->on('locations')
                 ->onDelete('set null');
-                
         });
     }
 
