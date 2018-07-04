@@ -15,10 +15,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="wrapper" class="{{ (Request::is('meetups') || Request::is('meetups/filter'))? 'forced enlarged' : '' }}">
+<div id="wrapper">
 
     @include('partials.header')
-    @include('partials.students_sidebar')
+    @include('partials.student_sidebar')
 
     <div class="content-page">
         <div id="content-page-content" class="content">

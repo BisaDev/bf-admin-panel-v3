@@ -26,7 +26,7 @@ Route::domain('students.brightfoxv2.test')->group(function () {
 
     Route::group(['middleware' => ['auth']], function(){
 
-        Route::get('/', 'DashboardController@index')->name('dashboard');;
+        Route::get('/', 'StudentDashboardController@index')->name('student_dashboard');;
     });
 });
 

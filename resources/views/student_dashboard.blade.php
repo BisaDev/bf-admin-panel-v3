@@ -1,4 +1,4 @@
-@extends('layouts.students_master')
+@extends('layouts.student_master')
 
 @section('page_title', 'Dashboard')
 
@@ -6,7 +6,7 @@
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Dashboard',
         'breadcrumbs' => [
-            [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
+            [ 'label' => 'Brightfox', 'url' =>  route('student_dashboard')],
         ],
         'currentSection' => 'Dashboard',
     ])
@@ -30,7 +30,6 @@
                 </thead>
                 <tbody>
                     <tr>
-
                     </tr>
                 </tbody>
             </table>
