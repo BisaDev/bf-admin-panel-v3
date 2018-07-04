@@ -14,11 +14,11 @@
 
 @section('content')
 
-    <div class="row create-container" id="create-container">
+    <div class="row create-container" id="create-student">
         <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
 
-            <div class="col-lg-3">
+            <div class="col-lg-3" >
                 <div class="card-box">
                     <div class="row">
                         <div class="col-sm-12 text-center">
@@ -140,6 +140,7 @@
                     </div>
 
                     <div class="row">
+
                         <div class="form-group col-md-6 {{ $errors->has('former_school')? 'has-error' : '' }}">
                             <label class="control-label" for="former_school">Former School:</label>
                             <input type="text" name="former_school" class="form-control" value="{{ old('former_school') }}">
@@ -149,9 +150,7 @@
                                 </span>
                             @endif
                         </div>
-                    </div>
 
-                    <div class="row">
                         <div class="form-group col-md-6 {{ $errors->has('location')? 'has-error' : '' }}">
                             <label class="control-label" for="location">Location:</label>
                             <select name="location" class="form-control">
@@ -166,6 +165,95 @@
                                 </span>
                             @endif
                         </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label" >Add Student User</label>
+                            <input type="checkbox" name="add_user" v-model="studentUserShow" data-old="{{ old('add_user') }}" data-plugin="switchery" data-color="#FC7044" data-size="small"/>
+                        </div>
+                    </div>
+
+                    <div v-show="studentUserShow">
+                        <div class="row">
+                            <div class="form-group col-lg-6 {{ $errors->has('email')? 'has-error' : '' }}">
+                                <label class="control-label" for="email">Email:</label>
+                                <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                                @if($errors->has('email'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-lg-6 {{ $errors->has('email_confirmation')? 'has-error' : '' }}">
+                                <label class="control-label" for="email_confirmation">Confirm Email:</label>
+                                <input type="email" name="email_confirmation" class="form-control" value="{{ old('email_confirmation') }}">
+                                @if($errors->has('email_confirmation'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('email_confirmation') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-lg-6 {{ $errors->has('password')? 'has-error' : '' }}">
+                                <label class="control-label" for="password">Password:</label>
+                                <input type="password" name="password" class="form-control">
+                                @if($errors->has('password'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-lg-6 {{ $errors->has('password_confirmation')? 'has-error' : '' }}">
+                                <label class="control-label" for="password_confirmation">Confirm Password:</label>
+                                <input type="password" name="password_confirmation" class="form-control">
+                                @if($errors->has('password_confirmation'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-lg-6 {{ $errors->has('phone')? 'has-error' : '' }}">
+                                <label class="control-label" for="phone">Phone Number:</label>
+                                <input type="text" name="phone" data-mask="(999) 999-9999" class="form-control" value="{{ old('phone') }}">
+                                @if($errors->has('phone'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('phone') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-lg-6 {{ $errors->has('mobile_phone')? 'has-error' : '' }}">
+                                <label class="control-label" for="mobile_phone">Mobile Phone:</label>
+                                <input type="text" name="mobile_phone" data-mask="(999) 999-9999" class="form-control" value="{{ old('mobile_phone') }}">
+                                @if($errors->has('mobile_phone'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('mobile_phone') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12 {{ $errors->has('secondary_email')? 'has-error' : '' }}">
+                                <label class="control-label" for="secondary_email">Secondary Email:</label>
+                                <input type="email" name="secondary_email" class="form-control" value="{{ old('secondary_email') }}">
+                                @if($errors->has('secondary_email'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('secondary_email') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row">
