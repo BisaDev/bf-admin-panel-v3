@@ -61,6 +61,18 @@
                         <i class="ti-bookmark-alt"></i><span> Academic Content </span>
                     </a>
                 </li>
+
+                <li class="has_sub">
+                    <a href="#" class="waves-effect {{ (Request::is('sat_exams/*') || Request::is('sat_results/*'))? 'active' : '' }}">
+                        <i class="ti-write"></i><span> Exam Prep </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="list-unstyled">
+                        <li class="{{ Request::is('sat_exams/*')? 'active' : '' }}"><a href="{{ route('dashboard') }}">Exams</a></li>
+                        <li class="{{ Request::is('sat_results/*')? 'active' : '' }}"><a href="{{ route('dashboard') }}">Results</a></li>
+                    </ul>
+                </li>
+
             </ul>
             <div class="clearfix"></div>
         </div>
