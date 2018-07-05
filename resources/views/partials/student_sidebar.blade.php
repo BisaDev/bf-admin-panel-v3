@@ -10,7 +10,7 @@
                 </li>
 
                 <li class="has_sub">
-                    <a href="#" class="waves-effect">
+                    <a href="#" class="waves-effect" data-toggle="modal" data-target="#take-practice-exam">
                         <i class="ti-pencil-alt"></i><span> Take Practice Exam </span>
                     </a>
 
