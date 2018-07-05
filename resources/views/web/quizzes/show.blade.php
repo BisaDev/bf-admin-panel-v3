@@ -62,6 +62,18 @@
                                 @if($question->photo)
                                 <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
                                 @endif
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label class="control-label">Topic:</label>
+                                        <span> {{ $question->topic->name }}</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="control-label">Tags:</label>
+                                        @foreach($question->tags as $tag)
+                                            <span class="label label-primary">{{ $tag->name }}</span>
+                                        @endforeach
+                                    </div>
+                                </div>
                                 <div class="row answer-list m-t-10">
                                     @foreach($question->answers as $answer)
                                     <div class="col-lg-3 col-sm-6 text-center answer-item">
