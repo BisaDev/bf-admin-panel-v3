@@ -22,24 +22,26 @@ import create_quiz from './pages/create-quiz';
 import create_activity_bucket from './pages/create-activity-bucket';
 import create_meetup from './pages/create-meetup';
 import show_student from './pages/show-student';
+import take_practice_exam from './pages/take_practice_exam';
 import print from './pages/print';
 
 const vue_elements = [
-  index,
-  index_academic_content,
-  index_users,
-  create,
-  create_student,
-  create_question,
-  create_quiz,
-  create_activity_bucket,
-  create_meetup,
-  show_student,
-  print,
+    index,
+    index_academic_content,
+    index_users,
+    create,
+    create_student,
+    create_question,
+    create_quiz,
+    create_activity_bucket,
+    create_meetup,
+    show_student,
+    take_practice_exam,
+    print,
 ];
 
-vue_elements.forEach(function(element) {
-  element.init();
+vue_elements.forEach(function (element) {
+    element.init();
 });
 
 /**
