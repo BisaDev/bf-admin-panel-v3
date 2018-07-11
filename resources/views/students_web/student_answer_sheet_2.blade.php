@@ -1,14 +1,14 @@
 @extends('layouts.student_master')
 
-@section('page_title', 'Section 1: Reading Comprehension')
+@section('page_title', 'Section 2: Writing and Language')
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Section 1: Reading Comprehension',
+        'pageTitle' => 'Section 2: Writing and Language',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('student_dashboard')],
         ],
-        'currentSection' => 'Section 1: Reading Comprehension',
+        'currentSection' => 'Section 2: Writing and Language',
     ])
 @endsection
 
@@ -17,13 +17,13 @@
     <div id="app">
         <div class="col-md-12 text-right">
             <div class="h4 col-md-10 col-md-offset-1">
-                <chronometer :available-time="65"></chronometer>
+                <chronometer :available-time="35"></chronometer>
             </div>
         </div>
 
         <div class="col-md-10 col-md-offset-1 card-box">
             <div class="row">
-                <student-answer-sheet :questions="52"></student-answer-sheet>
+                <student-answer-sheet :questions="44"></student-answer-sheet>
             </div>
         </div>
 

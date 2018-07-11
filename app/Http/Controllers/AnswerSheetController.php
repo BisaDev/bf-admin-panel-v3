@@ -25,8 +25,18 @@ class AnswerSheetController extends Controller
         return view('students_web.student_answer_sheet_1');
     }
 
+    public function answer_sheet_2()
+    {
+        return view('students_web.student_answer_sheet_2');
+    }
+
     public function answer_sheet_3()
     {
         return view('students_web.student_answer_sheet_3');
+    }
+
+    public function answer_sheet_4()
+    {
+        return view('students_web.student_answer_sheet_4');
     }
 }

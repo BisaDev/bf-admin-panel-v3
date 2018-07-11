@@ -1,8 +1,8 @@
 <template>
-    <div class="container">
+    <div class="container col-md-offset-1">
         <div class="row text-center">
-            <div class="col-md-3" v-for="column in numberOfColumns">
-                <div class="has-feedback" v-for="row in rowsPerColumn(column)">
+            <div class="col-md-2" v-for="column in numberOfColumns">
+                <div class="question" v-for="row in rowsPerColumn(column)">
                     <div class="question-number">{{ num = (column-1)*rowsPerColumn(column-1) + row }}</div>
                     <label class="form-check-label" :for="'question_' + num"> A <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="A"></label>
                     <label class="form-check-label" :for="'question_' + num"> B <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="B"></label>
@@ -19,20 +19,24 @@
         props: ['questions'],
         data () {
             return {
-                numberOfColumns : 4,
-                remainder : this.questions % 4,
-                maxRows : Math.floor(((this.questions - 1) / 4)) + 1,
+                numberOfColumns : 5,
+                remainder : this.questions % 5,
+                maxRows : Math.floor(((this.questions - 1) / 5)) + 1,
             }
         },
         methods: {
             rowsPerColumn : function (column) {
-                if(column === 4) {
+                if(column === 5) {
                     if (this.remainder === 1){
+                        return this.maxRows - 4
+                    } else if (this.remainder === 2){
                         return this.maxRows - 3
                     } else if (this.remainder === 3){
+                        return this.maxRows - 2
+                    } else if (this.remainder === 4){
                         return this.maxRows - 1
-                    } else {
-                        return this.maxRows - this.remainder
+                    }else {
+                        return this.maxRows
                     }
                 } else {
                     return this.maxRows

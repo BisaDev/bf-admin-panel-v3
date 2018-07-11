@@ -3334,7 +3334,7 @@ input[type="search"] {
 }
 input[type="radio"],
 input[type="checkbox"] {
-  margin: 4px 8px 0 0;
+  margin: 4px 0 0;
   margin-top: 1px \9;
   line-height: normal;
 }
@@ -28515,4 +28515,21 @@ table.model-list td img {
 .lightbox__image img {
   max-width: 800px!important;
   max-height: 800px!important;
+}
+.question {
+  padding-top: 10px;
+  position: relative;
+}
+.radio-inline {
+  display: block;
+}
+.question-number {
+  bottom: 0;
+  position: absolute;
+  margin-left: -20px;
+  display: inline-block;
+}
+.student-answer {
+  line-height: normal;
+  margin: 4px 2px 0;
 }
