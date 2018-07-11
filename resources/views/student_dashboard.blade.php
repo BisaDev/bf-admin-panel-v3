@@ -79,7 +79,7 @@
 
                 <div class="modal-footer">
                     <button type="button" v-on:click="examSection = !examSection" v-if="!examSection" class="btn btn-md btn-info">Next</button>
-                    <a href="{{ route('student_dashboard')}}" v-if="examSection" class="btn btn-md btn-info">Start Exam</a>
+                    <a href="{{ route('answer_sheet_1')}}" v-if="examSection" class="btn btn-md btn-info">Start Exam</a>
                 </div>
             </div>
         </div>
