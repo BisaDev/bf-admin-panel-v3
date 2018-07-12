@@ -1,14 +1,14 @@
 <template>
     <div class="question col-md-2">
-        <div class="question-number-math">{{ num }}</div>
+        <div class="question-number-math">{{ num }}</div><br>
+        <div class="answer-math-2">
+            <div class="col-md-3 answer-math-1">{{picked_1}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_2}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_3}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_4}}&nbsp;</div>
+        </div>
         <div class="form-check question">
-            <div class="answer-math-2">
-                <div class="col-md-3 answer-math-1">{{picked_1}}</div>
-                <div class="col-md-3 answer-math-1">{{picked_2}}</div>
-                <div class="col-md-3 answer-math-1">{{picked_3}}</div>
-                <div class="col-md-3 answer-math-1">{{picked_4}}</div>
-            </div>
-            <span class="student-label">/</span>
+            <span class="student-label answer-slash">/</span>
             <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="/" v-model="picked_2">
             <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="/" v-model="picked_3">
         </div>

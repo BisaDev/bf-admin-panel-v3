@@ -83005,20 +83005,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "question col-md-2"
   }, [_c('div', {
     staticClass: "question-number-math"
-  }, [_vm._v(_vm._s(_vm.num))]), _vm._v(" "), _c('div', {
-    staticClass: "form-check question"
-  }, [_c('div', {
+  }, [_vm._v(_vm._s(_vm.num))]), _c('br'), _vm._v(" "), _c('div', {
     staticClass: "answer-math-2"
   }, [_c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_1))]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_1) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_2))]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_2) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_3))]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_3) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_4))])]), _vm._v(" "), _c('span', {
-    staticClass: "student-label"
+  }, [_vm._v(_vm._s(_vm.picked_4) + " ")])]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label answer-slash"
   }, [_vm._v("/")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",

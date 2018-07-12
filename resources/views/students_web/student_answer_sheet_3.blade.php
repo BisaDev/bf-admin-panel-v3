@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="container col-md-offset-1">
                     <div class="row text-center">
-                        @for ($i = 1; $i <= 5; $i++)
+                        @for ($i = 16; $i <= 20; $i++)
                             @if($i%5 == 0)
                             <div class="row text-center">
                                 <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>

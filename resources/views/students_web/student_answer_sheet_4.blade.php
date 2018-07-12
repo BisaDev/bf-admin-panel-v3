@@ -28,7 +28,19 @@
 
         <div class="col-md-10 col-md-offset-1 card-box">
             <div class="row">
-                <student-answer-sheet-3 :questions="5"></student-answer-sheet-3>
+                <div class="container col-md-offset-1">
+                    <div class="row text-center">
+                        @for ($i = 31; $i <= 38; $i++)
+                            @if($i%5 == 0)
+                                <div class="row text-center">
+                                    <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>
+                                </div>
+                            @else
+                                <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>
+                            @endif
+                        @endfor
+                    </div>
+                </div>
             </div>
         </div>
 

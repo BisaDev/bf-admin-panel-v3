@@ -28520,6 +28520,9 @@ table.model-list td img {
   padding-top: 10px;
   position: relative;
 }
+.question-math {
+  margin-top: 10px;
+}
 .radio-inline {
   display: block;
 }
@@ -28537,22 +28540,26 @@ table.model-list td img {
 }
 .student-answer {
   line-height: normal;
-  margin: 4px 2px 0;
+  margin: 4px 2px 0 !important;
 }
 .student-label {
   font-weight: bold;
   padding-right: 5px;
 }
 .answer-math-1 {
-  width: 20%;
   border-width: 1px;
-  text-align: center;
   display: inline-block;
+  margin-right: -1px;
   border-style: none solid solid solid;
 }
 .answer-math-2 {
-  padding: 0 0 30px 10px;
+  padding: 0 0 20px 10px;
 }
 .answer-math-text {
   display: none;
+}
+.answer-slash {
+  left: 0;
+  margin-left: 5px;
+  position: absolute;
 }
