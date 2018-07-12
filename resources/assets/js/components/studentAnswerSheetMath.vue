@@ -1,74 +1,119 @@
 <template>
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3">
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        / <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        . <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        0 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        1 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        2 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        3 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        4 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        5 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        6 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        7 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        8 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label" for="exampleRadios1">
-                        9 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    </label>
-                </div>
+    <div class="question col-md-2">
+        <div class="question-number-math">{{ num }}</div>
+        <div class="form-check question">
+            <div class="answer-math-2">
+                <div class="col-md-3 answer-math-1">{{picked_1}}</div>
+                <div class="col-md-3 answer-math-1">{{picked_2}}</div>
+                <div class="col-md-3 answer-math-1">{{picked_3}}</div>
+                <div class="col-md-3 answer-math-1">{{picked_4}}</div>
             </div>
+            <span class="student-label">/</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="/" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="/" v-model="picked_3">
         </div>
-
+        <div class="form-check question">
+            <span class="student-label">.</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="." v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="." v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="." v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="." v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">0</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="0" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="0" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="0" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="0" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">1</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="1" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="1" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="1" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="1" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">2</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="2" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="2" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="2" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="2" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">3</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="3" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="3" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="3" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="3" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">4</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="4" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="4" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="4" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="4" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">5</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="5" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="5" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="5" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="5" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">6</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="6" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="6" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="6" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="6" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">7</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="7" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="7" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="7" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="7" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">8</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="8" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="8" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="8" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="8" v-model="picked_4">
+        </div>
+        <div class="form-check question">
+            <span class="student-label">9</span>
+            <input class="form-check-input student-answer" type="radio" :name="'question_1_' + num" value="9" v-model="picked_1">
+            <input class="form-check-input student-answer" type="radio" :name="'question_2_' + num" value="9" v-model="picked_2">
+            <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="9" v-model="picked_3">
+            <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="9" v-model="picked_4">
+        </div>
+        <input class="answer-math-text" type="text" :value="picked_1 + picked_2 + picked_3 + picked_4" disabled>
     </div>
 </template>
 
 <script>
     export default {
+        props: ['num'],
+        data() {
+            return {
+                numberOfColumns: 5,
+                picked_1: "",
+                picked_2: "",
+                picked_3: "",
+                picked_4: "",
+            }
+        },
+        computed: {
+            rowCount: function () {
+                return Math.floor(((this.questions - 1) / this.numberOfColumns)) + 1
+            }
+        },
+        methods: {
+            layoutCount: function (rows, columns) {
+                return (rows - 1) * this.numberOfColumns + columns
+            },
+        }
     }
 </script>

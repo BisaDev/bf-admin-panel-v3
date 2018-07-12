@@ -28,7 +28,7 @@
 
         <div class="col-md-10 col-md-offset-1 card-box">
             <div class="row">
-                <student-answer-sheet-3></student-answer-sheet-3>
+                <student-answer-sheet-3 :questions="5"></student-answer-sheet-3>
             </div>
         </div>
 

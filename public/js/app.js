@@ -26055,14 +26055,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         rowsPerColumn: function rowsPerColumn(column) {
             if (column === 5) {
-                if (this.remainder === 1) {
-                    return this.maxRows - 4;
-                } else if (this.remainder === 2) {
-                    return this.maxRows - 3;
-                } else if (this.remainder === 3) {
-                    return this.maxRows - 2;
-                } else if (this.remainder === 4) {
-                    return this.maxRows - 1;
+                if (this.remainder > 0) {
+                    return this.maxRows + (this.remainder - 5);
                 } else {
                     return this.maxRows;
                 }
@@ -26149,8 +26143,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['num'],
+    data: function data() {
+        return {
+            numberOfColumns: 5,
+            picked_1: "",
+            picked_2: "",
+            picked_3: "",
+            picked_4: ""
+        };
+    },
+
+    computed: {
+        rowCount: function rowCount() {
+            return Math.floor((this.questions - 1) / this.numberOfColumns) + 1;
+        }
+    },
+    methods: {
+        layoutCount: function layoutCount(rows, columns) {
+            return (rows - 1) * this.numberOfColumns + columns;
+        }
+    }
+});
 
 /***/ }),
 /* 68 */
@@ -82960,208 +83001,1045 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "container"
+    staticClass: "question col-md-2"
   }, [_c('div', {
-    staticClass: "row text-center"
+    staticClass: "question-number-math"
+  }, [_vm._v(_vm._s(_vm.num))]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
   }, [_c('div', {
-    staticClass: "col-md-3"
+    staticClass: "answer-math-2"
   }, [_c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    / "), _c('input', {
-    staticClass: "form-check-input",
-    attrs: {
-      "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    . "), _c('input', {
-    staticClass: "form-check-input",
+    staticClass: "col-md-3 answer-math-1"
+  }, [_vm._v(_vm._s(_vm.picked_1))]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-3 answer-math-1"
+  }, [_vm._v(_vm._s(_vm.picked_2))]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-3 answer-math-1"
+  }, [_vm._v(_vm._s(_vm.picked_3))]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-3 answer-math-1"
+  }, [_vm._v(_vm._s(_vm.picked_4))])]), _vm._v(" "), _c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("/")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
     attrs: {
       "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
+      "name": 'question_2_' + _vm.num,
+      "value": "/"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "/")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "/"
+      }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    0 "), _c('input', {
-    staticClass: "form-check-input",
-    attrs: {
-      "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    1 "), _c('input', {
-    staticClass: "form-check-input",
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
     attrs: {
       "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
+      "name": 'question_3_' + _vm.num,
+      "value": "/"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "/")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "/"
+      }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    2 "), _c('input', {
-    staticClass: "form-check-input",
-    attrs: {
-      "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    3 "), _c('input', {
-    staticClass: "form-check-input",
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v(".")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
     attrs: {
       "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
+      "name": 'question_1_' + _vm.num,
+      "value": "."
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, ".")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "."
+      }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    4 "), _c('input', {
-    staticClass: "form-check-input",
-    attrs: {
-      "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    5 "), _c('input', {
-    staticClass: "form-check-input",
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
     attrs: {
       "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
+      "name": 'question_2_' + _vm.num,
+      "value": "."
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, ".")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "."
+      }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    6 "), _c('input', {
-    staticClass: "form-check-input",
-    attrs: {
-      "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    7 "), _c('input', {
-    staticClass: "form-check-input",
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
     attrs: {
       "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
+      "name": 'question_3_' + _vm.num,
+      "value": "."
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, ".")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "."
+      }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    8 "), _c('input', {
-    staticClass: "form-check-input",
-    attrs: {
-      "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-check"
-  }, [_c('label', {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleRadios1"
-    }
-  }, [_vm._v("\n                    9 "), _c('input', {
-    staticClass: "form-check-input",
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
     attrs: {
       "type": "radio",
-      "name": "exampleRadios",
-      "id": "exampleRadios1",
-      "value": "option1",
-      "checked": ""
+      "name": 'question_4_' + _vm.num,
+      "value": "."
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, ".")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "."
+      }
     }
-  })])])])])])
-}]}
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("0")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "0"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "0")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "0"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "0"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "0")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "0"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "0"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "0")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "0"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "0"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "0")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "0"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("1")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "1"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "1")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "1"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "1"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "1")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "1"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "1"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "1")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "1"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "1"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "1")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "1"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("2")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "2"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "2")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "2"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "2"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "2")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "2"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "2"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "2")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "2"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "2"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "2")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "2"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("3")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "3"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "3")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "3"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "3"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "3")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "3"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "3"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "3")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "3"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "3"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "3")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "3"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("4")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "4"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "4")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "4"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "4"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "4")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "4"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "4"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "4")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "4"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "4"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "4")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "4"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("5")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "5"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "5")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "5"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "5"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "5")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "5"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "5"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "5")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "5"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "5"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "5")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "5"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("6")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "6"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "6")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "6"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "6"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "6")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "6"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "6"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "6")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "6"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "6"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "6")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "6"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("7")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "7"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "7")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "7"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "7"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "7")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "7"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "7"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "7")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "7"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "7"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "7")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "7"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("8")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "8"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "8")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "8"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "8"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "8")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "8"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "8"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "8")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "8"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "8"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "8")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "8"
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('span', {
+    staticClass: "student-label"
+  }, [_vm._v("9")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_1),
+      expression: "picked_1"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_1_' + _vm.num,
+      "value": "9"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_1, "9")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_1 = "9"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_2),
+      expression: "picked_2"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_2_' + _vm.num,
+      "value": "9"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_2, "9")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_2 = "9"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_3),
+      expression: "picked_3"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_3_' + _vm.num,
+      "value": "9"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_3, "9")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_3 = "9"
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.picked_4),
+      expression: "picked_4"
+    }],
+    staticClass: "form-check-input student-answer",
+    attrs: {
+      "type": "radio",
+      "name": 'question_4_' + _vm.num,
+      "value": "9"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.picked_4, "9")
+    },
+    on: {
+      "change": function($event) {
+        _vm.picked_4 = "9"
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    staticClass: "answer-math-text",
+    attrs: {
+      "type": "text",
+      "disabled": ""
+    },
+    domProps: {
+      "value": _vm.picked_1 + _vm.picked_2 + _vm.picked_3 + _vm.picked_4
+    }
+  })])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

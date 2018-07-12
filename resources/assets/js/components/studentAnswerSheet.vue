@@ -27,15 +27,9 @@
         methods: {
             rowsPerColumn : function (column) {
                 if(column === 5) {
-                    if (this.remainder === 1){
-                        return this.maxRows - 4
-                    } else if (this.remainder === 2){
-                        return this.maxRows - 3
-                    } else if (this.remainder === 3){
-                        return this.maxRows - 2
-                    } else if (this.remainder === 4){
-                        return this.maxRows - 1
-                    }else {
+                    if (this.remainder > 0){
+                        return this.maxRows + (this.remainder - 5)
+                    } else {
                         return this.maxRows
                     }
                 } else {
