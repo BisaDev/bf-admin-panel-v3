@@ -26,11 +26,12 @@ Route::domain('students.brightfoxv2.test')->group(function () {
 
     Route::group(['middleware' => ['auth']], function(){
 
-        Route::get('/', 'StudentDashboardController@index')->name('student_dashboard');;
-        Route::get('answer_sheet/1', 'AnswerSheetController@answer_sheet_1')->name('answer_sheet_1');;
-        Route::get('answer_sheet/2', 'AnswerSheetController@answer_sheet_2')->name('answer_sheet_2');;
-        Route::get('answer_sheet/3', 'AnswerSheetController@answer_sheet_3')->name('answer_sheet_3');;
-        Route::get('answer_sheet/4', 'AnswerSheetController@answer_sheet_4')->name('answer_sheet_4');;
+        Route::get('/', 'StudentDashboardController@index')->name('student_dashboard');
+        Route::post('answer_sheet/', 'AnswerSheetController@show')->name('answer_sheet.show');
+//        Route::get('answer_sheet/1', 'AnswerSheetController@answer_sheet_1')->name('answer_sheet_1');
+//        Route::get('answer_sheet/2', 'AnswerSheetController@answer_sheet_2')->name('answer_sheet_2');
+//        Route::get('answer_sheet/3', 'AnswerSheetController@answer_sheet_3')->name('answer_sheet_3');
+//        Route::get('answer_sheet/4', 'AnswerSheetController@answer_sheet_4')->name('answer_sheet_4');
     });
 });
 

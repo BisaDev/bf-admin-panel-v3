@@ -84030,10 +84030,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })]), _vm._v(" "), _c('input', {
-    staticClass: "answer-math-text",
     attrs: {
-      "type": "text",
-      "disabled": ""
+      "type": "hidden"
     },
     domProps: {
       "value": _vm.picked_1 + _vm.picked_2 + _vm.picked_3 + _vm.picked_4

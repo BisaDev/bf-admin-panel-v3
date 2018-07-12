@@ -89,7 +89,7 @@
             <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="9" v-model="picked_3">
             <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="9" v-model="picked_4">
         </div>
-        <input class="answer-math-text" type="text" :value="picked_1 + picked_2 + picked_3 + picked_4" disabled>
+        <input type="hidden" :value="picked_1 + picked_2 + picked_3 + picked_4">
     </div>
 </template>
 
