@@ -26041,6 +26041,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['questions'],
@@ -82858,7 +82859,7 @@ module.exports = Component.exports
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "container col-md-offset-1"
+    staticClass: "container col-md-offset-2"
   }, [_c('div', {
     staticClass: "row text-center"
   }, _vm._l((_vm.numberOfColumns), function(column) {
@@ -82916,6 +82917,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "type": "radio",
           "name": 'question_' + _vm.num,
           "value": "D"
+        }
+      })]), _vm._v(" "), _c('label', [_vm._v("   "), _c('input', {
+        staticClass: "student-answer radio-inline",
+        attrs: {
+          "type": "checkbox",
+          "name": 'question_' + _vm.num,
+          "value": "guessed"
         }
       })])])
     }))

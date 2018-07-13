@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-md-offset-1">
+    <div class="container col-md-offset-2">
         <div class="row text-center">
             <div class="col-md-2" v-for="column in numberOfColumns">
                 <div class="question" v-for="row in rowsPerColumn(column)">
@@ -8,6 +8,7 @@
                     <label class="form-check-label" :for="'question_' + num"> B <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="B"></label>
                     <label class="form-check-label" :for="'question_' + num"> C <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="C"></label>
                     <label class="form-check-label" :for="'question_' + num"> D <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="D"></label>
+                    <label> &nbsp; <input class="student-answer radio-inline" type="checkbox" :name="'question_' + num" value="guessed"> </label>
                 </div>
             </div>
         </div>

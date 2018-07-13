@@ -21,11 +21,13 @@
             </div>
         </div>
 
-        <div class="col-md-10 col-md-offset-1 card-box">
+        <div class="col-md-11 card-box">
             <div class="row">
                 <student-answer-sheet :questions="52"></student-answer-sheet>
             </div>
         </div>
+
+        <input type="hidden" name="sections" value="{{$sections}}">
 
         <div class="row">
             <div class="form-group col-md-10 col-md-offset-1 text-right">
