@@ -18,10 +18,10 @@ class CreateExamSectionsTable extends Migration
             $table->integer('section_number');
             $table->integer('question_number');
             $table->string('correct_1');
-            $table->string('correct_2');
-            $table->string('correct_3');
-            $table->string('correct_4');
-            $table->string('correct_5');
+            $table->string('correct_2')->nullable();
+            $table->string('correct_3')->nullable();
+            $table->string('correct_4')->nullable();
+            $table->string('correct_5')->nullable();
             $table->string('topic');
             $table->timestamps();
         });

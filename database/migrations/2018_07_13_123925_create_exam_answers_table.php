@@ -17,8 +17,8 @@ class CreateExamAnswersTable extends Migration
             $table->increments('id');
             $table->integer('student_exam_section_id')->unsigned();
             $table->integer('question_number');
-            $table->string('answer');
-            $table->string('guessed');
+            $table->string('answer')->nullable();
+            $table->string('guessed')->nullable();
             $table->timestamps();
 
             $table->foreign('student_exam_section_id')
