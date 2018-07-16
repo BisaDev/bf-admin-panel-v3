@@ -34,6 +34,15 @@
                 <button type="submit" class="btn btn-md btn-info">Submit</button>
             </div>
         </div>
+
+        <div class="modal fade" id="modal-guessed" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    ...
+                </div>
+            </div>
+        </div>
+
     </div>
 
 @endsection
