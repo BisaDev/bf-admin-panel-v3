@@ -10,6 +10,11 @@ class Exam extends Model
         'type', 'test_id'
     ];
 
+    public function getTestIdAttribute()
+    {
+        return "{$this->type}-{$this->id}";
+    }
+
     public function sections()
     {
         return $this->hasMany(ExamSection::class);
