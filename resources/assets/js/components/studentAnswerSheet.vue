@@ -8,9 +8,12 @@
                     <label class="form-check-label" :for="'question_' + num"> B <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="B"></label>
                     <label class="form-check-label" :for="'question_' + num"> C <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="C"></label>
                     <label class="form-check-label" :for="'question_' + num"> D <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="D"></label>
-                    <label class="form-check-label" v-if="row === 1"><i class="ti-help-alt" data-toggle="popover" title="Guessed" data-content="If you guessed this question, please mark this checkbox"></i> <input class="student-answer radio-inline" type="checkbox" :name="'question_' + num" value="guessed"></label>
+                    <label class="form-check-label" v-if="row === 1" data-toggle="popover"><i class="ti-help-alt"></i> <input class="student-answer radio-inline" type="checkbox" :name="'question_' + num" value="guessed"></label>
                     <label class="form-check-label" v-if="row !== 1"> &nbsp; <input class="student-answer radio-inline" type="checkbox" :name="'question_' + num" value="guessed"></label>
                 </div>
+            </div>
+            <div class="col-md-1 question text-right">
+                <i class="ti-help-alt guessed-question" data-toggle="popover" title="Guessed" data-content="If you guessed the question, please mark its checkbox"></i>
             </div>
         </div>
     </div>
@@ -28,12 +31,8 @@
         },
         methods: {
             rowsPerColumn : function (column) {
-                if(column === 5) {
-                    if (this.remainder > 0){
-                        return this.maxRows + (this.remainder - 5)
-                    } else {
-                        return this.maxRows
-                    }
+                if(column === 5 && this.remainder > 0) {
+                    return this.maxRows + (this.remainder - 5)
                 } else {
                     return this.maxRows
                 }

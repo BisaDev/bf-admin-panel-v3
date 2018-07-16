@@ -28560,3 +28560,6 @@ table.model-list td img {
   margin-left: 5px;
   position: absolute;
 }
+.guessed-question {
+  font-size: 25px;
+}

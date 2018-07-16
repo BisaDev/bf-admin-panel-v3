@@ -25828,14 +25828,16 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 64 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
 //
 
-module.exports = {
+/* harmony default export */ __webpack_exports__["default"] = ({
     props: ['availableTime'],
     data: function data() {
         return {
@@ -25882,7 +25884,7 @@ module.exports = {
             }
         }
     }
-};
+});
 
 /***/ }),
 /* 65 */
@@ -26043,6 +26045,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['questions'],
@@ -26056,12 +26061,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         rowsPerColumn: function rowsPerColumn(column) {
-            if (column === 5) {
-                if (this.remainder > 0) {
-                    return this.maxRows + (this.remainder - 5);
-                } else {
-                    return this.maxRows;
-                }
+            if (column === 5 && this.remainder > 0) {
+                return this.maxRows + (this.remainder - 5);
             } else {
                 return this.maxRows;
             }
@@ -82866,7 +82867,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "container col-md-offset-1"
   }, [_c('div', {
     staticClass: "row text-center"
-  }, _vm._l((_vm.numberOfColumns), function(column) {
+  }, [_vm._l((_vm.numberOfColumns), function(column) {
     return _c('div', {
       staticClass: "col-md-2"
     }, _vm._l((_vm.rowsPerColumn(column)), function(row) {
@@ -82923,14 +82924,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "value": "D"
         }
       })]), _vm._v(" "), (row === 1) ? _c('label', {
-        staticClass: "form-check-label"
-      }, [_c('i', {
-        staticClass: "ti-help-alt",
+        staticClass: "form-check-label",
         attrs: {
-          "data-toggle": "popover",
-          "title": "Guessed",
-          "data-content": "If you guessed this question, please mark this checkbox"
+          "data-toggle": "popover"
         }
+      }, [_c('i', {
+        staticClass: "ti-help-alt"
       }), _vm._v(" "), _c('input', {
         staticClass: "student-answer radio-inline",
         attrs: {
@@ -82949,8 +82948,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       })]) : _vm._e()])
     }))
-  }))])
-},staticRenderFns: []}
+  }), _vm._v(" "), _vm._m(0)], 2)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-1 question text-right"
+  }, [_c('i', {
+    staticClass: "ti-help-alt guessed-question",
+    attrs: {
+      "data-toggle": "popover",
+      "title": "Guessed",
+      "data-content": "If you guessed the question, please mark its checkbox"
+    }
+  })])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
