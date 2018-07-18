@@ -16,7 +16,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            @foreach($list as $exam)
+            @foreach($examList as $exam)
                 <ul>
                     <li>{{$exam->test_id}}</li>
                 </ul>

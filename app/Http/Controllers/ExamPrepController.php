@@ -14,8 +14,8 @@ class ExamPrepController extends Controller
      */
     public function index()
     {
-        $list = Exam::paginate(20);
-        return view('web.exam_prep.index', compact('list'));
+        $examList = Exam::paginate(20);
+        return view('web.exam_prep.index', compact('examList'));
     }
 
     /**
@@ -53,6 +53,7 @@ class ExamPrepController extends Controller
 
         foreach($examArray as $question){
             ExamSection::create([
+                'exam_id' => $exam->id,
                 'section_number' => $question['section_number'],
                 'question_number' => $question['question_number'],
                 'correct_1' => $question['correct_1'],
