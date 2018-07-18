@@ -10,7 +10,7 @@ class Exam extends Model
         'type', 'test_id'
     ];
 
-    public function getTestIdAttribute()
+    public function getCreateTestIdAttribute()
     {
         return "{$this->type}-{$this->id}";
     }

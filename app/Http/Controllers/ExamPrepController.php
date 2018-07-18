@@ -3,6 +3,7 @@
 namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Brightfox\Models\Exam, Brightfox\Models\ExamSection;
 
 class ExamPrepController extends Controller
 {
@@ -13,7 +14,8 @@ class ExamPrepController extends Controller
      */
     public function index()
     {
-        return view('web.exam_prep.index');
+        $list = Exam::paginate(20);
+        return view('web.exam_prep.index', compact('list'));
     }
 
     /**
@@ -34,12 +36,37 @@ class ExamPrepController extends Controller
      */
     public function store(Request $request)
     {
-        $csvFile = $request->file('csv');
-        $path = $csvFile->store('/data');
-        $examArray = $this->createArray(storage_path('app/' . $path));
-        dd($examArray);
-        return view('web.exam_prep.index');
+        $this->validate($request, [
+            'csv' => 'required|file|mimes:csv,txt'
+        ]);
 
+        $path = $request->file('csv')->store('/data');
+        $examArray = $this->createArray(storage_path('app/' . $path));
+
+        $exam = Exam::create([
+            'type' => $examArray[0]
+        ]);
+        $exam->test_id = $exam->create_test_id;
+        $exam->save();
+
+        array_shift($examArray);
+
+        foreach($examArray as $question){
+            ExamSection::create([
+                'section_number' => $question['section_number'],
+                'question_number' => $question['question_number'],
+                'correct_1' => $question['correct_1'],
+                'correct_2' => $question['correct_2'],
+                'correct_3' => $question['correct_3'],
+                'correct_4' => $question['correct_4'],
+                'correct_5' => $question['correct_5'],
+                'topic' => $question['topic'],
+            ]);
+        }
+
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Exam was successfully created']);
+
+        return redirect(route('exams.index'));
     }
 
     /**
