@@ -4,6 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Brightfox\Models\Exam, Brightfox\Models\ExamSection;
 
 class ExamPrepController extends Controller
@@ -42,16 +43,16 @@ class ExamPrepController extends Controller
         ]);
 
         $path = $request->file('csv')->store('/data');
-        $validator = $this->validateCsv(storage_path('app/' . $path));
+        $csvStructureValidator = $this->validateStructureCsv(storage_path('app/' . $path));
 
-        if ($validator->fails()) {
+        if ($csvStructureValidator->fails()) {
             return redirect(route('exams.create'))
-                ->withErrors($validator);
+                ->withErrors($csvStructureValidator);
         }
 
-        dd('success');
-
         $examArray = $this->createArray(storage_path('app/' . $path));
+
+        DB::beginTransaction();
 
         $exam = Exam::create([
             'type' => $examArray[0]
@@ -62,19 +63,26 @@ class ExamPrepController extends Controller
         array_shift($examArray);
 
         foreach($examArray as $question){
-            ExamSection::create([
-                'exam_id' => $exam->id,
-                'section_number' => $question['section_number'],
-                'question_number' => $question['question_number'],
-                'correct_1' => $question['correct_1'],
-                'correct_2' => $question['correct_2'],
-                'correct_3' => $question['correct_3'],
-                'correct_4' => $question['correct_4'],
-                'correct_5' => $question['correct_5'],
-                'topic' => $question['topic'],
-            ]);
+            try {
+                ExamSection::create([
+                    'exam_id' => $exam->id,
+                    'section_number' => $question['section_number'] === "" ? NULL : $question['section_number'],
+                    'question_number' => $question['question_number'] === "" ? NULL : $question['question_number'],
+                    'correct_1' => $question['correct_1'] === "" ? NULL : $question['correct_1'],
+                    'correct_2' => $question['correct_2'],
+                    'correct_3' => $question['correct_3'],
+                    'correct_4' => $question['correct_4'],
+                    'correct_5' => $question['correct_5'],
+                    'topic' => $question['topic'],
+                ]);
+            } catch(\Exception $error) {
+                DB::rollBack();
+                $request->session()->flash('msg', ['type' => 'danger', 'text' => 'The Exam failed to upload: ' . $error->errorInfo[2]]);
+                return redirect(route('exams.index'));
+            }
         }
 
+        DB::commit();
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Exam was successfully created']);
 
         return redirect(route('exams.index'));
@@ -166,7 +174,7 @@ class ExamPrepController extends Controller
         return $arr;
     }
 
-    public function validateCsv($csv_path)
+    public function validateStructureCsv($csv_path)
     {
         ini_set('auto_detect_line_endings', true);
         $opened_file = fopen($csv_path, 'r');

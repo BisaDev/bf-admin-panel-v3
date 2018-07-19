@@ -38,8 +38,7 @@
                                 </span>
                             </div>
 
-                            <input style="display:none" type="file" name="csv" ref="file" v-uploader>
-
+                            <input class="input-file" type="file" name="csv" ref="file" v-uploader>
 
                             @if($errors->all())
                                 @foreach($errors->all() as $errorMessage)
