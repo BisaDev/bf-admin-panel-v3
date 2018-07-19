@@ -29,7 +29,8 @@
                         <div class="form-group col-md-12 {{ $errors->has('csv')? 'has-error' : '' }}">
 
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Choose a CSV File..." :value="file.name" @click="launchFilePicker" readonly>
+                                <input type="text" class="form-control" placeholder="Choose a CSV File..."
+                                       :value="file.name" @click="launchFilePicker" readonly>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" @click="launchFilePicker">
                                         <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
@@ -39,11 +40,15 @@
 
                             <input style="display:none" type="file" name="csv" ref="file" v-uploader>
 
-                            @if($errors->has('csv'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('csv') }}</strong>
-                                </span>
+
+                            @if($errors->all())
+                                @foreach($errors->all() as $errorMessage)
+                                    <span class="help-block">
+                                        <strong>{{ $errorMessage}}</strong>
+                                    </span>
+                                @endforeach
                             @endif
+
                         </div>
 
                         <div class="form-group col-md-12 text-right">

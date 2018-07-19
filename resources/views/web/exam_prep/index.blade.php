@@ -16,6 +16,14 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+
+            @if(Session::has('msg'))
+                <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ Session::get('msg.text') }}
+                </div>
+            @endif
+
             @foreach($examList as $exam)
                 <ul>
                     <li>{{$exam->test_id}}</li>

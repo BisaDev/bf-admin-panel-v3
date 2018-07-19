@@ -3,6 +3,7 @@
 namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Brightfox\Models\Exam, Brightfox\Models\ExamSection;
 
 class ExamPrepController extends Controller
@@ -41,6 +42,15 @@ class ExamPrepController extends Controller
         ]);
 
         $path = $request->file('csv')->store('/data');
+        $validator = $this->validateCsv(storage_path('app/' . $path));
+
+        if ($validator->fails()) {
+            return redirect(route('exams.create'))
+                ->withErrors($validator);
+        }
+
+        dd('success');
+
         $examArray = $this->createArray(storage_path('app/' . $path));
 
         $exam = Exam::create([
@@ -154,5 +164,49 @@ class ExamPrepController extends Controller
             fclose($handle);
         }
         return $arr;
+    }
+
+    public function validateCsv($csv_path)
+    {
+        ini_set('auto_detect_line_endings', true);
+        $opened_file = fopen($csv_path, 'r');
+
+        $type = fgetcsv($opened_file, 0, ',')[0];
+        $header = fgetcsv($opened_file, 0, ',');
+
+        fclose($opened_file);
+
+        $validationRules = [
+            'type' => 'required|string|alpha',
+            'section_number' => 'required',
+            'question_number' => 'required',
+            'correct_1' => 'required',
+            'correct_2' => 'required',
+            'correct_3' => 'required',
+            'correct_4' => 'required',
+            'correct_5' => 'required',
+            'topic' => 'required',
+        ];
+
+        $arrayToValidate = [
+            'type' => $type,
+            'section_number' => $this->getKeyByValue($header, 'section_number'),
+            'question_number' => $this->getKeyByValue($header, 'question_number'),
+            'correct_1' => $this->getKeyByValue($header, 'correct_1'),
+            'correct_2' => $this->getKeyByValue($header, 'correct_2'),
+            'correct_3' => $this->getKeyByValue($header, 'correct_3'),
+            'correct_4' => $this->getKeyByValue($header, 'correct_4'),
+            'correct_5' => $this->getKeyByValue($header, 'correct_5'),
+            'topic' => $this->getKeyByValue($header, 'topic'),
+        ];
+
+        $validator = Validator::make($arrayToValidate, $validationRules);
+
+        return $validator;
+    }
+
+    private function getKeyByValue($array, $value)
+    {
+        return in_array($value, $array) ? $value : '';
     }
 }
