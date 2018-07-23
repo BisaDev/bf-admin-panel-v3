@@ -97,6 +97,8 @@ class ExamPrepController extends Controller
     public function show(Exam $exam)
     {
         $item = $exam;
+
+        //ToDo: change this to be dynamic in case that we have different type-sections
         $sections = [
             '1' => 'Reading Comprehension',
             '2' => 'Writing and Language',
