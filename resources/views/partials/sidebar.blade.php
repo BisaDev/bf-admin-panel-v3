@@ -68,8 +68,8 @@
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="list-unstyled">
-                        <li class="{{ Request::is('sat_exams/*')? 'active' : '' }}"><a href="{{ route('dashboard') }}">Exams</a></li>
-                        <li class="{{ Request::is('sat_results/*')? 'active' : '' }}"><a href="{{ route('dashboard') }}">Results</a></li>
+                        <li class="{{ Request::is('sat_exams/*')? 'active' : '' }}"><a href="{{ route('exams.index') }}">Exams</a></li>
+                        <li class="{{ Request::is('sat_results/*')? 'active' : '' }}"><a href="{{ route('exams.index') }}">Results</a></li>
                     </ul>
                 </li>
 

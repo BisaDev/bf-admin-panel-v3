@@ -3334,7 +3334,7 @@ input[type="search"] {
 }
 input[type="radio"],
 input[type="checkbox"] {
-  margin: 4px 8px 0 0;
+  margin: 4px 0 0;
   margin-top: 1px \9;
   line-height: normal;
 }
@@ -28515,4 +28515,7 @@ table.model-list td img {
 .lightbox__image img {
   max-width: 800px!important;
   max-height: 800px!important;
+}
+.input-file {
+  display: none !important;
 }

@@ -24,6 +24,7 @@ import create_meetup from './pages/create-meetup';
 import show_student from './pages/show-student';
 import take_practice_exam from './pages/take_practice_exam';
 import print from './pages/print';
+import upload_file from './pages/upload-file';
 
 const vue_elements = [
     index,
@@ -38,6 +39,7 @@ const vue_elements = [
     show_student,
     take_practice_exam,
     print,
+    upload_file,
 ];
 
 vue_elements.forEach(function (element) {

@@ -15,15 +15,20 @@ class CreateExamSectionsTable extends Migration
     {
         Schema::create('exam_sections', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('section_number');
-            $table->integer('question_number');
-            $table->string('correct_1');
-            $table->string('correct_2')->nullable();
-            $table->string('correct_3')->nullable();
-            $table->string('correct_4')->nullable();
-            $table->string('correct_5')->nullable();
+            $table->unsignedInteger('exam_id');
+            $table->unsignedInteger('section_number');
+            $table->unsignedInteger('question_number');
+            $table->string('correct_1', 4);
+            $table->string('correct_2', 4)->nullable();
+            $table->string('correct_3', 4)->nullable();
+            $table->string('correct_4', 4)->nullable();
+            $table->string('correct_5', 4)->nullable();
             $table->string('topic');
             $table->timestamps();
+
+            $table->foreign('exam_id')
+                ->references('id')->on('exams')
+                ->onDelete('cascade');
         });
     }
 
