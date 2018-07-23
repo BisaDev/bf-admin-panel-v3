@@ -24,11 +24,30 @@
                 </div>
             @endif
 
-            @foreach($examList as $exam)
-                <ul>
-                    <li>{{$exam->test_id}}</li>
-                </ul>
-            @endforeach
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <table class="table table-responsive model-list">
+                            <thead>
+                                <tr>
+                                    <th>Exam</th>
+                                    <th>Exam Type</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach($examList as $exam)
+                                    <tr>
+                                        <td><a href="{{ route('exams.show', $exam->id)}}"> {{ $exam->test_id }} </a></td>
+                                        <td>{{ $exam->type }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

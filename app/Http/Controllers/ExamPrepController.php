@@ -94,9 +94,17 @@ class ExamPrepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Exam $exam)
     {
-        //
+        $item = $exam;
+        $sections = [
+            '1' => 'Reading Comprehension',
+            '2' => 'Writing and Language',
+            '3' => 'Math-No Calculator',
+            '4' => 'Math-With Calculator'
+        ];
+
+        return view('web.exam_prep.show', compact('item', 'sections'));
     }
 
     /**
@@ -105,9 +113,14 @@ class ExamPrepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function exam_section_edit(Exam $exam, $sectionId)
     {
-        //
+        $examId = $exam->id;
+        $examQuestions = collect(ExamSection::where('exam_id', $examId)
+            ->where('section_number', $sectionId)
+            ->get());
+
+        return view('web.exam_prep.edit', compact('examQuestions', 'exam'));
     }
 
     /**
