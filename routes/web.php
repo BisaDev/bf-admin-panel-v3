@@ -26,7 +26,8 @@ Route::domain('students.brightfoxv2.test')->group(function () {
 
     Route::group(['middleware' => ['auth']], function(){
 
-        Route::get('/', 'StudentDashboardController@index')->name('student_dashboard');;
+        Route::get('/', 'StudentDashboardController@index')->name('student_dashboard');
+        Route::post('answer_sheet/', 'AnswerSheetController@show')->name('answer_sheet.show');
     });
 });
 

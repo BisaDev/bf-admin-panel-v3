@@ -26,6 +26,14 @@ import take_practice_exam from './pages/take_practice_exam';
 import print from './pages/print';
 import upload_file from './pages/upload-file';
 
+Vue.component('chronometer', require('./components/Chronometer'));
+Vue.component('student-answer-sheet', require('./components/studentAnswerSheet'));
+Vue.component('student-answer-sheet-3', require('./components/studentAnswerSheetMath'));
+
+const app = new Vue({
+    el: '#app'
+});
+
 const vue_elements = [
     index,
     index_academic_content,

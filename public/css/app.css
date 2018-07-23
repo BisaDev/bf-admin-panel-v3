@@ -28516,6 +28516,50 @@ table.model-list td img {
   max-width: 800px!important;
   max-height: 800px!important;
 }
-.input-file {
-  display: none !important;
+.question {
+  padding-top: 10px;
+  position: relative;
+}
+.question-math {
+  margin-top: 10px;
+}
+.radio-inline {
+  display: block;
+}
+.question-number {
+  bottom: 0;
+  position: absolute;
+  margin-left: -20px;
+  display: inline-block;
+}
+.question-number-math {
+  left: 0;
+  font-weight: bold;
+  position: absolute;
+  display: inline-block;
+}
+.student-answer {
+  line-height: normal;
+  margin: 4px 2px 0 !important;
+}
+.student-label {
+  font-weight: bold;
+  padding-right: 5px;
+}
+.answer-math-1 {
+  border-width: 1px;
+  display: inline-block;
+  margin-right: -1px;
+  border-style: none solid solid solid;
+}
+.answer-math-2 {
+  padding: 0 0 20px 10px;
+}
+.answer-slash {
+  left: 0;
+  margin-left: 5px;
+  position: absolute;
+}
+.guessed-question {
+  font-size: 25px;
 }
