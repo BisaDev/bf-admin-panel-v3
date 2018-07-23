@@ -99,4 +99,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::get('meetups/{meetup}/student/{student}/print',              'MeetupController@student_detail_print')->name('meetups.student_detail_print');
 
     Route::post('tags/repository',  'TagController@repository')->name('tags.repository');
+
+    Route::resource('exams',   'ExamPrepController', ['except' => 'edit']);
+    Route::get('exams/{exam}/{exam_section}',   'ExamPrepController@exam_section_edit')->name('exams.section.edit');
 });
