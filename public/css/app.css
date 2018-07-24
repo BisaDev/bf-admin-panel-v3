@@ -28516,6 +28516,9 @@ table.model-list td img {
   max-width: 800px!important;
   max-height: 800px!important;
 }
+.input-file {
+  display: none !important;
+}
 .question {
   padding-top: 10px;
   position: relative;
