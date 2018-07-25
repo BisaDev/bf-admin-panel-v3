@@ -45,7 +45,7 @@
                     <h4 class="modal-title"> Take Practice Exam</h4>
                 </div>
 
-                <form action="{{ route('answer_sheet.show') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('answer_sheet.create_exam') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <div class="form-group">
@@ -68,7 +68,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item" v-for="section in sections">
                                             <div class="custom-control custom-checkbox">
-                                                <label> <input type="checkbox" v-model="selected" :name="section.id" :value="section.id"> @{{section.name}} </label>
+                                                <label> <input type="checkbox" v-model="selected" :name="'sections[]'" :value="section.id"> @{{section.name}} </label>
                                             </div>
                                         </li>
                                         <li class="list-group-item">

@@ -20,35 +20,39 @@
             </div>
         </div>
 
-        <div class="col-md-10 col-md-offset-1 card-box">
-            <div class="row">
-                <student-answer-sheet :questions="30"></student-answer-sheet>
+        <form action="{{ route('answer_sheet.save_answers', $section) }}" method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="col-md-10 col-md-offset-1 card-box">
+                <div class="row">
+                    <student-answer-sheet :questions="30"></student-answer-sheet>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-10 col-md-offset-1 card-box">
-            <div class="row">
-                <div class="container col-md-offset-1">
-                    <div class="row text-center">
-                        @for ($i = 31; $i <= 38; $i++)
-                            @if($i%5 == 0)
-                                <div class="row text-center">
+            <div class="col-md-10 col-md-offset-1 card-box">
+                <div class="row">
+                    <div class="container col-md-offset-1">
+                        <div class="row text-center">
+                            @for ($i = 31; $i <= 38; $i++)
+                                @if($i%5 == 0)
+                                    <div class="row text-center">
+                                        <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>
+                                    </div>
+                                @else
                                     <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>
-                                </div>
-                            @else
-                                <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>
-                            @endif
-                        @endfor
+                                @endif
+                            @endfor
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col-md-10 col-md-offset-1 text-right">
-                <button type="submit" class="btn btn-md btn-info">Submit</button>
+            <div class="row">
+                <div class="form-group col-md-10 col-md-offset-1 text-right">
+                    <button type="submit" class="btn btn-md btn-info">Submit</button>
+                </div>
             </div>
-        </div>
+        </form>
+
     </div>
 
 @endsection
