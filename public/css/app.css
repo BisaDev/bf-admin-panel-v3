@@ -8191,9 +8191,9 @@ textarea.form-control {
 /* Badge */
 .badge {
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 500;
   padding: 3px 5px;
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 1px;
   background-color: #5fbeaa;
 }

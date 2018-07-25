@@ -8,6 +8,8 @@ use Brightfox\Models\StudentExam, Brightfox\Models\StudentExamSection, Brightfox
 
 class AnswerSheetController extends Controller
 {
+    protected $sections = StudentExamSection::SECTIONS;
+
     /**
      * Create a new controller instance.
      *
@@ -104,11 +106,18 @@ class AnswerSheetController extends Controller
             $studentExam->number_correct = $totalCorrect;
             $studentExam->save();
 
-            return redirect(route('student_dashboard'));
+            return redirect(route('answer_sheet.show_results', $studentExam->id));
         } else {
             $nextSection = $allSections->get($allSections->search($section) + 1);
             return redirect(route('answer_sheet.show_answer_sheet', $nextSection));
         }
+    }
 
+    public function show_results($studentExamId)
+    {
+        return view('students_web.show_results', [
+            'item' => StudentExam::find($studentExamId),
+            'sectionData' => $this->sections
+        ]);
     }
 }
