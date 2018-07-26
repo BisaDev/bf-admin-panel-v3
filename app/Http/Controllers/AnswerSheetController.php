@@ -32,7 +32,7 @@ class AnswerSheetController extends Controller
 
         $sectionCollection = collect($request->input('sections'));
 
-        $sectionCollection->each(function($section) use($studentExam){
+        $sectionCollection->each(function ($section) use ($studentExam) {
             StudentExamSection::create([
                 'student_exam_id' => $studentExam->id,
                 'section_number' => $section
@@ -52,47 +52,27 @@ class AnswerSheetController extends Controller
     {
         $section = $request->section;
         $studentExam = $request->session()->get('studentExam');
-        $studentExamSectionCollection = collect(StudentExamSection::where('student_exam_id', $studentExam->id)->get());
+        $studentExamSectionCollection = collect($studentExam->sections);
 
         $studentExamSection = StudentExamSection::where('student_exam_id', $studentExam->id)
             ->where('section_number', $section)
             ->first();
 
-        $allSections = $studentExamSectionCollection->map(function($studentExamSection){
-            return $studentExamSection->section_number;
-        });
-
+        $allSections = $studentExamSectionCollection->pluck('section_number');
         $lastSection = $studentExamSectionCollection->last()->section_number;
-
-        switch($section){
-            case 1:
-                $questions = 52;
-                break;
-            case 2:
-                $questions = 44;
-                break;
-            case 3:
-                $questions = 20;
-                break;
-            case 4:
-                $questions = 38;
-                break;
-        }
+        $questions = $this->sections[$section]['questions'];
 
         $numberCorrectSection = 0;
 
-        for($i = 1; $i <= $questions; $i++){
+        for ($i = 1; $i <= $questions; $i++) {
             $examAnswer = ExamAnswer::create([
                 'student_exam_section_id' => $studentExamSection->id,
                 'question_number' => $i,
-                'answer' => $request->input('question_'.$i),
-                'guessed' => $request->input('guessed_'.$i)
+                'answer' => $request->input('question_' . $i),
+                'guessed' => $request->input('guessed_' . $i)
             ]);
-            $correct = ExamSection::where('exam_id', $studentExam->exam_id)
-                ->where('section_number', $section)
-                ->where('question_number', $i)
-                ->first();
-            if (($correct->correct_1  === $examAnswer->answer || $correct->correct_2 === $examAnswer->answer || $correct->correct_3 === $examAnswer->answer || $correct->correct_4 === $examAnswer->answer || $correct->correct_5 === $examAnswer->answer)) {
+            $correct = $examAnswer->correctAnswer;
+            if (($correct->correct_1 === $examAnswer->answer || $correct->correct_2 === $examAnswer->answer || $correct->correct_3 === $examAnswer->answer || $correct->correct_4 === $examAnswer->answer || $correct->correct_5 === $examAnswer->answer)) {
                 $numberCorrectSection = $numberCorrectSection + 1;
             }
         }
@@ -100,7 +80,7 @@ class AnswerSheetController extends Controller
         $studentExamSection->number_correct = $numberCorrectSection;
         $studentExamSection->save();
 
-        if($lastSection == $section){
+        if ($lastSection == $section) {
             $totalCorrect = collect($studentExamSectionCollection->pluck('number_correct'))->sum();
             $totalCorrect = $totalCorrect + $numberCorrectSection;
             $studentExam->number_correct = $totalCorrect;
@@ -115,9 +95,44 @@ class AnswerSheetController extends Controller
 
     public function show_results($studentExamId)
     {
+        $studentExam = StudentExam::find($studentExamId);
+
+        foreach ($studentExam->sections as $examSection) {
+            foreach ($examSection->questions as $question) {
+                $correct = $question->correctAnswer;
+                $answers[] = [
+                    'section' => $examSection->section_number,
+                    'answer' => $question->answer,
+                    'correct' => [$correct->correct_1, $correct->correct_2, $correct->correct_3, $correct->correct_4, $correct->correct_5],
+                    'topic' => $correct->topic,
+                ];
+            }
+        }
+
+        $topics = collect($answers)->groupBy('topic')->toArray();
+
+        foreach ($topics as $topicName => $topic) {
+            $score = 0;
+            $numberOfQuestions = count($topic);
+
+            foreach ($topic as $question) {
+                if ($question['answer'] === $question['correct'][0] || $question['answer'] === $question['correct'][1] || $question['answer'] === $question['correct'][2] || $question['answer'] === $question['correct'][3] || $question['answer'] === $question['correct'][4]) {
+                    $score++;
+                }
+            }
+            $scoreByTopic[] = [
+                'section' => $topic[0]['section'],
+                'score' => round(($score/$numberOfQuestions)*100),
+                'right' => $score,
+                'wrong' => $numberOfQuestions - $score,
+                'topic' => $topicName
+            ];
+        }
+
         return view('students_web.show_results', [
             'item' => StudentExam::find($studentExamId),
-            'sectionData' => $this->sections
+            'sectionData' => $this->sections,
+            'topics' => $scoreByTopic
         ]);
     }
 }

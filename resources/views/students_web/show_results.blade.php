@@ -5,8 +5,10 @@
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Results Page',
-        'breadcrumbs' => [],
-        'currentSection' => '',
+        'breadcrumbs' => [
+            [ 'label' => 'Brightfox', 'url' =>  route('student_dashboard')],
+        ],
+        'currentSection' => 'Results Page',
     ])
 @endsection
 
@@ -16,7 +18,7 @@
         @foreach($item->sections as $section)
             <div class="row">
                 <div class="card-box col-md-12">
-                    <h3 class="m-b-0 m-t-0"> Section {{$section->section_number}} : {{ $sectionData[$section->section_number]['name'] }}</h3>
+                    <h3> Section {{$section->section_number}} : {{ $sectionData[$section->section_number]['name'] }}</h3>
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
@@ -29,16 +31,20 @@
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
-                        <div class="col-md-6 text-right">
-                            <span>Here goes the topic</span>
-                        </div>
+                        @foreach($topics as $topic)
+                            @if($topic['section'] === $section->section_number)
+                                <div class="col-md-6 text-right">
+                                    <span>{{$topic['topic']}}</span>
+                                </div>
 
-                        <div class="col-md-5">
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%"></div>
-                                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 75%" ></div>
-                            </div>
-                        </div>
+                                <div class="col-md-5">
+                                    <div class="progress progress-lg">
+                                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{$topic['score']}}%">{{$topic['right']}}</div>
+                                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{100 - $topic['score']}}%" >{{$topic['wrong']}}</div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
@@ -65,7 +71,7 @@
                                             <td></td>
                                         @else
                                             <td><span class="badge badge-danger">Incorrect</span></td>
-                                            <td><input type="checkbox" name={{'understand_' . $question->question_number}}></td>
+                                            <td><input type="checkbox" name={{'understand_' . $section->section_number . '_' . $question->question_number}}></td>
                                         @endif
                                     </tr>
                                 @endforeach

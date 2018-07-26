@@ -11,11 +11,11 @@ export default {
             data: {
                 selected: []
             },
-            // methods: {
-            //     changeState: function () {
-            //         this.selected.push
-            //     }
-            // },e
+            methods: {
+                toggleState: function () {
+                    this.selected = !this.selected;
+                }
+            },
         });
     },
 }
