@@ -142,7 +142,7 @@ class AnswerSheetController extends Controller
 
     public function edit_understood(Request $request, $studentExamSectionId)
     {
-        $studentExamSection = StudentExamSection::find($studentExamSectionId)->first();
+        $studentExamSection = StudentExamSection::where('id', $studentExamSectionId)->first();
         $understoodQuestions = collect(array_slice($request->all(), '1'));
 
         $understoodQuestions->keys()->each(function ($questionNumber) use ($studentExamSection){
