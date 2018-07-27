@@ -85,9 +85,9 @@ class AnswerSheetController extends Controller
         $studentExamSection->save();
 
         if ($lastSection == $section) {
-            $totalCorrect = collect($studentExamSectionCollection->pluck('number_correct'))->sum();
-            $totalCorrect = $totalCorrect + $numberCorrectSection;
-            $studentExam->number_correct = $totalCorrect;
+            $studentExam = StudentExam::find($studentExam->id);
+            $totalCorrect = collect($studentExam->sections->pluck('number_correct')->sum());
+            $studentExam->number_correct = $totalCorrect->first();
             $studentExam->save();
 
             return redirect(route('answer_sheet.show_results', $studentExam->id));
