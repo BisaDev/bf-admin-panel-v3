@@ -50,33 +50,46 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-responsive table-hover model-list text-center">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Question</th>
-                                    <th class="text-center">Your Answer</th>
-                                    <th class="text-center">Correct Answer</th>
-                                    <th class="text-center">Correct / Incorrect</th>
-                                    <th class="text-center">I get it now</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($section->questions as $question)
+                            <form action="{{ route('answer_sheet.edit_understood', $section->id)}}" method="POST" enctype="multipart/form-data">
+                                {{ csrf_field() }}
+
+                                <table class="table table-responsive table-hover model-list text-center">
+                                <thead>
                                     <tr>
-                                        <td>{{ $question->question_number }}</td>
-                                        <td>{{ $question->answer }}</td>
-                                        <td>{{ $question->correctAnswer->correct_1 }}</td>
-                                        @if($question->answer === $question->correctAnswer->correct_1 || $question->answer === $question->correctAnswer->correct_2 || $question->answer === $question->correctAnswer->correct_3 || $question->answer === $question->correctAnswer->correct_4 || $question->answer === $question->correctAnswer->correct_5)
-                                            <td><span class="badge badge-success">Correct</span></td>
-                                            <td></td>
-                                        @else
-                                            <td><span class="badge badge-danger">Incorrect</span></td>
-                                            <td><input type="checkbox" name={{'understand_' . $section->section_number . '_' . $question->question_number}}></td>
-                                        @endif
+                                        <th class="text-center">Question</th>
+                                        <th class="text-center">Your Answer</th>
+                                        <th class="text-center">Correct Answer</th>
+                                        <th class="text-center">Correct / Incorrect</th>
+                                        <th class="text-center">I get it now</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($section->questions as $question)
+                                        <tr>
+                                            <td>{{ $question->question_number }}</td>
+                                            <td>{{ $question->answer }}</td>
+                                            <td>{{ $question->correctAnswer->correct_1 }}</td>
+                                            @if($question->answer === $question->correctAnswer->correct_1 || $question->answer === $question->correctAnswer->correct_2 || $question->answer === $question->correctAnswer->correct_3 || $question->answer === $question->correctAnswer->correct_4 || $question->answer === $question->correctAnswer->correct_5)
+                                                <td><span class="badge badge-success">Correct</span></td>
+                                                <td><span class="badge badge-pill badge-success"><i class="ti-check"></i></span></td>
+                                            @else
+                                                <td><span class="badge badge-danger">Incorrect</span></td>
+                                                @if($question->understood)
+                                                    <td><span class="badge badge-pill badge-success"><i class="ti-check"></i></span></td>
+                                                @else
+                                                    <td><input type="checkbox" name={{'understood_' . $section->section_number . '_' . $question->question_number}}></td>
+                                                @endif
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="form-group col-md-12 text-right">
+                                        <button type="submit" class="btn btn-md btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

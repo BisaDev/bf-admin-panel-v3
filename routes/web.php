@@ -31,6 +31,7 @@ Route::domain('students.brightfoxv2.test')->group(function () {
         Route::get('answer_sheet/{section}',     'AnswerSheetController@show_answer_sheet')->name('answer_sheet.show_answer_sheet');
         Route::post('answer_sheet/{section}',    'AnswerSheetController@save_answers')->name('answer_sheet.save_answers');
         Route::get('results/{exam}',             'AnswerSheetController@show_results')->name('answer_sheet.show_results');
+        Route::post('results/{exam}',            'AnswerSheetController@edit_understood')->name('answer_sheet.edit_understood');
     });
 });
 

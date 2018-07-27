@@ -72,9 +72,13 @@ class AnswerSheetController extends Controller
                 'guessed' => $request->input('guessed_' . $i)
             ]);
             $correct = $examAnswer->correctAnswer;
+            $understood = 0;
             if (($correct->correct_1 === $examAnswer->answer || $correct->correct_2 === $examAnswer->answer || $correct->correct_3 === $examAnswer->answer || $correct->correct_4 === $examAnswer->answer || $correct->correct_5 === $examAnswer->answer)) {
                 $numberCorrectSection = $numberCorrectSection + 1;
+                $understood = 1;
             }
+            $examAnswer->understood = $understood;
+            $examAnswer->save();
         }
 
         $studentExamSection->number_correct = $numberCorrectSection;
@@ -134,5 +138,20 @@ class AnswerSheetController extends Controller
             'sectionData' => $this->sections,
             'topics' => $scoreByTopic
         ]);
+    }
+
+    public function edit_understood(Request $request, $studentExamSectionId)
+    {
+        $studentExamSection = StudentExamSection::find($studentExamSectionId)->first();
+        $understoodQuestions = collect(array_slice($request->all(), '1'));
+
+        $understoodQuestions->keys()->each(function ($questionNumber) use ($studentExamSection){
+            $questionNumber = substr($questionNumber, 13);
+            $question = collect($studentExamSection->questions)->where('question_number', $questionNumber);
+            $question->first()->understood = 1;
+            $question->first()->save();
+        });
+
+        return redirect(route('answer_sheet.show_results', $studentExamSection->studentExam->id));
     }
 }

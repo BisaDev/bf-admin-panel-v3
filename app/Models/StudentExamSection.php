@@ -17,7 +17,7 @@ class StudentExamSection extends Model
         'student_exam_id', 'section_number', 'number_correct', 'score'
     ];
 
-    public function exam()
+    public function studentExam()
     {
         return $this->belongsTo(StudentExam::class);
     }
