@@ -36,7 +36,7 @@
                                 <td>{{$exam->exam->type}}</td>
                                 <td>{{$allSections[$section->section_number]['name']}}</td>
                                 <td>{{$exam->exam->test_id}}</td>
-                                <td>{{$section->number_correct}}</td>
+                                <td>{{$section->number_correct}} / {{$allSections[$section->section_number]['questions']}}</td>
                                 <td> - </td>
                                 <td> - </td>
                                 <td><a href="{{ route('answer_sheet.show_results', $exam->id) }}">View</a></td>
