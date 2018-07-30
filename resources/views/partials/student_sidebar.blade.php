@@ -4,15 +4,16 @@
         <div id="sidebar-menu">
             <ul>
                 <li>
-                    <a href="{{ route('dashboard') }}" class="waves-effect">
+                    <a href="{{ route('student_dashboard') }}" class="waves-effect">
                         <i class="ti-home"></i><span> Dashboard </span>
                     </a>
                 </li>
 
                 <li class="has_sub">
-                    <a href="#" class="waves-effect" data-toggle="modal" data-target="#take-practice-exam">
+                    <a href="#" data-toggle="modal" data-target="#take-practice-exam" class="waves-effect {{ Request::is('/*') ? '' : 'input-file' }}">
                         <i class="ti-pencil-alt"></i><span> Take Practice Exam </span>
                     </a>
+                </li>
 
             </ul>
             <div class="clearfix"></div>
