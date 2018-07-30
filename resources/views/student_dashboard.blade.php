@@ -14,7 +14,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 card-box">
             <table class="table table-responsive table-hover model-list text-center">
                 <thead>
                 <tr>
