@@ -23,6 +23,7 @@ class Handler extends ExceptionHandler
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
+        \Spatie\Permission\Exceptions\UnauthorizedException::class,
     ];
 
     /**
@@ -55,6 +56,11 @@ class Handler extends ExceptionHandler
             return response()->json(['token_invalid'], $exception->getStatusCode());
         } else if ($exception instanceof TokenMismatchException){
             return redirect(route('login'));
+        } else if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+            $errorMessage = $exception->getMessage();
+            $request->session()->flush();
+            $request->session()->regenerate();
+            return response()->view('errors.403', compact('errorMessage'));
         }
 
         return parent::render($request, $exception);
