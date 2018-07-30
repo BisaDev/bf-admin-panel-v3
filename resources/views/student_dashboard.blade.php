@@ -15,22 +15,34 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            <table class="table table-responsive table-hover model-list">
+            <table class="table table-responsive table-hover model-list text-center">
                 <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Exam Type</th>
-                    <th>Section</th>
-                    <th>Exam ID</th>
-                    <th>Raw Score</th>
-                    <th>Calculated Score</th>
-                    <th>Time Used</th>
-                    <th>Detailed Score Report</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Exam Type</th>
+                    <th class="text-center">Section</th>
+                    <th class="text-center">Exam ID</th>
+                    <th class="text-center">Raw Score</th>
+                    <th class="text-center">Calculated Score</th>
+                    <th class="text-center">Time Used</th>
+                    <th class="text-center">Detailed Score Report</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                </tr>
+                    @foreach($student->exams as $exam)
+                        @foreach($exam->sections as $section)
+                            <tr>
+                                <td>{{ $exam->created_at->format('d M Y') }}</td>
+                                <td>{{$exam->exam->type}}</td>
+                                <td>{{$allSections[$section->section_number]['name']}}</td>
+                                <td>{{$exam->exam->test_id}}</td>
+                                <td>{{$section->number_correct}}</td>
+                                <td> - </td>
+                                <td> - </td>
+                                <td><a href="{{ route('answer_sheet.show_results', $exam->id) }}">View</a></td>
+                            </tr>
+                        @endforeach
+                    @endforeach
                 </tbody>
             </table>
         </div>

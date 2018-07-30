@@ -81,6 +81,11 @@ class Student extends Model
             ->where('graded_quiz_questions.graded_quiz_id', $graded_quiz_id);
     }
 
+    public function exams()
+    {
+        return $this->hasMany(StudentExam::class);
+    }
+
     public static function boot() {
         parent::boot();
         
