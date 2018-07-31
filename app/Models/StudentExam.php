@@ -15,6 +15,11 @@ class StudentExam extends Model
         return $this->belongsTo(Student::class);
     }
 
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class);
+    }
+
     public function sections()
     {
         return $this->hasMany(StudentExamSection::class);

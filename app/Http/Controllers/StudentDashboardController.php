@@ -3,9 +3,12 @@
 namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Brightfox\Models\Student, Brightfox\Models\StudentExamSection ;
 
 class StudentDashboardController extends Controller
 {
+    protected $sections = StudentExamSection::SECTIONS;
     /**
      * Create a new controller instance.
      *
@@ -22,6 +25,11 @@ class StudentDashboardController extends Controller
      */
     public function index()
     {
-        return view('student_dashboard');
+        $user_id = Auth::id();
+        $student = Student::where('user_id', $user_id)->first();
+        return view('student_dashboard', [
+            'student' => $student,
+            'allSections' => $this->sections,
+        ]);
     }
 }
