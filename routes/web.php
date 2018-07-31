@@ -22,7 +22,7 @@ Route::get('password/reset',            ['as' => 'password.request', 'uses' => '
 Route::post('password/reset',           ['as' => '', 'uses' => 'Auth\ResetPasswordController@reset']);
 Route::get('password/reset/{token}',    ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
 
-Route::domain('students.brightfoxv2.test')->group(function () {
+Route::domain(env('STUDENT_APP_URL', 'students.brightfoxv2.test'))->group(function () {
 
     Route::group(['middleware' => ['auth']], function(){
 
