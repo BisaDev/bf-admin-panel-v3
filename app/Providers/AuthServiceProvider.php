@@ -2,6 +2,8 @@
 
 namespace Brightfox\Providers;
 
+use Brightfox\Models\StudentExam;
+use Brightfox\Policies\ShowExamResultsPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -14,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'Brightfox\Model' => 'Brightfox\Policies\ModelPolicy',
+        StudentExam::class => ShowExamResultsPolicy::class,
     ];
 
     /**

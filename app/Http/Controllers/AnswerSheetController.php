@@ -4,7 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Brightfox\Models\StudentExam, Brightfox\Models\StudentExamSection, Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\ExamAnswer, Brightfox\Models\ExamSection;
+use Brightfox\Models\StudentExam, Brightfox\Models\StudentExamSection, Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\ExamAnswer, Brightfox\Models\User;
 
 class AnswerSheetController extends Controller
 {
@@ -100,44 +100,49 @@ class AnswerSheetController extends Controller
     public function show_results($studentExamId)
     {
         $studentExam = StudentExam::find($studentExamId);
+        $user = Auth::user();
 
-        foreach ($studentExam->sections as $examSection) {
-            foreach ($examSection->questions as $question) {
-                $correct = $question->correctAnswer;
-                $answers[] = [
-                    'section' => $examSection->section_number,
-                    'answer' => $question->answer,
-                    'correct' => [$correct->correct_1, $correct->correct_2, $correct->correct_3, $correct->correct_4, $correct->correct_5],
-                    'topic' => $correct->topic,
-                ];
-            }
-        }
-
-        $topics = collect($answers)->groupBy('topic')->toArray();
-
-        foreach ($topics as $topicName => $topic) {
-            $score = 0;
-            $numberOfQuestions = count($topic);
-
-            foreach ($topic as $question) {
-                if ($question['answer'] === $question['correct'][0] || $question['answer'] === $question['correct'][1] || $question['answer'] === $question['correct'][2] || $question['answer'] === $question['correct'][3] || $question['answer'] === $question['correct'][4]) {
-                    $score++;
+        if ($user->can('view', $studentExam)) {
+            foreach ($studentExam->sections as $examSection) {
+                foreach ($examSection->questions as $question) {
+                    $correct = $question->correctAnswer;
+                    $answers[] = [
+                        'section' => $examSection->section_number,
+                        'answer' => $question->answer,
+                        'correct' => [$correct->correct_1, $correct->correct_2, $correct->correct_3, $correct->correct_4, $correct->correct_5],
+                        'topic' => $correct->topic,
+                    ];
                 }
             }
-            $scoreByTopic[] = [
-                'section' => $topic[0]['section'],
-                'score' => round(($score/$numberOfQuestions)*100),
-                'right' => $score,
-                'wrong' => $numberOfQuestions - $score,
-                'topic' => $topicName
-            ];
-        }
 
-        return view('students_web.show_results', [
-            'item' => StudentExam::find($studentExamId),
-            'sectionData' => $this->sections,
-            'topics' => $scoreByTopic
-        ]);
+            $topics = collect($answers)->groupBy('topic')->toArray();
+
+            foreach ($topics as $topicName => $topic) {
+                $score = 0;
+                $numberOfQuestions = count($topic);
+
+                foreach ($topic as $question) {
+                    if ($question['answer'] === $question['correct'][0] || $question['answer'] === $question['correct'][1] || $question['answer'] === $question['correct'][2] || $question['answer'] === $question['correct'][3] || $question['answer'] === $question['correct'][4]) {
+                        $score++;
+                    }
+                }
+                $scoreByTopic[] = [
+                    'section' => $topic[0]['section'],
+                    'score' => round(($score / $numberOfQuestions) * 100),
+                    'right' => $score,
+                    'wrong' => $numberOfQuestions - $score,
+                    'topic' => $topicName
+                ];
+            }
+
+            return view('students_web.show_results', [
+                'item' => StudentExam::find($studentExamId),
+                'sectionData' => $this->sections,
+                'topics' => $scoreByTopic
+            ]);
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function edit_understood(Request $request, $studentExamSectionId)
@@ -145,7 +150,7 @@ class AnswerSheetController extends Controller
         $studentExamSection = StudentExamSection::where('id', $studentExamSectionId)->first();
         $understoodQuestions = collect(array_slice($request->all(), '1'));
 
-        $understoodQuestions->keys()->each(function ($questionNumber) use ($studentExamSection){
+        $understoodQuestions->keys()->each(function ($questionNumber) use ($studentExamSection) {
             $questionNumber = substr($questionNumber, 13);
             $question = collect($studentExamSection->questions)->where('question_number', $questionNumber);
             $question->first()->understood = 1;
