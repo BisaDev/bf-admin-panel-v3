@@ -25,7 +25,7 @@
                         <div class="col-md-12">
                             <p>Hi {{$item->student->name}}, you got <strong>{{$section->number_correct}}</strong> correct out of
                                 a possible <strong>{{$sectionData[$section->section_number]['questions']}}</strong> on {{$sectionData[$section->section_number]['name']}}.</p>
-
+                            <p>You took {{$section->time}} minutes out of a possible {{$sectionData[$section->section_number]['timeAvailable']}} minutes.</p>
                         </div>
                     </div>
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
