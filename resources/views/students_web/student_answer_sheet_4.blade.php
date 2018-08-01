@@ -14,14 +14,16 @@
 @section('content')
 
     <div id="app">
-        <div class="col-md-12 text-right">
-            <div class="h4 col-md-10 col-md-offset-1">
-                <chronometer :available-time="55"></chronometer>
-            </div>
-        </div>
 
         <form action="{{ route('answer_sheet.save_answers', $section) }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
+
+            <div class="col-md-12 text-right">
+                <div class="h4 col-md-10 col-md-offset-1">
+                    <chronometer :available-time="55"></chronometer>
+                </div>
+            </div>
+
             <div class="col-md-10 col-md-offset-1 card-box">
                 <div class="row">
                     <student-answer-sheet :questions="30"></student-answer-sheet>

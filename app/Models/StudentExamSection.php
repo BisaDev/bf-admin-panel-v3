@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class StudentExamSection extends Model
 {
     const SECTIONS = [
-        '1' => ['name' => 'Reading Comprehension', 'questions' => '52'],
-        '2' => ['name' => 'Writing and Language', 'questions' => '44'],
-        '3' => ['name' => 'Math-No Calculator', 'questions' => '20'],
-        '4' => ['name' => 'Math-With Calculator', 'questions' => '38']
+        '1' => ['name' => 'Reading Comprehension', 'questions' => '52', 'timeAvailable' => '65'],
+        '2' => ['name' => 'Writing and Language', 'questions' => '44', 'timeAvailable' => '35'],
+        '3' => ['name' => 'Math-No Calculator', 'questions' => '20', 'timeAvailable' => '25'],
+        '4' => ['name' => 'Math-With Calculator', 'questions' => '38', 'timeAvailable' => '55']
     ];
 
     protected $fillable = [

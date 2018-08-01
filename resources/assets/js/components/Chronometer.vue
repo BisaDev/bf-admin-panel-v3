@@ -1,5 +1,8 @@
 <template>
-    <span id="time" v-html="time"></span>
+    <div>
+        <span id="time" v-html="time"></span>
+        <input type="hidden" name="time" :value="this.minutes">
+    </div>
 </template>
 
 <script>

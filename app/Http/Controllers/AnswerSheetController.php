@@ -81,13 +81,16 @@ class AnswerSheetController extends Controller
             $examAnswer->save();
         }
 
+        $studentExamSection->time = $request->input('time');
         $studentExamSection->number_correct = $numberCorrectSection;
         $studentExamSection->save();
 
         if ($lastSection == $section) {
             $studentExam = StudentExam::find($studentExam->id);
             $totalCorrect = collect($studentExam->sections->pluck('number_correct')->sum());
+            $totalTime = collect($studentExam->sections->pluck('time')->sum());
             $studentExam->number_correct = $totalCorrect->first();
+            $studentExam->time = $totalTime->first();
             $studentExam->save();
 
             return redirect(route('answer_sheet.show_results', $studentExam->id));
