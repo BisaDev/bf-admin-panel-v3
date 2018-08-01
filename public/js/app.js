@@ -83004,7 +83004,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         staticClass: "student-answer radio-inline",
         attrs: {
           "type": "checkbox",
-          "name": 'guessed_' + _vm.num
+          "name": 'guessed_' + _vm.num,
+          "value": "1"
         }
       })]) : _vm._e(), _vm._v(" "), (row !== 1) ? _c('label', {
         staticClass: "form-check-label"
@@ -83012,7 +83013,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         staticClass: "student-answer radio-inline",
         attrs: {
           "type": "checkbox",
-          "name": 'guessed_' + _vm.num
+          "name": 'guessed_' + _vm.num,
+          "value": "1"
         }
       })]) : _vm._e()])
     }))

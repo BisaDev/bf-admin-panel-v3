@@ -81,7 +81,7 @@ class AnswerSheetController extends Controller
             $examAnswer->save();
         }
 
-        $studentExamSection->time = $request->input('time');
+        $studentExamSection->time = $request->input('time') + 1;
         $studentExamSection->number_correct = $numberCorrectSection;
         $studentExamSection->save();
 
