@@ -45,9 +45,10 @@
                 axios.post(this.url, {
                     section: this.sectionId,
                     question: this.question.question_number,
-                }).then(function(response) {
-
-                    })
+                })
+                    .then((response) => {
+                        this.questionUnderstood = response.data;
+                    });
             },
         },
     }

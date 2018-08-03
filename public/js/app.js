@@ -26079,11 +26079,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         toggleActive: function toggleActive() {
+            var _this = this;
+
             this.understood = !this.understood;
             axios.post(this.url, {
                 section: this.sectionId,
                 question: this.question.question_number
-            }).then(function (response) {});
+            }).then(function (response) {
+                _this.questionUnderstood = response.data;
+            });
         }
     }
 });

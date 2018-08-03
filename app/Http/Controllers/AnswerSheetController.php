@@ -158,5 +158,7 @@ class AnswerSheetController extends Controller
          ExamAnswer::where('student_exam_section_id', $studentExamSectionId)
             ->where('question_number', $questionNumber)
             ->update(['understood' => 1]);
+
+        return response()->json(1);
     }
 }
