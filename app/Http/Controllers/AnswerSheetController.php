@@ -75,7 +75,9 @@ class AnswerSheetController extends Controller
             $understood = 0;
             if (($correct->correct_1 === $examAnswer->answer || $correct->correct_2 === $examAnswer->answer || $correct->correct_3 === $examAnswer->answer || $correct->correct_4 === $examAnswer->answer || $correct->correct_5 === $examAnswer->answer)) {
                 $numberCorrectSection = $numberCorrectSection + 1;
-                $understood = 1;
+                if ($examAnswer->guessed != 1) {
+                    $understood = 1;
+                }
             }
             $examAnswer->understood = $understood;
             $examAnswer->save();
@@ -148,18 +150,13 @@ class AnswerSheetController extends Controller
         }
     }
 
-    public function edit_understood(Request $request, $studentExamSectionId)
+    public function edit_understood(Request $request)
     {
-        $studentExamSection = StudentExamSection::where('id', $studentExamSectionId)->first();
-        $understoodQuestions = collect(array_slice($request->all(), '1'));
+        $studentExamSectionId = $request->input('section');
+        $questionNumber = $request->input('question');
 
-        $understoodQuestions->keys()->each(function ($questionNumber) use ($studentExamSection) {
-            $questionNumber = substr($questionNumber, 13);
-            $question = collect($studentExamSection->questions)->where('question_number', $questionNumber);
-            $question->first()->understood = 1;
-            $question->first()->save();
-        });
-
-        return redirect(route('answer_sheet.show_results', $studentExamSection->studentExam->id));
+         ExamAnswer::where('student_exam_section_id', $studentExamSectionId)
+            ->where('question_number', $questionNumber)
+            ->update(['understood' => 1]);
     }
 }

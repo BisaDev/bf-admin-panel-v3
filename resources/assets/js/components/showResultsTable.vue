@@ -1,0 +1,54 @@
+<template>
+    <tr @click="toggleActive">
+        <td>{{ this.question.question_number }}</td>
+        <td>{{ this.question.answer }}</td>
+        <td>{{ this.correctAnswer.correct_1 }}</td>
+        <td>{{ this.question.guessed ? 'Guessed' : '-' }}</td>
+        <template
+                v-if="this.question.answer === this.correctAnswer.correct_1 || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5">
+            <td>
+                <span class="badge badge-success">Correct</span>
+            </td>
+            <td v-if="questionUnderstood">
+                <span class="badge badge-pill badge-success"><i class="ti-check"></i></span>
+            </td>
+            <td v-else>
+                <input type="checkbox" v-model="understood"
+                       :name="'understood_' + this.section + '_' + this.question.question_number">
+            </td>
+        </template>
+        <template v-else>
+            <td><span class="badge badge-danger">Incorrect</span></td>
+            <td v-if="questionUnderstood">
+                <span class="badge badge-pill badge-success"><i class="ti-check"></i></span>
+            </td>
+            <td v-else>
+                <input type="checkbox" v-model="understood"
+                       :name="'understood_' + this.section + '_' + this.question.question_number">
+            </td>
+        </template>
+    </tr>
+</template>
+
+<script>
+    export default {
+        props: ['question', 'section', 'url', 'correct-answer', 'section-id'],
+        data() {
+            return {
+                understood: 0,
+                questionUnderstood : this.question.understood,
+            }
+        },
+        methods: {
+            toggleActive() {
+                this.understood = !this.understood;
+                axios.post(this.url, {
+                    section: this.sectionId,
+                    question: this.question.question_number,
+                }).then(function(response) {
+
+                    })
+            },
+        },
+    }
+</script>
