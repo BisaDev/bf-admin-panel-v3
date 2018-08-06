@@ -70,7 +70,11 @@
 
                         <div class="form-group">
                             <label for="test-id">Enter Test ID:</label>
-                            <input type="text" name="test-id" class="form-control" id="test-id">
+                            <select class="form-control" name="test-id" id="test-id">
+                                @foreach($exams as $exam)
+                                    <option>{{$exam->test_id}}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div v-show="examSection">

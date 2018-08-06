@@ -30,6 +30,7 @@ import show_exam_results from './pages/show_exam_results';
 Vue.component('chronometer', require('./components/Chronometer'));
 Vue.component('student-answer-sheet', require('./components/studentAnswerSheet'));
 Vue.component('student-answer-sheet-3', require('./components/studentAnswerSheetMath'));
+Vue.component('show-results-table', require('./components/showResultsTable'));
 
 const app = new Vue({
     el: '#app'

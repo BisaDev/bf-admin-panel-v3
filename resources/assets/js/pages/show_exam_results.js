@@ -9,11 +9,17 @@ export default {
         new Vue({
             el: '#show-results',
             data: {
-                selected: []
+                understoodQuestion: ''
             },
             methods: {
-                toggleState: function () {
-                    this.selected = !this.selected;
+                understood(url, event){
+                    // this.understoodQuestion = [];
+                    // let understoodQuestion = this.understoodQuestion;
+
+                    // axios.post(url, {
+
+                    // });
+
                 }
             },
         });
