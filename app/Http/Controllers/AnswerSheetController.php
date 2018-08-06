@@ -118,24 +118,27 @@ class AnswerSheetController extends Controller
                 }
             }
 
-            $topics = collect($answers)->groupBy('topic')->toArray();
+            $sections = collect($answers)->groupBy('section')->toArray();
 
-            foreach ($topics as $topicName => $topic) {
-                $score = 0;
-                $numberOfQuestions = count($topic);
+            foreach ($sections as $section) {
+                $topics = collect($section)->groupBy('topic')->toArray();
+                foreach ($topics as $topicName => $topic) {
+                    $score = 0;
+                    $numberOfQuestions = count($topic);
 
-                foreach ($topic as $question) {
-                    if ($question['answer'] === $question['correct'][0] || $question['answer'] === $question['correct'][1] || $question['answer'] === $question['correct'][2] || $question['answer'] === $question['correct'][3] || $question['answer'] === $question['correct'][4]) {
-                        $score++;
+                    foreach ($topic as $question) {
+                        if ($question['answer'] === $question['correct'][0] || $question['answer'] === $question['correct'][1] || $question['answer'] === $question['correct'][2] || $question['answer'] === $question['correct'][3] || $question['answer'] === $question['correct'][4]) {
+                            $score++;
+                        }
                     }
+                    $scoreByTopic[] = [
+                        'section' => $topic[0]['section'],
+                        'score' => round(($score / $numberOfQuestions) * 100),
+                        'right' => $score,
+                        'wrong' => $numberOfQuestions - $score,
+                        'topic' => $topicName
+                    ];
                 }
-                $scoreByTopic[] = [
-                    'section' => $topic[0]['section'],
-                    'score' => round(($score / $numberOfQuestions) * 100),
-                    'right' => $score,
-                    'wrong' => $numberOfQuestions - $score,
-                    'topic' => $topicName
-                ];
             }
 
             return view('students_web.show_results', [
