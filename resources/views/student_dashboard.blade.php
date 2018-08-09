@@ -30,16 +30,33 @@
                 </thead>
                 <tbody>
                     @foreach($student->exams as $exam)
+                        <tr>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{ $exam->created_at->format('d M Y') }}</td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->exam->type}}</td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">
+                                <span>
+                                    Sections:
+                                    @foreach($exam->sections->unique('section_number') as $section)
+                                        {{$section->section_number}}
+                                    @endforeach
+                                </span>
+                            </td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->exam->test_id}}</td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->number_correct}} / {{ array_sum(array_column($allSections, 'questions')) }}</td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> - </td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> {{$exam->time}} / {{ array_sum(array_column($allSections, 'timeAvailable')) }} </td>
+                            <td><a href="{{ route('answer_sheet.show_results', $exam->id) }}">View</a></td>
+                        </tr>
                         @foreach($exam->sections as $section)
-                            <tr>
+                            <tr class="collapse active accordion_{{$exam->id}}">
                                 <td>{{ $exam->created_at->format('d M Y') }}</td>
-                                <td>{{$exam->exam->type}}</td>
+                                <td></td>
                                 <td>{{$allSections[$section->section_number]['name']}}</td>
-                                <td>{{$exam->exam->test_id}}</td>
+                                <td></td>
                                 <td>{{$section->number_correct}} / {{$allSections[$section->section_number]['questions']}}</td>
-                                <td> - </td>
+                                <td></td>
                                 <td> {{$section->time}} / {{$allSections[$section->section_number]['timeAvailable']}} </td>
-                                <td><a href="{{ route('answer_sheet.show_results', $exam->id) }}">View</a></td>
+                                <td></td>
                             </tr>
                         @endforeach
                     @endforeach
