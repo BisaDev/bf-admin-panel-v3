@@ -20,7 +20,8 @@ class Question extends Model
         'PenPal',
         'Drag and drop',
         'Tap Time',
-        'Research and report back'
+        'Research and report back',
+        'Long Passage'
     ];
 
     /**

@@ -76,7 +76,21 @@
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
-                        <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
+                        <div v-if="type == 7" class="form-group col-md-8 {{ $errors->has('other_photo')? 'has-error' : '' }}">
+                            <label class="control-label" for="other_photo">Long Passage</label>
+                            <div class="droppable droppable-small">
+                                <span v-if="!other_photo">Drag an image or click to browse</span>
+                                <img v-else :src="other_photo"/>
+                                <input name="other_photo" type="file" @change="openCropImage($event, handleCrop, type)">
+                                <input type="hidden" name="other_photo_cropped" :value="photo">
+                            </div>
+                            @if($errors->has('other_photo'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('other_photo') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div v-else class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Question / Phrase:</label>
                             <input type="text" name="title" class="form-control" value="{{ old('title') }}">
                             <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>

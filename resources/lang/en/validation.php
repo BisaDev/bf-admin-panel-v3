@@ -99,7 +99,7 @@ return [
     |
     */
 
-    'require_one_correct_for_multiple_choice' => 'At least one correct answer is needed for multiple choice questions.',
+    'require_one_correct_for_multiple_choice' => 'At least one correct answer is needed for multiple choice and long passage questions.',
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

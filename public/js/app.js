@@ -26696,7 +26696,7 @@ if (token) {
                     }
                 },
                 setDefaultQuestions: function setDefaultQuestions(event) {
-                    if (this.type == 0) {
+                    if (this.type == 0 || this.type == 7) {
                         for (var c = 0; c < 4; c++) {
                             this.addChildren();
                         }
@@ -26848,6 +26848,10 @@ if (token) {
                             this.number_of_answers_allowed = 1;
                             this.type_has_canvas = true;
                             this.type_shows_answers = false;
+                            break;
+                        case '7':
+                            //Long Passage
+                            this.type_answer_has_additional_data = true;
                             break;
                     }
                 }

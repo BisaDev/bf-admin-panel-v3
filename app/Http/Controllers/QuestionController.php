@@ -158,12 +158,15 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
+
         $this->validate($request, [
             'type' => 'required',
             'topic' => 'required',
-            'title' => 'required_without:photo_cropped',
+            'title' => 'required_without:photo_cropped,other_photo',
             'answers' => 'required_unless:type,2,type,3,type,6|require_one_correct_for_multiple_choice:'.$request->input('type'), //Apple Pencil and Research and Report back don't need answers
             'answers.*.text' => 'required_without:answers.*.photo_cropped',
+            'other_photo' => 'required_if:type,7'
         ]);
 
         $question_type = $request->input('type');
