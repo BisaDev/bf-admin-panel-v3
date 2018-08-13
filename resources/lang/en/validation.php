@@ -113,7 +113,10 @@ return [
         ],
         'rooms.*' => [
             'distinct' => 'The room names have to be different.',
-        ]
+        ],
+        'other_photo_cropped' => [
+            'required_if' => 'The Long Passage Image is required',
+        ],
     ],
 
     /*

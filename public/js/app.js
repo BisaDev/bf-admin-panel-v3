@@ -26633,6 +26633,7 @@ if (token) {
                 answer_groups: [],
                 type: '',
                 photo: '',
+                other_photo: '',
                 canvas_bg: '',
                 number_of_answers_allowed: 4,
                 allows_answers: false,
@@ -26691,6 +26692,8 @@ if (token) {
 
                     if (index === null) {
                         this.photo = imageData;
+                    } else if (index === 5) {
+                        this.other_photo = imageData;
                     } else {
                         this.children[index].photo = imageData;
                     }
