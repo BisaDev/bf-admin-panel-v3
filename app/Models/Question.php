@@ -59,6 +59,14 @@ class Question extends Model
         return asset(self::PHOTO_PATH . $value);
     }
 
+    public function getOtherPhotoAttribute($value)
+    {
+        if (!$value || $value == '') {
+            return $value;
+        }
+        return asset(self::PHOTO_PATH . $value);
+    }
+
     public function getTypeAttribute($value)
     {
         return json_decode($value);

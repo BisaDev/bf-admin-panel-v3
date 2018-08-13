@@ -99,7 +99,7 @@
                     @foreach($list as $item)
                         <tr>
                             @if($item->type->key == 7)
-                                <td><a href="{{ route('questions.show', $item->id) }}">Long Passage Question</a><lightbox thumbnail="{{ $item->getPhotoAttribute($item->other_photo)}}" :images="['{{ $item->getPhotoAttribute($item->other_photo)}}']"></lightbox> </td>
+                                <td><a href="{{ route('questions.show', $item->id) }}">Long Passage Question</a><lightbox thumbnail="{{ $item->other_photo}}" :images="['{{ $item->other_photo}}']"></lightbox> </td>
                             @else
                                 <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}</a><lightbox thumbnail="{{ $item->photo }}" :images="['{{ $item->photo }}']"></lightbox> </td>
                             @endif

@@ -412,6 +412,9 @@ class QuestionController extends Controller
             case '11':
                 $type = '6'; //Research and Report back
                 break;
+            case '12': //Long Passage
+                $type = '7';
+                break;
         }
 
         $questions_query = Question::whereHas('topic', function ($query) use ($request) {

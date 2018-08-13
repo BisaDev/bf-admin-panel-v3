@@ -81,7 +81,7 @@
                             <div class="form-group col-md-8 {{ $errors->has('photo')? 'has-error' : '' }}">
                                 <label class="control-label" for="title">Image</label>
                                 <div class="col-xs-12 m-b-10 text-center">
-                                    <img src="{{ $item->getPhotoAttribute($item->other_photo) }}" class="img-responsive center-block">
+                                    <img src="{{ $item->other_photo }}" class="img-responsive center-block">
                                 </div>
                                 <div class="droppable droppable-small">
                                     <span v-if="!other_photo">Drag an image or click to browse</span>

@@ -28,7 +28,7 @@
                                     <h3 class="m-b-0 m-t-0">{{ $item->title }}</h3>
                                 </div>
                             @elseif($item->type->key == 7)
-                                <img src="{{ $item->getPhotoAttribute($item->other_photo) }}" class="img-responsive thumbnail m-b-5" alt="long-passage-image">
+                                <img src="{{ $item->other_photo }}" class="img-responsive thumbnail m-b-5" alt="long-passage-image">
                             @else
                                 <div class="col-xs-12">
                                     <h3 class="m-b-0 m-t-0">{{ $item->title }}</h3>
