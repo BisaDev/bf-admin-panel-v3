@@ -77,16 +77,36 @@
                     <div class="row"><div class="col-sm-12"><hr/></div></div>
 
                     <div class="row">
-                        <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
-                            <label class="control-label" for="title">Question / Phrase:</label>
-                            <input type="text" name="title" class="form-control" value="{{ old('title', $item->title) }}">
-                            <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>
-                            @if($errors->has('title'))
-                                <span class="help-block">
+                        @if($item->type->key == 7)
+                            <div class="form-group col-md-8 {{ $errors->has('photo')? 'has-error' : '' }}">
+                                <label class="control-label" for="title">Image</label>
+                                <div class="col-xs-12 m-b-10 text-center">
+                                    <img src="{{ $item->getPhotoAttribute($item->other_photo) }}" class="img-responsive center-block">
+                                </div>
+                                <div class="droppable droppable-small">
+                                    <span v-if="!other_photo">Drag an image or click to browse</span>
+                                    <img v-else :src="other_photo"/>
+                                    <input name="other_photo" type="file" @change="openCropImage($event, handleCrop, null, 5)">
+                                    <input type="hidden" name="other_photo_cropped" :value="other_photo">
+                                </div>
+                                @if($errors->has('other_photo_cropped'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('other_photo_cropped') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        @else
+                            <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
+                                <label class="control-label" for="title">Question / Phrase:</label>
+                                <input type="text" name="title" class="form-control" value="{{ old('title', $item->title) }}">
+                                <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>
+                                @if($errors->has('title'))
+                                    <span class="help-block">
                                     <strong>{{ $errors->first('title') }}</strong>
                                 </span>
-                            @endif
-                        </div>
+                                @endif
+                            </div>
+                        @endif
                         <div class="form-group col-md-4 {{ $errors->has('photo')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Image</label>
                             @if($item->photo)

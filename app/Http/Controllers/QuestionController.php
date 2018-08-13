@@ -295,6 +295,15 @@ class QuestionController extends Controller
             $question->save();
         }
 
+        if ($request->has('other_photo_cropped') && $request->input('other_photo_cropped') != '') {
+            if (!is_null($question->getOriginal('other_photo')) || $question->getOriginal('other_photo') != '') {
+                File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('other_photo')));
+            }
+            $image_width = $this->question_type_resize($question_type);
+            $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, null);
+            $question->save();
+        }
+
         $answers_ids = collect($request->get('answers'))->map(function ($answer) {
             return $answer['id'];
         })->toArray();
