@@ -110,6 +110,9 @@ class Question extends Model
             if (!is_null($object->getOriginal('photo')) || $object->getOriginal('photo') != '') {
                 File::delete(public_path(self::PHOTO_PATH . $object->getOriginal('photo')));
             }
+            if (!is_null($object->getOriginal('other_photo')) || $object->getOriginal('other_photo') != '') {
+                File::delete(public_path(self::PHOTO_PATH . $object->getOriginal('other_photo')));
+            }
         });
     }
 }
