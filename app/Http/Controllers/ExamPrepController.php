@@ -163,6 +163,8 @@ class ExamPrepController extends Controller
 
     public function generate_report(Request $request)
     {
+        $requestCollection = collect($request->all())->splice(3);
+
         return view('web.exam_prep.report');
     }
 
