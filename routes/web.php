@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::post('tags/repository',  'TagController@repository')->name('tags.repository');
 
-    Route::resource('exams',   'ExamPrepController', ['except' => 'edit']);
+    Route::get('exams/logs',                    'ExamPrepController@logs')->name('exams.logs');
+    Route::resource('exams',                    'ExamPrepController', ['except' => 'edit']);
     Route::get('exams/{exam}/{exam_section}',   'ExamPrepController@exam_section_edit')->name('exams.section.edit');
 });

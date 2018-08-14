@@ -2,6 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Brightfox\Models\StudentExamSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -146,6 +147,12 @@ class ExamPrepController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function logs()
+    {
+        $examSections = StudentExamSection::all()->sortByDesc('created_at');
+        return view('web.exam_prep.logs', compact('examSections'));
     }
 
     public function createArray($file)
