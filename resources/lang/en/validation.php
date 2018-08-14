@@ -99,7 +99,7 @@ return [
     |
     */
 
-    'require_one_correct_for_multiple_choice' => 'At least one correct answer is needed for multiple choice questions.',
+    'require_one_correct_for_multiple_choice' => 'At least one correct answer is needed for multiple choice and long passage questions.',
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
@@ -113,7 +113,10 @@ return [
         ],
         'rooms.*' => [
             'distinct' => 'The room names have to be different.',
-        ]
+        ],
+        'other_photo_cropped' => [
+            'required_if' => 'The Long Passage Image is required',
+        ],
     ],
 
     /*

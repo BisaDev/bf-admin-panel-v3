@@ -98,7 +98,11 @@
                     <tbody>
                     @foreach($list as $item)
                         <tr>
-                            <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}</a> <lightbox thumbnail="{{ $item->photo }}" :images="['{{ $item->photo }}']"></lightbox> </td>
+                            @if($item->type->key == 7)
+                                <td><a href="{{ route('questions.show', $item->id) }}">Long Passage Question</a><lightbox thumbnail="{{ $item->other_photo}}" :images="['{{ $item->other_photo}}']"></lightbox> </td>
+                            @else
+                                <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}</a><lightbox thumbnail="{{ $item->photo }}" :images="['{{ $item->photo }}']"></lightbox> </td>
+                            @endif
                             <td><img class="icon-images" src="{{ ($item->answers_have_images)? asset('images/icon-have-image.png') : asset('images/icon-no-image.png') }}" ></td>
                             <td>{{ ($item->topic)? $item->topic->subject->grade_level->name : '' }}</td>
                             <td>{{ ($item->topic)? $item->topic->subject->name : '' }}</td>

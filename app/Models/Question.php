@@ -20,7 +20,8 @@ class Question extends Model
         'PenPal',
         'Drag and drop',
         'Tap Time',
-        'Research and report back'
+        'Research and report back',
+        'Long Passage'
     ];
 
     /**
@@ -51,6 +52,14 @@ class Question extends Model
     }
 
     public function getPhotoAttribute($value)
+    {
+        if (!$value || $value == '') {
+            return $value;
+        }
+        return asset(self::PHOTO_PATH . $value);
+    }
+
+    public function getOtherPhotoAttribute($value)
     {
         if (!$value || $value == '') {
             return $value;
@@ -108,6 +117,9 @@ class Question extends Model
         self::deleting(function ($object) {
             if (!is_null($object->getOriginal('photo')) || $object->getOriginal('photo') != '') {
                 File::delete(public_path(self::PHOTO_PATH . $object->getOriginal('photo')));
+            }
+            if (!is_null($object->getOriginal('other_photo')) || $object->getOriginal('other_photo') != '') {
+                File::delete(public_path(self::PHOTO_PATH . $object->getOriginal('other_photo')));
             }
         });
     }
