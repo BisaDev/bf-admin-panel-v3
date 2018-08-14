@@ -2,14 +2,14 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Models\StudentExamSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Brightfox\Models\Exam, Brightfox\Models\ExamSection;
+use Brightfox\Models\Exam, Brightfox\Models\ExamSection, Brightfox\Models\StudentExamSection, Brightfox\Models\StudentExam;
 
 class ExamPrepController extends Controller
 {
+    protected $sections = StudentExamSection::SECTIONS;
     /**
      * Display a listing of the resource.
      *
@@ -152,7 +152,31 @@ class ExamPrepController extends Controller
     public function logs()
     {
         $examSections = StudentExamSection::all()->sortByDesc('created_at');
-        return view('web.exam_prep.logs', compact('examSections'));
+        $exams = Exam::all();
+
+        return view('web.exam_prep.logs', [
+            'exams' => $exams,
+            'sections' => $this->sections,
+            'examSections' => $examSections,
+        ]);
+    }
+
+    public function generate_report(Request $request)
+    {
+        return view('web.exam_prep.report');
+    }
+
+    public function get_sections_for_results(Request $request)
+    {
+        $examId = $request->get('exam_id');
+        $sectionId = $request->get('section_id');
+
+        $studentExamIds = StudentExam::all()->where('exam_id', $examId)->pluck('id')->all();
+
+        $studentExamSections = StudentExamSection::all()->whereIn('student_exam_id', $studentExamIds);
+        $studentExamSections = $studentExamSections->where('section_number', $sectionId)->all();
+
+        return response()->json($studentExamSections);
     }
 
     public function createArray($file)
