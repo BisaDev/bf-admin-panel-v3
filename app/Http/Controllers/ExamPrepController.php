@@ -2,6 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Brightfox\Models\ExamAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -163,9 +164,64 @@ class ExamPrepController extends Controller
 
     public function generate_report(Request $request)
     {
-        $requestCollection = collect($request->all())->splice(3);
+        $requestCollection = collect($request->all())->splice(3)->all();
+        $studentExamSections = StudentExamSection::all()->whereIn('id', $requestCollection);
+        $answers = $studentExamSections->first()->studentExam->exam->sections->where('section_number', $request->input('section'));
 
-        return view('web.exam_prep.report');
+        foreach($studentExamSections as $studentExamSection) {
+            foreach ($studentExamSection->questions->unique('question_number') as $studentAnswer) {
+                $correct = $studentAnswer->correctAnswer;
+                $answersArray[] = [
+                    'examSectionId' => $studentExamSection->id,
+                    'questionNum' => $studentAnswer->question_number,
+                    'studentAnswer' => $studentAnswer->answer,
+                    'correctAnswer' => [$correct->correct_1, $correct->correct_2, $correct->correct_3, $correct->correct_4, $correct->correct_5],
+                    'isCorrect' => $studentAnswer->AnswerResult,
+                    'topic' => $correct->topic,
+                ];
+            }
+        }
+
+        $answersArrayByQuestion = collect($answersArray)->groupBy('questionNum');
+        $answersArrayByTopic = collect($answersArray)->groupBy('topic');
+
+        foreach($answersArrayByTopic as $topicName => $topicAnswers) {
+            $scoreByTopic = 0;
+            $numberOfQuestions = count($topicAnswers);
+            foreach($topicAnswers as $topicAnswer) {
+                if ($topicAnswer['isCorrect']) {
+                    $scoreByTopic ++;
+                };
+            }
+            $answersByTopic[$topicName] = [
+                'topic' => $topicName,
+                'score' => round(($scoreByTopic / $numberOfQuestions) * 100),
+                'right' => $scoreByTopic,
+                'wrong' => $numberOfQuestions - $scoreByTopic
+            ];
+        }
+
+        foreach($answersArrayByQuestion as $questionAnswers) {
+            $scoreByQuestion = 0;
+            $numberOfStudents = count($questionAnswers);
+            foreach($questionAnswers as $questionAnswer) {
+                if($questionAnswer['isCorrect']) {
+                    $scoreByQuestion++;
+                }
+            }
+            $answersByQuestion[$questionAnswer['questionNum']] = [
+                'score' => round(($scoreByQuestion/$numberOfStudents) *100),
+            ];
+        }
+
+        return view('web.exam_prep.report', [
+            'answers' => $answers,
+            'answersByTopic' => $answersByTopic,
+            'answersByQuestion' => $answersByQuestion,
+            'studentExamSections' => $studentExamSections,
+            'section' => $this->sections[$studentExamSection->section_number],
+            'examId' => Exam::find($studentExamSection->studentExam->exam_id)->test_id,
+        ]);
     }
 
     public function get_sections_for_results(Request $request)
@@ -265,4 +321,5 @@ class ExamPrepController extends Controller
     {
         return in_array($value, $array) ? $value : '';
     }
+
 }
