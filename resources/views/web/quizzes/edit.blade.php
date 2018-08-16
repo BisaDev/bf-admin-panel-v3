@@ -128,11 +128,11 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <div v-if="question.title">@{{ question.title }}</div>
                                     <template v-if="question.type.key == 7">
                                         <lightbox :thumbnail="question.other_photo" :images="[question.other_photo]"></lightbox>
                                     </template>
                                     <template v-else>
-                                        <div v-if="question.title">@{{ question.title }}</div>
                                         <img v-if="question.photo" :src="question.photo" class="img-responsive thumbnail">
                                     </template>
                                 </td>

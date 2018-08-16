@@ -21,7 +21,7 @@ class Question extends Model
         'Drag and drop',
         'Tap Time',
         'Research and report back',
-        'Long Passage'
+        'Long Passage',
     ];
 
     /**

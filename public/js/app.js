@@ -27532,7 +27532,7 @@ if (token) {
                     // question. If no index and no image type is provided then
                     // the image can be any size.
                     options.fixedCropBox = false;
-                    options.size = index !== null ? 'square' : 'any';
+                    options.size = index !== null && index !== 5 ? 'square' : 'any';
                     break;
             }
 
