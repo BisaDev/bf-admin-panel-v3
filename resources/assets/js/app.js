@@ -25,6 +25,7 @@ import show_student from './pages/show-student';
 import take_practice_exam from './pages/take_practice_exam';
 import print from './pages/print';
 import upload_file from './pages/upload-file';
+import generate_results from './pages/generate_results';
 
 Vue.component('chronometer', require('./components/Chronometer'));
 Vue.component('student-answer-sheet', require('./components/studentAnswerSheet'));
@@ -49,6 +50,7 @@ const vue_elements = [
     take_practice_exam,
     print,
     upload_file,
+    generate_results,
 ];
 
 vue_elements.forEach(function (element) {

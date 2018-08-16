@@ -26,4 +26,14 @@ class ExamAnswer extends Model
             ->where('exam_id', $examId)
             ->where('section_number', $section);
     }
+
+    public function getAnswerResultAttribute()
+    {
+        $correctAnswer = $this->correctAnswer;
+        if($this->answer === $correctAnswer->correct_1 || $this->answer === $correctAnswer->correct_2 || $this->answer === $correctAnswer->correct_3 || $this->answer === $correctAnswer->correct_4 || $this->answer === $correctAnswer->correct_5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
