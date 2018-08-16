@@ -130,9 +130,11 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-md-12 text-right">
-                            <input type="hidden" name="add_more">
+                        <div class="col-md-4">
                             <a href="{{ route('questions.index') }}" class="btn btn-md btn-info">Cancel</a>
+                        </div>
+                        <div class="form-group col-md-8 text-right">
+                            <input type="hidden" name="add_more">
                             <button type="submit" class="btn btn-md btn-primary">Create</button>
                             <button type="button" class="btn btn-md btn-primary" @click="saveQuestionAndAddMore">Create and add more</button>
                         </div>
