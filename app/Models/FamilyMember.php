@@ -15,7 +15,7 @@ class FamilyMember extends Model
 
     const PHOTO_PATH = "uploads/profiles/";
     const DEFAULT_PHOTO = "default-profile.jpg";
-    const TYPES = ['parent', 'sibling', 'uncle/aunt'];
+    const TYPES = ['parent', 'sibling', 'uncle / Aunt', 'grandparent', 'nanny / Au Pair', 'step-parent'];
 
     /**
      * The attributes that are mass assignable.
