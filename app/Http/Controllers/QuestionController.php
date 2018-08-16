@@ -161,7 +161,7 @@ class QuestionController extends Controller
         $this->validate($request, [
             'type' => 'required',
             'topic' => 'required',
-            'title' => 'required_without_all:photo_cropped,other_photo_cropped',
+            'title' => 'required_without:photo_cropped',
             'answers' => 'required_unless:type,2,type,3,type,6|require_one_correct_for_multiple_choice:'.$request->input('type'), //Apple Pencil and Research and Report back don't need answers
             'answers.*.text' => 'required_without:answers.*.photo_cropped',
             'other_photo_cropped' => 'required_if:type,7'
