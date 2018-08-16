@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="row" v-show="type_answer_has_additional_data">
-                    <div class="form-group col-md-4" v-show="type == 0">
+                    <div class="form-group col-md-4" v-show="type == 0 || type == 7">
                         <div class="checkbox checkbox-primary">
                             <input v-bind:id="'is_correct_'+index" type="checkbox" v-model="answer.is_correct" v-bind:name="'answers['+index+'][is_correct]'">
                             <label v-bind:for="'is_correct_'+index">Correct</label>

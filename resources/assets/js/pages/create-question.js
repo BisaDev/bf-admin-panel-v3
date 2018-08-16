@@ -25,6 +25,7 @@ export default {
                 answer_groups: [],
                 type: '',
                 photo: '',
+                other_photo: '',
                 canvas_bg: '',
                 number_of_answers_allowed: 4,
                 allows_answers: false,
@@ -82,13 +83,15 @@ export default {
 
                     if (index === null) {
                         this.photo = imageData;
+                    } else if (index === 5) {
+                        this.other_photo = imageData;
                     } else {
                         this.children[index].photo = imageData;
                     }
                 },
 
                 setDefaultQuestions(event) {
-                    if (this.type == 0) {
+                    if (this.type == 0 || this.type == 7) {
                         for (let c = 0; c < 4; c++) {
                             this.addChildren();
                         }
@@ -235,6 +238,9 @@ export default {
                             this.number_of_answers_allowed = 1;
                             this.type_has_canvas = true;
                             this.type_shows_answers = false;
+                            break;
+                        case '7': //Long Passage
+                            this.type_answer_has_additional_data = true;
                             break;
                     }
                 }

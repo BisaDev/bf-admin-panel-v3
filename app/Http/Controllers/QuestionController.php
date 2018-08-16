@@ -164,6 +164,7 @@ class QuestionController extends Controller
             'title' => 'required_without:photo_cropped',
             'answers' => 'required_unless:type,2,type,3,type,6|require_one_correct_for_multiple_choice:'.$request->input('type'), //Apple Pencil and Research and Report back don't need answers
             'answers.*.text' => 'required_without:answers.*.photo_cropped',
+            'other_photo_cropped' => 'required_if:type,7'
         ]);
 
         $question_type = $request->input('type');
@@ -179,6 +180,13 @@ class QuestionController extends Controller
             $image_width = $this->question_type_resize($question_type);
 
             $question->photo = $this->createAndSavePhoto($request->input('photo_cropped'), Question::PHOTO_PATH, $image_width, null);
+            $question->save();
+        }
+
+        if ($request->has('other_photo_cropped') && $request->input('other_photo_cropped') != '') {
+            $image_width = $this->question_type_resize($question_type);
+
+            $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
         }
 
@@ -284,6 +292,15 @@ class QuestionController extends Controller
             $image_width = $this->question_type_resize($question_type);
 
             $question->photo = $this->createAndSavePhoto($request->input('photo_cropped'), Question::PHOTO_PATH, $image_width, null);
+            $question->save();
+        }
+
+        if ($request->has('other_photo_cropped') && $request->input('other_photo_cropped') != '') {
+            if (!is_null($question->getOriginal('other_photo')) || $question->getOriginal('other_photo') != '') {
+                File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('other_photo')));
+            }
+            $image_width = $this->question_type_resize($question_type);
+            $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
         }
 
@@ -394,6 +411,9 @@ class QuestionController extends Controller
                 break;
             case '11':
                 $type = '6'; //Research and Report back
+                break;
+            case '12': //Long Passage
+                $type = '7';
                 break;
         }
 

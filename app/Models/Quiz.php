@@ -22,7 +22,8 @@ class Quiz extends Model
         'PenPal', //id: 8
         'Drag and Drop', //id: 9
         'Tap Time', //id: 10
-        'Research and report back' //id: 11
+        'Research and report back', //id: 11
+        'Long Passage' //id: 12
     ];
     
     /**

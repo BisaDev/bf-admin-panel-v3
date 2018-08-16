@@ -24,11 +24,16 @@ class AnswerSheetController extends Controller
         $user_id = Auth::id();
         $student = Student::where('user_id', $user_id)->first();
         $exam = Exam::where('test_id', $request->input('test-id'))->first();
+        $studentExam = $student->exams->whereIn('exam_id', $exam->id);
 
-        $studentExam = StudentExam::create([
-            'exam_id' => $exam->id,
-            'student_id' => $student->id
-        ]);
+        if($studentExam->isEmpty()) {
+            $studentExam = StudentExam::create([
+                'exam_id' => $exam->id,
+                'student_id' => $student->id
+            ]);
+        } else {
+            $studentExam = $studentExam->first();
+        }
 
         $sectionCollection = collect($request->input('sections'));
 
@@ -56,8 +61,9 @@ class AnswerSheetController extends Controller
 
         $studentExamSection = StudentExamSection::where('student_exam_id', $studentExam->id)
             ->where('section_number', $section)
-            ->first();
+            ->get();
 
+        $studentExamSection = $studentExamSection->last();
         $allSections = $studentExamSectionCollection->pluck('section_number');
         $lastSection = $studentExamSectionCollection->last()->section_number;
         $questions = $this->sections[$section]['questions'];
@@ -89,10 +95,11 @@ class AnswerSheetController extends Controller
 
         if ($lastSection == $section) {
             $studentExam = StudentExam::find($studentExam->id);
-            $totalCorrect = collect($studentExam->sections->pluck('number_correct')->sum());
-            $totalTime = collect($studentExam->sections->pluck('time')->sum());
-            $studentExam->number_correct = $totalCorrect->first();
-            $studentExam->time = $totalTime->first();
+            $firstSections = collect($studentExam->sections->unique('section_number'));
+            $totalCorrect = $firstSections->pluck('number_correct')->sum();
+            $totalTime = $firstSections->pluck('time')->sum();
+            $studentExam->number_correct = $totalCorrect;
+            $studentExam->time = $totalTime;
             $studentExam->save();
 
             return redirect(route('answer_sheet.show_results', $studentExam->id));
