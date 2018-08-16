@@ -1,4 +1,4 @@
-@section('page_title', 'Student details')
+@section('page_title', $item->full_name)
 @extends('layouts.master')
 
 @section('breadcrumbs')
