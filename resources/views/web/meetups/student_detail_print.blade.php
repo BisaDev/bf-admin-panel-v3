@@ -50,7 +50,7 @@
                 @if($student->id != $classmate->id)
                 <div class="text-center col-xs-3">
                     <img src="{{ $classmate->photo }}" class="img-circle profile-photo">
-                    <p class="m-t-5">{{ $classmate->full_name }}</p>
+                    <p class="m-t-5">{{ $classmate->name }}</p>
                 </div>
                 @endif
             @endforeach
