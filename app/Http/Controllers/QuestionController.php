@@ -184,9 +184,12 @@ class QuestionController extends Controller
         }
 
         if ($request->has('other_photo_cropped') && $request->input('other_photo_cropped') != '') {
-            $image_width = $this->question_type_resize($question_type);
+            $image_size = getimagesize($request->input('other_photo_cropped'));
+            $image_width = $image_size[0];
+            $image_height = $image_size[1];
 
-            $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, null);
+            $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, $image_height);
+
             $question->save();
         }
 
@@ -299,8 +302,11 @@ class QuestionController extends Controller
             if (!is_null($question->getOriginal('other_photo')) || $question->getOriginal('other_photo') != '') {
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('other_photo')));
             }
-            $image_width = $this->question_type_resize($question_type);
-            $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, null);
+            $image_size = getimagesize($request->input('other_photo_cropped'));
+            $image_width = $image_size[0];
+            $image_height = $image_size[1];
+
+            $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, $image_height);
             $question->save();
         }
 
