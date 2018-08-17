@@ -25,8 +25,13 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="form-group col-xs-12">
-                        <input type="text" class="form-control" v-bind:name="'answers['+index+'][text]'" placeholder="Answer / Word" v-model="answer.name" maxlength="48">
-                        
+                        <template v-if="type == 7">
+                            <textarea class="form-control" cols="4" v-bind:name="'answers['+index+'][text]'" placeholder="Answer / Word" v-model="answer.name" maxlength="180"></textarea>
+                        </template>
+                        <template v-else>
+                            <input type="text" class="form-control" v-bind:name="'answers['+index+'][text]'" placeholder="Answer / Word" v-model="answer.name" maxlength="48">
+                        </template>
+
                         <input type="hidden" v-bind:name="'answers['+index+'][id]'" v-model="answer.id">
                     </div>
                 </div>
