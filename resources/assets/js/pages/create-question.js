@@ -90,6 +90,15 @@ export default {
                     }
                 },
 
+                uploadLongPassageImage(e) {
+                    var input = e.target;
+                    var fileReader = new FileReader();
+                    fileReader.onload = (loadEvent) => {
+                        this.other_photo = (loadEvent.target.result);
+                    };
+                    fileReader.readAsDataURL(input.files[0]);
+                },
+
                 setDefaultQuestions(event) {
                     if (this.type == 0 || this.type == 7) {
                         for (let c = 0; c < 4; c++) {

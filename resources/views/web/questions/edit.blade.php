@@ -127,7 +127,7 @@
                                 <div class="droppable droppable-small">
                                     <span v-if="!other_photo">Drag an image or click to browse</span>
                                     <img v-else :src="other_photo"/>
-                                    <input name="other_photo" type="file" @change="openCropImage($event, handleCrop, null, 5)">
+                                    <input name="other_photo" type="file" @change="uploadLongPassageImage($event)">
                                     <input type="hidden" name="other_photo_cropped" :value="other_photo">
                                 </div>
                                 @if($errors->has('other_photo_cropped'))

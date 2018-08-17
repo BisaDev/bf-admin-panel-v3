@@ -26698,6 +26698,16 @@ if (token) {
                         this.children[index].photo = imageData;
                     }
                 },
+                uploadLongPassageImage: function uploadLongPassageImage(e) {
+                    var _this = this;
+
+                    var input = e.target;
+                    var fileReader = new FileReader();
+                    fileReader.onload = function (loadEvent) {
+                        _this.other_photo = loadEvent.target.result;
+                    };
+                    fileReader.readAsDataURL(input.files[0]);
+                },
                 setDefaultQuestions: function setDefaultQuestions(event) {
                     if (this.type == 0 || this.type == 7) {
                         for (var c = 0; c < 4; c++) {
