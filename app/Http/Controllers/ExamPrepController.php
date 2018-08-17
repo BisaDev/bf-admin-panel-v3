@@ -45,12 +45,12 @@ class ExamPrepController extends Controller
         ]);
 
         $path = $request->file('csv')->store('/data');
-        $csvStructureValidator = $this->validateStructureCsv(storage_path('app/' . $path));
-
-        if ($csvStructureValidator->fails()) {
-            return redirect(route('exams.create'))
-                ->withErrors($csvStructureValidator);
-        }
+//        $csvStructureValidator = $this->validateStructureCsv(storage_path('app/' . $path));
+//
+//        if ($csvStructureValidator->fails()) {
+//            return redirect(route('exams.create'))
+//                ->withErrors($csvStructureValidator);
+//        }
 
         $examArray = $this->createArray(storage_path('app/' . $path));
 
@@ -239,28 +239,44 @@ class ExamPrepController extends Controller
 
     public function createArray($file)
     {
-        $feed = $file;
-        $keys[] = [];
-        $data = $this->csvToArray($feed);
-        $count = count($data) - 2;
-        $examType = $data[0][0];
-        $keys = $data[1];
-        $data = array_slice($data, 2);
-        $tmpData = [];
+        $data = $this->csvToArray($file);
+        $examType = $data[0][1];
 
-        $keys[] = 'id';
-        for ($i = 0; $i < $count; $i++) {
+        $answersTablePosition = collect($data)->collapse()->search('Section #')/12;
+        $answersTableKeys = $data[$answersTablePosition];
+
+        $data = array_slice($data, $answersTablePosition+1);
+        $scoreTablePosition = collect($data)->collapse()->search('Raw Score')/12;
+        $scoreTableKeys = $data[$scoreTablePosition];
+
+        $answersTableKeys[] = 'id';
+        $scoreTableKeys[] = 'id';
+
+        for ($i = 0; $i < $scoreTablePosition; $i++) {
             $data[$i][] = $i+1;
         }
-
-        for ($j = 0; $j < $count; $j++) {
-            $d = array_combine($keys, $data[$j]);
-            $tmpData[$j] = $d;
+        for ($j = 0; $j < $scoreTablePosition; $j++) {
+            $d = array_combine($answersTableKeys, $data[$j]);
+            $answersArray[$j] = $d;
         }
 
-        array_unshift($tmpData, $examType);
+        $data = array_slice($data, $scoreTablePosition+1);
 
-        return $tmpData;
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i][] = $i+1;
+        }
+        for ($j = 0; $j < count($data); $j++) {
+            $d = array_combine($scoreTableKeys, $data[$j]);
+            $scoreArray[$j] = $d;
+        }
+
+        $examArray[] = [
+            'type' => $examType,
+            'answers' => $answersArray,
+            'score' => $scoreArray,
+        ];
+
+        return $examArray;
     }
 
     public function csvToArray($file)
