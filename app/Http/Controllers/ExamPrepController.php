@@ -130,11 +130,7 @@ class ExamPrepController extends Controller
      */
     public function exam_section_edit(Exam $exam, $sectionId)
     {
-        $examId = $exam->id;
-        $examQuestions = collect(ExamSection::where('exam_id', $examId)
-            ->where('section_number', $sectionId)
-            ->get());
-
+        $examQuestions = $exam->sections->where('section_number', $sectionId);
         return view('web.exam_prep.edit', compact('examQuestions', 'exam'));
     }
 
