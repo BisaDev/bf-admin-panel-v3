@@ -87,7 +87,7 @@ class ExamPrepController extends Controller
         try {
             ExamScoreTable::create([
                 'exam_id' => $exam->id,
-                'score_table' => json_encode($examArray[0]['score']),
+                'score_table' => json_encode($examArray[0]['score'], JSON_FORCE_OBJECT),
             ]);
         } catch(\Exception $error) {
             DB::rollBack();

@@ -16,7 +16,7 @@ class CreateExamScoreTablesTable extends Migration
         Schema::create('exam_score_tables', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('exam_id');
-            $table->string('score_table');
+            $table->json('score_table');
             $table->timestamps();
 
             $table->foreign('exam_id')

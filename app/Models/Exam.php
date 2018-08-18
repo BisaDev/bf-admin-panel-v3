@@ -19,4 +19,9 @@ class Exam extends Model
     {
         return $this->hasMany(ExamSection::class);
     }
+
+    public function scoreTable()
+    {
+        return $this->hasOne(ExamScoreTable::class);
+    }
 }

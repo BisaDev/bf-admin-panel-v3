@@ -4,7 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Brightfox\Models\StudentExam, Brightfox\Models\StudentExamSection, Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\ExamAnswer, Brightfox\Models\User;
+use Brightfox\Models\StudentExam, Brightfox\Models\StudentExamSection, Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\ExamAnswer, Brightfox\Models\User, Brightfox\Models\ExamScoreTable;
 
 class AnswerSheetController extends Controller
 {
@@ -58,6 +58,7 @@ class AnswerSheetController extends Controller
         $section = $request->section;
         $studentExam = $request->session()->get('studentExam');
         $studentExamSectionCollection = collect($studentExam->sections);
+        $scoreTable = collect(json_decode($studentExam->exam->scoreTable->score_table));
 
         $studentExamSection = StudentExamSection::where('student_exam_id', $studentExam->id)
             ->where('section_number', $section)
@@ -77,9 +78,8 @@ class AnswerSheetController extends Controller
                 'answer' => $request->input('question_' . $i),
                 'guessed' => $request->input('guessed_' . $i)
             ]);
-            $correct = $examAnswer->correctAnswer;
             $understood = 0;
-            if (($correct->correct_1 === $examAnswer->answer || $correct->correct_2 === $examAnswer->answer || $correct->correct_3 === $examAnswer->answer || $correct->correct_4 === $examAnswer->answer || $correct->correct_5 === $examAnswer->answer)) {
+            if ($examAnswer->AnswerResult) {
                 $numberCorrectSection = $numberCorrectSection + 1;
                 if ($examAnswer->guessed != 1) {
                     $understood = 1;
@@ -91,15 +91,30 @@ class AnswerSheetController extends Controller
 
         $studentExamSection->time = $request->input('time') + 1;
         $studentExamSection->number_correct = $numberCorrectSection;
+
+        $score = $scoreTable->get($numberCorrectSection)->{$this->sections[$section]['tableScore']};
+        $studentExamSection->score = ($section == 1 || $section == 2) ? $score*10 : $score;
+
         $studentExamSection->save();
 
         if ($lastSection == $section) {
             $studentExam = StudentExam::find($studentExam->id);
             $firstSections = collect($studentExam->sections->unique('section_number'));
+
             $totalCorrect = $firstSections->pluck('number_correct')->sum();
             $totalTime = $firstSections->pluck('time')->sum();
+
             $studentExam->number_correct = $totalCorrect;
             $studentExam->time = $totalTime;
+
+            if($firstSections->count() == 4) {
+                $spanishScore =  $firstSections->whereIn('section_number', [1, 2])->pluck('score')->sum();
+                $mathRawScore = $firstSections->whereIn('section_number', [3, 4])->pluck('number_correct')->sum();
+                $mathScore = $scoreTable->get($mathRawScore)->{'Math Section Score'};
+                $totalScore = $mathScore + $spanishScore;
+                $studentExam->score = $totalScore;
+            }
+
             $studentExam->save();
 
             return redirect(route('answer_sheet.show_results', $studentExam->id));
@@ -117,12 +132,13 @@ class AnswerSheetController extends Controller
         if ($user->can('view', $studentExam)) {
             foreach ($studentExam->sections as $examSection) {
                 foreach ($examSection->questions as $question) {
-                    $correct = $question->correctAnswer;
+                    $correctAnswer = $question->correctAnswer;
+                    $isCorrect = $question->AnswerResult;
                     $answers[] = [
                         'section' => $examSection->section_number,
                         'answer' => $question->answer,
-                        'correct' => [$correct->correct_1, $correct->correct_2, $correct->correct_3, $correct->correct_4, $correct->correct_5],
-                        'topic' => $correct->topic,
+                        'isCorrect' => $isCorrect,
+                        'topic' => $correctAnswer->topic,
                     ];
                 }
             }
@@ -136,7 +152,7 @@ class AnswerSheetController extends Controller
                     $numberOfQuestions = count($topic);
 
                     foreach ($topic as $question) {
-                        if ($question['answer'] === $question['correct'][0] || $question['answer'] === $question['correct'][1] || $question['answer'] === $question['correct'][2] || $question['answer'] === $question['correct'][3] || $question['answer'] === $question['correct'][4]) {
+                        if ($question['isCorrect']) {
                             $score++;
                         }
                     }

@@ -33,7 +33,8 @@
                             <p>Hi {{$item->student->name}}, you got <strong>{{$section->number_correct}}</strong>
                                 correct out of
                                 a possible <strong>{{$sectionData[$section->section_number]['questions']}}</strong>
-                                on {{$sectionData[$section->section_number]['name']}}.</p>
+                                on {{$sectionData[$section->section_number]['name']}}. That Calculates to a score of
+                                <strong>{{$section->score}}</strong>.</p>
                             <p>You took {{$section->time}} minutes out of a
                                 possible {{$sectionData[$section->section_number]['timeAvailable']}} minutes.</p>
                         </div>
