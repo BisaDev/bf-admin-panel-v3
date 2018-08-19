@@ -18,7 +18,7 @@
             {{ csrf_field() }}
             <div class="col-md-12 card-box">
                 <div class="row container">
-                    <p> Select Exam ID and Section ID in order to choose sections and Generate a Results Report</p>
+                    <p>Select Exam ID and Section ID from dropdown in order to choose sections and Generate a Results Report</p>
                 </div>
                 <div class="row container">
                 <div class="form-group col-sm-6 col-md-4">
@@ -33,7 +33,7 @@
                 <div class="form-group col-sm-6 col-md-4">
                     <label class="control-label" for="section">Section ID</label>
                     <select id="section" name="section" class="form-control" v-model="section_id" data-selected="{{ old('section') }}" @change="loadSections()">
-                        <option value="">Select Grade Level</option>
+                        <option value="">Select Section</option>
                         @foreach($sections as $key => $section)
                             <option value="{{ $key }}">{{ $key . ': ' . $section['name'] }}</option>
                         @endforeach
