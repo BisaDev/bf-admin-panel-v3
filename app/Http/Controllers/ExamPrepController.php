@@ -2,11 +2,10 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Models\ExamAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Brightfox\Models\Exam, Brightfox\Models\ExamSection, Brightfox\Models\StudentExamSection, Brightfox\Models\StudentExam;
+use Brightfox\Models\Exam, Brightfox\Models\ExamSection, Brightfox\Models\StudentExamSection, Brightfox\Models\StudentExam, Brightfox\Models\ExamScoreTable, Brightfox\Models\ExamAnswer;
 
 class ExamPrepController extends Controller
 {
@@ -48,8 +47,7 @@ class ExamPrepController extends Controller
         $csvStructureValidator = $this->validateStructureCsv(storage_path('app/' . $path));
 
         if ($csvStructureValidator->fails()) {
-            return redirect(route('exams.create'))
-                ->withErrors($csvStructureValidator);
+            return redirect(route('exams.create'))->withErrors($csvStructureValidator);
         }
 
         $examArray = $this->createArray(storage_path('app/' . $path));
@@ -57,31 +55,44 @@ class ExamPrepController extends Controller
         DB::beginTransaction();
 
         $exam = Exam::create([
-            'type' => $examArray[0]
+            'type' => $examArray[0]['type']
         ]);
         $exam->test_id = $exam->create_test_id;
         $exam->save();
 
-        array_shift($examArray);
-
-        foreach($examArray as $question){
+        foreach($examArray[0]['answers'] as $question){
             try {
                 ExamSection::create([
                     'exam_id' => $exam->id,
-                    'section_number' => $question['section_number'] === "" ? NULL : $question['section_number'],
-                    'question_number' => $question['question_number'] === "" ? NULL : $question['question_number'],
-                    'correct_1' => $question['correct_1'] === "" ? NULL : $question['correct_1'],
-                    'correct_2' => $question['correct_2'],
-                    'correct_3' => $question['correct_3'],
-                    'correct_4' => $question['correct_4'],
-                    'correct_5' => $question['correct_5'],
-                    'topic' => $question['topic'],
+                    'section_number' => $question['Section #'] === "" ? NULL : $question['Section #'],
+                    'question_number' => $question['Question #'] === "" ? NULL : $question['Question #'],
+                    'correct_1' => $question['Correct Answer 1'] === "" ? NULL : $question['Correct Answer 1'],
+                    'correct_2' => $question['Correct Answer 2'],
+                    'correct_3' => $question['Correct Answer 3'],
+                    'correct_4' => $question['Correct Answer 4'],
+                    'correct_5' => $question['Correct Answer 5'],
+                    'correct_6' => $question['Correct Answer 6'],
+                    'correct_7' => $question['Correct Answer 7'],
+                    'correct_8' => $question['Correct Answer 8'],
+                    'correct_9' => $question['Correct Answer 9'],
+                    'topic' => $question['Topic'],
                 ]);
             } catch(\Exception $error) {
                 DB::rollBack();
                 $request->session()->flash('msg', ['type' => 'danger', 'text' => 'The Exam failed to upload: ' . $error->errorInfo[2]]);
                 return redirect(route('exams.index'));
             }
+        }
+
+        try {
+            ExamScoreTable::create([
+                'exam_id' => $exam->id,
+                'score_table' => json_encode($examArray[0]['score'], JSON_FORCE_OBJECT),
+            ]);
+        } catch(\Exception $error) {
+            DB::rollBack();
+            $request->session()->flash('msg', ['type' => 'danger', 'text' => 'The Exam failed to upload: ' . $error->errorInfo[2]]);
+            return redirect(route('exams.index'));
         }
 
         DB::commit();
@@ -119,11 +130,7 @@ class ExamPrepController extends Controller
      */
     public function exam_section_edit(Exam $exam, $sectionId)
     {
-        $examId = $exam->id;
-        $examQuestions = collect(ExamSection::where('exam_id', $examId)
-            ->where('section_number', $sectionId)
-            ->get());
-
+        $examQuestions = $exam->sections->where('section_number', $sectionId);
         return view('web.exam_prep.edit', compact('examQuestions', 'exam'));
     }
 
@@ -239,28 +246,44 @@ class ExamPrepController extends Controller
 
     public function createArray($file)
     {
-        $feed = $file;
-        $keys[] = [];
-        $data = $this->csvToArray($feed);
-        $count = count($data) - 2;
-        $examType = $data[0][0];
-        $keys = $data[1];
-        $data = array_slice($data, 2);
-        $tmpData = [];
+        $data = $this->csvToArray($file);
+        $examType = $data[0][1];
 
-        $keys[] = 'id';
-        for ($i = 0; $i < $count; $i++) {
+        $answersTablePosition = collect($data)->collapse()->search('Section #')/12;
+        $answersTableKeys = $data[$answersTablePosition];
+
+        $data = array_slice($data, $answersTablePosition+1);
+        $scoreTablePosition = collect($data)->collapse()->search('Raw Score')/12;
+        $scoreTableKeys = $data[$scoreTablePosition];
+
+        $answersTableKeys[] = 'id';
+        $scoreTableKeys[] = 'id';
+
+        for ($i = 0; $i < $scoreTablePosition; $i++) {
             $data[$i][] = $i+1;
         }
-
-        for ($j = 0; $j < $count; $j++) {
-            $d = array_combine($keys, $data[$j]);
-            $tmpData[$j] = $d;
+        for ($j = 0; $j < $scoreTablePosition; $j++) {
+            $d = array_combine($answersTableKeys, $data[$j]);
+            $answersArray[$j] = $d;
         }
 
-        array_unshift($tmpData, $examType);
+        $data = array_slice($data, $scoreTablePosition+1);
 
-        return $tmpData;
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i][] = $i+1;
+        }
+        for ($j = 0; $j < count($data); $j++) {
+            $d = array_combine($scoreTableKeys, $data[$j]);
+            $scoreArray[$j] = $d;
+        }
+
+        $examArray[] = [
+            'type' => $examType,
+            'answers' => $answersArray,
+            'score' => $scoreArray,
+        ];
+
+        return $examArray;
     }
 
     public function csvToArray($file)
@@ -283,33 +306,43 @@ class ExamPrepController extends Controller
         ini_set('auto_detect_line_endings', true);
         $opened_file = fopen($csv_path, 'r');
 
-        $type = fgetcsv($opened_file, 0, ',')[0];
+        $type = fgetcsv($opened_file, 0, ',')[1];
+        fgetcsv($opened_file, 0, ',');
+        fgetcsv($opened_file, 0, ',');
         $header = fgetcsv($opened_file, 0, ',');
 
         fclose($opened_file);
 
         $validationRules = [
             'type' => 'required|string|alpha',
-            'section_number' => 'required',
-            'question_number' => 'required',
-            'correct_1' => 'required',
-            'correct_2' => 'required',
-            'correct_3' => 'required',
-            'correct_4' => 'required',
-            'correct_5' => 'required',
+            'Section #' => 'required',
+            'Question #' => 'required',
+            'Correct Answer 1' => 'required',
+            'Correct Answer 2' => 'required',
+            'Correct Answer 3' => 'required',
+            'Correct Answer 4' => 'required',
+            'Correct Answer 5' => 'required',
+            'Correct Answer 6' => 'required',
+            'Correct Answer 7' => 'required',
+            'Correct Answer 8' => 'required',
+            'Correct Answer 9' => 'required',
             'topic' => 'required',
         ];
 
         $arrayToValidate = [
             'type' => $type,
-            'section_number' => $this->getKeyByValue($header, 'section_number'),
-            'question_number' => $this->getKeyByValue($header, 'question_number'),
-            'correct_1' => $this->getKeyByValue($header, 'correct_1'),
-            'correct_2' => $this->getKeyByValue($header, 'correct_2'),
-            'correct_3' => $this->getKeyByValue($header, 'correct_3'),
-            'correct_4' => $this->getKeyByValue($header, 'correct_4'),
-            'correct_5' => $this->getKeyByValue($header, 'correct_5'),
-            'topic' => $this->getKeyByValue($header, 'topic'),
+            'Section #' => $this->getKeyByValue($header, 'Section #'),
+            'Question #' => $this->getKeyByValue($header, 'Question #'),
+            'Correct Answer 1' => $this->getKeyByValue($header, 'Correct Answer 1'),
+            'Correct Answer 2' => $this->getKeyByValue($header, 'Correct Answer 2'),
+            'Correct Answer 3' => $this->getKeyByValue($header, 'Correct Answer 3'),
+            'Correct Answer 4' => $this->getKeyByValue($header, 'Correct Answer 4'),
+            'Correct Answer 5' => $this->getKeyByValue($header, 'Correct Answer 5'),
+            'Correct Answer 6' => $this->getKeyByValue($header, 'Correct Answer 6'),
+            'Correct Answer 7' => $this->getKeyByValue($header, 'Correct Answer 7'),
+            'Correct Answer 8' => $this->getKeyByValue($header, 'Correct Answer 8'),
+            'Correct Answer 9' => $this->getKeyByValue($header, 'Correct Answer 9'),
+            'topic' => $this->getKeyByValue($header, 'Topic'),
         ];
 
         $validator = Validator::make($arrayToValidate, $validationRules);

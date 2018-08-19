@@ -21,15 +21,19 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-responsive table-hover model-list text-center">
+                        <table class="table table-responsive table-bordered table-hover model-list text-center">
                             <thead>
                                 <tr>
-                                    <th>Question Number</th>
-                                    <th>Correct 1</th>
-                                    <th>Correct 2</th>
-                                    <th>Correct 3</th>
-                                    <th>Correct 4</th>
-                                    <th>Correct 5</th>
+                                    <th class="text-center">Question Number</th>
+                                    <th class="text-center">Correct 1</th>
+                                    <th class="text-center">Correct 2</th>
+                                    <th class="text-center">Correct 3</th>
+                                    <th class="text-center">Correct 4</th>
+                                    <th class="text-center">Correct 5</th>
+                                    <th class="text-center">Correct 6</th>
+                                    <th class="text-center">Correct 7</th>
+                                    <th class="text-center">Correct 8</th>
+                                    <th class="text-center">Correct 9</th>
                                     <th class="text-center">Topic</th>
                                 </tr>
                             </thead>
@@ -43,6 +47,10 @@
                                         <td> {{ $question->correct_3 }} </td>
                                         <td> {{ $question->correct_4 }} </td>
                                         <td> {{ $question->correct_5 }} </td>
+                                        <td> {{ $question->correct_6 }} </td>
+                                        <td> {{ $question->correct_7 }} </td>
+                                        <td> {{ $question->correct_8 }} </td>
+                                        <td> {{ $question->correct_9 }} </td>
                                         <td> {{ $question->topic }} </td>
                                     </tr>
                                 @endforeach

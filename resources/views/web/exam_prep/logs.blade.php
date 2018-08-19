@@ -68,7 +68,7 @@
                                 <td>{{ $section->studentExam->exam->test_id }}</td>
                                 <td>{{ $section->section_number }}</td>
                                 <td>{{ $section->number_correct }} / {{$sections[$section->section_number]['questions']}}</td>
-                                <td> - </td>
+                                <td>{{$section->score}}</td>
                                 <td>{{ $section->time }} / {{$sections[$section->section_number]['timeAvailable']}}</td>
                                 <td>
                                     <input type="checkbox" name="{{'checkbox_' . $section->id}}" value="{{$section->id}}" v-model="checkedSections">
@@ -85,7 +85,7 @@
                                 <td>{{ $section->studentExam->exam->test_id }}</td>
                                 <td>{{ $section->section_number }}</td>
                                 <td>{{ $section->number_correct }} / {{$sections[$section->section_number]['questions']}}</td>
-                                <td> - </td>
+                                <td> {{$section->score}} </td>
                                 <td>{{ $section->time }} / {{$sections[$section->section_number]['timeAvailable']}}</td>
                                 <td></td>
                             </tr>

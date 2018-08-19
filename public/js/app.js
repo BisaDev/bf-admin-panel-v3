@@ -83099,7 +83099,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "A"
+          "value": "a"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83111,7 +83111,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "B"
+          "value": "b"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83123,7 +83123,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "C"
+          "value": "c"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83135,7 +83135,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "D"
+          "value": "d"
         }
       })]), _vm._v(" "), (row === 1) ? _c('label', {
         staticClass: "form-check-label",

@@ -43,7 +43,7 @@
                             </td>
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->exam->test_id}}</td>
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->number_correct}} / {{ array_sum(array_column($allSections, 'questions')) }}</td>
-                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> - </td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> {{$exam->score}} </td>
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> {{$exam->time}} / {{ array_sum(array_column($allSections, 'timeAvailable')) }} </td>
                             <td><a href="{{ route('answer_sheet.show_results', $exam->id) }}">View</a></td>
                         </tr>
@@ -54,7 +54,7 @@
                                 <td>{{$allSections[$section->section_number]['name']}}</td>
                                 <td></td>
                                 <td>{{$section->number_correct}} / {{$allSections[$section->section_number]['questions']}}</td>
-                                <td></td>
+                                <td>{{$section->score}}</td>
                                 <td> {{$section->time}} / {{$allSections[$section->section_number]['timeAvailable']}} </td>
                                 <td></td>
                             </tr>
