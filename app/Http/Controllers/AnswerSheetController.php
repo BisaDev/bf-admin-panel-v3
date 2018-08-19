@@ -58,7 +58,7 @@ class AnswerSheetController extends Controller
         $section = $request->section;
         $studentExam = $request->session()->get('studentExam');
         $studentExamSectionCollection = collect($studentExam->sections);
-        $scoreTable = collect(json_decode($studentExam->exam->scoreTable->score_table));
+        $scoreTable = collect(json_decode($studentExam->exam->scoreTable->score_table, true));
 
         $studentExamSection = StudentExamSection::where('student_exam_id', $studentExam->id)
             ->where('section_number', $section)
@@ -91,8 +91,8 @@ class AnswerSheetController extends Controller
 
         $studentExamSection->time = $request->input('time') + 1;
         $studentExamSection->number_correct = $numberCorrectSection;
-
-        $score = $scoreTable->get($numberCorrectSection)->{$this->sections[$section]['tableScore']};
+        
+        $score = $scoreTable->get($numberCorrectSection)[$this->sections[$section]['tableScore']];
         $studentExamSection->score = ($section == 1 || $section == 2) ? $score*10 : $score;
 
         $studentExamSection->save();
@@ -110,7 +110,7 @@ class AnswerSheetController extends Controller
             if($firstSections->count() == 4) {
                 $spanishScore =  $firstSections->whereIn('section_number', [1, 2])->pluck('score')->sum();
                 $mathRawScore = $firstSections->whereIn('section_number', [3, 4])->pluck('number_correct')->sum();
-                $mathScore = $scoreTable->get($mathRawScore)->{'Math Section Score'};
+                $mathScore = $scoreTable->get($mathRawScore)['Math Section Score'];
                 $totalScore = $mathScore + $spanishScore;
                 $studentExam->score = $totalScore;
             }
