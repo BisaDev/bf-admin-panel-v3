@@ -46,21 +46,19 @@
                     </div>
 
                     <div class="row">
-                        @foreach($topics as $topic)
-                            @if($topic['section'] === $section->section_number)
-                                <div class="col-md-6 text-right">
-                                    <span>{{$topic['topic']}}</span>
-                                </div>
+                        @foreach($topics[$section->id] as $topic)
+                            <div class="col-md-6 text-right">
+                                <span>{{$topic['topic']}}</span>
+                            </div>
 
-                                <div class="col-md-5">
-                                    <div class="progress progress-lg">
-                                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
-                                             style="width: {{$topic['score']}}%">{{$topic['right']}}</div>
-                                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
-                                             style="width: {{100 - $topic['score']}}%">{{$topic['wrong']}}</div>
-                                    </div>
+                            <div class="col-md-5">
+                                <div class="progress progress-lg">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                         style="width: {{$topic['score']}}%">{{$topic['right']}}</div>
+                                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
+                                         style="width: {{100 - $topic['score']}}%">{{$topic['wrong']}}</div>
                                 </div>
-                            @endif
+                            </div>
                         @endforeach
                     </div>
                     <div class="row">
