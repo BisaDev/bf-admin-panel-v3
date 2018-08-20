@@ -80,8 +80,9 @@
                         <div class="form-group">
                             <label for="exam-type">Select Exam Type:</label>
                             <select class="form-control" name="exam-type" id="exam-type">
-                                <option>SAT</option>
-                                <option>Sciences</option>
+                                @foreach($exams->unique('type') as $exam)
+                                    <option>{{$exam->type}}</option>
+                                @endforeach
                             </select>
                         </div>
 
