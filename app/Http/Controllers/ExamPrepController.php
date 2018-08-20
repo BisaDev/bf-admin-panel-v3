@@ -124,7 +124,13 @@ class ExamPrepController extends Controller
     public function exam_section_show(Exam $exam, $sectionId)
     {
         $examQuestions = $exam->sections->where('section_number', $sectionId);
-        return view('web.exam_prep.edit', compact('examQuestions', 'exam'));
+        return view('web.exam_prep.show_exam_section', compact('examQuestions', 'exam'));
+    }
+
+    public function exam_section_edit(Exam $exam, $sectionId)
+    {
+        $examQuestions = $exam->sections->where('section_number', $sectionId);
+        return view('web.exam_prep.edit_exam_section', compact('examQuestions', 'exam'));
     }
 
     /**
