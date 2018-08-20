@@ -110,14 +110,7 @@ class ExamPrepController extends Controller
     public function show(Exam $exam)
     {
         $item = $exam;
-
-        //ToDo: change this to be dynamic in case that we have different type-sections
-        $sections = [
-            '1' => 'Reading Comprehension',
-            '2' => 'Writing and Language',
-            '3' => 'Math-No Calculator',
-            '4' => 'Math-With Calculator'
-        ];
+        $sections = $this->sections;
 
         return view('web.exam_prep.show', compact('item', 'sections'));
     }
@@ -128,7 +121,7 @@ class ExamPrepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function exam_section_edit(Exam $exam, $sectionId)
+    public function exam_section_show(Exam $exam, $sectionId)
     {
         $examQuestions = $exam->sections->where('section_number', $sectionId);
         return view('web.exam_prep.edit', compact('examQuestions', 'exam'));

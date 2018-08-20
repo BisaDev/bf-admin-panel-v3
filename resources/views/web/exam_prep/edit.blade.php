@@ -1,16 +1,16 @@
 @extends('layouts.master')
 
-@section('page_title', 'Edit Exam')
+@section('page_title', 'Exam Section')
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Edit Exam ' . $exam->test_id . ' section: ' . $examQuestions->first()->section_number,
+        'pageTitle' => 'Exam ' . $exam->test_id . ', Section: ' . $examQuestions->first()->section_number,
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Exams', 'url' =>  route('exams.index')],
             [ 'label' => $exam->test_id, 'url' =>  route('exams.show', $exam->id)],
         ],
-        'currentSection' => 'Edit Exam'
+        'currentSection' => 'Exam Section'
     ])
 @endsection
 

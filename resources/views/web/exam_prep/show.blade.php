@@ -36,8 +36,8 @@
                                 <tr>
                                     <td>{{ $item->test_id }}</td>
                                     <td>{{ $item->type }}</td>
-                                    <td> {{ $section }} </td>
-                                    <td class="text-center"><a href="{{ route('exams.section.edit', [$item->id, $sectionId])}}" class="icon icon-pencil"></a></td>
+                                    <td> <a href="{{ route('exams.section.show', [$item->id, $sectionId])}}">{{ $section['name'] }}</a></td>
+                                    <td class="text-center"></td>
                                     <td class="text-center">
                                         <a href="{{ route('exams.index')}}" class="icon icon-trash"></a>
                                     </td>
