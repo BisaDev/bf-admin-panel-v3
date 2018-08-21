@@ -338,7 +338,7 @@ export default {
                         }
                     });
 
-                    if ($('input[name="add_equation"]').data('old') === 'on') {
+                    if ($('input[name="add_equation"]').data('old') === 1) {
                         this.equationImageShow = true;
                     }
                 }

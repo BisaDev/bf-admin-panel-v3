@@ -118,9 +118,13 @@
                                 </span>
                             @endif
                         </div>
-                        @if($item->type->key == 7)
+                        @if($item->other_photo != '')
                             <div class="form-group col-md-12 {{ $errors->has('photo')? 'has-error' : '' }}">
-                                <label class="control-label" for="title">Long Passage Image</label>
+                                @if($item->type->key == 7)
+                                    <label class="control-label" for="title">Long Passage Image</label>
+                                @else
+                                    <label class="control-label" for="title">Equation Image</label>
+                                @endif
                                 <div class="col-xs-12 m-b-10 text-center">
                                     <img src="{{ $item->other_photo }}" class="img-responsive center-block">
                                 </div>

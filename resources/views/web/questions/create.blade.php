@@ -117,7 +117,7 @@
 
                         <div v-show="type === '0' || type === '1'" class="form-group col-md-6">
                             <label class="control-label">Add Equation Image</label>
-                            <input type="checkbox" name="add_equation" v-model="equationImageShow" data-old="{{ old('add_equation') }}" data-plugin="switchery" data-color="#FC7044" data-size="small"/>
+                            <input type="checkbox" name="add_equation" v-model="equationImageShow" data-old="{{ old('add_equation') }}" data-plugin="switchery" data-color="#FC7044" data-size="small" value="1"/>
                         </div>
 
                         <div v-if="equationImageShow">
