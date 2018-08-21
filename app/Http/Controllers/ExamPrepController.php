@@ -129,8 +129,12 @@ class ExamPrepController extends Controller
 
     public function exam_section_edit(Exam $exam, $sectionId)
     {
-        $examQuestions = $exam->sections->where('section_number', $sectionId);
-        return view('web.exam_prep.edit_exam_section', compact('examQuestions', 'exam'));
+        $examAnswers = $exam->sections->where('section_number', $sectionId)->values();
+        return view('web.exam_prep.edit_exam_section', [
+            'exam' => $exam,
+            'examAnswers' => $examAnswers,
+            'sections' => $this->sections[$sectionId],
+        ]);
     }
 
     /**
@@ -140,9 +144,9 @@ class ExamPrepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function exam_section_update(Request $request, Exam $exam, $sectionId)
     {
-        //
+        dd($request->all(), $sectionId);
     }
 
     /**
