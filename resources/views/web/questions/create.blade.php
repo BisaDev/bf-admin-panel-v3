@@ -114,6 +114,29 @@
                                 </span>
                             @endif
                         </div>
+
+                        <div v-show="type === '0' || type === '1'" class="form-group col-md-6">
+                            <label class="control-label">Add Equation Image</label>
+                            <input type="checkbox" name="add_equation" v-model="equationImageShow" data-old="{{ old('add_equation') }}" data-plugin="switchery" data-color="#FC7044" data-size="small"/>
+                        </div>
+
+                        <div v-if="equationImageShow">
+                            <div class="form-group col-md-12 {{ $errors->has('other_photo_cropped')? 'has-error' : '' }}">
+                                <label class="control-label" for="other_photo">Equation Image</label>
+                                <div class="droppable droppable-small">
+                                    <span v-if="!other_photo">Drag an image or click to browse</span>
+                                    <img v-else :src="other_photo"/>
+                                    <input name="other_photo" type="file" @change="uploadLongPassageImage($event)">
+                                    <input type="hidden" name="other_photo_cropped" :value="other_photo">
+                                </div>
+                                @if($errors->has('other_photo_cropped'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('other_photo_cropped') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row" v-show="type_has_canvas">
