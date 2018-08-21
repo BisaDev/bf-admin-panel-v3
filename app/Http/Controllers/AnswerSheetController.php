@@ -48,9 +48,13 @@ class AnswerSheetController extends Controller
         return redirect(route('answer_sheet.show_answer_sheet', $sectionCollection->first()));
     }
 
-    public function show_answer_sheet($section)
+    public function show_answer_sheet($section, Request $request)
     {
-        return view('students_web.student_answer_sheet_' . $section, compact('section'));
+        if ($request->session()->has('studentExam')) {
+            return view('students_web.student_answer_sheet_' . $section, compact('section'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function save_answers(Request $request)
@@ -116,6 +120,7 @@ class AnswerSheetController extends Controller
             }
 
             $studentExam->save();
+            $request->session()->forget('studentExam');
 
             return redirect(route('answer_sheet.show_results', $studentExam->id));
         } else {
