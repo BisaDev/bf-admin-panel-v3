@@ -26638,6 +26638,7 @@ if (token) {
                 number_of_answers_allowed: 4,
                 allows_answers: false,
                 type_has_canvas: false,
+                equationImageShow: false,
                 type_shows_answers: true,
                 type_answer_has_additional_data: false
             },
@@ -26955,6 +26956,10 @@ if (token) {
                             canvas.setActiveObject(group);
                         }
                     });
+
+                    if ($('input[name="add_equation"]').data('old') === 1) {
+                        this.equationImageShow = true;
+                    }
                 }
 
                 if (this.$el.attributes['data-answers'] !== undefined) {

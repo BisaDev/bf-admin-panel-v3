@@ -98,8 +98,8 @@
                     <tbody>
                     @foreach($list as $item)
                         <tr>
-                            @if($item->type->key == 7)
-                                <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}</a><lightbox thumbnail="{{ $item->other_photo}}" :images="['{{ $item->other_photo}}']"></lightbox> </td>
+                            @if($item->other_photo != '')
+                                <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}</a><lightbox thumbnail="{{ $item->other_photo }}" :images="['{{ $item->other_photo }}']"></lightbox> </td>
                             @else
                                 <td><a href="{{ route('questions.show', $item->id) }}">{{ $item->title }}</a><lightbox thumbnail="{{ $item->photo }}" :images="['{{ $item->photo }}']"></lightbox> </td>
                             @endif

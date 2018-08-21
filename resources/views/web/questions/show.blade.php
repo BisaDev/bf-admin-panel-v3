@@ -20,12 +20,14 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="row">
-                            @if($item->photo != '')
-                                <div class="col-sm-6">
-                                    <img src="{{ $item->photo }}" class="img-responsive thumbnail m-b-5" alt="profile-image">
+                            @if($item->other_photo != '')
+                                <div class="col-sm-6 col-md-offset-3">
+                                    <img src="{{ $item->other_photo }}" class="img-responsive thumbnail m-b-5" alt="profile-image">
                                 </div>
-                            @elseif($item->type->key == 7)
-                                <img src="{{ $item->other_photo }}" class="img-responsive thumbnail m-b-5" alt="long-passage-image">
+                            @elseif($item->photo != '')
+                                <div class="col-sm-6 col-md-offset-3">
+                                    <img src="{{ $item->photo }}" class="img-responsive thumbnail m-b-5" alt="long-passage-image">
+                                </div>
                             @endif
                             <div class="col-xs-12">
                                 <h3 class="m-b-0 m-t-0">{{ $item->title }}</h3>
