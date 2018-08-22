@@ -40,7 +40,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-4 text-right">
-                    <button type="submit" class="btn btn-md btn-primary">Generate Report</button>
+                    <button type="submit" class="btn btn-md btn-primary" v-bind:disabled="exam_id === '' || section_id === ''">Generate Report</button>
                 </div>
             </div>
             <div class="row container">
