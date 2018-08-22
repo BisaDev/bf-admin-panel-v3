@@ -33,6 +33,8 @@
                                 <tr>
                                     <th>Exam</th>
                                     <th>Exam Type</th>
+                                    <th>Source</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
 
@@ -41,6 +43,8 @@
                                     <tr>
                                         <td><a href="{{ route('exams.show', $exam->id)}}"> {{ $exam->test_id }} </a></td>
                                         <td>{{ $exam->type }}</td>
+                                        <td>{{ $exam->source }}</td>
+                                        <td>{{ $exam->description }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

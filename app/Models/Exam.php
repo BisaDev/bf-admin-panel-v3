@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Exam extends Model
 {
     protected $fillable = [
-        'type', 'test_id'
+        'type', 'test_id', 'source', 'description'
     ];
 
     public function getCreateTestIdAttribute()
