@@ -78,7 +78,8 @@
                     <div class="row">
                         <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Question / Phrase:</label>
-                            <input type="text" name="title" class="form-control" value="{{ old('title') }}">
+                            <textarea v-if="type == 0 && !equationImageShow" type="text" name="title" class="form-control" value="{{ old('title') }}" maxlength="600"></textarea>
+                            <input v-else type="text" name="title" class="form-control" value="{{ old('title') }}" maxlength="180">
                             <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>
                             @if($errors->has('title'))
                                 <span class="help-block">
@@ -114,6 +115,29 @@
                                 </span>
                             @endif
                         </div>
+
+                        <div v-show="type === '0' || type === '1'" class="form-group col-md-6">
+                            <label class="control-label">Add Equation Image</label>
+                            <input type="checkbox" name="add_equation" v-model="equationImageShow" data-old="{{ old('add_equation') }}" data-plugin="switchery" data-color="#FC7044" data-size="small" value="1"/>
+                        </div>
+
+                        <div v-if="equationImageShow">
+                            <div class="form-group col-md-12 {{ $errors->has('other_photo_cropped')? 'has-error' : '' }}">
+                                <label class="control-label" for="other_photo">Equation Image</label>
+                                <div class="droppable droppable-small">
+                                    <span v-if="!other_photo">Drag an image or click to browse</span>
+                                    <img v-else :src="other_photo"/>
+                                    <input name="other_photo" type="file" @change="uploadLongPassageImage($event)">
+                                    <input type="hidden" name="other_photo_cropped" :value="other_photo">
+                                </div>
+                                @if($errors->has('other_photo_cropped'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('other_photo_cropped') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row" v-show="type_has_canvas">

@@ -48,9 +48,13 @@ class AnswerSheetController extends Controller
         return redirect(route('answer_sheet.show_answer_sheet', $sectionCollection->first()));
     }
 
-    public function show_answer_sheet($section)
+    public function show_answer_sheet($section, Request $request)
     {
-        return view('students_web.student_answer_sheet_' . $section, compact('section'));
+        if ($request->session()->has('studentExam')) {
+            return view('students_web.student_answer_sheet_' . $section, compact('section'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function save_answers(Request $request)
@@ -116,6 +120,7 @@ class AnswerSheetController extends Controller
             }
 
             $studentExam->save();
+            $request->session()->forget('studentExam');
 
             return redirect(route('answer_sheet.show_results', $studentExam->id));
         } else {
@@ -135,6 +140,7 @@ class AnswerSheetController extends Controller
                     $correctAnswer = $question->correctAnswer;
                     $isCorrect = $question->AnswerResult;
                     $answers[] = [
+                        'id' => $examSection->id,
                         'section' => $examSection->section_number,
                         'answer' => $question->answer,
                         'isCorrect' => $isCorrect,
@@ -143,7 +149,7 @@ class AnswerSheetController extends Controller
                 }
             }
 
-            $sections = collect($answers)->groupBy('section')->toArray();
+            $sections = collect($answers)->groupBy('id')->toArray();
 
             foreach ($sections as $section) {
                 $topics = collect($section)->groupBy('topic')->toArray();
@@ -161,10 +167,13 @@ class AnswerSheetController extends Controller
                         'score' => round(($score / $numberOfQuestions) * 100),
                         'right' => $score,
                         'wrong' => $numberOfQuestions - $score,
-                        'topic' => $topicName
+                        'topic' => $topicName,
+                        'id' => $section[0]['id'],
                     ];
                 }
             }
+
+            $scoreByTopic = collect($scoreByTopic)->groupBy('id')->toArray();
 
             return view('students_web.show_results', [
                 'item' => StudentExam::find($studentExamId),

@@ -88,8 +88,11 @@
                     <div class="row">
                         <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Question / Phrase:</label>
-                            <input type="text" name="title" class="form-control"
-                                   value="{{ old('title', $item->title) }}">
+                            @if($item->type->key == 0 && !$item->other_photo)
+                                <textarea name="title" class="form-control" maxlength="600">{{ $item->title}}</textarea>
+                            @else
+                                <input type="text" name="title" class="form-control" value="{{ $item->title }}" maxlength="180">
+                            @endif
                             <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in
                                 the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>
                             @if($errors->has('title'))
@@ -118,9 +121,13 @@
                                 </span>
                             @endif
                         </div>
-                        @if($item->type->key == 7)
+                        @if($item->other_photo != '')
                             <div class="form-group col-md-12 {{ $errors->has('photo')? 'has-error' : '' }}">
-                                <label class="control-label" for="title">Long Passage Image</label>
+                                @if($item->type->key == 7)
+                                    <label class="control-label" for="title">Long Passage Image</label>
+                                @else
+                                    <label class="control-label" for="title">Equation Image</label>
+                                @endif
                                 <div class="col-xs-12 m-b-10 text-center">
                                     <img src="{{ $item->other_photo }}" class="img-responsive center-block">
                                 </div>
