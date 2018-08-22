@@ -146,7 +146,30 @@ class ExamPrepController extends Controller
      */
     public function exam_section_update(Request $request, Exam $exam, $sectionId)
     {
-        dd($request->all(), $sectionId);
+        $examSections = $exam->sections->where('section_number', $sectionId)->values();
+        $updatedAnswers = collect($request->all())->splice(1);
+
+        $examSections->each(function($examSection, $key) use($updatedAnswers, $request) {
+            $key = $key + 1;
+            if (!is_array($updatedAnswers['question_' . $key])) {
+                $examSection->correct_1 = $updatedAnswers['question_' . $key];
+            } else {
+                if ($request->has('question_' . $key . '.0')) {
+                    $examSection->correct_1 = $request->input('question_' . $key . '.0');
+                }
+                $examSection->correct_2 = $request->input('question_' . $key . '.1');
+                $examSection->correct_3 = $request->input('question_' . $key . '.2');
+                $examSection->correct_4 = $request->input('question_' . $key . '.3');
+                $examSection->correct_5 = $request->input('question_' . $key . '.4');
+                $examSection->correct_6 = $request->input('question_' . $key . '.5');
+                $examSection->correct_7 = $request->input('question_' . $key . '.6');
+                $examSection->correct_8 = $request->input('question_' . $key . '.7');
+                $examSection->correct_9 = $request->input('question_' . $key . '.8');
+            }
+            $examSection->save();
+        });
+
+        return redirect(route('exams.section.show', [$exam->id, $sectionId]));
     }
 
     /**

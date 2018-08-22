@@ -28569,3 +28569,14 @@ table.model-list td img {
 .guessed-question {
   font-size: 25px;
 }
+.edit {
+  padding-top: 10px;
+}
+.edit .form-control {
+  height: 30px;
+  padding: 7px 10px;
+}
+.edit .label-edit {
+  font-size: 11px;
+  text-align: center;
+}

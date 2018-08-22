@@ -16,13 +16,33 @@
 
 @section('content')
     <div class="row" id="app">
-        <form action="{{ route('exams.section.update', [$exam->id, $examAnswers->first()->section_number]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('exams.section.update', [$exam->id, $examAnswers->first()->section_number]) }}"
+              method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
 
             <div class="col-md-11 card-box">
                 <div class="row">
-                    <student-answer-sheet :questions="{{$sections['questions']}}" :answers="{{$examAnswers}}"></student-answer-sheet>
+                    <student-answer-sheet :questions="{{$sections['questions'] - $sections['openQuestions']}}"
+                                          :answers="{{$examAnswers}}"></student-answer-sheet>
                 </div>
+
+                @if($sections['id'] == 3 || $sections['id'] == 4 )
+                    @for($i = $sections['questions'] - $sections['openQuestions'] + 1; $i <= $sections['questions']; $i++)
+                        <div class="col-md-12 col-md-offset-1 question">
+                            <div class="row question-number">{{$i}}</div>
+                            @for($j = 1; $j <= 9; $j++)
+                                <div class="col-md-1 edit">
+                                    @if($i == $sections['questions'] - $sections['openQuestions'] + 1)
+                                        <label class="label-edit">Correct {{$j}}</label>
+                                    @endif
+                                    <input class="form-control" type="text" name="question_{{$i}}[]"
+                                           value="{{ old('question_'. $i[$j-1], $examAnswers[$i-1]['correct_'.$j]) }}"
+                                           maxlength="4">
+                                </div>
+                            @endfor
+                        </div>
+                    @endfor
+                @endif
             </div>
 
             <div class="row">
