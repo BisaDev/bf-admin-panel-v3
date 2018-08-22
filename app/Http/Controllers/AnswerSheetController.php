@@ -140,6 +140,7 @@ class AnswerSheetController extends Controller
                     $correctAnswer = $question->correctAnswer;
                     $isCorrect = $question->AnswerResult;
                     $answers[] = [
+                        'id' => $examSection->id,
                         'section' => $examSection->section_number,
                         'answer' => $question->answer,
                         'isCorrect' => $isCorrect,
@@ -148,7 +149,7 @@ class AnswerSheetController extends Controller
                 }
             }
 
-            $sections = collect($answers)->groupBy('section')->toArray();
+            $sections = collect($answers)->groupBy('id')->toArray();
 
             foreach ($sections as $section) {
                 $topics = collect($section)->groupBy('topic')->toArray();
@@ -166,10 +167,13 @@ class AnswerSheetController extends Controller
                         'score' => round(($score / $numberOfQuestions) * 100),
                         'right' => $score,
                         'wrong' => $numberOfQuestions - $score,
-                        'topic' => $topicName
+                        'topic' => $topicName,
+                        'id' => $section[0]['id'],
                     ];
                 }
             }
+
+            $scoreByTopic = collect($scoreByTopic)->groupBy('id')->toArray();
 
             return view('students_web.show_results', [
                 'item' => StudentExam::find($studentExamId),
