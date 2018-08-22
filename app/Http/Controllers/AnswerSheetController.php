@@ -173,7 +173,7 @@ class AnswerSheetController extends Controller
                 }
             }
 
-            $scoreByTopic = collect($scoreByTopic)->groupBy('id')->toArray();
+            $scoreByTopic = collect($scoreByTopic)->sortByDesc('score')->groupBy('id')->toArray();
 
             return view('students_web.show_results', [
                 'item' => StudentExam::find($studentExamId),
