@@ -26119,9 +26119,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['questions'],
+    props: ['questions', 'answers'],
     data: function data() {
         return {
             numberOfColumns: 5,
@@ -83105,6 +83107,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "type": "radio",
           "name": 'question_' + _vm.num,
           "value": "a"
+        },
+        domProps: {
+          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'a') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83117,6 +83122,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "type": "radio",
           "name": 'question_' + _vm.num,
           "value": "b"
+        },
+        domProps: {
+          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'b') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83129,6 +83137,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "type": "radio",
           "name": 'question_' + _vm.num,
           "value": "c"
+        },
+        domProps: {
+          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'c') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83141,8 +83152,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "type": "radio",
           "name": 'question_' + _vm.num,
           "value": "d"
+        },
+        domProps: {
+          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'd') ? true : false
         }
-      })]), _vm._v(" "), (row === 1) ? _c('label', {
+      })]), _vm._v(" "), (!_vm.answers[0].id) ? [(row === 1) ? _c('label', {
         staticClass: "form-check-label",
         attrs: {
           "data-toggle": "popover"
@@ -83165,11 +83179,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'guessed_' + _vm.num,
           "value": "1"
         }
-      })]) : _vm._e()])
+      })]) : _vm._e()] : _vm._e()], 2)
     }))
-  }), _vm._v(" "), _vm._m(0)], 2)])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  }), _vm._v(" "), (!_vm.answers[0].id) ? _c('div', {
     staticClass: "col-md-1 question text-right"
   }, [_c('i', {
     staticClass: "ti-help-alt guessed-question",
@@ -83178,8 +83190,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": "Guessed",
       "data-content": "If you guessed the question, please mark its checkbox"
     }
-  })])
-}]}
+  })]) : _vm._e()], 2)])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

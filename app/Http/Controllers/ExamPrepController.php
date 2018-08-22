@@ -110,14 +110,7 @@ class ExamPrepController extends Controller
     public function show(Exam $exam)
     {
         $item = $exam;
-
-        //ToDo: change this to be dynamic in case that we have different type-sections
-        $sections = [
-            '1' => 'Reading Comprehension',
-            '2' => 'Writing and Language',
-            '3' => 'Math-No Calculator',
-            '4' => 'Math-With Calculator'
-        ];
+        $sections = $this->sections;
 
         return view('web.exam_prep.show', compact('item', 'sections'));
     }
@@ -128,10 +121,20 @@ class ExamPrepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function exam_section_edit(Exam $exam, $sectionId)
+    public function exam_section_show(Exam $exam, $sectionId)
     {
         $examQuestions = $exam->sections->where('section_number', $sectionId);
-        return view('web.exam_prep.edit', compact('examQuestions', 'exam'));
+        return view('web.exam_prep.show_exam_section', compact('examQuestions', 'exam'));
+    }
+
+    public function exam_section_edit(Exam $exam, $sectionId)
+    {
+        $examAnswers = $exam->sections->where('section_number', $sectionId)->values();
+        return view('web.exam_prep.edit_exam_section', [
+            'exam' => $exam,
+            'examAnswers' => $examAnswers,
+            'sections' => $this->sections[$sectionId],
+        ]);
     }
 
     /**
@@ -141,9 +144,32 @@ class ExamPrepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function exam_section_update(Request $request, Exam $exam, $sectionId)
     {
-        //
+        $examSections = $exam->sections->where('section_number', $sectionId)->values();
+        $updatedAnswers = collect($request->all())->splice(1);
+
+        $examSections->each(function($examSection, $key) use($updatedAnswers, $request) {
+            $key = $key + 1;
+            if (!is_array($updatedAnswers['question_' . $key])) {
+                $examSection->correct_1 = $updatedAnswers['question_' . $key];
+            } else {
+                if ($request->has('question_' . $key . '.0')) {
+                    $examSection->correct_1 = $request->input('question_' . $key . '.0');
+                }
+                $examSection->correct_2 = $request->input('question_' . $key . '.1');
+                $examSection->correct_3 = $request->input('question_' . $key . '.2');
+                $examSection->correct_4 = $request->input('question_' . $key . '.3');
+                $examSection->correct_5 = $request->input('question_' . $key . '.4');
+                $examSection->correct_6 = $request->input('question_' . $key . '.5');
+                $examSection->correct_7 = $request->input('question_' . $key . '.6');
+                $examSection->correct_8 = $request->input('question_' . $key . '.7');
+                $examSection->correct_9 = $request->input('question_' . $key . '.8');
+            }
+            $examSection->save();
+        });
+
+        return redirect(route('exams.section.show', [$exam->id, $sectionId]));
     }
 
     /**
