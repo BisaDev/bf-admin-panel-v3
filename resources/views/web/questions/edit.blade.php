@@ -88,8 +88,11 @@
                     <div class="row">
                         <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Question / Phrase:</label>
-                            <input type="text" name="title" class="form-control"
-                                   value="{{ old('title', $item->title) }}">
+                            @if($item->type->key == 0 && !$item->other_photo)
+                                <textarea name="title" class="form-control" maxlength="600">{{ $item->title}}</textarea>
+                            @else
+                                <input type="text" name="title" class="form-control" value="{{ $item->title }}" maxlength="180">
+                            @endif
                             <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in
                                 the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>
                             @if($errors->has('title'))
