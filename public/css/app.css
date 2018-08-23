@@ -28522,6 +28522,10 @@ table.model-list td img {
 .clickable {
   cursor: pointer;
 }
+.bg-exams-dashboard {
+  color: #eeeeee;
+  background-color: #244f79;
+}
 .question {
   padding-top: 10px;
   position: relative;
