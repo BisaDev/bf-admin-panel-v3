@@ -205,16 +205,21 @@ class ExamPrepController extends Controller
         $answers = $studentExamSections->first()->studentExam->exam->sections->where('section_number', $request->input('section'));
 
         foreach($studentExamSections as $studentExamSection) {
-            foreach ($studentExamSection->questions->unique('question_number') as $studentAnswer) {
-                $correct = $studentAnswer->correctAnswer;
-                $answersArray[] = [
-                    'examSectionId' => $studentExamSection->id,
-                    'questionNum' => $studentAnswer->question_number,
-                    'studentAnswer' => $studentAnswer->answer,
-                    'correctAnswer' => [$correct->correct_1, $correct->correct_2, $correct->correct_3, $correct->correct_4, $correct->correct_5],
-                    'isCorrect' => $studentAnswer->AnswerResult,
-                    'topic' => $correct->topic,
-                ];
+            if(!$studentExamSection->time) {
+                $studentExamSection->delete();
+                return redirect()->back();
+            } else {
+                foreach ($studentExamSection->questions->unique('question_number') as $studentAnswer) {
+                    $correct = $studentAnswer->correctAnswer;
+                    $answersArray[] = [
+                        'examSectionId' => $studentExamSection->id,
+                        'questionNum' => $studentAnswer->question_number,
+                        'studentAnswer' => $studentAnswer->answer,
+                        'correctAnswer' => [$correct->correct_1, $correct->correct_2, $correct->correct_3, $correct->correct_4, $correct->correct_5],
+                        'isCorrect' => $studentAnswer->AnswerResult,
+                        'topic' => $correct->topic,
+                    ];
+                }
             }
         }
 
