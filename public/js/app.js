@@ -26253,6 +26253,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['num'],
@@ -26274,6 +26277,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         layoutCount: function layoutCount(rows, columns) {
             return (rows - 1) * this.numberOfColumns + columns;
+        },
+        uncheck: function uncheck() {
+            this.picked_1 = false;
+            this.picked_2 = false;
+            this.picked_3 = false;
+            this.picked_4 = false;
         }
     }
 });
@@ -83342,13 +83351,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "answer-math-2"
   }, [_c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_1) + " ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_1 === false ? '' : _vm.picked_1) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_2) + " ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_2 === false ? '' : _vm.picked_2) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_3) + " ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_3 === false ? '' : _vm.picked_3) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_4) + " ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_4 === false ? '' : _vm.picked_4) + " ")])]), _vm._v(" "), _c('div', {
     staticClass: "form-check question"
   }, [_c('span', {
     staticClass: "student-label answer-slash"
@@ -84362,7 +84371,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.picked_4 = "9"
       }
     }
-  })]), _vm._v(" "), _c('input', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-check question"
+  }, [_c('button', {
+    staticClass: "btn btn-sm btn-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.uncheck
+    }
+  }, [_vm._v("Clear")])]), _vm._v(" "), _c('input', {
     attrs: {
       "type": "hidden",
       "name": 'question_' + _vm.num

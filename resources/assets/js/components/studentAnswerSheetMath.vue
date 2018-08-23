@@ -2,10 +2,10 @@
     <div class="question col-md-2">
         <div class="question-number-math">{{ num }}</div><br>
         <div class="answer-math-2">
-            <div class="col-md-3 answer-math-1">{{picked_1}}&nbsp;</div>
-            <div class="col-md-3 answer-math-1">{{picked_2}}&nbsp;</div>
-            <div class="col-md-3 answer-math-1">{{picked_3}}&nbsp;</div>
-            <div class="col-md-3 answer-math-1">{{picked_4}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_1 === false ? '' : picked_1}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_2 === false ? '' : picked_2}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_3 === false ? '' : picked_3}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_4 === false ? '' : picked_4}}&nbsp;</div>
         </div>
         <div class="form-check question">
             <span class="student-label answer-slash">/</span>
@@ -89,6 +89,9 @@
             <input class="form-check-input student-answer" type="radio" :name="'question_3_' + num" value="9" v-model="picked_3">
             <input class="form-check-input student-answer" type="radio" :name="'question_4_' + num" value="9" v-model="picked_4">
         </div>
+        <div class="form-check question">
+            <button type="button" class="btn btn-sm btn-primary" @click="uncheck">Clear</button>
+        </div>
         <input type="hidden" :name="'question_' + num" :value="picked_1 + picked_2 + picked_3 + picked_4">
     </div>
 </template>
@@ -113,6 +116,12 @@
         methods: {
             layoutCount: function (rows, columns) {
                 return (rows - 1) * this.numberOfColumns + columns
+            },
+            uncheck: function () {
+              this.picked_1 = false;
+              this.picked_2 = false;
+              this.picked_3 = false;
+              this.picked_4 = false;
             },
         }
     }
