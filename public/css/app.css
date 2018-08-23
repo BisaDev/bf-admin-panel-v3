@@ -28526,6 +28526,9 @@ table.model-list td img {
   color: #eeeeee;
   background-color: #244f79;
 }
+.bg-exams-hover tr:hover {
+  color: #797979;
+}
 .question {
   padding-top: 10px;
   position: relative;
