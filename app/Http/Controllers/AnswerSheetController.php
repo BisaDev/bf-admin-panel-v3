@@ -2,6 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Brightfox\Models\StudentExam, Brightfox\Models\StudentExamSection, Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\ExamAnswer, Brightfox\Models\User, Brightfox\Models\ExamScoreTable;
@@ -69,7 +70,11 @@ class AnswerSheetController extends Controller
             ->get();
 
         $studentExamSection = $studentExamSection->last();
-        $allSections = $studentExamSectionCollection->pluck('section_number');
+        $allSections = $studentExamSectionCollection->groupBy(function($date) {
+            return Carbon::parse($date->created_at)->format('s');
+        });
+        $allSections = $allSections->last()->pluck('section_number');
+
         $lastSection = $studentExamSectionCollection->last()->section_number;
         $questions = $this->sections[$section]['questions'];
 
@@ -136,16 +141,21 @@ class AnswerSheetController extends Controller
 
         if ($user->can('view', $studentExam)) {
             foreach ($studentExam->sections as $examSection) {
-                foreach ($examSection->questions as $question) {
-                    $correctAnswer = $question->correctAnswer;
-                    $isCorrect = $question->AnswerResult;
-                    $answers[] = [
-                        'id' => $examSection->id,
-                        'section' => $examSection->section_number,
-                        'answer' => $question->answer,
-                        'isCorrect' => $isCorrect,
-                        'topic' => $correctAnswer->topic,
-                    ];
+
+                if(!$examSection->time) {
+                    $examSection->delete();
+                } else {
+                    foreach ($examSection->questions as $question) {
+                        $correctAnswer = $question->correctAnswer;
+                        $isCorrect = $question->AnswerResult;
+                        $answers[] = [
+                            'id' => $examSection->id,
+                            'section' => $examSection->section_number,
+                            'answer' => $question->answer,
+                            'isCorrect' => $isCorrect,
+                            'topic' => $correctAnswer->topic,
+                        ];
+                    }
                 }
             }
 
