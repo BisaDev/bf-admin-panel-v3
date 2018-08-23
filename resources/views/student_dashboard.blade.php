@@ -15,7 +15,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12 card-box">
-            <table class="table table-responsive model-list text-center">
+            <table class="table table-responsive table-hover model-list text-center">
                 <thead>
                 <tr>
                     <th class="text-center">Date</th>
@@ -28,7 +28,7 @@
                     <th class="text-center">Detailed Score Report</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-exams-hover">
                     @foreach($student->exams as $exam)
                         <tr>
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{ $exam->created_at->format('d M Y') }}</td>
@@ -48,7 +48,7 @@
                             <td><a href="{{ route('answer_sheet.show_results', $exam->id) }}">View</a></td>
                         </tr>
                         @foreach($exam->sections as $section)
-                            <tr class="bg-primary collapse accordion_{{$exam->id}}">
+                            <tr class="bg-exams-dashboard collapse accordion_{{$exam->id}}">
                                 <td>{{ $exam->created_at->format('d M Y') }}</td>
                                 <td></td>
                                 <td>{{$allSections[$section->section_number]['name']}}</td>
