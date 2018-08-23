@@ -55,8 +55,11 @@ class ExamPrepController extends Controller
         DB::beginTransaction();
 
         $exam = Exam::create([
-            'type' => $examArray[0]['type']
+            'type' => $examArray[0]['type'],
+            'source' => $examArray[0]['source'],
+            'description' => $examArray[0]['description'],
         ]);
+
         $exam->test_id = $exam->create_test_id;
         $exam->save();
 
@@ -273,7 +276,10 @@ class ExamPrepController extends Controller
     public function createArray($file)
     {
         $data = $this->csvToArray($file);
+
         $examType = $data[0][1];
+        $examSource = $data[1][1];
+        $examDescription = $data[2][1];
 
         $answersTablePosition = collect($data)->collapse()->search('Section #')/12;
         $answersTableKeys = $data[$answersTablePosition];
@@ -305,6 +311,8 @@ class ExamPrepController extends Controller
 
         $examArray[] = [
             'type' => $examType,
+            'source' => $examSource,
+            'description' => $examDescription,
             'answers' => $answersArray,
             'score' => $scoreArray,
         ];
@@ -333,14 +341,16 @@ class ExamPrepController extends Controller
         $opened_file = fopen($csv_path, 'r');
 
         $type = fgetcsv($opened_file, 0, ',')[1];
-        fgetcsv($opened_file, 0, ',');
-        fgetcsv($opened_file, 0, ',');
+        $source = fgetcsv($opened_file, 0, ',')[1];
+        $description = fgetcsv($opened_file, 0, ',')[1];
         $header = fgetcsv($opened_file, 0, ',');
 
         fclose($opened_file);
 
         $validationRules = [
             'type' => 'required|string|alpha',
+            'source' => 'required|string',
+            'description' => 'required|string',
             'Section #' => 'required',
             'Question #' => 'required',
             'Correct Answer 1' => 'required',
@@ -357,6 +367,8 @@ class ExamPrepController extends Controller
 
         $arrayToValidate = [
             'type' => $type,
+            'source' => $source,
+            'description' => $description,
             'Section #' => $this->getKeyByValue($header, 'Section #'),
             'Question #' => $this->getKeyByValue($header, 'Question #'),
             'Correct Answer 1' => $this->getKeyByValue($header, 'Correct Answer 1'),
