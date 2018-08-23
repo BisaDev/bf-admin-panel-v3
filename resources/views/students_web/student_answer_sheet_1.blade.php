@@ -26,7 +26,7 @@
 
             <div class="col-md-11 card-box">
                 <div class="row">
-                    <student-answer-sheet :questions="52"></student-answer-sheet>
+                    <student-answer-sheet :questions="52" :answers="[]"></student-answer-sheet>
                 </div>
             </div>
 

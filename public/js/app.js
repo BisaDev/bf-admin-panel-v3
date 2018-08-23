@@ -26121,6 +26121,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['questions', 'answers'],
@@ -83096,7 +83102,78 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         staticClass: "question"
       }, [_c('div', {
         staticClass: "question-number"
-      }, [_vm._v(_vm._s(_vm.num = (column - 1) * _vm.rowsPerColumn(column - 1) + row))]), _vm._v(" "), _c('label', {
+      }, [_vm._v(_vm._s(_vm.num = (column - 1) * _vm.rowsPerColumn(column - 1) + row))]), _vm._v(" "), (!_vm.answers[0]) ? [_c('label', {
+        staticClass: "form-check-label",
+        attrs: {
+          "for": 'question_' + _vm.num
+        }
+      }, [_vm._v(" A "), _c('input', {
+        staticClass: "student-answer radio-inline",
+        attrs: {
+          "type": "radio",
+          "name": 'question_' + _vm.num,
+          "value": "a"
+        }
+      })]), _vm._v(" "), _c('label', {
+        staticClass: "form-check-label",
+        attrs: {
+          "for": 'question_' + _vm.num
+        }
+      }, [_vm._v(" B "), _c('input', {
+        staticClass: "student-answer radio-inline",
+        attrs: {
+          "type": "radio",
+          "name": 'question_' + _vm.num,
+          "value": "b"
+        }
+      })]), _vm._v(" "), _c('label', {
+        staticClass: "form-check-label",
+        attrs: {
+          "for": 'question_' + _vm.num
+        }
+      }, [_vm._v(" C "), _c('input', {
+        staticClass: "student-answer radio-inline",
+        attrs: {
+          "type": "radio",
+          "name": 'question_' + _vm.num,
+          "value": "c"
+        }
+      })]), _vm._v(" "), _c('label', {
+        staticClass: "form-check-label",
+        attrs: {
+          "for": 'question_' + _vm.num
+        }
+      }, [_vm._v(" D "), _c('input', {
+        staticClass: "student-answer radio-inline",
+        attrs: {
+          "type": "radio",
+          "name": 'question_' + _vm.num,
+          "value": "d"
+        }
+      })]), _vm._v(" "), (row === 1) ? _c('label', {
+        staticClass: "form-check-label",
+        attrs: {
+          "data-toggle": "popover"
+        }
+      }, [_c('i', {
+        staticClass: "ti-help-alt"
+      }), _vm._v(" "), _c('input', {
+        staticClass: "student-answer radio-inline",
+        attrs: {
+          "type": "checkbox",
+          "name": 'guessed_' + _vm.num,
+          "value": "1"
+        }
+      })]) : _vm._e(), _vm._v(" "), (row !== 1) ? _c('label', {
+        staticClass: "form-check-label"
+      }, [_vm._v("   "), _c('input', {
+        staticClass: "student-answer radio-inline",
+        attrs: {
+          "type": "checkbox",
+          "name": 'guessed_' + _vm.num,
+          "value": "1"
+        }
+      })]) : _vm._e()] : [_c('label', {
         staticClass: "form-check-label",
         attrs: {
           "for": 'question_' + _vm.num
@@ -83156,32 +83233,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         domProps: {
           "checked": (_vm.answers[_vm.num - 1].correct_1 === 'd') ? true : false
         }
-      })]), _vm._v(" "), (!_vm.answers[0].id) ? [(row === 1) ? _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "data-toggle": "popover"
-        }
-      }, [_c('i', {
-        staticClass: "ti-help-alt"
-      }), _vm._v(" "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "checkbox",
-          "name": 'guessed_' + _vm.num,
-          "value": "1"
-        }
-      })]) : _vm._e(), _vm._v(" "), (row !== 1) ? _c('label', {
-        staticClass: "form-check-label"
-      }, [_vm._v("   "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "checkbox",
-          "name": 'guessed_' + _vm.num,
-          "value": "1"
-        }
-      })]) : _vm._e()] : _vm._e()], 2)
+      })])]], 2)
     }))
-  }), _vm._v(" "), (!_vm.answers[0].id) ? _c('div', {
+  }), _vm._v(" "), (!_vm.answers[0]) ? _c('div', {
     staticClass: "col-md-1 question text-right"
   }, [_c('i', {
     staticClass: "ti-help-alt guessed-question",
