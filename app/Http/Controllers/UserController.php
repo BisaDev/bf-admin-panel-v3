@@ -220,9 +220,15 @@ class UserController extends Controller
 
     public function get_employees_by_location(Request $request)
     {
-        $employees = User::whereHas('user_detail', function ($query)use($request) {
+        $users = User::whereHas('user_detail', function ($query)use($request) {
             $query->where('location_id', $request->get('location_id'));
         })->get();
+
+        foreach ($users as $employee) {
+            if($employee->hasAnyRole(['instructor', 'director'])) {
+                $employees[] = $employee;
+            }
+        }
 
         return response()->json($employees);
     }
