@@ -26081,10 +26081,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         toggleActive: function toggleActive() {
             var _this = this;
 
-            this.understood = !this.understood;
+            this.questionUnderstood = !this.questionUnderstood;
             axios.post(this.url, {
                 section: this.sectionId,
-                question: this.question.question_number
+                question: this.question.question_number,
+                understood: this.questionUnderstood
             }).then(function (response) {
                 _this.questionUnderstood = response.data;
             });
@@ -26279,10 +26280,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return (rows - 1) * this.numberOfColumns + columns;
         },
         uncheck: function uncheck() {
-            this.picked_1 = false;
-            this.picked_2 = false;
-            this.picked_3 = false;
-            this.picked_4 = false;
+            this.picked_1 = "";
+            this.picked_2 = "";
+            this.picked_3 = "";
+            this.picked_4 = "";
         }
     }
 });
@@ -83351,13 +83352,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "answer-math-2"
   }, [_c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_1 === false ? '' : _vm.picked_1) + " ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_1) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_2 === false ? '' : _vm.picked_2) + " ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_2) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_3 === false ? '' : _vm.picked_3) + " ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_3) + " ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3 answer-math-1"
-  }, [_vm._v(_vm._s(_vm.picked_4 === false ? '' : _vm.picked_4) + " ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.picked_4) + " ")])]), _vm._v(" "), _c('div', {
     staticClass: "form-check question"
   }, [_c('span', {
     staticClass: "student-label answer-slash"
@@ -84404,71 +84405,83 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', {
+  return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.answer))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.guessed ? 'Guessed' : '-'))]), _vm._v(" "), (this.question.answer === this.correctAnswer.correct_1 || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [_vm._m(0), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_c('span', {
+    staticClass: "badge badge-pill badge-success"
+  }, [_c('i', {
+    staticClass: "ti-check",
     on: {
       "click": _vm.toggleActive
     }
-  }, [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.answer))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.guessed ? 'Guessed' : '-'))]), _vm._v(" "), (this.question.answer === this.correctAnswer.correct_1 || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [_vm._m(0), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_vm._m(1)]) : _c('td', [_c('input', {
+  })])]) : _c('td', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.understood),
-      expression: "understood"
+      value: (_vm.questionUnderstood),
+      expression: "questionUnderstood"
     }],
     attrs: {
       "type": "checkbox",
       "name": 'understood_' + this.section + '_' + this.question.question_number
     },
     domProps: {
-      "checked": Array.isArray(_vm.understood) ? _vm._i(_vm.understood, null) > -1 : (_vm.understood)
+      "checked": Array.isArray(_vm.questionUnderstood) ? _vm._i(_vm.questionUnderstood, null) > -1 : (_vm.questionUnderstood)
     },
     on: {
+      "click": _vm.toggleActive,
       "change": function($event) {
-        var $$a = _vm.understood,
+        var $$a = _vm.questionUnderstood,
           $$el = $event.target,
           $$c = $$el.checked ? (true) : (false);
         if (Array.isArray($$a)) {
           var $$v = null,
             $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
-            $$i < 0 && (_vm.understood = $$a.concat([$$v]))
+            $$i < 0 && (_vm.questionUnderstood = $$a.concat([$$v]))
           } else {
-            $$i > -1 && (_vm.understood = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            $$i > -1 && (_vm.questionUnderstood = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
           }
         } else {
-          _vm.understood = $$c
+          _vm.questionUnderstood = $$c
         }
       }
     }
-  })])] : [_vm._m(2), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_vm._m(3)]) : _c('td', [_c('input', {
+  })])] : [_vm._m(1), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_c('span', {
+    staticClass: "badge badge-pill badge-success"
+  }, [_c('i', {
+    staticClass: "ti-check",
+    on: {
+      "click": _vm.toggleActive
+    }
+  })])]) : _c('td', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.understood),
-      expression: "understood"
+      value: (_vm.questionUnderstood),
+      expression: "questionUnderstood"
     }],
     attrs: {
       "type": "checkbox",
       "name": 'understood_' + this.section + '_' + this.question.question_number
     },
     domProps: {
-      "checked": Array.isArray(_vm.understood) ? _vm._i(_vm.understood, null) > -1 : (_vm.understood)
+      "checked": Array.isArray(_vm.questionUnderstood) ? _vm._i(_vm.questionUnderstood, null) > -1 : (_vm.questionUnderstood)
     },
     on: {
+      "click": _vm.toggleActive,
       "change": function($event) {
-        var $$a = _vm.understood,
+        var $$a = _vm.questionUnderstood,
           $$el = $event.target,
           $$c = $$el.checked ? (true) : (false);
         if (Array.isArray($$a)) {
           var $$v = null,
             $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
-            $$i < 0 && (_vm.understood = $$a.concat([$$v]))
+            $$i < 0 && (_vm.questionUnderstood = $$a.concat([$$v]))
           } else {
-            $$i > -1 && (_vm.understood = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            $$i > -1 && (_vm.questionUnderstood = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
           }
         } else {
-          _vm.understood = $$c
+          _vm.questionUnderstood = $$c
         }
       }
     }
@@ -84478,21 +84491,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "badge badge-success"
   }, [_vm._v("Correct")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "badge badge-pill badge-success"
-  }, [_c('i', {
-    staticClass: "ti-check"
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('td', [_c('span', {
     staticClass: "badge badge-danger"
   }, [_vm._v("Incorrect")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "badge badge-pill badge-success"
-  }, [_c('i', {
-    staticClass: "ti-check"
-  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {

@@ -2,10 +2,10 @@
     <div class="question col-md-2">
         <div class="question-number-math">{{ num }}</div><br>
         <div class="answer-math-2">
-            <div class="col-md-3 answer-math-1">{{picked_1 === false ? '' : picked_1}}&nbsp;</div>
-            <div class="col-md-3 answer-math-1">{{picked_2 === false ? '' : picked_2}}&nbsp;</div>
-            <div class="col-md-3 answer-math-1">{{picked_3 === false ? '' : picked_3}}&nbsp;</div>
-            <div class="col-md-3 answer-math-1">{{picked_4 === false ? '' : picked_4}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_1}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_2}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_3}}&nbsp;</div>
+            <div class="col-md-3 answer-math-1">{{picked_4}}&nbsp;</div>
         </div>
         <div class="form-check question">
             <span class="student-label answer-slash">/</span>
@@ -118,10 +118,10 @@
                 return (rows - 1) * this.numberOfColumns + columns
             },
             uncheck: function () {
-              this.picked_1 = false;
-              this.picked_2 = false;
-              this.picked_3 = false;
-              this.picked_4 = false;
+              this.picked_1 = "";
+              this.picked_2 = "";
+              this.picked_3 = "";
+              this.picked_4 = "";
             },
         }
     }
