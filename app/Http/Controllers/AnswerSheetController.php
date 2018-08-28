@@ -199,11 +199,12 @@ class AnswerSheetController extends Controller
     {
         $studentExamSectionId = $request->input('section');
         $questionNumber = $request->input('question');
+        $understood = $request->input('understood');
 
-         ExamAnswer::where('student_exam_section_id', $studentExamSectionId)
+        ExamAnswer::where('student_exam_section_id', $studentExamSectionId)
             ->where('question_number', $questionNumber)
-            ->update(['understood' => 1]);
+             ->update(['understood' => $understood]);
 
-        return response()->json(1);
+        return response()->json($understood);
     }
 }

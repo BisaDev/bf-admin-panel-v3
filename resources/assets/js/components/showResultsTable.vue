@@ -1,5 +1,5 @@
 <template>
-    <tr @click="toggleActive">
+    <tr>
         <td>{{ this.question.question_number }}</td>
         <td>{{ this.question.answer }}</td>
         <td>{{ this.correctAnswer.correct_1 }}</td>
@@ -10,20 +10,20 @@
                 <span class="badge badge-success">Correct</span>
             </td>
             <td v-if="questionUnderstood">
-                <span class="badge badge-pill badge-success"><i class="ti-check"></i></span>
+                <span class="badge badge-pill badge-success"><i class="ti-check" @click="toggleActive"></i></span>
             </td>
             <td v-else>
-                <input type="checkbox" v-model="understood"
+                <input type="checkbox" v-model="questionUnderstood" @click="toggleActive"
                        :name="'understood_' + this.section + '_' + this.question.question_number">
             </td>
         </template>
         <template v-else>
             <td><span class="badge badge-danger">Incorrect</span></td>
             <td v-if="questionUnderstood">
-                <span class="badge badge-pill badge-success"><i class="ti-check"></i></span>
+                <span class="badge badge-pill badge-success"><i class="ti-check" @click="toggleActive"></i></span>
             </td>
             <td v-else>
-                <input type="checkbox" v-model="understood"
+                <input type="checkbox" v-model="questionUnderstood" @click="toggleActive"
                        :name="'understood_' + this.section + '_' + this.question.question_number">
             </td>
         </template>
@@ -41,10 +41,11 @@
         },
         methods: {
             toggleActive() {
-                this.understood = !this.understood;
+                this.questionUnderstood = !this.questionUnderstood;
                 axios.post(this.url, {
                     section: this.sectionId,
                     question: this.question.question_number,
+                    understood: this.questionUnderstood,
                 })
                     .then((response) => {
                         this.questionUnderstood = response.data;
