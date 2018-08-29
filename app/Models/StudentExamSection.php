@@ -14,7 +14,7 @@ class StudentExamSection extends Model
     ];
 
     protected $fillable = [
-        'student_exam_id', 'section_number', 'number_correct', 'score'
+        'student_exam_id', 'section_number', 'number_correct', 'score', 'math_completed'
     ];
 
     public function studentExam()
