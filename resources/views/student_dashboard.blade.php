@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    <div class="row" id="tooltip-math">
         <div class="col-sm-12 card-box">
             <table class="table table-responsive table-hover model-list text-center">
                 <thead>
@@ -54,7 +54,15 @@
                                 <td>{{$allSections[$section->section_number]['name']}}</td>
                                 <td></td>
                                 <td>{{$section->number_correct}} / {{$allSections[$section->section_number]['questions']}}</td>
-                                <td>{{$section->score}}</td>
+                                @if($section->score)
+                                    @if($section->section_number == 3 || $section->section_number == 4)
+                                        <td data-toggle="tooltip" data-placement="top" title="Both Math sections have the same score but only one is considered in the overall exam score">{{$section->score}}</td>
+                                    @else
+                                        <td>{{$section->score}}</td>
+                                    @endif
+                                @else
+                                    <td data-toggle="tooltip" data-placement="top" title="You will have a Calculated Score when you complete both Math Sections">{{$section->score}}</td>
+                                @endif
                                 <td> {{$section->time}} / {{$allSections[$section->section_number]['timeAvailable']}} </td>
                                 <td></td>
                             </tr>
