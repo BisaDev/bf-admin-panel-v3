@@ -79,6 +79,7 @@
                         <div class="form-group col-md-8 {{ $errors->has('title')? 'has-error' : '' }}">
                             <label class="control-label" for="title">Question / Phrase:</label>
                             <textarea v-if="type == 0 && !equationImageShow" type="text" name="title" class="form-control" value="{{ old('title') }}" maxlength="600"></textarea>
+                            <input v-else-if="type == 7" type="text" name="title" class="form-control" value="{{ old('title') }}" maxlength="250">
                             <input v-else type="text" name="title" class="form-control" value="{{ old('title') }}" maxlength="180">
                             <p class="text-muted" v-show="type == 1">Use [#blank] to specify where the blank space is in the phrase.<br/>e.g. 'Roses are [#blank], violets are blue'</p>
                             @if($errors->has('title'))

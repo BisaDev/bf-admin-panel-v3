@@ -90,6 +90,8 @@
                             <label class="control-label" for="title">Question / Phrase:</label>
                             @if($item->type->key == 0 && !$item->other_photo)
                                 <textarea name="title" class="form-control" maxlength="600">{{ $item->title}}</textarea>
+                            @elseif($item->type->key == 7)
+                                <input type="text" name="title" class="form-control" value="{{ $item->title }}" maxlength="250">
                             @else
                                 <input type="text" name="title" class="form-control" value="{{ $item->title }}" maxlength="180">
                             @endif
