@@ -26434,8 +26434,9 @@ if (token) {
                         case '8': // PenPal
                         case '9': // Drag and Drop
                         case '10': // Tap Time
-                        case '11':
-                            // Research and Report Back
+                        case '11': // Research and Report Back
+                        case '12':
+                            // Long Passage
                             allow = false;
                     }
 
