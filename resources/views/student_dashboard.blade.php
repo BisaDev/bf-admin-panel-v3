@@ -43,7 +43,11 @@
                             </td>
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->exam->test_id}}</td>
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->number_correct}} / {{ array_sum(array_column($allSections, 'questions')) }}</td>
-                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> {{$exam->score}} </td>
+                            @if($exam->score)
+                                <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->score}}</td>
+                            @else
+                                <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"><span data-toggle="tooltip" data-placement="right" title="You will have a Calculated Score when you finish all Exam Sections">{{$exam->score}}</span></td>
+                            @endif
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> {{$exam->time}} / {{ array_sum(array_column($allSections, 'timeAvailable')) }} </td>
                             <td><a href="{{ route('answer_sheet.show_results', $exam->id) }}">View</a></td>
                         </tr>
@@ -56,12 +60,12 @@
                                 <td>{{$section->number_correct}} / {{$allSections[$section->section_number]['questions']}}</td>
                                 @if($section->score)
                                     @if($section->section_number == 3 || $section->section_number == 4)
-                                        <td data-toggle="tooltip" data-placement="top" title="Both Math sections have the same score but only one is considered in the overall exam score">{{$section->score}}</td>
+                                        <td><span data-toggle="tooltip" data-placement="right" title="Both Math sections have the same score but only one is considered in the overall exam score">{{$section->score}}</span></td>
                                     @else
                                         <td>{{$section->score}}</td>
                                     @endif
                                 @else
-                                    <td data-toggle="tooltip" data-placement="top" title="You will have a Calculated Score when you complete both Math Sections">{{$section->score}}</td>
+                                    <td><span data-toggle="tooltip" data-placement="right" title="You will have a Calculated Score when you complete both Math Sections">{{$section->score}}</span></td>
                                 @endif
                                 <td> {{$section->time}} / {{$allSections[$section->section_number]['timeAvailable']}} </td>
                                 <td></td>
