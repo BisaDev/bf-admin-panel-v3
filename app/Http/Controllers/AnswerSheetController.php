@@ -100,9 +100,57 @@ class AnswerSheetController extends Controller
 
         $studentExamSection->time = $request->input('time') + 1;
         $studentExamSection->number_correct = $numberCorrectSection;
-        
-        $score = $scoreTable->get($numberCorrectSection)[$this->sections[$section]['tableScore']];
-        $studentExamSection->score = ($section == 1 || $section == 2) ? $score*10 : $score;
+        $studentExamSection->save();
+
+        if ($section == 1 || $section == 2) {
+            $score = $scoreTable->get($numberCorrectSection)[$this->sections[$section]['tableScore']];
+            $studentExamSection->score = $score * 10;
+        } else {
+            $studentExamUpdated = StudentExam::find($studentExam->id);
+            $uncompletedMathSections = $studentExamUpdated->sections->where('math_completed', 0);
+
+            if ($section == 3) {
+                $sectionFour = $uncompletedMathSections->where('section_number', 4);
+                if ($sectionFour->isEmpty()) {
+                    $studentExamSection->score = 0;
+                    $studentExamSection->math_completed = 0;
+                } else {
+                    $sectionFour = $sectionFour->first();
+                    if (!$sectionFour->number_correct) {
+                        $studentExamSection->score = 0;
+                        $studentExamSection->math_completed = 0;
+                    } else {
+                        $score = $sectionFour->number_correct + $numberCorrectSection;
+                        $score = $scoreTable->get($score)[$this->sections[$section]['tableScore']];
+                        $studentExamSection->score = $score;
+                        $studentExamSection->math_completed = 1;
+                        $sectionFour->score = $score;
+                        $sectionFour->math_completed = 1;
+                        $sectionFour->save();
+                    }
+                }
+            } else {
+                $sectionThree = $uncompletedMathSections->where('section_number', 3);
+                if ($sectionThree->isEmpty()) {
+                    $studentExamSection->score = 0;
+                    $studentExamSection->math_completed = 0;
+                } else {
+                    $sectionThree = $sectionThree->first();
+                    if (!$sectionThree->number_correct) {
+                        $studentExamSection->score = 0;
+                        $studentExamSection->math_completed = 0;
+                    } else {
+                        $score = $sectionThree->number_correct + $numberCorrectSection;
+                        $score = $scoreTable->get($score)[$this->sections[$section]['tableScore']];
+                        $studentExamSection->score = $score;
+                        $studentExamSection->math_completed = 1;
+                        $sectionThree->score = $score;
+                        $sectionThree->math_completed = 1;
+                        $sectionThree->save();
+                    }
+                }
+            }
+        }
 
         $studentExamSection->save();
 
@@ -118,8 +166,7 @@ class AnswerSheetController extends Controller
 
             if($firstSections->count() == 4) {
                 $spanishScore =  $firstSections->whereIn('section_number', [1, 2])->pluck('score')->sum();
-                $mathRawScore = $firstSections->whereIn('section_number', [3, 4])->pluck('number_correct')->sum();
-                $mathScore = $scoreTable->get($mathRawScore)['Math Section Score'];
+                $mathScore = $firstSections->where('section_number', 3)->pluck('score')->sum();
                 $totalScore = $mathScore + $spanishScore;
                 $studentExam->score = $totalScore;
             }

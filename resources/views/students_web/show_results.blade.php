@@ -34,9 +34,13 @@
                                 correct out of
                                 a possible <strong>{{$sectionData[$section->section_number]['questions']}}</strong>
                                 on {{$sectionData[$section->section_number]['name']}}. That Calculates to a score of
-                                <strong>{{$section->score}}</strong>.</p>
+                                <strong>{{$section->score}}</strong> out of a possible
+                                <strong>{{$sectionData[$section->section_number]['maxScore']}}</strong>.</p>
                             <p>You took {{$section->time}} minutes out of a
-                                possible {{$sectionData[$section->section_number]['timeAvailable']}} minutes.</p>
+                            possible {{$sectionData[$section->section_number]['timeAvailable']}} minutes.</p>
+                            @if(!$section->score)
+                                <p>Note: You have to complete both Math sections in order to get a Math Score.</p>
+                            @endif
                         </div>
                     </div>
                     <div class="row">

@@ -26,6 +26,7 @@ import take_practice_exam from './pages/take_practice_exam';
 import print from './pages/print';
 import upload_file from './pages/upload-file';
 import generate_results from './pages/generate_results';
+import tooltip_math_score from './pages/tooltip-math-score';
 
 Vue.component('chronometer', require('./components/Chronometer'));
 Vue.component('student-answer-sheet', require('./components/studentAnswerSheet'));
@@ -51,6 +52,7 @@ const vue_elements = [
     print,
     upload_file,
     generate_results,
+    tooltip_math_score,
 ];
 
 vue_elements.forEach(function (element) {
