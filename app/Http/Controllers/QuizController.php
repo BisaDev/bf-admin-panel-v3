@@ -21,7 +21,7 @@ class QuizController extends Controller
     public function index(Request $request)
     {   
         $query = Quiz::with('subject.grade_level');
-    
+
         /* TABLE FILTERS */
         $filters = [
             'type' => $request->input('type'), 
@@ -59,6 +59,8 @@ class QuizController extends Controller
         if($request->has('sort_column')){
             $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
             $sort_columns[$sort['column']] = ($sort['value'] == 'asc')? 'desc' : 'asc';
+        } else {
+            $query->latest();
         }
     
         switch ($sort['column']) {
