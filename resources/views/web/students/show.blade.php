@@ -169,7 +169,7 @@
             </div>
         </div>
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -196,6 +196,7 @@
                     <tr>
                         <th></th>
                         <th>Family Member</th>
+                        <th>Relationship</th>
                         <th>Email</th>
                         <th>Mobile</th>
                         <th>Can Pickup</th>
@@ -211,6 +212,7 @@
                             <td>
                                 <a href="{{ route('family_members.show', $family_member->id) }}">{{ $family_member->full_name }}</a>
                             </td>
+                            <td>{{ ucwords($family_member->type->name) }}</td>
                             <td>{{ $family_member->email }}</td>
                             <td>{{ $family_member->mobile_phone }}</td>
                             <td>
