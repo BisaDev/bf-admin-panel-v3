@@ -75,13 +75,18 @@
                                     <span class="status"><small>{{ $meetup->status->name }}</small></span>
                                 </div>
                                 <div class="panel-body">
-                                    @if(!is_null($meetup->activity_bucket)) 
+                                    @if(!is_null($meetup->activity_bucket))
                                     <p class="meetup-title">{{ $meetup->activity_bucket->title }}</p>
                                     <p>{{ ($meetup->activity_bucket)? $meetup->activity_bucket->subject->grade_level->name : ''}}, {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }}</p>
                                     @endif
                                     <p class="m-t-0">{{ ($meetup->user)? $meetup->user->full_name : '' }}</p>
                                     <p class="m-t-0"><small>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</small></p>
-                                    <a href="{{ route('meetups.attendance', $meetup->id) }}" class="icon icon-user pull-right m-l-5"></a>
+                                    <a href="{{ route('meetups.attendance', $meetup->id) }}" class="icon icon-user pull-right m-l-15"></a>
+                                    <a href="" @click="confirmDelete({{ $meetup->id }}, 0, $event)" class="icon icon-trash pull-right m-l-15"></a>
+                                        <form id="delete-form-{{ $meetup->id }}" action="{{ route('meetups.destroy', $meetup->id) }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                            {{ method_field('delete') }}
+                                        </form>
                                     <a href="{{ route('meetups.edit', $meetup->id) }}" class="icon icon-pencil pull-right"></a>
                                 </div>
                             </div>
