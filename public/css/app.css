@@ -28073,6 +28073,9 @@ img.img-responsive {
   color: #336ca2;
   margin-bottom: 0;
 }
+#calendar .meetup-title {
+  font-weight: bold;
+}
 .topbar .topbar-left {
   background-color: #FFF;
 }
