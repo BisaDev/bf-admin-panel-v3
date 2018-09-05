@@ -220,9 +220,12 @@ class MeetupController extends Controller
      * @param  \Brightfox\Models\Meetup  $meetup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Meetup $meetup)
+    public function destroy(Request $request, Meetup $meetup)
     {
-        //
+        $meetup->delete();
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Meetup was successfully deleted']);
+
+        return redirect(route('meetups.index'));
     }
     
     public function student_detail(Request $request, Meetup $meetup, Student $student)
