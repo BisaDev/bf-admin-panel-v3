@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="form-group col-xs-12">
                         <template v-if="answer.photo">
-                            <input type="text" class="form-control" v-bind:name="'answers['+index+'][text]'" placeholder="Answer / Word" v-model="answer.name" maxlength="50">
+                            <textarea class="form-control" cols="4" v-bind:name="'answers['+index+'][text]'" placeholder="Answer / Word" v-model="answer.name" maxlength="50">@{{ trimAnswer(index) }}</textarea>
                         </template>
                         <template v-else>
                             <textarea class="form-control" cols="4" v-bind:name="'answers['+index+'][text]'" placeholder="Answer / Word" v-model="answer.name" maxlength="180"></textarea>

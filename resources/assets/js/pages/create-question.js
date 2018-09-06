@@ -253,7 +253,10 @@ export default {
                             this.type_answer_has_additional_data = true;
                             break;
                     }
-                }
+                },
+                trimAnswer(index) {
+                    this.children[index].name = this.children[index].name.substring(0, 50);
+                },
             },
             mounted() {
 

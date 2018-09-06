@@ -26700,6 +26700,16 @@ if (token) {
                 },
                 type: function type(val) {
                     this.assignValuesOnType(val);
+                },
+                children: {
+                    handler: function handler(val, oldVal) {
+                        var changed = val.filter(function (p, index) {
+                            return Object.keys(p).some(function (prop) {
+                                return p[prop] !== oldVal[index][prop];
+                            });
+                        });
+                    },
+                    deep: true
                 }
             },
             methods: {
@@ -26889,6 +26899,9 @@ if (token) {
                             this.type_answer_has_additional_data = true;
                             break;
                     }
+                },
+                trimAnswer: function trimAnswer(index) {
+                    this.children[index].name = this.children[index].name.substring(0, 50);
                 }
             },
             mounted: function mounted() {
