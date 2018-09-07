@@ -429,6 +429,8 @@ class QuestionController extends Controller
 
         if ($request->get('created_at') != '') {
             $questions_query->where('created_at', 'like', Carbon::parse($request->input('created_at'))->format('Y-m-d').'%');
+        } else if ($request->get('tags') != '') {
+
         }
 
         $questions = $questions_query->get();

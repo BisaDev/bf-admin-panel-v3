@@ -99,7 +99,15 @@ class QuizController extends Controller
      */
     public function create()
     {
+        foreach (Tag::all() as $tag) {
+            $tagsToSearch[] = [
+                $tag->name,
+            ];
+        }
+        $tagsToSearch = json_encode(collect($tagsToSearch)->collapse()->toArray(), JSON_FORCE_OBJECT);
+
         return view('web.quizzes.create', [
+            'tags_to_search' => $tagsToSearch,
             'grade_levels' => GradeLevel::all(),
             'types' => $this->types,
         ]);
