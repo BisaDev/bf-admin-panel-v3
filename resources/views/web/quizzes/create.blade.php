@@ -95,7 +95,7 @@
 
                         <div class="form-group col-sm-6">
                             <label class="control-label" for="created_at">Filter by Tags:</label>
-                            <tags-input element-id="search_tags" v-model="selectedTags" :existing-tags="{{$tags_to_search}}" :typeahead="true"></tags-input>
+                            <tags-input element-id="search_tags" v-model="tags_selected" :existing-tags="{{$tags_to_search}}" :typeahead="true" @change="loadQuestions()"></tags-input>
                         </div>
                     </div>
 
