@@ -432,6 +432,8 @@ class QuestionController extends Controller
             $questions_query->where('created_at', 'like', Carbon::parse($request->input('created_at'))->format('Y-m-d').'%');
         }
         if ($request->get('tags') != []) {
+            $questionsWithTags = [];
+
             foreach($questions_query->get() as $question) {
                 $tags = $question->tags->pluck('id')->toArray();
                 foreach($tags as $tag) {
