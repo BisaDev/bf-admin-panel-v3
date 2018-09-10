@@ -25,6 +25,7 @@
     "vuedraggable": "^2.13.0"
   },
   "dependencies": {
+    "@voerro/vue-tagsinput": "^1.9.1",
     "bootstrap-tagsinput": "^0.7.1",
     "cropperjs": "^1.2.2",
     "lightbox2": "^2.10.0",

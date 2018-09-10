@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import Lightbox from 'vue-pure-lightbox';
+import VoerroTagsInput from '@voerro/vue-tagsinput';
 
 Vue.use(Lightbox);
 
@@ -32,6 +33,7 @@ Vue.component('chronometer', require('./components/Chronometer'));
 Vue.component('student-answer-sheet', require('./components/studentAnswerSheet'));
 Vue.component('student-answer-sheet-3', require('./components/studentAnswerSheetMath'));
 Vue.component('show-results-table', require('./components/showResultsTable'));
+Vue.component('tags-input', VoerroTagsInput);
 
 const app = new Vue({
     el: '#app'

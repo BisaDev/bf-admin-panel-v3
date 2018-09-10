@@ -26,9 +26,10 @@ export default {
                 created_at: '',
                 questions_selected: [],
                 questions_url: '',
+                tags_selected: [],
             },
             components:{
-                draggable
+                draggable,
             },
             mixins: [getAcademicContent, imagePreview, tagRepository],
             beforeMount: function () {
@@ -46,6 +47,9 @@ export default {
                 created_at: function (val) {
                     this.loadQuestions();
                 },
+                tags_selected: function(val) {
+                    this.loadQuestions();
+                },
             },
             methods: {
                 loadQuestions(){
@@ -58,6 +62,7 @@ export default {
                         axios.post(this.questions_url, {
                             type: this.type,
                             subject: this.subject,
+                            tags: this.tags_selected,
                             created_at: this.created_at,
                         })
                         .then(function (response) {

@@ -6,6 +6,7 @@ use Brightfox\Models\Question;
 use Brightfox\Models\Answer;
 use Brightfox\Models\GradeLevel;
 use Brightfox\Models\Tags;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use Brightfox\Traits\CreatesAndSavesPhotos;
 use Brightfox\Traits\HasTags;
@@ -430,10 +431,20 @@ class QuestionController extends Controller
         if ($request->get('created_at') != '') {
             $questions_query->where('created_at', 'like', Carbon::parse($request->input('created_at'))->format('Y-m-d').'%');
         }
-
-        $questions = $questions_query->get();
-
-        return response()->json($questions);
+        if ($request->get('tags') != []) {
+            foreach($questions_query->get() as $question) {
+                $tags = $question->tags->pluck('id')->toArray();
+                foreach($tags as $tag) {
+                    if(in_array($tag-1, $request->get('tags'))) {
+                        $questionsWithTags[] = $question;
+                    }
+                }
+            }
+            return response()->json($questionsWithTags);
+        } else {
+            $questions = $questions_query->get();
+            return response()->json($questions);
+        }
     }
 
     public function question_type_resize($type)

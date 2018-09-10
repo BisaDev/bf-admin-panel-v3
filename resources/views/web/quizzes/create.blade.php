@@ -88,8 +88,14 @@
 
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-4">
-                            <input type="text" name="created_at" class="form-control datepicker-general" placeholder="Created Date" v-model="created_at" >
+                            <label class="control-label" for="created_at">Date:</label>
+                            <input type="text" id="created_at" name="created_at" class="form-control datepicker-general" placeholder="Created Date" v-model="created_at" >
                             <a href="javascript:void(0)" class="btn btn-white" v-show="created_at != ''" @click="clearFilter()">&times; Clear date filter</a>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="control-label" for="created_at">Filter by Tags:</label>
+                            <tags-input element-id="search_tags" v-model="tags_selected" :existing-tags="{{$tags_to_search}}" :typeahead="true" @change="loadQuestions()"></tags-input>
                         </div>
                     </div>
 
