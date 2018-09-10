@@ -160,14 +160,14 @@ class ExamPrepController extends Controller
                 if ($request->has('question_' . $key . '.0')) {
                     $examSection->correct_1 = $request->input('question_' . $key . '.0');
                 }
-                $examSection->correct_2 = $request->input('question_' . $key . '.1');
-                $examSection->correct_3 = $request->input('question_' . $key . '.2');
-                $examSection->correct_4 = $request->input('question_' . $key . '.3');
-                $examSection->correct_5 = $request->input('question_' . $key . '.4');
-                $examSection->correct_6 = $request->input('question_' . $key . '.5');
-                $examSection->correct_7 = $request->input('question_' . $key . '.6');
-                $examSection->correct_8 = $request->input('question_' . $key . '.7');
-                $examSection->correct_9 = $request->input('question_' . $key . '.8');
+                $examSection->correct_2 = is_null($request->input('question_' . $key . '.1')) ? '' : $request->input('question_' . $key . '.1');
+                $examSection->correct_3 = is_null($request->input('question_' . $key . '.2'))  ? '' : $request->input('question_' . $key . '.2');
+                $examSection->correct_4 = is_null($request->input('question_' . $key . '.3'))  ? '' : $request->input('question_' . $key . '.3');
+                $examSection->correct_5 = is_null($request->input('question_' . $key . '.4'))  ? '' : $request->input('question_' . $key . '.4');
+                $examSection->correct_6 = is_null($request->input('question_' . $key . '.5'))  ? '' : $request->input('question_' . $key . '.5');
+                $examSection->correct_7 = is_null($request->input('question_' . $key . '.6'))  ? '' : $request->input('question_' . $key . '.6');
+                $examSection->correct_8 = is_null($request->input('question_' . $key . '.7'))  ? '' : $request->input('question_' . $key . '.7');
+                $examSection->correct_9 = is_null($request->input('question_' . $key . '.8'))  ? '' : $request->input('question_' . $key . '.8');
             }
             $examSection->save();
         });
