@@ -63,7 +63,7 @@
                         @foreach($examSections as $section)
                             <tr v-for="section in examSections" v-if="section.id == {{$section->id}}" @click="toggleActive({{$section->id}})">
                                 <td>{{ $section->created_at->format('d M Y') }}</td>
-                                <td>{{ $section->studentExam->student->name }}</td>
+                                <td>{{ $section->studentExam->student->FullName }}</td>
                                 <td>{{ $section->studentExam->student->cohort_tag }}</td>
                                 <td>{{ $section->studentExam->exam->test_id }}</td>
                                 <td>{{ $section->section_number }}</td>
@@ -80,7 +80,7 @@
                         @foreach($examSections as $section)
                             <tr>
                                 <td>{{ $section->created_at->format('d M Y') }}</td>
-                                <td>{{ $section->studentExam->student->name }}</td>
+                                <td>{{ $section->studentExam->student->FullName }}</td>
                                 <td>{{ $section->studentExam->student->cohort_tag }}</td>
                                 <td>{{ $section->studentExam->exam->test_id }}</td>
                                 <td>{{ $section->section_number }}</td>
