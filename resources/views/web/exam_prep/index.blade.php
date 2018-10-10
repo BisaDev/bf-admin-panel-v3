@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    <div id="index-academic-content" class="row">
         <div class="col-md-12">
 
             @if(Session::has('msg'))
@@ -35,6 +35,7 @@
                                     <th>Exam Type</th>
                                     <th>Source</th>
                                     <th>Description</th>
+                                    <th width="90" class="text-center">Delete</th>
                                 </tr>
                             </thead>
 
@@ -45,10 +46,22 @@
                                         <td>{{ $exam->type }}</td>
                                         <td>{{ $exam->source }}</td>
                                         <td>{{ $exam->description }}</td>
+                                        <td class="text-center">
+                                            <a href="" @click="confirmDelete({{ $exam->id }}, 0, $event)" class="icon icon-trash"></a>
+                                            <form id="delete-form-{{ $exam->id }}" action="{{ route('exams.destroy', $exam->id) }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                                {{ method_field('delete') }}
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-right">
+                            {{ $examList->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
