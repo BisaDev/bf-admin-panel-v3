@@ -24,4 +24,15 @@ class StudentExam extends Model
     {
         return $this->hasMany(StudentExamSection::class);
     }
+
+    public function getTotalQuestionsAttribute()
+    {
+        $sections = StudentExamSection::SECTIONS;
+        $completedSections = $this->sections->unique('section_number')->pluck('section_number');
+        $totalQuestions = 0;
+        foreach ($completedSections->all() as $completedSection) {
+            $totalQuestions = $totalQuestions + $sections[$completedSection]['questions'];
+        }
+        return $totalQuestions;
+    }
 }

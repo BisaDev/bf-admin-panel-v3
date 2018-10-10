@@ -44,6 +44,11 @@ class Student extends Model
         return json_decode($value);
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->last_name;
+    }
+
     public function family_members()
     {
         return $this->hasMany(FamilyMember::class);

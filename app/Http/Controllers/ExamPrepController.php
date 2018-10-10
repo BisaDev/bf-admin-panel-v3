@@ -181,9 +181,17 @@ class ExamPrepController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        if(StudentExam::where('exam_id', $id)->get()->isNotEmpty()) {
+            $request->session()->flash('msg', ['type' => 'danger', 'text' => 'You are not allowed to delete this Exam because someone already answered it.']);
+            return redirect(route('exams.index'));
+        } else {
+            $exam = Exam::find($id);
+            $exam->delete();
+            $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Exam was successfully deleted']);
+            return redirect(route('exams.index'));
+        }
     }
 
     public function logs()

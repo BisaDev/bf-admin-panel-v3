@@ -27,7 +27,6 @@
                                 <th>Exam Type</th>
                                 <th>Section</th>
                                 <th width="90" class="text-center">Edit</th>
-                                <th width="90" class="text-center">Delete</th>
                             </tr>
                             </thead>
 
@@ -38,9 +37,6 @@
                                     <td>{{ $item->type }}</td>
                                     <td><a href="{{ route('exams.section.show', [$item->id, $sectionId])}}">{{ $section['name'] }}</a></td>
                                     <td class="text-center"><a href="{{ route('exams.section.edit', [$item->id, $sectionId])}}" class="icon icon-pencil"></a></td>
-                                    <td class="text-center">
-                                        <a href="{{ route('exams.index')}}" class="icon icon-trash"></a>
-                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
