@@ -42,7 +42,7 @@
                                 </span>
                             </td>
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->exam->test_id}}</td>
-                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->number_correct}} / {{ array_sum(array_column($allSections, 'questions')) }}</td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->number_correct}} / {{ $exam->TotalQuestions }}</td>
                             @if($exam->score)
                                 <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">{{$exam->score}}</td>
                             @else
