@@ -28590,3 +28590,18 @@ table.model-list td img {
   font-size: 11px;
   text-align: center;
 }
+.guessed-wrong {
+  background-color: #DAA3A3;
+}
+.guessed-right {
+  background-color: #F9AE71;
+}
+.wrong-understood {
+  background-color: #F5E79E;
+}
+.right {
+  background-color: #B2DBA1;
+}
+.wrong {
+  background-color: #f2dede;
+}

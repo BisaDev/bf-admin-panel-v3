@@ -60,15 +60,7 @@
                         <td> {{ $answer->correct_1 }}</td>
                         <td> {{ $answersByQuestion[$answer->question_number]['score'] }}% </td>
                         @foreach($studentExamSections as $studentExamSection)
-                            @if($studentExamSection->questions->where('question_number', $answer->question_number)->first()->AnswerResult)
-                                <td class="success">{{ $studentExamSection->questions->where('question_number', $answer->question_number)->first()->answer }}</td>
-                            @else
-                                @if($studentExamSection->questions->where('question_number', $answer->question_number)->first()->understood)
-                                    <td class="warning">{{ $studentExamSection->questions->where('question_number', $answer->question_number)->first()->answer }}</td>
-                                @else
-                                    <td class="danger">{{ $studentExamSection->questions->where('question_number', $answer->question_number)->first()->answer }}</td>
-                                @endif
-                            @endif
+                            <td class="{{$studentExamSection->questions->where('question_number', $answer->question_number)->first()->BackgroundForReport}}">{{ $studentExamSection->questions->where('question_number', $answer->question_number)->first()->answer }}</td>
                         @endforeach
                         <td> {{ $answer->topic }} </td>
                     </tr>

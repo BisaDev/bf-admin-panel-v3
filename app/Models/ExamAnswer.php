@@ -36,4 +36,25 @@ class ExamAnswer extends Model
             return false;
         }
     }
+
+    public function getBackgroundForReportAttribute()
+    {
+        if ($this->guessed) {
+           if ($this->AnswerResult) {
+               return 'guessed-right';
+           } else {
+               return 'guessed-wrong';
+           }
+        } else {
+            if ($this->AnswerResult) {
+                return 'right';
+            } else {
+                if($this->understood) {
+                    return 'wrong-understood';
+                } else {
+                    return 'wrong';
+                }
+            }
+        }
+    }
 }
