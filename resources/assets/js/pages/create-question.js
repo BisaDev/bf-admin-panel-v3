@@ -30,7 +30,7 @@ export default {
                 number_of_answers_allowed: 4,
                 allows_answers: false,
                 type_has_canvas: false,
-                equationImageShow: false,
+                equationImageShow: true,
                 type_shows_answers: true,
                 type_answer_has_additional_data: false,
             },

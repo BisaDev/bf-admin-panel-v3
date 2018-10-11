@@ -59,6 +59,7 @@
                         @foreach($item->questions as $key => $question)
                             <li>
                                 @if($question->type->key == 7)
+                                    <strong>{{ $question->title or '' }}</strong>
                                     <img src="{{ $question->other_photo }}" class="img-responsive thumbnail m-t-5">
                                 @else
                                     <strong>{{ $question->title or '' }}</strong>
