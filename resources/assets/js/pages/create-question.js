@@ -101,7 +101,7 @@ export default {
                 },
 
                 setDefaultQuestions(event) {
-                    if (this.type == 0 || this.type == 7) {
+                    if (this.type === '0' || this.type === '7') {
                         for (let c = 0; c < 4; c++) {
                             this.addChildren();
                         }
@@ -392,6 +392,8 @@ export default {
                         vue_instance.canvas_bg = $('#question_photo').attr('src');
                     }
                 }
+
+                this.setDefaultQuestions();
             },
         });
     },
