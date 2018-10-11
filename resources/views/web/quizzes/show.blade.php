@@ -58,16 +58,16 @@
                         <ol>
                         @foreach($item->questions as $key => $question)
                             <li>
-                                @if($question->type->key == 7)
-                                    <strong>{{ $question->title or '' }}</strong>
+                                <strong>{{ $question->title or '' }}</strong>
+                                @if($question->other_photo)
+                                    <p class="text-center m-t-10">{{$question->type->key == 7 ? 'Long Passage Image' : 'Equation Image'}}</p>
                                     <img src="{{ $question->other_photo }}" class="img-responsive thumbnail m-t-5">
-                                @else
-                                    <strong>{{ $question->title or '' }}</strong>
-                                    @if($question->photo)
-                                        <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
-                                    @endif
                                 @endif
-                                <div class="row">
+                                @if($question->photo)
+                                    <p class="text-center m-t-10">Normal Image</p>
+                                    <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
+                                @endif
+                                <div class="row m-t-15">
                                     <div class="col-sm-6">
                                         <label class="control-label">Topic:</label>
                                         <span> {{ $question->topic->name }}</span>
