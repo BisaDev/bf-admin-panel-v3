@@ -129,11 +129,15 @@
                                 </td>
                                 <td>
                                     <div v-if="question.title">@{{ question.title }}</div>
-                                    <template v-if="question.other_photo != ''">
-                                        <lightbox :thumbnail="question.other_photo" :images="[question.other_photo]"></lightbox>
+                                    <template v-if="question.other_photo">
+                                        <strong v-if="question.type.key == 7" class="m-t-10">Long Passage Image: </strong>
+                                        <strong v-else class="m-t-5">Equation Image: </strong>
+                                        <lightbox class="m-t-5" :thumbnail="question.other_photo" :images="[question.other_photo]"></lightbox>
                                     </template>
-                                    <template v-else>
-                                        <img v-if="question.photo" :src="question.photo" class="img-responsive thumbnail">
+                                    <template v-if="question.photo">
+                                        <strong>Image: </strong>
+                                        {{--<img v-if="question.photo" :src="question.photo" class="img-responsive thumbnail">--}}
+                                        <lightbox class="m-t-5" :thumbnail="question.photo" :images="[question.photo]"></lightbox>
                                     </template>
                                 </td>
                                 <td><span :class="['icon', 'icon-picture', question.answers_have_images? 'text-success' : 'text-muted']"></span></td>

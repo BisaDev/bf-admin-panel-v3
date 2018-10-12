@@ -14,7 +14,12 @@
                             @foreach($quiz->questions as $key => $question)
                                 <li>
                                     <strong>{{ $question->title or '' }}</strong>
+                                    @if($question->other_photo)
+                                        <p class="text-center m-t-10">{{$question->type->key == 7 ? 'Long Passage Image' : 'Equation Image'}}</p>
+                                        <img src="{{ $question->other_photo }}" class="img-responsive thumbnail m-t-5">
+                                    @endif
                                     @if($question->photo)
+                                        <p class="text-center m-t-10">Image</p>
                                         <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
                                     @endif
                                     <div class="row answer-list m-t-10">
