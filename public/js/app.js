@@ -26258,7 +26258,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         minutes: function minutes() {
             var lapsed = this.milliseconds;
-            var min = Math.floor(lapsed / 1000 / 60 % 60);
+            var min = Math.floor(lapsed / 1000 / 60);
             return min >= 10 ? min : '0' + min;
         }
     },
