@@ -14,13 +14,26 @@
                             @foreach($quiz->questions as $key => $question)
                                 <li>
                                     <strong>{{ $question->title or '' }}</strong>
-                                    @if($question->other_photo)
-                                        <p class="text-center m-t-10">{{$question->type->key == 7 ? 'Long Passage Image' : 'Equation Image'}}</p>
-                                        <img src="{{ $question->other_photo }}" class="img-responsive thumbnail m-t-5">
-                                    @endif
-                                    @if($question->photo)
-                                        <p class="text-center m-t-10">Image</p>
-                                        <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
+                                    @if($question->other_photo && $question->photo)
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="text-center m-t-10">{{$question->type->key == 7 ? 'Long Passage Image' : 'Equation Image'}}</p>
+                                                <img src="{{ $question->other_photo }}" class="img-responsive thumbnail m-t-5">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-center m-t-10">Question Image</p>
+                                                <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
+                                            </div>
+                                        </div>
+                                    @else
+                                        @if($question->other_photo)
+                                            <p class="text-center m-t-10">{{$question->type->key == 7 ? 'Long Passage Image' : 'Equation Image'}}</p>
+                                            <img src="{{ $question->other_photo }}" class="img-responsive thumbnail m-t-5">
+                                        @endif
+                                        @if($question->photo)
+                                            <p class="text-center m-t-10">Question Image</p>
+                                            <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
+                                        @endif
                                     @endif
                                     <div class="row answer-list m-t-10">
                                         @foreach($question->answers as $answer)
