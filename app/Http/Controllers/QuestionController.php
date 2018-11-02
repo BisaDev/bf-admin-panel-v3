@@ -466,4 +466,14 @@ class QuestionController extends Controller
 
         return $width;
     }
+
+    public function csv_question_importer()
+    {
+        return view('web.questions.csv_importer');
+    }
+
+    public function store_csv(Request $request)
+    {
+
+    }
 }

@@ -1,34 +1,43 @@
+@section('page_title', 'CSV Question Importer')
 @extends('layouts.master')
-
-@section('page_title', 'Create Exam')
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Create Exam',
+        'pageTitle' => 'CSV Question Importer',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Exams', 'url' => route('exams.index')]
+            [ 'label' => 'Questions', 'url' => route('questions.index')]
         ],
-        'currentSection' => 'Create Exam',
+        'currentSection' => 'CSV Question Importer',
     ])
 @endsection
 
 @section('content')
 
-    <div class="row create-exam">
+    <div class="row create-exam" id="create-exam">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
                 <div class="row">
-                    <form action="{{ route('exams.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('questions.store_csv') }}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="col-sm-12">
-                            <h4 class="header-title m-b-30">Create a new Exam</h4>
+                            <h4 class="header-title m-b-30">Import Questions by CSV</h4>
                         </div>
 
                         <div class="form-group col-md-12 {{ $errors->has('csv')? 'has-error' : '' }}">
 
-                            <upload-file id="upload-file"></upload-file>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Choose a CSV File..."
+                                       :value="file.name" @click="launchFilePicker" readonly>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" @click="launchFilePicker">
+                                        <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                            </div>
+
+                            <input class="input-file" type="file" name="csv" ref="file" v-uploader>
 
                             @if($errors->all())
                                 @foreach($errors->all() as $errorMessage)

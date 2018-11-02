@@ -34,6 +34,7 @@ Vue.component('student-answer-sheet', require('./components/studentAnswerSheet')
 Vue.component('student-answer-sheet-3', require('./components/studentAnswerSheetMath'));
 Vue.component('show-results-table', require('./components/showResultsTable'));
 Vue.component('tags-input', VoerroTagsInput);
+Vue.component('upload-file', require('./components/uploadFile'));
 
 const app = new Vue({
     el: '#app'

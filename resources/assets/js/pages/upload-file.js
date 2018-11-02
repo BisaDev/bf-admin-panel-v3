@@ -1,13 +1,13 @@
 export default {
     init () {
-        const domElement = 'create-exam'
+        const domElement = 'upload-file'
         if(document.getElementById(domElement)) {
             this.execute()
         }
     },
     execute () {
         new Vue({
-            el: '#create-exam',
+            el: '#upload-file',
             data: {
                 file: '',
             },
