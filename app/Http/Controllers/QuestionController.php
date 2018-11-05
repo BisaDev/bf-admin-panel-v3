@@ -12,6 +12,8 @@ use Brightfox\Traits\CreatesAndSavesPhotos;
 use Brightfox\Traits\HasTags;
 use File;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 ;
 
@@ -167,7 +169,7 @@ class QuestionController extends Controller
             'answers.*.text' => 'required_without:answers.*.photo_cropped',
             'other_photo_cropped' => 'required_if:type,7',
         ]);
-        
+
         $question_type = $request->input('type');
 
         $question = Question::create([
@@ -474,6 +476,141 @@ class QuestionController extends Controller
 
     public function store_csv(Request $request)
     {
+        $this->validate($request, [
+            'csv' => 'required|file|mimes:csv,txt'
+        ]);
 
+        $path = $request->file('csv')->store('/data');
+        $csvStructureValidator = $this->validateStructureCsv(storage_path('app/' . $path));
+
+        if ($csvStructureValidator->fails()) {
+            return redirect(route('questions.csv_importer'))->withErrors($csvStructureValidator);
+        }
+
+        $questionsArray = $this->createArray(storage_path('app/' . $path));
+        DB::beginTransaction();
+
+        foreach ($questionsArray as $csvQuestion) {
+            try {
+                $question = Question::create([
+                    'type' => json_encode(['key' =>  $csvQuestion['type_id'], 'name' => $this->types[ $csvQuestion['type_id']]], JSON_FORCE_OBJECT),
+                    'title' => $csvQuestion['title'],
+                    'topic_id' => $csvQuestion['topic_id'],
+                    'user_id' => auth()->user()->id,
+                ]);
+
+            } catch (\Exception $error) {
+                DB::rollBack();
+                $request->session()->flash('msg', ['type' => 'danger', 'text' => 'Something went wrong, please check your CSV File']);
+                return redirect(route('questions.csv_importer'));
+            }
+
+            for ($i = 1; $i < 6; $i++){
+                if($csvQuestion['answer_' . $i]){
+                    try {
+                        Answer::create([
+                            'text' => $csvQuestion['answer_' .$i],
+                            'is_correct' => ($csvQuestion['correct'] == $i) ? 1 : 0,
+                            'question_id' => $question->id
+                        ]);
+                    } catch (\Exception $error) {
+                        DB::rollBack();
+                        $request->session()->flash('msg', ['type' => 'danger', 'text' => 'Something went wrong, please check your CSV File']);
+                        return redirect(route('questions.csv_importer'))->back();
+                    }
+                }
+            }
+
+            if ($csvQuestion['tags']) {
+                try {
+                    $question->tags()->sync($this->getTagsToSync(explode(',', $csvQuestion['tags'])));
+                } catch (\Exception $error) {
+                    DB::rollBack();
+                    $request->session()->flash('msg', ['type' => 'danger', 'text' => 'Something went wrong, please check your CSV File']);
+                    return redirect(route('questions.csv_importer'))->back();
+                }
+            }
+        }
+
+        DB::commit();
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'Questions were successfully created']);
+        return redirect(route('questions.index'));
+    }
+
+    public function createArray($file)
+    {
+        $csvData = $this->csvToArray($file);
+        $keys = $csvData[0];
+
+        $csvData = array_slice($csvData, '1');
+        $keys[] = 'id';
+
+        for ($i = 0; $i < count($csvData); $i++) {
+            $csvData[$i][] = $i+1;
+        }
+        for ($j = 0; $j < count($csvData); $j++) {
+            $d = array_combine($keys, $csvData[$j]);
+            $questionsArray[$j] = $d;
+        }
+
+        return $questionsArray;
+    }
+
+    public function csvToArray($file)
+    {
+        if (($handle = fopen($file, 'r')) !== FALSE) {
+            $i = 0;
+            while (($lineArray = fgetcsv($handle, 4000, ",", '"')) !== FALSE) {
+                for ($j = 0; $j < count($lineArray); $j++) {
+                    $arr[$i][$j] = $lineArray[$j];
+                }
+                $i++;
+            }
+            fclose($handle);
+        }
+        return $arr;
+    }
+
+    public function validateStructureCsv($csv_path)
+    {
+        ini_set('auto_detect_line_endings', true);
+        $opened_file = fopen($csv_path, 'r');
+        $header = fgetcsv($opened_file, 0, ',');
+        fclose($opened_file);
+
+        $validationRules = [
+            'type_id' => 'required',
+            'topic_id' => 'required',
+            'tags' => 'required',
+            'title' => 'required',
+            'answer_1' => 'required',
+            'answer_2' => 'required',
+            'answer_3' => 'required',
+            'answer_4' => 'required',
+            'answer_5' => 'required',
+            'correct' => 'required',
+        ];
+
+        $arrayToValidate = [
+            'type_id' => $this->getKeyByValue($header, 'type_id'),
+            'topic_id' => $this->getKeyByValue($header, 'topic_id'),
+            'tags' => $this->getKeyByValue($header, 'tags'),
+            'title' => $this->getKeyByValue($header, 'title'),
+            'answer_1' => $this->getKeyByValue($header, 'answer_1'),
+            'answer_2' => $this->getKeyByValue($header, 'answer_2'),
+            'answer_3' => $this->getKeyByValue($header, 'answer_3'),
+            'answer_4' => $this->getKeyByValue($header, 'answer_4'),
+            'answer_5' => $this->getKeyByValue($header, 'answer_5'),
+            'correct' => $this->getKeyByValue($header, 'correct'),
+        ];
+
+        $validator = Validator::make($arrayToValidate, $validationRules);
+
+        return $validator;
+    }
+
+    private function getKeyByValue($array, $value)
+    {
+        return in_array($value, $array) ? $value : '';
     }
 }

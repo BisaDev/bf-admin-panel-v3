@@ -16,6 +16,12 @@
 
     <div class="row create-exam" id="create-exam">
         <div class="col-md-8 col-md-offset-2">
+            @if(Session::has('msg'))
+                <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ Session::get('msg.text') }}
+                </div>
+            @endif
             <div class="card-box">
                 <div class="row">
                     <form action="{{ route('questions.store_csv') }}" method="POST" enctype="multipart/form-data">
@@ -27,17 +33,7 @@
 
                         <div class="form-group col-md-12 {{ $errors->has('csv')? 'has-error' : '' }}">
 
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Choose a CSV File..."
-                                       :value="file.name" @click="launchFilePicker" readonly>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" @click="launchFilePicker">
-                                        <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
-                                    </button>
-                                </span>
-                            </div>
-
-                            <input class="input-file" type="file" name="csv" ref="file" v-uploader>
+                            <upload-file id="upload-file"></upload-file>
 
                             @if($errors->all())
                                 @foreach($errors->all() as $errorMessage)
