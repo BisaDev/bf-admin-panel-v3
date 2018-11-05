@@ -491,9 +491,11 @@ class QuestionController extends Controller
         DB::beginTransaction();
 
         foreach ($questionsArray as $csvQuestion) {
+            $type_key = $this->getQuestionTypeKey($csvQuestion['type']);
+
             try {
                 $question = Question::create([
-                    'type' => json_encode(['key' =>  $csvQuestion['type_id'], 'name' => $this->types[ $csvQuestion['type_id']]], JSON_FORCE_OBJECT),
+                    'type' => json_encode(['key' => $type_key, 'name' => $this->types[$type_key]], JSON_FORCE_OBJECT),
                     'title' => $csvQuestion['title'],
                     'topic_id' => $csvQuestion['topic_id'],
                     'user_id' => auth()->user()->id,
@@ -579,7 +581,7 @@ class QuestionController extends Controller
         fclose($opened_file);
 
         $validationRules = [
-            'type_id' => 'required',
+            'type' => 'required',
             'topic_id' => 'required',
             'tags' => 'required',
             'title' => 'required',
@@ -592,7 +594,7 @@ class QuestionController extends Controller
         ];
 
         $arrayToValidate = [
-            'type_id' => $this->getKeyByValue($header, 'type_id'),
+            'type' => $this->getKeyByValue($header, 'type'),
             'topic_id' => $this->getKeyByValue($header, 'topic_id'),
             'tags' => $this->getKeyByValue($header, 'tags'),
             'title' => $this->getKeyByValue($header, 'title'),
@@ -612,5 +614,39 @@ class QuestionController extends Controller
     private function getKeyByValue($array, $value)
     {
         return in_array($value, $array) ? $value : '';
+    }
+
+    private function getQuestionTypeKey ($type)
+    {
+        switch ($type) {
+            case 'multiplechoice':
+                $type = 'Multiple choice';
+                break;
+            case 'filltheblank':
+                $type = 'Fill the blank';
+                break;
+            case 'trivia':
+                $type = 'Trivia';
+                break;
+            case 'penpal':
+                $type = 'PenPal';
+                break;
+            case 'draganddrop':
+                $type = 'Drag and drop';
+                break;
+            case 'taptime':
+                $type = 'Tap Time';
+                break;
+            case 'researchandreportback':
+                $type = 'Research and report back';
+                break;
+            case 'longpassage':
+                $type = 'Long Passage';
+                break;
+            default:
+                $type = 0;
+        }
+
+        return $type ? array_keys($this->types, $type)[0] : 10;
     }
 }
