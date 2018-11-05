@@ -44,6 +44,7 @@
                 <table class="table table-responsive table-hover model-list">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Topic</th>
                             <th width="90" class="text-center">Edit</th>
                             <th width="90" class="text-center">Delete</th>
@@ -52,6 +53,7 @@
                     <tbody>
                     @foreach($item->topics as $topic)
                         <tr>
+                            <td>{{ $topic->id }}</td>
                             <td>{{ $topic->name }}</td>
                             <td class="text-center"><a href="{{ route('topics.edit', $topic->id) }}" class="icon icon-pencil"></a></td>
                             <td class="text-center">
