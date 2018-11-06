@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="form-group col-sm-6 col-md-3 {{ $errors->has('type')? 'has-error' : '' }}">
                             <label class="control-label" for="type">Type:</label>
-                            <select id="type" name="type" class="form-control" v-model="type">
+                            <select id="type" name="type" class="form-control" v-model="type" @change="setDefaultQuestions">
                                 <option value="">Select Type</option>
                                 @foreach($types as $key => $type)
                                     <option value="{{ $key }}" {{ (!is_null(old('type', $item->type->key)) && (int)old('type', $item->type->key) === $key)? 'selected' : '' }}>{{ $type }}</option>
