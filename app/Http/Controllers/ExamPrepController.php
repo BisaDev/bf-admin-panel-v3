@@ -79,6 +79,7 @@ class ExamPrepController extends Controller
                     'correct_8' => $question['Correct Answer 8'],
                     'correct_9' => $question['Correct Answer 9'],
                     'topic' => $question['Topic'],
+                    'explanation' => $question['Answer Explanation'] === "" ? NULL : $question['Answer Explanation'],
                 ]);
             } catch(\Exception $error) {
                 DB::rollBack();
