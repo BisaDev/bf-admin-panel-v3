@@ -78,6 +78,8 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::resource('minigames',    'MinigameController');
 
     Route::match(['get', 'post'], 'questions/search',   'QuestionController@index')->name('questions.search');
+    Route::get('questions/csv_question_importer',       'QuestionController@csv_question_importer')->name('questions.csv_importer');
+    Route::post('questions/store_csv',                  'QuestionController@store_csv')->name('questions.store_csv');
     Route::resource('questions',                        'QuestionController');
     Route::post('questions/get_for_quiz',               'QuestionController@get_questions_for_quiz')->name('questions.for_quiz');
 
