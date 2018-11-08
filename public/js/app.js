@@ -27165,6 +27165,7 @@ if (token) {
                 },
                 setDefaultQuestions: function setDefaultQuestions(event) {
                     if (this.type === '0' || this.type === '7') {
+                        this.number_of_answers_allowed = 4;
                         for (var c = 0; c < 4; c++) {
                             this.addChildren();
                         }
@@ -27194,6 +27195,8 @@ if (token) {
                             obj_data: obj_data,
                             answer_group: group
                         });
+                    } else if (this.type === '7' && this.children.length > 4) {
+                        this.children.pop();
                     }
                 },
                 removeChildren: function removeChildren(index) {
@@ -27299,6 +27302,7 @@ if (token) {
                     switch (type) {
                         case '0':
                             //Mutiple choice
+                            this.number_of_answers_allowed = 5;
                             this.type_answer_has_additional_data = true;
                             break;
                         case '3': //Apple pencil
@@ -27319,6 +27323,7 @@ if (token) {
                             break;
                         case '7':
                             //Long Passage
+                            this.number_of_answers_allowed = 4;
                             this.type_answer_has_additional_data = true;
                             break;
                     }
