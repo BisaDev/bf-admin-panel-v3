@@ -57,10 +57,10 @@
                 @foreach($answers as $answer)
                     <tr>
                         <td> {{ $answer->question_number }}</td>
-                        <td> {{ $answer->correct_1 }}</td>
+                        <td> {{ strtoupper($answer->correct_1) }}</td>
                         <td> {{ $answersByQuestion[$answer->question_number]['score'] }}% </td>
                         @foreach($studentExamSections as $studentExamSection)
-                            <td class="{{$studentExamSection->questions->where('question_number', $answer->question_number)->first()->BackgroundForReport}}">{{ $studentExamSection->questions->where('question_number', $answer->question_number)->first()->answer }}</td>
+                            <td class="{{$studentExamSection->questions->where('question_number', $answer->question_number)->first()->BackgroundForReport}}">{{ strtoupper($studentExamSection->questions->where('question_number', $answer->question_number)->first()->answer) }}</td>
                         @endforeach
                         <td> {{ $answer->topic }} </td>
                     </tr>

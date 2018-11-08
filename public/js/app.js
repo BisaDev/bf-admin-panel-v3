@@ -26455,7 +26455,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['question', 'section', 'url', 'correct-answer', 'section-id'],
@@ -85144,7 +85143,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.answer))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.guessed ? 'Guessed' : '-'))]), _vm._v(" "), (this.question.answer === this.correctAnswer.correct_1 || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [_vm._m(0), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_c('span', {
+  return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.answer.toUpperCase()))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1.toUpperCase()))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.guessed ? 'Guessed' : '-'))]), _vm._v(" "), (this.question.answer === this.correctAnswer.correct_1.toLowerCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [_vm._m(0), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_c('span', {
     staticClass: "badge badge-pill badge-success"
   }, [_c('i', {
     staticClass: "ti-check",

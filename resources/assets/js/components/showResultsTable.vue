@@ -1,11 +1,10 @@
 <template>
     <tr>
         <td>{{ this.question.question_number }}</td>
-        <td>{{ this.question.answer }}</td>
-        <td>{{ this.correctAnswer.correct_1 }}</td>
+        <td>{{ this.question.answer.toUpperCase() }}</td>
+        <td>{{ this.correctAnswer.correct_1.toUpperCase() }}</td>
         <td>{{ this.question.guessed ? 'Guessed' : '-' }}</td>
-        <template
-                v-if="this.question.answer === this.correctAnswer.correct_1 || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5">
+        <template v-if="this.question.answer === this.correctAnswer.correct_1.toLowerCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5">
             <td>
                 <span class="badge badge-success">Correct</span>
             </td>

@@ -42,7 +42,7 @@
                                 @foreach($examQuestions as $question)
                                     <tr>
                                         <td> {{ $question->question_number }} </td>
-                                        <td> {{ $question->correct_1 }} </td>
+                                        <td> {{ strtoupper($question->correct_1) }} </td>
                                         <td> {{ $question->correct_2 }} </td>
                                         <td> {{ $question->correct_3 }} </td>
                                         <td> {{ $question->correct_4 }} </td>
