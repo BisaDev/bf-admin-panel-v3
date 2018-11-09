@@ -51,6 +51,7 @@
                             <th class="text-center">{{$studentExamSection->studentExam->student->name}}</th>
                         @endforeach
                         <th class="text-center">Topic</th>
+                        <th class="text-center" data-toggle="tooltip" title="Answer Explanation">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,7 +64,31 @@
                             <td class="{{$studentExamSection->questions->where('question_number', $answer->question_number)->first()->BackgroundForReport}}">{{ strtoupper($studentExamSection->questions->where('question_number', $answer->question_number)->first()->answer) }}</td>
                         @endforeach
                         <td> {{ $answer->topic }} </td>
+                        <td><a href="#" data-toggle="modal" data-target="#answerExplanationModal_{{$answer->id}}"><i class="ti-info-alt"></i></a></td>
                     </tr>
+
+                    <div class="modal fade" id="answerExplanationModal_{{$answer->id}}" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Question {{$answer->question_number}} Explanation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @if($answer->explanation)
+                                        <p>{{$answer->explanation}}</p>
+                                    @else
+                                        <p>There is no explanation for this answer.</p>
+                                    @endif
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
                 </tbody>
             </table>
