@@ -26456,6 +26456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['question', 'section', 'url', 'correct-answer', 'section-id'],
@@ -85224,7 +85225,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  })])]], 2)
+  })])], _vm._v(" "), _c('td', [_c('a', {
+    attrs: {
+      "href": "#",
+      "data-toggle": "modal",
+      "data-target": '#answerExplanationModal_' + this.question.id
+    }
+  }, [_c('i', {
+    staticClass: "ti-info-alt"
+  })])])], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('td', [_c('span', {
     staticClass: "badge badge-success"

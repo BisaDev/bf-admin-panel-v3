@@ -79,6 +79,7 @@ class ExamPrepController extends Controller
                     'correct_8' => $question['Correct Answer 8'],
                     'correct_9' => $question['Correct Answer 9'],
                     'topic' => $question['Topic'],
+                    'explanation' => $question['Answer Explanation'] === "" ? NULL : $question['Answer Explanation'],
                 ]);
             } catch(\Exception $error) {
                 DB::rollBack();
@@ -294,11 +295,11 @@ class ExamPrepController extends Controller
         $examSource = $data[1][1];
         $examDescription = $data[2][1];
 
-        $answersTablePosition = collect($data)->collapse()->search('Section #')/12;
+        $answersTablePosition = collect($data)->collapse()->search('Section #')/13;
         $answersTableKeys = $data[$answersTablePosition];
 
         $data = array_slice($data, $answersTablePosition+1);
-        $scoreTablePosition = collect($data)->collapse()->search('Raw Score')/12;
+        $scoreTablePosition = collect($data)->collapse()->search('Raw Score')/13;
         $scoreTableKeys = $data[$scoreTablePosition];
 
         $answersTableKeys[] = 'id';
@@ -376,6 +377,7 @@ class ExamPrepController extends Controller
             'Correct Answer 8' => 'required',
             'Correct Answer 9' => 'required',
             'topic' => 'required',
+            'Answer Explanation' => 'required',
         ];
 
         $arrayToValidate = [
@@ -394,6 +396,7 @@ class ExamPrepController extends Controller
             'Correct Answer 8' => $this->getKeyByValue($header, 'Correct Answer 8'),
             'Correct Answer 9' => $this->getKeyByValue($header, 'Correct Answer 9'),
             'topic' => $this->getKeyByValue($header, 'Topic'),
+            'Answer Explanation' => $this->getKeyByValue($header, 'Answer Explanation'),
         ];
 
         $validator = Validator::make($arrayToValidate, $validationRules);

@@ -82,6 +82,7 @@
                                     <th class="text-center">Guessed Answer</th>
                                     <th class="text-center">Correct / Incorrect</th>
                                     <th class="text-center">I get it now</th>
+                                    <th class="text-center" data-toggle="tooltip" title="Answer Explanation">&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -90,6 +91,29 @@
                                         :section="{{$section->section_number}}" :section-id="{{$section->id}}"
                                         :url=`{{route('answer_sheet.edit_understood', $section->id)}}`
                                         :correct-answer="{{$question->correctAnswer}}"></tr>
+
+                                    <div class="modal fade" id="answerExplanationModal_{{$question->id}}" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Question {{$question->question_number}} Explanation</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @if($question->correctAnswer->explanation)
+                                                        <p>{{$question->correctAnswer->explanation}}</p>
+                                                    @else
+                                                        <p>There is no explanation for this answer.</p>
+                                                    @endif
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                                 </tbody>
                             </table>
@@ -104,5 +128,4 @@
             </div>
         </div>
     </div>
-
 @endsection
