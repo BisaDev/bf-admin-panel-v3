@@ -4,7 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\StudentExamSection;
+use Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\StudentExamSection, Brightfox\Models\ExamSectionMetadata;
 
 class StudentDashboardController extends Controller
 {
@@ -32,6 +32,7 @@ class StudentDashboardController extends Controller
             'exams' => $exams,
             'student' => $student,
             'allSections' => $this->sections,
+            'allSections2' => ExamSectionMetadata::all(),
         ]);
     }
 }

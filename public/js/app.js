@@ -24973,6 +24973,7 @@ Vue.component('student-answer-sheet-3', __webpack_require__(131));
 Vue.component('show-results-table', __webpack_require__(129));
 Vue.component('tags-input', __WEBPACK_IMPORTED_MODULE_1__voerro_vue_tagsinput__["a" /* default */]);
 Vue.component('upload-file', __webpack_require__(132));
+Vue.component('take-practice-exam', __webpack_require__(363));
 
 var app = new Vue({
     el: '#app'
@@ -28140,30 +28141,7 @@ if (token) {
     },
     execute: function execute() {
         new Vue({
-            el: '#take-practice-exam',
-            data: {
-                selected: [],
-                sections: [{ "id": "1", "name": "Reading Comprehension" }, { "id": "2", "name": "Writing and Language" }, { "id": "3", "name": "Math No Calculator" }, { "id": "4", "name": "Math With Calculator" }],
-                examSection: false
-            },
-            computed: {
-                selectAll: {
-                    get: function get() {
-                        return this.sections ? this.selected.length == this.sections.length : false;
-                    },
-                    set: function set(value) {
-                        var selected = [];
-
-                        if (value) {
-                            this.sections.forEach(function (section) {
-                                selected.push(section.id);
-                            });
-                        }
-
-                        this.selected = selected;
-                    }
-                }
-            }
+            el: '#take-practice-exam'
         });
     }
 });
@@ -96241,6 +96219,506 @@ function extend() {
 __webpack_require__(44);
 module.exports = __webpack_require__(45);
 
+
+/***/ }),
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['exams', 'examTypes', 'allSections'],
+    data: function data() {
+        return {
+            selected: [],
+            examType: '',
+            examSection: false,
+            selectedTypeSections: []
+        };
+    },
+
+    computed: {
+        selectAll: {
+            get: function get() {
+                return this.selectedTypeSections ? this.selected.length === this.selectedTypeSections.length : false;
+            },
+            set: function set(value) {
+                var selected = [];
+                if (value) {
+                    this.selectedTypeSections.forEach(function (section) {
+                        selected.push(section.section_number);
+                    });
+                }
+                this.selected = selected;
+            }
+        }
+    },
+    watch: {
+        examType: function examType() {
+            var selectedTypeSections = [];
+            var examType = this.examType;
+            this.allSections.forEach(function (section) {
+                if (section.exam_type === examType) {
+                    selectedTypeSections.push(section);
+                }
+            });
+            this.selectedTypeSections = selectedTypeSections;
+        }
+    }
+});
+
+/***/ }),
+/* 362 */,
+/* 363 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(361),
+  /* template */
+  __webpack_require__(364),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/jesus/code/brightfoxv2/resources/assets/js/components/takePracticeExamModal.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] takePracticeExamModal.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a46b5ffa", Component.options)
+  } else {
+    hotAPI.reload("data-v-a46b5ffa", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 364 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('div', {
+    staticClass: "modal-body"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "exam-type"
+    }
+  }, [_vm._v("Select Exam Type:")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.examType),
+      expression: "examType"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "id": "exam-type"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.examType = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.examTypes), function(examType) {
+    return _c('option', [_vm._v(_vm._s(examType.type))])
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "test-id"
+    }
+  }, [_vm._v("Enter Test ID:")]), _vm._v(" "), _c('select', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "test-id",
+      "id": "test-id"
+    }
+  }, _vm._l((_vm.exams), function(exam) {
+    return (_vm.examType === exam.type) ? _c('option', [_vm._v(_vm._s(exam.test_id))]) : _vm._e()
+  }))]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.examSection),
+      expression: "examSection"
+    }]
+  }, [_c('label', {
+    staticClass: "col-md-offset-2"
+  }, [_vm._v(" Exam Section: ")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8 col-md-offset-2"
+  }, [_c('ul', {
+    staticClass: "list-group"
+  }, [_vm._l((_vm.selectedTypeSections), function(section) {
+    return _c('li', {
+      staticClass: "list-group-item"
+    }, [_c('div', {
+      staticClass: "custom-control custom-checkbox"
+    }, [_c('label', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.selected),
+        expression: "selected"
+      }],
+      attrs: {
+        "type": "checkbox",
+        "name": 'sections[]'
+      },
+      domProps: {
+        "value": section.section_number,
+        "checked": Array.isArray(_vm.selected) ? _vm._i(_vm.selected, section.section_number) > -1 : (_vm.selected)
+      },
+      on: {
+        "change": function($event) {
+          var $$a = _vm.selected,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = section.section_number,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.selected = $$a.concat([$$v]))
+            } else {
+              $$i > -1 && (_vm.selected = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.selected = $$c
+          }
+        }
+      }
+    }), _vm._v(" " + _vm._s(section.section_name) + " ")])])])
+  }), _vm._v(" "), _c('li', {
+    staticClass: "list-group-item"
+  }, [_c('label', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectAll),
+      expression: "selectAll"
+    }],
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.selectAll) ? _vm._i(_vm.selectAll, null) > -1 : (_vm.selectAll)
+    },
+    on: {
+      "change": function($event) {
+        var $$a = _vm.selectAll,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
+          } else {
+            $$i > -1 && (_vm.selectAll = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.selectAll = $$c
+        }
+      }
+    }
+  }), _vm._v(" All sections ")])])], 2)])])])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-footer"
+  }, [(!_vm.examSection) ? _c('button', {
+    staticClass: "btn btn-md btn-info",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.examSection = !_vm.examSection
+      }
+    }
+  }, [_vm._v("Next")]) : _vm._e(), _vm._v(" "), (_vm.examSection) ? _c('button', {
+    staticClass: "btn btn-md btn-info",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Start Exam")]) : _vm._e()])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-a46b5ffa", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
