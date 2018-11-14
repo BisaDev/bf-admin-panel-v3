@@ -27,12 +27,19 @@ class StudentExam extends Model
 
     public function getTotalQuestionsAttribute()
     {
-        $sections = StudentExamSection::SECTIONS;
+        $examType = Exam::find($this->exam_id)->type;
+        $examTypeSections = ExamSectionMetadata::where('exam_type', $examType)->get();
         $completedSections = $this->sections->unique('section_number')->pluck('section_number');
-        $totalQuestions = 0;
-        foreach ($completedSections->all() as $completedSection) {
-            $totalQuestions = $totalQuestions + $sections[$completedSection]['questions'];
-        }
+        $totalQuestions = $examTypeSections->whereIn('section_number', $completedSections)->pluck('questions')->sum();
         return $totalQuestions;
+    }
+
+    public function getTotalTimeAvailableAttribute()
+    {
+        $examType = Exam::find($this->exam_id)->type;
+        $examTypeSections = ExamSectionMetadata::where('exam_type', $examType)->get();
+        $completedSections = $this->sections->unique('section_number')->pluck('section_number');
+        $totalTime = $examTypeSections->whereIn('section_number', $completedSections)->pluck('time_available')->sum();
+        return $totalTime;
     }
 }

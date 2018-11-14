@@ -48,16 +48,16 @@
                             @else
                                 <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"><span data-toggle="tooltip" data-placement="right" title="You will have a Calculated Score when you finish all Exam Sections">{{$exam->score}}</span></td>
                             @endif
-                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> {{$exam->time}} / {{ array_sum(array_column($allSections, 'timeAvailable')) }} </td>
+                            <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"> {{$exam->time}} / {{$exam->TotalTimeAvailable}} </td>
                             <td><a href="{{ route('answer_sheet.show_results', $exam->id) }}">View</a></td>
                         </tr>
                         @foreach($exam->sections as $section)
                             <tr class="bg-exams-dashboard collapse accordion_{{$exam->id}}">
                                 <td>{{ $exam->created_at->format('d M Y') }}</td>
                                 <td></td>
-                                <td>{{$allSections[$section->section_number]['name']}}</td>
+                                <td>{{$section->metadata->section_name}}</td>
                                 <td></td>
-                                <td>{{$section->number_correct}} / {{$allSections[$section->section_number]['questions']}}</td>
+                                <td>{{$section->number_correct}} / {{$section->metadata->questions}}</td>
                                 @if($section->score)
                                     @if($section->section_number == 3 || $section->section_number == 4)
                                         <td><span data-toggle="tooltip" data-placement="right" title="Both Math sections have the same score but only one is considered in the overall exam score">{{$section->score}}</span></td>
@@ -67,7 +67,7 @@
                                 @else
                                     <td><span data-toggle="tooltip" data-placement="right" title="You will have a Calculated Score when you complete both Math Sections">{{$section->score}}</span></td>
                                 @endif
-                                <td> {{$section->time}} / {{$allSections[$section->section_number]['timeAvailable']}} </td>
+                                <td> {{$section->time}} / {{$section->metadata->time_available}} </td>
                                 <td></td>
                             </tr>
                         @endforeach
@@ -88,7 +88,7 @@
 
                 <form action="{{ route('answer_sheet.create_exam') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <take-practice-exam :exams="{{$exams}}" :exam-types="{{$exams->unique('type')}}" :all-sections="{{$allSections2}}"></take-practice-exam>
+                    <take-practice-exam :exams="{{$exams}}" :exam-types="{{$exams->unique('type')}}" :all-sections="{{$allSections}}"></take-practice-exam>
                 </form>
             </div>
         </div>
