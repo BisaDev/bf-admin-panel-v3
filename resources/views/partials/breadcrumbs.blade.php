@@ -24,5 +24,15 @@
                 </a>
             </div>
         @endif
+        @if(isset($link_2))
+            <div class="btn-group m-t-10 m-b-10">
+                <a href="{{ $link_2['url'] }}">
+                    <button type="button" class="btn btn-primary waves-effect waves-light">
+                        {{ $link_2['label'] }}
+                        <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                    </button>
+                </a>
+            </div>
+        @endif
     </div>
 </div>

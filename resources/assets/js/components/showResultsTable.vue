@@ -26,7 +26,7 @@
                        :name="'understood_' + this.section + '_' + this.question.question_number">
             </td>
         </template>
-        <td><a href="#" data-toggle="modal" :data-target="'#answerExplanationModal_' + this.question.id"><i class="ti-info-alt"></i></a></td>
+        <td data-toggle="tooltip" title="Answer Explanation"><a href="#" data-toggle="modal" :data-target="'#answerExplanationModal_' + this.question.id"><i class="ti-info-alt"></i></a></td>
     </tr>
 </template>
 

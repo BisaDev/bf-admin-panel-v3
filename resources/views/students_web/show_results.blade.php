@@ -82,7 +82,7 @@
                                     <th class="text-center">Guessed Answer</th>
                                     <th class="text-center">Correct / Incorrect</th>
                                     <th class="text-center">I get it now</th>
-                                    <th class="text-center" data-toggle="tooltip" title="Answer Explanation">&nbsp;</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -93,7 +93,7 @@
                                         :correct-answer="{{$question->correctAnswer}}"></tr>
 
                                     <div class="modal fade" id="answerExplanationModal_{{$question->id}}" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog" role="document">
+                                        <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Question {{$question->question_number}} Explanation</h5>
