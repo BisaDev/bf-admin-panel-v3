@@ -51,7 +51,7 @@
                             <th class="text-center">{{$studentExamSection->studentExam->student->name}}</th>
                         @endforeach
                         <th class="text-center">Topic</th>
-                        <th class="text-center" data-toggle="tooltip" title="Answer Explanation">&nbsp;</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,11 +64,11 @@
                             <td class="{{$studentExamSection->questions->where('question_number', $answer->question_number)->first()->BackgroundForReport}}">{{ strtoupper($studentExamSection->questions->where('question_number', $answer->question_number)->first()->answer) }}</td>
                         @endforeach
                         <td> {{ $answer->topic }} </td>
-                        <td><a href="#" data-toggle="modal" data-target="#answerExplanationModal_{{$answer->id}}"><i class="ti-info-alt"></i></a></td>
+                        <td data-toggle="tooltip" title="Answer Explanation"><a href="#" data-toggle="modal" data-target="#answerExplanationModal_{{$answer->id}}"><i class="ti-info-alt"></i></a></td>
                     </tr>
 
                     <div class="modal fade" id="answerExplanationModal_{{$answer->id}}" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">Question {{$answer->question_number}} Explanation</h5>

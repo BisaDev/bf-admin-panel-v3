@@ -5,6 +5,7 @@
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Questions',
         'link' => [ 'label' => 'Create Question', 'url' => route('questions.create')],
+        'link_2' => [ 'label' => 'CSV Question Importer', 'url' => route('questions.csv_importer')],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Questions', 'url' => route('questions.index')],

@@ -85224,7 +85224,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  })])], _vm._v(" "), _c('td', [_c('a', {
+  })])], _vm._v(" "), _c('td', {
+    attrs: {
+      "data-toggle": "tooltip",
+      "title": "Answer Explanation"
+    }
+  }, [_c('a', {
     attrs: {
       "href": "#",
       "data-toggle": "modal",
