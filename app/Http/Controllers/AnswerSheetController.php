@@ -45,14 +45,20 @@ class AnswerSheetController extends Controller
             ]);
         });
 
+        $studentExamSectionId = $studentExam->sections->where('time', NULL)->first()->id;
+
         $request->session()->put('studentExam', $studentExam);
-        return redirect(route('answer_sheet.show_answer_sheet', $sectionCollection->first()));
+        return redirect(route('answer_sheet.show_answer_sheet', $studentExamSectionId));
     }
 
-    public function show_answer_sheet($section, Request $request)
+    public function show_answer_sheet($studentExamSectionID, Request $request)
     {
         if ($request->session()->has('studentExam')) {
-            return view('students_web.student_answer_sheet_' . $section, compact('section'));
+            $studentExamSection = StudentExamSection::find($studentExamSectionID);
+            return view('students_web.student_answer_sheet_3', [
+                'studentExamSection' => $studentExamSection,
+                'examMetadata' => $studentExamSection->metadata,
+            ]);
         } else {
             return redirect()->back();
         }
@@ -60,23 +66,15 @@ class AnswerSheetController extends Controller
 
     public function save_answers(Request $request)
     {
-        $section = $request->section;
-        $studentExam = $request->session()->get('studentExam');
+        $studentExamSection = StudentExamSection::find($request->examSectionID);
+        $section = $studentExamSection->section_number;
+        $studentExam = $studentExamSection->studentExam;
         $studentExamSectionCollection = collect($studentExam->sections);
+        $examType = $studentExamSection->metadata->exam_type;
         $scoreTable = collect(json_decode($studentExam->exam->scoreTable->score_table, true));
 
-        $studentExamSection = StudentExamSection::where('student_exam_id', $studentExam->id)
-            ->where('section_number', $section)
-            ->get();
-
-        $studentExamSection = $studentExamSection->last();
-        $allSections = $studentExamSectionCollection->groupBy(function($date) {
-            return Carbon::parse($date->created_at)->format('s');
-        });
-        $allSections = $allSections->last()->pluck('section_number');
-
         $lastSection = $studentExamSectionCollection->last()->section_number;
-        $questions = $this->sections[$section]['questions'];
+        $questions = $studentExamSection->metadata->questions;
 
         $numberCorrectSection = 0;
 
@@ -102,54 +100,59 @@ class AnswerSheetController extends Controller
         $studentExamSection->number_correct = $numberCorrectSection;
         $studentExamSection->save();
 
-        if ($section == 1 || $section == 2) {
-            $score = $scoreTable->get($numberCorrectSection)[$this->sections[$section]['tableScore']];
-            $studentExamSection->score = $score * 10;
-        } else {
-            $studentExamUpdated = StudentExam::find($studentExam->id);
-            $uncompletedMathSections = $studentExamUpdated->sections->where('math_completed', 0);
-
-            if ($section == 3) {
-                $sectionFour = $uncompletedMathSections->where('section_number', 4);
-                if ($sectionFour->isEmpty()) {
-                    $studentExamSection->score = 0;
-                    $studentExamSection->math_completed = 0;
-                } else {
-                    $sectionFour = $sectionFour->first();
-                    if (!$sectionFour->number_correct) {
-                        $studentExamSection->score = 0;
-                        $studentExamSection->math_completed = 0;
-                    } else {
-                        $score = $sectionFour->number_correct + $numberCorrectSection;
-                        $score = $scoreTable->get($score)[$this->sections[$section]['tableScore']];
-                        $studentExamSection->score = $score;
-                        $studentExamSection->math_completed = 1;
-                        $sectionFour->score = $score;
-                        $sectionFour->math_completed = 1;
-                        $sectionFour->save();
-                    }
-                }
+        if ($examType === 'SAT') {
+            if ($section == 1 || $section == 2) {
+                $score = $scoreTable->get($numberCorrectSection)[$studentExamSection->metadata->table_score];
+                $studentExamSection->score = $score * 10;
             } else {
-                $sectionThree = $uncompletedMathSections->where('section_number', 3);
-                if ($sectionThree->isEmpty()) {
-                    $studentExamSection->score = 0;
-                    $studentExamSection->math_completed = 0;
-                } else {
-                    $sectionThree = $sectionThree->first();
-                    if (!$sectionThree->number_correct) {
+                $studentExamUpdated = StudentExam::find($studentExam->id);
+                $uncompletedMathSections = $studentExamUpdated->sections->where('math_completed', 0);
+
+                if ($section == 3) {
+                    $sectionFour = $uncompletedMathSections->where('section_number', 4);
+                    if ($sectionFour->isEmpty()) {
                         $studentExamSection->score = 0;
                         $studentExamSection->math_completed = 0;
                     } else {
-                        $score = $sectionThree->number_correct + $numberCorrectSection;
-                        $score = $scoreTable->get($score)[$this->sections[$section]['tableScore']];
-                        $studentExamSection->score = $score;
-                        $studentExamSection->math_completed = 1;
-                        $sectionThree->score = $score;
-                        $sectionThree->math_completed = 1;
-                        $sectionThree->save();
+                        $sectionFour = $sectionFour->first();
+                        if (!$sectionFour->number_correct) {
+                            $studentExamSection->score = 0;
+                            $studentExamSection->math_completed = 0;
+                        } else {
+                            $score = $sectionFour->number_correct + $numberCorrectSection;
+                            $score = $scoreTable->get($score)[$studentExamSection->metadata->table_score];
+                            $studentExamSection->score = $score;
+                            $studentExamSection->math_completed = 1;
+                            $sectionFour->score = $score;
+                            $sectionFour->math_completed = 1;
+                            $sectionFour->save();
+                        }
+                    }
+                } else {
+                    $sectionThree = $uncompletedMathSections->where('section_number', 3);
+                    if ($sectionThree->isEmpty()) {
+                        $studentExamSection->score = 0;
+                        $studentExamSection->math_completed = 0;
+                    } else {
+                        $sectionThree = $sectionThree->first();
+                        if (!$sectionThree->number_correct) {
+                            $studentExamSection->score = 0;
+                            $studentExamSection->math_completed = 0;
+                        } else {
+                            $score = $sectionThree->number_correct + $numberCorrectSection;
+                            $score = $scoreTable->get($score)[$studentExamSection->metadata->table_score];
+                            $studentExamSection->score = $score;
+                            $studentExamSection->math_completed = 1;
+                            $sectionThree->score = $score;
+                            $sectionThree->math_completed = 1;
+                            $sectionThree->save();
+                        }
                     }
                 }
             }
+        } else if ($examType === 'ACT') {
+            $score = $scoreTable->get($numberCorrectSection)[$studentExamSection->metadata->table_score];
+            $studentExamSection->score = $score;
         }
 
         $studentExamSection->save();
@@ -164,11 +167,16 @@ class AnswerSheetController extends Controller
             $studentExam->number_correct = $totalCorrect;
             $studentExam->time = $totalTime;
 
-            if($firstSections->count() == 4) {
-                $spanishScore =  $firstSections->whereIn('section_number', [1, 2])->pluck('score')->sum();
-                $mathScore = $firstSections->where('section_number', 3)->pluck('score')->sum();
-                $totalScore = $mathScore + $spanishScore;
-                $studentExam->score = $totalScore;
+            if ($firstSections->count() == 4) {
+                if ($examType === 'SAT') {
+                    $spanishScore =  $firstSections->whereIn('section_number', [1, 2])->pluck('score')->sum();
+                    $mathScore = $firstSections->where('section_number', 3)->pluck('score')->sum();
+                    $totalScore = $mathScore + $spanishScore;
+                    $studentExam->score = $totalScore;
+                } else {
+                    $sumOfScores = $firstSections->pluck('score')->sum();
+                    $studentExam->score = $sumOfScores / 4;
+                }
             }
 
             $studentExam->save();
@@ -176,7 +184,7 @@ class AnswerSheetController extends Controller
 
             return redirect(route('answer_sheet.show_results', $studentExam->id));
         } else {
-            $nextSection = $allSections->get($allSections->search($section) + 1);
+            $nextSection = StudentExam::find($studentExam->id)->sections->where('time', NULL)->first()->id;;
             return redirect(route('answer_sheet.show_answer_sheet', $nextSection));
         }
     }
