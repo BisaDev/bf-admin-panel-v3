@@ -24,4 +24,9 @@ class Exam extends Model
     {
         return $this->hasOne(ExamScoreTable::class);
     }
+
+    public function sectionsMetadata()
+    {
+        return $this->hasMany(ExamSectionMetadata::class, 'exam_type', 'type');
+    }
 }

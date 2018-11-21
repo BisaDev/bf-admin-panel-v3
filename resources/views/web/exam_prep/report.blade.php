@@ -17,7 +17,7 @@
     <div class="row container">
         <div class="col-md-12 card-box">
             <div class="container">
-                <h3> {{$examId}}, Section {{$studentExamSections->first()->section_number}}: {{$section['name']}}</h3>
+                <h3> {{$examId}}, Section {{$studentExamSections->first()->section_number}}: {{$studentExamSections->first()->metadata->section_name}}</h3>
             </div>
 
             <div class="row"><div class="col-sm-12"><hr/></div></div>

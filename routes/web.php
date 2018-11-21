@@ -109,6 +109,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::get('exams/logs',                            'ExamPrepController@logs')->name('exams.logs');
     Route::post('exams/logs/results',                   'ExamPrepController@generate_report')->name('exams.generate_report');
     Route::post('exams/logs/get_for_results',           'ExamPrepController@get_sections_for_results')->name('exams.sections_for_results');
+    Route::post('exams/logs/get_sections_for_exam',     'ExamPrepController@get_sections_for_exam')->name('exams.sections_for_exam');
     Route::resource('exams',                            'ExamPrepController', ['except' => ['edit', 'update']]);
     Route::get('exams/{exam}/{exam_section}',           'ExamPrepController@exam_section_show')->name('exams.section.show');
     Route::get('exams/{exam}/{exam_section}/edit',      'ExamPrepController@exam_section_edit')->name('exams.section.edit');

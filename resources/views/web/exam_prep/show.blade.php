@@ -31,12 +31,12 @@
                             </thead>
 
                             <tbody>
-                            @foreach($sections as $sectionId => $section)
+                            @foreach($item->sectionsMetadata as $section)
                                 <tr>
                                     <td>{{ $item->test_id }}</td>
                                     <td>{{ $item->type }}</td>
-                                    <td><a href="{{ route('exams.section.show', [$item->id, $sectionId])}}">{{ $section['name'] }}</a></td>
-                                    <td class="text-center"><a href="{{ route('exams.section.edit', [$item->id, $sectionId])}}" class="icon icon-pencil"></a></td>
+                                    <td><a href="{{ route('exams.section.show', [$item->id, $section->section_number])}}">{{ $section->section_name }}</a></td>
+                                    <td class="text-center"><a href="{{ route('exams.section.edit', [$item->id, $section->section_number])}}" class="icon icon-pencil"></a></td>
                                 </tr>
                             @endforeach
                             </tbody>
