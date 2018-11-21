@@ -20,7 +20,7 @@
                 <div class="card-box col-md-12">
                     <div class="container">
                         <h3> Section {{$section->section_number}}
-                            : {{ $sectionData[$section->section_number]['name'] }}</h3>
+                            : {{ $section->metadata->section_name }}</h3>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -30,14 +30,14 @@
 
                     <div class="row container">
                         <div class="col-md-12">
-                            <p>Hi {{$item->student->name}}, you got <strong>{{$section->number_correct}}</strong>
+                            <p>Hi {{ $item->student->name }}, you got <strong>{{ $section->number_correct }}</strong>
                                 correct out of
-                                a possible <strong>{{$sectionData[$section->section_number]['questions']}}</strong>
-                                on {{$sectionData[$section->section_number]['name']}}. That Calculates to a score of
-                                <strong>{{$section->score}}</strong> out of a possible
-                                <strong>{{$sectionData[$section->section_number]['maxScore']}}</strong>.</p>
-                            <p>You took {{$section->time}} minutes out of a
-                            possible {{$sectionData[$section->section_number]['timeAvailable']}} minutes.</p>
+                                a possible <strong>{{ $section->metadata->questions }}</strong>
+                                on {{ $section->metadata->section_name }}. That Calculates to a score of
+                                <strong>{{ $section->score }}</strong> out of a possible
+                                <strong>{{ $section->metadata->max_score }}</strong>.</p>
+                            <p>You took {{ $section->time }} minutes out of a
+                            possible {{ $section->metadata->time_available }} minutes.</p>
                             @if(!$section->score)
                                 <p>Note: You have to complete both Math sections in order to get a Math Score.</p>
                             @endif

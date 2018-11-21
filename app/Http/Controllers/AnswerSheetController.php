@@ -5,7 +5,7 @@ namespace Brightfox\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Brightfox\Models\StudentExam, Brightfox\Models\StudentExamSection, Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\ExamAnswer, Brightfox\Models\User, Brightfox\Models\ExamScoreTable;
+use Brightfox\Models\StudentExam, Brightfox\Models\StudentExamSection, Brightfox\Models\Student, Brightfox\Models\Exam, Brightfox\Models\ExamAnswer, Brightfox\Models\User, Brightfox\Models\ExamSectionMetadata;
 
 class AnswerSheetController extends Controller
 {
@@ -242,7 +242,6 @@ class AnswerSheetController extends Controller
 
             return view('students_web.show_results', [
                 'item' => StudentExam::find($studentExamId),
-                'sectionData' => $this->sections,
                 'topics' => $scoreByTopic
             ]);
         } else {
