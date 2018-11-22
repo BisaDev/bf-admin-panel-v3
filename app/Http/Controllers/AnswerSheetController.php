@@ -151,7 +151,7 @@ class AnswerSheetController extends Controller
                 }
             }
         } else if ($examType === 'ACT') {
-            $score = $scoreTable->get($numberCorrectSection)[$studentExamSection->metadata->table_score];
+            $score = $scoreTable->get($numberCorrectSection - 1)[$studentExamSection->metadata->table_score];
             $studentExamSection->score = $score;
         }
 

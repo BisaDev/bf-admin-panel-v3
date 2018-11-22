@@ -12,7 +12,17 @@ class Exam extends Model
 
     public function getCreateTestIdAttribute()
     {
-        return "{$this->type}-{$this->id}";
+        $exams = Exam::all()->where('type', $this->type);
+        $exams->pop();
+        if ($exams->isNotEmpty()) {
+            $lastExamId = $exams->last()->test_id;
+            $lastExamId = substr($lastExamId, 4);
+            $testId = $lastExamId + 1;
+        } else {
+            $testId = 1;
+        }
+
+        return "{$this->type}-{$testId}";
     }
 
     public function sections()
