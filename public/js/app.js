@@ -26279,6 +26279,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['questions', 'section', 'answers'],
@@ -84194,10 +84198,14 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "container col-md-offset-1"
-  }, [_c('div', {
+    staticClass: "container"
+  }, [(!_vm.answers[0]) ? _c('div', {
+    staticClass: "row"
+  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row text-center"
-  }, [_vm._l((_vm.numberOfColumns), function(column) {
+  }, [_c('div', {
+    staticClass: "wrapper"
+  }, _vm._l((_vm.numberOfColumns), function(column) {
     return _c('div', {
       staticClass: "col-md-2"
     }, _vm._l((_vm.rowsPerColumn(column)), function(row) {
@@ -84523,17 +84531,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       })]) : _vm._e()]]], 2)
     }))
-  }), _vm._v(" "), (!_vm.answers[0]) ? _c('div', {
-    staticClass: "col-md-1 question text-right"
+  }))])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12 text-right"
   }, [_c('i', {
-    staticClass: "ti-help-alt guessed-question",
+    staticClass: "ti-help-alt guessed-question m-r-15",
     attrs: {
       "data-toggle": "popover",
       "title": "Guessed",
       "data-content": "If you guessed the question, please mark its checkbox"
     }
-  })]) : _vm._e()], 2)])
-},staticRenderFns: []}
+  })])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

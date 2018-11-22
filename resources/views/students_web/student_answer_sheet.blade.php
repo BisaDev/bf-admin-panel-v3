@@ -49,7 +49,7 @@
                     </div>
                 @endif
             @else
-                <div class="{{ $examMetadata->section_number === 2 ? 'col-md-12' : 'col-md-10 col-md-offset-1' }} card-box">
+                <div class="{{ $examMetadata->section_number === 2 ? 'col-md-11' : 'col-md-10 col-md-offset-1' }} card-box">
                     <div class="row">
                         <act-answer-sheet :questions="{{ $examMetadata->questions - $examMetadata->open_questions}}" :section="{{ $studentExamSection->section_number }}" :answers="[]"></act-answer-sheet>
                     </div>
