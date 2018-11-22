@@ -29,7 +29,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .less('resources/assets/less/app.less', 'public/css');
 
 mix.browserSync({
-    proxy: 'students.brightfoxv2.test',
-    host: 'students.brightfoxv2.test',
+    proxy: 'brightfoxv2.test',
+    host: 'brightfoxv2.test',
     open: 'external'
 });

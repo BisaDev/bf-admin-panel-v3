@@ -12,38 +12,38 @@
                         <div class="question-number">{{ num = (column-1)*rowsPerColumn(column-1) + row }}</div>
                         <template v-if="num % 2">
                             <template v-if="!answers[0]">
-                                <label class="form-check-label" :for="'question_' + num"> A <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="a"></label>
-                                <label class="form-check-label" :for="'question_' + num"> B <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="b"></label>
-                                <label class="form-check-label" :for="'question_' + num"> C <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="c"></label>
-                                <label class="form-check-label" :for="'question_' + num"> D <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="d"></label>
+                                <label class="form-check-label" :for="'question_' + num"> A <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="A"></label>
+                                <label class="form-check-label" :for="'question_' + num"> B <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="B"></label>
+                                <label class="form-check-label" :for="'question_' + num"> C <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="C"></label>
+                                <label class="form-check-label" :for="'question_' + num"> D <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="D"></label>
                                 <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> E <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="e"></label>
                                 <label class="form-check-label" v-if="row === 1" data-toggle="popover"><i class="ti-help-alt"></i> <input class="student-answer radio-inline" type="checkbox" :name="'guessed_' + num" value="1"></label>
                                 <label class="form-check-label" v-if="row !== 1"> &nbsp; <input class="student-answer radio-inline" type="checkbox" :name="'guessed_' + num" value="1"></label>
                             </template>
                             <template v-else>
-                                <label class="form-check-label" :for="'question_' + num"> A <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="a" :checked="(answers[num-1].correct_1 === 'a') ? true : false"></label>
-                                <label class="form-check-label" :for="'question_' + num"> B <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="b" :checked="(answers[num-1].correct_1 === 'b') ? true : false"></label>
-                                <label class="form-check-label" :for="'question_' + num"> C <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="c" :checked="(answers[num-1].correct_1 === 'c') ? true : false"></label>
-                                <label class="form-check-label" :for="'question_' + num"> D <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="d" :checked="(answers[num-1].correct_1 === 'd') ? true : false"></label>
-                                <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> E <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="e" :checked="(answers[num-1].correct_1 === 'e') ? true : false"></label>
+                                <label class="form-check-label" :for="'question_' + num"> A <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="A" :checked="(answers[num-1].correct_1.toUpperCase() === 'A') ? true : false"></label>
+                                <label class="form-check-label" :for="'question_' + num"> B <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="B" :checked="(answers[num-1].correct_1.toUpperCase() === 'B') ? true : false"></label>
+                                <label class="form-check-label" :for="'question_' + num"> C <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="C" :checked="(answers[num-1].correct_1.toUpperCase() === 'C') ? true : false"></label>
+                                <label class="form-check-label" :for="'question_' + num"> D <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="D" :checked="(answers[num-1].correct_1.toUpperCase() === 'D') ? true : false"></label>
+                                <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> E <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="e" :checked="(answers[num-1].correct_1.toUpperCase() === 'E') ? true : false"></label>
                             </template>
                         </template>
                         <template v-else>
                             <template v-if="!answers[0]">
-                                <label class="form-check-label" :for="'question_' + num"> F <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="f"></label>
-                                <label class="form-check-label" :for="'question_' + num"> G <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="g"></label>
-                                <label class="form-check-label" :for="'question_' + num"> H <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="h"></label>
-                                <label class="form-check-label" :for="'question_' + num"> J <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="j"></label>
-                                <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> K <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="k"></label>
+                                <label class="form-check-label" :for="'question_' + num"> F <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="F"></label>
+                                <label class="form-check-label" :for="'question_' + num"> G <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="G"></label>
+                                <label class="form-check-label" :for="'question_' + num"> H <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="H"></label>
+                                <label class="form-check-label" :for="'question_' + num"> J <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="J"></label>
+                                <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> K <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="K"></label>
                                 <label class="form-check-label" v-if="row === 1" data-toggle="popover"><i class="ti-help-alt"></i> <input class="student-answer radio-inline" type="checkbox" :name="'guessed_' + num" value="1"></label>
                                 <label class="form-check-label" v-if="row !== 1"> &nbsp; <input class="student-answer radio-inline" type="checkbox" :name="'guessed_' + num" value="1"></label>
                             </template>
                             <template v-else>
-                                <label class="form-check-label" :for="'question_' + num"> F <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="f" :checked="(answers[num-1].correct_1 === 'f') ? true : false"></label>
-                                <label class="form-check-label" :for="'question_' + num"> G <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="g" :checked="(answers[num-1].correct_1 === 'g') ? true : false"></label>
-                                <label class="form-check-label" :for="'question_' + num"> H <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="h" :checked="(answers[num-1].correct_1 === 'h') ? true : false"></label>
-                                <label class="form-check-label" :for="'question_' + num"> J <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="j" :checked="(answers[num-1].correct_1 === 'j') ? true : false"></label>
-                                <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> K <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="k" :checked="(answers[num-1].correct_1 === 'k') ? true : false"></label>
+                                <label class="form-check-label" :for="'question_' + num"> F <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="F" :checked="(answers[num-1].correct_1.toUpperCase() === 'F') ? true : false"></label>
+                                <label class="form-check-label" :for="'question_' + num"> G <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="G" :checked="(answers[num-1].correct_1.toUpperCase() === 'G') ? true : false"></label>
+                                <label class="form-check-label" :for="'question_' + num"> H <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="H" :checked="(answers[num-1].correct_1.toUpperCase() === 'H') ? true : false"></label>
+                                <label class="form-check-label" :for="'question_' + num"> J <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="J" :checked="(answers[num-1].correct_1.toUpperCase() === 'J') ? true : false"></label>
+                                <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> K <input class="student-answer radio-inline" type="radio" :name="'question_' + num" value="K" :checked="(answers[num-1].correct_1.toUpperCase() === 'K') ? true : false"></label>
                             </template>
                         </template>
                     </div>

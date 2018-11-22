@@ -83919,7 +83919,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "a"
+          "value": "A"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83931,7 +83931,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "b"
+          "value": "B"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83943,7 +83943,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "c"
+          "value": "C"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -83955,7 +83955,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "d"
+          "value": "D"
         }
       })]), _vm._v(" "), (row === 1) ? _c('label', {
         staticClass: "form-check-label",
@@ -83990,10 +83990,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "a"
+          "value": "A"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'a') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'A') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84005,10 +84005,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "b"
+          "value": "B"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'b') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'B') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84020,10 +84020,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "c"
+          "value": "C"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'c') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'C') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84035,10 +84035,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "d"
+          "value": "D"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'd') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'D') ? true : false
         }
       })])]], 2)
     }))
@@ -84223,7 +84223,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "a"
+          "value": "A"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84235,7 +84235,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "b"
+          "value": "B"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84247,7 +84247,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "c"
+          "value": "C"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84259,7 +84259,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "d"
+          "value": "D"
         }
       })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
         staticClass: "form-check-label",
@@ -84306,10 +84306,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "a"
+          "value": "A"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'a') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'A') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84321,10 +84321,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "b"
+          "value": "B"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'b') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'B') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84336,10 +84336,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "c"
+          "value": "C"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'c') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'C') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84351,10 +84351,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "d"
+          "value": "D"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'd') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'D') ? true : false
         }
       })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
         staticClass: "form-check-label",
@@ -84369,7 +84369,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "value": "e"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'e') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'E') ? true : false
         }
       })]) : _vm._e()]] : [(!_vm.answers[0]) ? [_c('label', {
         staticClass: "form-check-label",
@@ -84381,7 +84381,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "f"
+          "value": "F"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84393,7 +84393,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "g"
+          "value": "G"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84405,7 +84405,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "h"
+          "value": "H"
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84417,7 +84417,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "j"
+          "value": "J"
         }
       })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
         staticClass: "form-check-label",
@@ -84429,7 +84429,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "k"
+          "value": "K"
         }
       })]) : _vm._e(), _vm._v(" "), (row === 1) ? _c('label', {
         staticClass: "form-check-label",
@@ -84464,10 +84464,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "f"
+          "value": "F"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'f') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'F') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84479,10 +84479,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "g"
+          "value": "G"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'g') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'G') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84494,10 +84494,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "h"
+          "value": "H"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'h') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'H') ? true : false
         }
       })]), _vm._v(" "), _c('label', {
         staticClass: "form-check-label",
@@ -84509,10 +84509,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "j"
+          "value": "J"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'j') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'J') ? true : false
         }
       })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
         staticClass: "form-check-label",
@@ -84524,10 +84524,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "type": "radio",
           "name": 'question_' + _vm.num,
-          "value": "k"
+          "value": "K"
         },
         domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1 === 'k') ? true : false
+          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'K') ? true : false
         }
       })]) : _vm._e()]]], 2)
     }))

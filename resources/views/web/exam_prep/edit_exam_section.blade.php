@@ -20,30 +20,38 @@
               method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
 
-            <div class="col-md-11 card-box">
-                <div class="row">
-                    <student-answer-sheet :questions="{{$sections['questions'] - $sections['openQuestions']}}"
-                                          :answers="{{$examAnswers}}"></student-answer-sheet>
-                </div>
+            @if($section->exam_type === 'SAT')
+                <div class="col-md-11 card-box">
+                    <div class="row">
+                        <student-answer-sheet :questions="{{$section->questions - $section->open_questions}}"
+                                              :answers="{{$examAnswers}}"></student-answer-sheet>
+                    </div>
 
-                @if($sections['id'] == 3 || $sections['id'] == 4 )
-                    @for($i = $sections['questions'] - $sections['openQuestions'] + 1; $i <= $sections['questions']; $i++)
-                        <div class="col-md-12 col-md-offset-1 question">
-                            <div class="row question-number">{{$i}}</div>
-                            @for($j = 1; $j <= 9; $j++)
-                                <div class="col-md-1 edit">
-                                    @if($i == $sections['questions'] - $sections['openQuestions'] + 1)
-                                        <label class="label-edit">Correct {{$j}}</label>
-                                    @endif
-                                    <input class="form-control" type="text" name="question_{{$i}}[]"
-                                           value="{{ old('question_'. $i[$j-1], $examAnswers[$i-1]['correct_'.$j]) }}"
-                                           maxlength="4">
-                                </div>
-                            @endfor
-                        </div>
-                    @endfor
-                @endif
-            </div>
+                    @if($section->section_number == 3 || $section->section_number == 4 )
+                        @for($i = $section->questions - $section->open_questions + 1; $i <= $section->questions; $i++)
+                            <div class="col-md-12 col-md-offset-1 question">
+                                <div class="row question-number">{{$i}}</div>
+                                @for($j = 1; $j <= 9; $j++)
+                                    <div class="col-md-1 edit">
+                                        @if($i == $section->questions - $section->open_questions + 1)
+                                            <label class="label-edit">Correct {{$j}}</label>
+                                        @endif
+                                        <input class="form-control" type="text" name="question_{{$i}}[]"
+                                               value="{{ old('question_'. $i[$j-1], $examAnswers[$i-1]['correct_'.$j]) }}"
+                                               maxlength="4">
+                                    </div>
+                                @endfor
+                            </div>
+                        @endfor
+                    @endif
+                </div>
+            @elseif($section->exam_type === 'ACT')
+                <div class="{{ $section->section_number === 2 ? 'col-md-11' : 'col-md-10 col-md-offset-1' }} card-box">
+                    <div class="row">
+                        <act-answer-sheet :questions="{{ $section->questions }}" :section="{{ $section->section_number }}" :answers="{{ $examAnswers }}"></act-answer-sheet>
+                    </div>
+                </div>
+            @endif
 
             <div class="row">
                 <div class="form-group col-md-10 col-md-offset-1 text-right">

@@ -135,7 +135,7 @@ class ExamPrepController extends Controller
         return view('web.exam_prep.edit_exam_section', [
             'exam' => $exam,
             'examAnswers' => $examAnswers,
-            'sections' => $this->sections[$sectionId],
+            'section' => $exam->sectionsMetadata->where('section_number', $sectionId)->first(),
         ]);
     }
 
