@@ -10,7 +10,9 @@ export default {
             el: '#generate-results',
             data: {
                 exam_id: '',
+                sections: [],
                 section_id: '',
+                sections_url: '',
                 examSections: [],
                 checkedSections: [],
                 exam_sections_url: '',
@@ -31,6 +33,19 @@ export default {
                         });
                     }
                 },
+                loadExamSections() {
+                    this.sections =[];
+                    this.section_id = '';
+                    let sections = this.sections;
+
+                    axios.post(this.sections_url, {
+                        exam_id: this.exam_id,
+                    }).then(function (response) {
+                        $.each(response.data, function(i, item){
+                            sections.push(item);
+                        });
+                    });
+                },
                 toggleActive(id) {
                     if (this.checkedSections.includes(id)) {
                         var index = this.checkedSections.indexOf(id);
@@ -43,6 +58,9 @@ export default {
             mounted() {
                 if(this.$el.attributes['data-exam-sections-url'] !== undefined) {
                     this.exam_sections_url = this.$el.attributes['data-exam-sections-url'].value;
+                }
+                if(this.$el.attributes['data-sections-url'] !== undefined) {
+                    this.sections_url = this.$el.attributes['data-sections-url'].value;
                 }
             }
         });

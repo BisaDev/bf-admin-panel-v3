@@ -27,11 +27,11 @@ Route::domain(env('STUDENT_APP_URL', 'students.brightfoxv2.test'))->group(functi
     Route::group(['middleware' => ['auth']], function(){
 
         Route::get('/', 'StudentDashboardController@index')->name('student_dashboard');
-        Route::post('answer_sheet/',             'AnswerSheetController@create_exam')->name('answer_sheet.create_exam');
-        Route::get('answer_sheet/{section}',     'AnswerSheetController@show_answer_sheet')->name('answer_sheet.show_answer_sheet');
-        Route::post('answer_sheet/{section}',    'AnswerSheetController@save_answers')->name('answer_sheet.save_answers');
-        Route::get('results/{exam}',             'AnswerSheetController@show_results')->name('answer_sheet.show_results');
-        Route::post('results/{exam}',            'AnswerSheetController@edit_understood')->name('answer_sheet.edit_understood');
+        Route::post('answer_sheet/',                'AnswerSheetController@create_exam')->name('answer_sheet.create_exam');
+        Route::get('answer_sheet/{examSectionID}',  'AnswerSheetController@show_answer_sheet')->name('answer_sheet.show_answer_sheet');
+        Route::post('answer_sheet/{examSectionID}', 'AnswerSheetController@save_answers')->name('answer_sheet.save_answers');
+        Route::get('results/{exam}',                'AnswerSheetController@show_results')->name('answer_sheet.show_results');
+        Route::post('results/{exam}',               'AnswerSheetController@edit_understood')->name('answer_sheet.edit_understood');
     });
 });
 
@@ -109,6 +109,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::get('exams/logs',                            'ExamPrepController@logs')->name('exams.logs');
     Route::post('exams/logs/results',                   'ExamPrepController@generate_report')->name('exams.generate_report');
     Route::post('exams/logs/get_for_results',           'ExamPrepController@get_sections_for_results')->name('exams.sections_for_results');
+    Route::post('exams/logs/get_sections_for_exam',     'ExamPrepController@get_sections_for_exam')->name('exams.sections_for_exam');
     Route::resource('exams',                            'ExamPrepController', ['except' => ['edit', 'update']]);
     Route::get('exams/{exam}/{exam_section}',           'ExamPrepController@exam_section_show')->name('exams.section.show');
     Route::get('exams/{exam}/{exam_section}/edit',      'ExamPrepController@exam_section_edit')->name('exams.section.edit');

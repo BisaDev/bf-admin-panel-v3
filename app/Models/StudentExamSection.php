@@ -26,4 +26,12 @@ class StudentExamSection extends Model
     {
         return $this->hasMany(ExamAnswer::class);
     }
+
+    public function metadata()
+    {
+        $examId = $this->studentExam->exam_id;
+        $examType = Exam::find($examId)->type;
+        return $this->hasOne(ExamSectionMetadata::class, 'section_number', 'section_number')
+            ->where('exam_type', $examType);
+    }
 }

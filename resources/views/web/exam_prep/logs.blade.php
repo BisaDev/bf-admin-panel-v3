@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <div id ="generate-results" class="row" data-exam-sections-url="{{ route('exams.sections_for_results') }}">
+    <div id ="generate-results" class="row" data-exam-sections-url="{{ route('exams.sections_for_results') }}" data-sections-url="{{ route('exams.sections_for_exam') }}">
         <form action="{{ route('exams.generate_report') }}" method="POST">
             {{ csrf_field() }}
             <div class="col-md-12 card-box">
@@ -23,7 +23,7 @@
                 <div class="row container">
                 <div class="form-group col-sm-6 col-md-4">
                     <label class="control-label" for="exam_id">Exam ID:</label>
-                    <select id="exam_id" name="exam_id" class="form-control" v-model="exam_id"  @change="loadSections()">
+                    <select id="exam_id" name="exam_id" class="form-control" v-model="exam_id"  @change="loadExamSections()">
                         <option value="">Select Exam</option>
                         @foreach($exams as $exam)
                             <option value="{{ $exam->id }}" {{ (!is_null(old('exam_id')) && (int)old('exam_id') === $key)? 'selected' : '' }}>{{ $exam->test_id }}</option>
@@ -34,9 +34,7 @@
                     <label class="control-label" for="section">Section ID</label>
                     <select id="section" name="section" class="form-control" v-model="section_id" data-selected="{{ old('section') }}" @change="loadSections()">
                         <option value="">Select Section</option>
-                        @foreach($sections as $key => $section)
-                            <option value="{{ $key }}">{{ $key . ': ' . $section['name'] }}</option>
-                        @endforeach
+                        <option v-for="section in sections" :value="section.section_number">@{{ section.section_number + ': ' + section.section_name }}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4 text-right">
@@ -67,9 +65,9 @@
                                 <td>{{ $section->studentExam->student->cohort_tag }}</td>
                                 <td>{{ $section->studentExam->exam->test_id }}</td>
                                 <td>{{ $section->section_number }}</td>
-                                <td>{{ $section->number_correct }} / {{$sections[$section->section_number]['questions']}}</td>
+                                <td>{{ $section->number_correct }} / {{ $section->metadata->questions }}</td>
                                 <td>{{$section->score}}</td>
-                                <td>{{ $section->time }} / {{$sections[$section->section_number]['timeAvailable']}}</td>
+                                <td>{{ $section->time }} / {{ $section->metadata->time_available }}</td>
                                 <td>
                                     <input type="checkbox" name="{{'checkbox_' . $section->id}}" value="{{$section->id}}" v-model="checkedSections">
                                 </td>
@@ -84,9 +82,9 @@
                                 <td>{{ $section->studentExam->student->cohort_tag }}</td>
                                 <td>{{ $section->studentExam->exam->test_id }}</td>
                                 <td>{{ $section->section_number }}</td>
-                                <td>{{ $section->number_correct }} / {{$sections[$section->section_number]['questions']}}</td>
+                                <td>{{ $section->number_correct }} / {{ $section->metadata->questions }}</td>
                                 <td> {{$section->score}} </td>
-                                <td>{{ $section->time }} / {{$sections[$section->section_number]['timeAvailable']}}</td>
+                                <td>{{ $section->time }} / {{ $section->metadata->time_available }}</td>
                                 <td></td>
                             </tr>
                         @endforeach

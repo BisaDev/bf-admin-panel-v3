@@ -14,4 +14,11 @@ class ExamSection extends Model
     {
         return $this->belongsTo(Exam::class);
     }
+
+    public function metadata()
+    {
+        $examType = $this->exam->type;
+        return $this->hasOne(ExamSectionMetadata::class, 'section_number', 'section_number')
+            ->where('exam_type', $examType);
+    }
 }
