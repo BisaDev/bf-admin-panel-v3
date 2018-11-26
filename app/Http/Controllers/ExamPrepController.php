@@ -114,9 +114,7 @@ class ExamPrepController extends Controller
     public function show(Exam $exam)
     {
         $item = $exam;
-        $sections = $this->sections;
-
-        return view('web.exam_prep.show', compact('item', 'sections'));
+        return view('web.exam_prep.show', compact('item'));
     }
 
     /**
@@ -137,7 +135,7 @@ class ExamPrepController extends Controller
         return view('web.exam_prep.edit_exam_section', [
             'exam' => $exam,
             'examAnswers' => $examAnswers,
-            'sections' => $this->sections[$sectionId],
+            'section' => $exam->sectionsMetadata->where('section_number', $sectionId)->first(),
         ]);
     }
 
@@ -202,7 +200,6 @@ class ExamPrepController extends Controller
 
         return view('web.exam_prep.logs', [
             'exams' => $exams,
-            'sections' => $this->sections,
             'examSections' => $examSections,
         ]);
     }
@@ -285,6 +282,14 @@ class ExamPrepController extends Controller
         $studentExamSections = $studentExamSections->where('section_number', $sectionId)->all();
 
         return response()->json($studentExamSections);
+    }
+
+    public function get_sections_for_exam(Request $request)
+    {
+        $examId = $request->get('exam_id');
+        $exam = Exam::find($examId);
+
+        return response()->json($exam->sectionsMetadata->toArray());
     }
 
     public function createArray($file)
