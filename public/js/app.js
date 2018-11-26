@@ -26822,6 +26822,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             selected: [],
             examType: '',
             examSection: false,
+            miniExam: false,
             selectedTypeSections: []
         };
     },
@@ -26846,12 +26847,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         examType: function examType() {
             var selectedTypeSections = [];
             var examType = this.examType;
-            this.allSections.forEach(function (section) {
-                if (section.exam_type === examType) {
-                    selectedTypeSections.push(section);
-                }
-            });
-            this.selectedTypeSections = selectedTypeSections;
+            if (examType !== 'ACT' && examType !== 'SAT') {
+                this.miniExam = true;
+                this.examSection = true;
+            } else {
+                this.allSections.forEach(function (section) {
+                    if (section.exam_type === examType) {
+                        selectedTypeSections.push(section);
+                    }
+                });
+                this.selectedTypeSections = selectedTypeSections;
+            }
         }
     }
 });
@@ -84607,8 +84613,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.examSection),
-      expression: "examSection"
+      value: (_vm.examSection && !_vm.miniExam),
+      expression: "examSection && !miniExam"
     }]
   }, [_c('label', {
     staticClass: "col-md-offset-2"
@@ -84702,7 +84708,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.examSection = !_vm.examSection
       }
     }
-  }, [_vm._v("Next")]) : _vm._e(), _vm._v(" "), (_vm.examSection) ? _c('button', {
+  }, [_vm._v("Next")]) : _vm._e(), _vm._v(" "), (_vm.examSection || _vm.miniExam) ? _c('button', {
     staticClass: "btn btn-md btn-info",
     attrs: {
       "type": "submit"
@@ -85911,7 +85917,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.answer ? this.question.answer.toUpperCase() : ''))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1.toUpperCase()))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.guessed ? 'Guessed' : '-'))]), _vm._v(" "), (this.question.answer === this.correctAnswer.correct_1.toLowerCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [_vm._m(0), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_c('span', {
+  return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.answer ? this.question.answer.toUpperCase() : ''))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1.toUpperCase()))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.guessed ? 'Guessed' : '-'))]), _vm._v(" "), (this.question.answer === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [_vm._m(0), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_c('span', {
     staticClass: "badge badge-pill badge-success"
   }, [_c('i', {
     staticClass: "ti-check",

@@ -55,15 +55,21 @@ class ExamPrepController extends Controller
         DB::beginTransaction();
 
         $exam = Exam::create([
-            'type' => $examArray[0]['type'],
-            'source' => $examArray[0]['source'],
-            'description' => $examArray[0]['description'],
+            'type' => $examArray['type'],
+            'source' => $examArray['source'],
+            'description' => $examArray['description'],
         ]);
+
+        if ($exam->IsMiniExam) {
+           $exam->mini_exam_format = $examArray['format'];
+           $exam->mini_exam_time = $examArray['time'];
+           $exam->mini_exam_questions = count($examArray['answers']);
+        }
 
         $exam->test_id = $exam->create_test_id;
         $exam->save();
 
-        foreach($examArray[0]['answers'] as $question){
+        foreach($examArray['answers'] as $question){
             try {
                 ExamSection::create([
                     'exam_id' => $exam->id,
@@ -88,15 +94,17 @@ class ExamPrepController extends Controller
             }
         }
 
-        try {
-            ExamScoreTable::create([
-                'exam_id' => $exam->id,
-                'score_table' => json_encode($examArray[0]['score'], JSON_FORCE_OBJECT),
-            ]);
-        } catch(\Exception $error) {
-            DB::rollBack();
-            $request->session()->flash('msg', ['type' => 'danger', 'text' => 'The Exam failed to upload: ' . $error->errorInfo[2]]);
-            return redirect(route('exams.index'));
+        if (!$exam->IsMiniExam) {
+            try {
+                ExamScoreTable::create([
+                    'exam_id' => $exam->id,
+                    'score_table' => json_encode($examArray['score'], JSON_FORCE_OBJECT),
+                ]);
+            } catch(\Exception $error) {
+                DB::rollBack();
+                $request->session()->flash('msg', ['type' => 'danger', 'text' => 'The Exam failed to upload: ' . $error->errorInfo[2]]);
+                return redirect(route('exams.index'));
+            }
         }
 
         DB::commit();
@@ -113,8 +121,7 @@ class ExamPrepController extends Controller
      */
     public function show(Exam $exam)
     {
-        $item = $exam;
-        return view('web.exam_prep.show', compact('item'));
+        return view('web.exam_prep.show', compact('exam'));
     }
 
     /**
@@ -266,8 +273,7 @@ class ExamPrepController extends Controller
             'answersByTopic' => $answersByTopic,
             'answersByQuestion' => $answersByQuestion,
             'studentExamSections' => $studentExamSections,
-            'section' => $this->sections[$studentExamSection->section_number],
-            'examId' => Exam::find($studentExamSection->studentExam->exam_id)->test_id,
+            'exam' => Exam::find($studentExamSection->studentExam->exam_id),
         ]);
     }
 
@@ -289,7 +295,16 @@ class ExamPrepController extends Controller
         $examId = $request->get('exam_id');
         $exam = Exam::find($examId);
 
-        return response()->json($exam->sectionsMetadata->toArray());
+        if ($exam->IsMiniExam) {
+            $sections[] = [
+                'section_number' => 1,
+                'section_name' => 'Mini-Exam',
+            ];
+        } else {
+            $sections = $exam->sectionsMetadata->toArray();
+        }
+
+        return response()->json($sections);
     }
 
     public function createArray($file)
@@ -300,41 +315,71 @@ class ExamPrepController extends Controller
         $examSource = $data[1][1];
         $examDescription = $data[2][1];
 
-        $answersTablePosition = collect($data)->collapse()->search('Section #')/13;
-        $answersTableKeys = $data[$answersTablePosition];
+        if ($examType !== 'SAT' && $examType !== 'ACT') {
+            $examFormat = $data[3][1];
+            $examTime = $data[4][1];
 
-        $data = array_slice($data, $answersTablePosition+1);
-        $scoreTablePosition = collect($data)->collapse()->search('Raw Score')/13;
-        $scoreTableKeys = $data[$scoreTablePosition];
+            $answersTablePosition = collect($data)->collapse()->search('Section #')/13;
+            $answersTableKeys = $data[$answersTablePosition];
 
-        $answersTableKeys[] = 'id';
-        $scoreTableKeys[] = 'id';
+            $data = array_slice($data, $answersTablePosition+1);
+            $numberOfQuestions = count($data);
+            $answersTableKeys[] = 'id';
 
-        for ($i = 0; $i < $scoreTablePosition; $i++) {
-            $data[$i][] = $i+1;
+            for ($i = 0; $i < $numberOfQuestions; $i++) {
+                $data[$i][] = $i+1;
+            }
+            for ($j = 0; $j < $numberOfQuestions; $j++) {
+                $d = array_combine($answersTableKeys, $data[$j]);
+                $answersArray[$j] = $d;
+            }
+
+            $examArray = [
+                'type' => $examType,
+                'source' => $examSource,
+                'description' => $examDescription,
+                'answers' => $answersArray,
+                'format' => $examFormat,
+                'time' => $examTime,
+            ];
+        } else {
+            $answersTablePosition = collect($data)->collapse()->search('Section #')/13;
+            $answersTableKeys = $data[$answersTablePosition];
+
+            $data = array_slice($data, $answersTablePosition+1);
+            $scoreTablePosition = collect($data)->collapse()->search('Raw Score')/13;
+            $scoreTableKeys = $data[$scoreTablePosition];
+
+            $answersTableKeys[] = 'id';
+            $scoreTableKeys[] = 'id';
+
+            for ($i = 0; $i < $scoreTablePosition; $i++) {
+                $data[$i][] = $i+1;
+            }
+            for ($j = 0; $j < $scoreTablePosition; $j++) {
+                $d = array_combine($answersTableKeys, $data[$j]);
+                $answersArray[$j] = $d;
+            }
+
+            $data = array_slice($data, $scoreTablePosition+1);
+
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i][] = $i+1;
+            }
+            for ($j = 0; $j < count($data); $j++) {
+                $d = array_combine($scoreTableKeys, $data[$j]);
+                $scoreArray[$j] = $d;
+            }
+
+            $examArray = [
+                'type' => $examType,
+                'source' => $examSource,
+                'description' => $examDescription,
+                'answers' => $answersArray,
+                'score' => $scoreArray,
+            ];
         }
-        for ($j = 0; $j < $scoreTablePosition; $j++) {
-            $d = array_combine($answersTableKeys, $data[$j]);
-            $answersArray[$j] = $d;
-        }
 
-        $data = array_slice($data, $scoreTablePosition+1);
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i][] = $i+1;
-        }
-        for ($j = 0; $j < count($data); $j++) {
-            $d = array_combine($scoreTableKeys, $data[$j]);
-            $scoreArray[$j] = $d;
-        }
-
-        $examArray[] = [
-            'type' => $examType,
-            'source' => $examSource,
-            'description' => $examDescription,
-            'answers' => $answersArray,
-            'score' => $scoreArray,
-        ];
 
         return $examArray;
     }
@@ -362,6 +407,12 @@ class ExamPrepController extends Controller
         $type = fgetcsv($opened_file, 0, ',')[1];
         $source = fgetcsv($opened_file, 0, ',')[1];
         $description = fgetcsv($opened_file, 0, ',')[1];
+
+        if ($type !== 'SAT' && $type !== 'ACT') {
+            $format =  fgetcsv($opened_file, 0, ',')[1];
+            $time = fgetcsv($opened_file, 0, ',')[1];
+        }
+
         $header = fgetcsv($opened_file, 0, ',');
 
         fclose($opened_file);
@@ -403,6 +454,14 @@ class ExamPrepController extends Controller
             'topic' => $this->getKeyByValue($header, 'Topic'),
             'Answer Explanation' => $this->getKeyByValue($header, 'Answer Explanation'),
         ];
+
+        if ($type !== 'SAT' && $type !== 'ACT') {
+            $validationRules['type'] = 'required|string';
+            $validationRules['format'] = 'required|string';
+            $validationRules['time'] = 'required|integer';
+            $arrayToValidate['format'] = $format;
+            $arrayToValidate['time'] = $time;
+        }
 
         $validator = Validator::make($arrayToValidate, $validationRules);
 

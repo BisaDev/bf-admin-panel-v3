@@ -36,14 +36,21 @@ class AnswerSheetController extends Controller
             $studentExam = $studentExam->first();
         }
 
-        $sectionCollection = collect($request->input('sections'));
-
-        $sectionCollection->each(function ($section) use ($studentExam) {
+        if ($exam->IsMiniExam) {
             StudentExamSection::create([
                 'student_exam_id' => $studentExam->id,
-                'section_number' => $section
+                'section_number' => 1
             ]);
-        });
+        } else {
+            $sectionCollection = collect($request->input('sections'));
+
+            $sectionCollection->each(function ($section) use ($studentExam) {
+                StudentExamSection::create([
+                    'student_exam_id' => $studentExam->id,
+                    'section_number' => $section
+                ]);
+            });
+        }
 
         $studentExamSectionId = $studentExam->sections->where('time', NULL)->first()->id;
 
@@ -55,7 +62,9 @@ class AnswerSheetController extends Controller
     {
         if ($request->session()->has('studentExam')) {
             $studentExamSection = StudentExamSection::find($studentExamSectionID);
+            $exam = Exam::find($studentExamSection->studentExam->exam_id);
             return view('students_web.student_answer_sheet', [
+                'exam' => $exam,
                 'studentExamSection' => $studentExamSection,
                 'examMetadata' => $studentExamSection->metadata,
             ]);
@@ -70,11 +79,14 @@ class AnswerSheetController extends Controller
         $section = $studentExamSection->section_number;
         $studentExam = $studentExamSection->studentExam;
         $studentExamSectionCollection = collect($studentExam->sections);
-        $examType = $studentExamSection->metadata->exam_type;
-        $scoreTable = collect(json_decode($studentExam->exam->scoreTable->score_table, true));
+        $examType = $studentExam->exam->type;
 
         $lastSection = $studentExamSectionCollection->last()->section_number;
-        $questions = $studentExamSection->metadata->questions;
+        if ($studentExam->exam->IsMiniExam) {
+            $questions = $studentExam->exam->mini_exam_questions;
+        } else {
+            $questions = $studentExamSection->metadata->questions;
+        }
 
         $numberCorrectSection = 0;
 
@@ -101,6 +113,7 @@ class AnswerSheetController extends Controller
         $studentExamSection->save();
 
         if ($examType === 'SAT') {
+            $scoreTable = collect(json_decode($studentExam->exam->scoreTable->score_table, true));
             if ($section == 1 || $section == 2) {
                 $score = $scoreTable->get($numberCorrectSection)[$studentExamSection->metadata->table_score];
                 $studentExamSection->score = $score * 10;
@@ -151,8 +164,11 @@ class AnswerSheetController extends Controller
                 }
             }
         } else if ($examType === 'ACT') {
+            $scoreTable = collect(json_decode($studentExam->exam->scoreTable->score_table, true));
             $score = $scoreTable->get($numberCorrectSection - 1)[$studentExamSection->metadata->table_score];
             $studentExamSection->score = $score;
+        } else if ($studentExam->exam->IsMiniExam) {
+            $studentExamSection->score = $numberCorrectSection;
         }
 
         $studentExamSection->save();
@@ -166,6 +182,10 @@ class AnswerSheetController extends Controller
 
             $studentExam->number_correct = $totalCorrect;
             $studentExam->time = $totalTime;
+
+            if ($studentExam->exam->IsMiniExam) {
+                $studentExam->score = $totalCorrect;
+            }
 
             if ($firstSections->count() == 4) {
                 if ($examType === 'SAT') {
@@ -241,7 +261,7 @@ class AnswerSheetController extends Controller
             $scoreByTopic = collect($scoreByTopic)->sortByDesc('score')->groupBy('id')->toArray();
 
             return view('students_web.show_results', [
-                'item' => StudentExam::find($studentExamId),
+                'studentExam' => StudentExam::find($studentExamId),
                 'topics' => $scoreByTopic
             ]);
         } else {

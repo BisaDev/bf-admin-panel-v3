@@ -65,9 +65,9 @@
                                 <td>{{ $section->studentExam->student->cohort_tag }}</td>
                                 <td>{{ $section->studentExam->exam->test_id }}</td>
                                 <td>{{ $section->section_number }}</td>
-                                <td>{{ $section->number_correct }} / {{ $section->metadata->questions }}</td>
+                                <td>{{ $section->number_correct }} / {{ $section->studentExam->exam->IsMiniExam ? $section->studentExam->exam->mini_exam_questions : $section->metadata->questions }}</td>
                                 <td>{{$section->score}}</td>
-                                <td>{{ $section->time }} / {{ $section->metadata->time_available }}</td>
+                                <td>{{ $section->time }} / {{ $section->studentExam->exam->IsMiniExam ? $section->studentExam->exam->mini_exam_time : $section->metadata->time_available }}</td>
                                 <td>
                                     <input type="checkbox" name="{{'checkbox_' . $section->id}}" value="{{$section->id}}" v-model="checkedSections">
                                 </td>
@@ -82,9 +82,9 @@
                                 <td>{{ $section->studentExam->student->cohort_tag }}</td>
                                 <td>{{ $section->studentExam->exam->test_id }}</td>
                                 <td>{{ $section->section_number }}</td>
-                                <td>{{ $section->number_correct }} / {{ $section->metadata->questions }}</td>
+                                <td>{{ $section->number_correct }} / {{ $section->studentExam->exam->IsMiniExam ? $section->studentExam->exam->mini_exam_questions : $section->metadata->questions }}</td>
                                 <td> {{$section->score}} </td>
-                                <td>{{ $section->time }} / {{ $section->metadata->time_available }}</td>
+                                <td>{{ $section->time }} / {{ $section->studentExam->exam->IsMiniExam ? $section->studentExam->exam->mini_exam_time : $section->metadata->questions }}</td>
                                 <td></td>
                             </tr>
                         @endforeach

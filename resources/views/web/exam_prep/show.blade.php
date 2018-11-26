@@ -4,12 +4,12 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => $item->test_id,
+        'pageTitle' => $exam->test_id,
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Exams', 'url' =>  route('exams.index')],
         ],
-        'currentSection' => $item->test_id,
+        'currentSection' => $exam->test_id,
     ])
 @endsection
 
@@ -31,14 +31,23 @@
                             </thead>
 
                             <tbody>
-                            @foreach($item->sectionsMetadata as $section)
+                            @if($exam->IsMiniExam)
                                 <tr>
-                                    <td>{{ $item->test_id }}</td>
-                                    <td>{{ $item->type }}</td>
-                                    <td><a href="{{ route('exams.section.show', [$item->id, $section->section_number])}}">{{ $section->section_name }}</a></td>
-                                    <td class="text-center"><a href="{{ route('exams.section.edit', [$item->id, $section->section_number])}}" class="icon icon-pencil"></a></td>
+                                    <td>{{ $exam->test_id }}</td>
+                                    <td>{{ $exam->type }}</td>
+                                    <td><a href="{{ route('exams.section.show', [$exam->id, 1])}}"> Section 1 </a></td>
+                                    <td class="text-center"><a href="{{ route('exams.section.edit', [$exam->id, 1])}}" class="icon icon-pencil"></a></td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach($exam->sectionsMetadata as $section)
+                                    <tr>
+                                        <td>{{ $exam->test_id }}</td>
+                                        <td>{{ $exam->type }}</td>
+                                        <td><a href="{{ route('exams.section.show', [$exam->id, $section->section_number])}}">{{ $section->section_name }}</a></td>
+                                        <td class="text-center"><a href="{{ route('exams.section.edit', [$exam->id, $section->section_number])}}" class="icon icon-pencil"></a></td>
+                                    </tr>
+                                @endforeach
+                            @endif
                             </tbody>
                         </table>
                     </div>

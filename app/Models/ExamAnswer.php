@@ -30,7 +30,7 @@ class ExamAnswer extends Model
     public function getAnswerResultAttribute()
     {
         $correctAnswer = $this->correctAnswer;
-        if($this->answer === strtolower($correctAnswer->correct_1) || $this->answer === $correctAnswer->correct_2 || $this->answer === $correctAnswer->correct_3 || $this->answer === $correctAnswer->correct_4 || $this->answer === $correctAnswer->correct_5 || $this->answer === $correctAnswer->correct_6 || $this->answer === $correctAnswer->correct_7 || $this->answer === $correctAnswer->correct_8 || $this->answer === $correctAnswer->correct_9) {
+        if($this->answer === strtoupper($correctAnswer->correct_1) || $this->answer === $correctAnswer->correct_2 || $this->answer === $correctAnswer->correct_3 || $this->answer === $correctAnswer->correct_4 || $this->answer === $correctAnswer->correct_5 || $this->answer === $correctAnswer->correct_6 || $this->answer === $correctAnswer->correct_7 || $this->answer === $correctAnswer->correct_8 || $this->answer === $correctAnswer->correct_9) {
             return true;
         } else {
             return false;

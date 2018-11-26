@@ -1,13 +1,13 @@
 @extends('layouts.student_master')
-@section('page_title', 'Section: ' . $examMetadata->section_name)
+@section('page_title', $exam->IsMiniExam ? $exam->test_id : 'Section: ' . $examMetadata->section_name)
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Section ' . $examMetadata->section_number . ': ' . $examMetadata->section_name,
+        'pageTitle' => $exam->IsMiniExam ? $exam->test_id : 'Section ' . $examMetadata->section_number . ': ' . $examMetadata->section_name,
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('student_dashboard')],
         ],
-        'currentSection' => 'Section ' . $examMetadata->section_number . ': ' . $examMetadata->section_name,
+        'currentSection' => $exam->IsMiniExam ? $exam->test_id : 'Section ' . $examMetadata->section_number . ': ' . $examMetadata->section_name,
     ])
 @endsection
 
@@ -19,22 +19,28 @@
 
             <div class="col-md-12 text-right">
                 <div class="h4 col-md-10 col-md-offset-1">
-                    <chronometer :available-time=" {{ $examMetadata->time_available }}"></chronometer>
+                    <chronometer :available-time=" {{ $exam->IsMiniExam ? $exam->mini_exam_time : $examMetadata->time_available }}"></chronometer>
                 </div>
             </div>
-
-            @if($examMetadata->exam_type === 'SAT')
-                <div class="col-md-10 col-md-offset-1 card-box">
-                    <div class="row">
-                        <student-answer-sheet :questions="{{ $examMetadata->questions - $examMetadata->open_questions}}" :answers="[]"></student-answer-sheet>
+            @if($exam->IsMiniExam)
+                @if($exam->mini_exam_format === 'mc-4')
+                    <div class="col-md-11 card-box">
+                        <div class="row">
+                            <student-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :answers="[]"></student-answer-sheet>
+                        </div>
                     </div>
-                </div>
-                @if($examMetadata->section_number === 3 || $examMetadata->section_number === 4)
+                @elseif($exam->mini_exam_format === 'mc-5')
+                    <div class="col-md-11 col-md-offset-1 card-box">
+                        <div class="row">
+                            <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="2" :answers="[]"></act-answer-sheet>
+                        </div>
+                    </div>
+                @elseif($exam->mini_exam_format === 'math-grid')
                     <div class="col-md-10 col-md-offset-1 card-box">
                         <div class="row">
                             <div class="container col-md-offset-1">
                                 <div class="row text-center">
-                                    @for ($i = $examMetadata->questions - $examMetadata->open_questions + 1; $i <= $examMetadata->questions; $i++)
+                                    @for ($i = 0; $i <= $exam->mini_exam_questions; $i++)
                                         @if($i%5 == 0)
                                             <div class="row text-center">
                                                 <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>
@@ -49,13 +55,39 @@
                     </div>
                 @endif
             @else
-                <div class="{{ $examMetadata->section_number === 2 ? 'col-md-11' : 'col-md-10 col-md-offset-1' }} card-box">
-                    <div class="row">
-                        <act-answer-sheet :questions="{{ $examMetadata->questions }}" :section="{{ $studentExamSection->section_number }}" :answers="[]"></act-answer-sheet>
+                @if($exam->type === 'SAT')
+                    <div class="col-md-10 col-md-offset-1 card-box">
+                        <div class="row">
+                            <student-answer-sheet :questions="{{ $examMetadata->questions - $examMetadata->open_questions}}" :answers="[]"></student-answer-sheet>
+                        </div>
                     </div>
-                </div>
+                    @if($examMetadata->section_number === 3 || $examMetadata->section_number === 4)
+                        <div class="col-md-10 col-md-offset-1 card-box">
+                            <div class="row">
+                                <div class="container col-md-offset-1">
+                                    <div class="row text-center">
+                                        @for ($i = $examMetadata->questions - $examMetadata->open_questions + 1; $i <= $examMetadata->questions; $i++)
+                                            @if($i%5 == 0)
+                                                <div class="row text-center">
+                                                    <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>
+                                                </div>
+                                            @else
+                                                <student-answer-sheet-3 :num="{{$i}}"></student-answer-sheet-3>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @elseif($exam->type === 'ACT')
+                    <div class="{{ $examMetadata->section_number === 2 ? 'col-md-11' : 'col-md-10 col-md-offset-1' }} card-box">
+                        <div class="row">
+                            <act-answer-sheet :questions="{{ $examMetadata->questions }}" :section="{{ $studentExamSection->section_number }}" :answers="[]"></act-answer-sheet>
+                        </div>
+                    </div>
+                @endif
             @endif
-
 
             <div class="row">
                 <div class="form-group col-md-10 col-md-offset-1 text-right">
