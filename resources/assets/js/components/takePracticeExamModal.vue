@@ -15,7 +15,7 @@
                 </select>
             </div>
 
-            <div v-show="examSection">
+            <div v-show="examSection && !miniExam">
                 <label class="col-md-offset-2"> Exam Section: </label> <br>
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
@@ -36,7 +36,7 @@
 
         <div class="modal-footer">
             <button type="button" v-on:click="examSection = !examSection" v-if="!examSection" class="btn btn-md btn-info">Next</button>
-            <button type="submit" v-if="examSection" class="btn btn-md btn-info">Start Exam</button>
+            <button type="submit" v-if="examSection || miniExam" class="btn btn-md btn-info">Start Exam</button>
         </div>
     </div>
 </template>
@@ -49,6 +49,7 @@
                 selected: [],
                 examType: '',
                 examSection: false,
+                miniExam: false,
                 selectedTypeSections: [],
             }
         },
@@ -72,12 +73,17 @@
             examType: function() {
                 let selectedTypeSections = [];
                 let examType = this.examType;
-                this.allSections.forEach(function (section) {
-                    if (section.exam_type === examType) {
-                        selectedTypeSections.push(section);
-                    }
-                });
-                this.selectedTypeSections = selectedTypeSections;
+                if (examType !== 'ACT' && examType !== 'SAT') {
+                    this.miniExam = true;
+                    this.examSection = true;
+                } else {
+                    this.allSections.forEach(function (section) {
+                        if (section.exam_type === examType) {
+                            selectedTypeSections.push(section);
+                        }
+                    });
+                    this.selectedTypeSections = selectedTypeSections;
+                }
             }
         }
     }

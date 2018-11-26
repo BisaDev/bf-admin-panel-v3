@@ -15,12 +15,12 @@
 @section('content')
 
     <div id="app" class="container">
-        @foreach($item->sections as $section)
+        @foreach($studentExam->sections as $section)
             <div class="row">
                 <div class="card-box col-md-12">
                     <div class="container">
                         <h3> Section {{$section->section_number}}
-                            : {{ $section->metadata->section_name }}</h3>
+                            : {{ $studentExam->exam->IsMiniExam ? $studentExam->exam->test_id : $section->metadata->section_name }}</h3>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -30,16 +30,23 @@
 
                     <div class="row container">
                         <div class="col-md-12">
-                            <p>Hi {{ $item->student->name }}, you got <strong>{{ $section->number_correct }}</strong>
-                                correct out of
-                                a possible <strong>{{ $section->metadata->questions }}</strong>
-                                on {{ $section->metadata->section_name }}. That Calculates to a score of
-                                <strong>{{ $section->score }}</strong> out of a possible
-                                <strong>{{ $section->metadata->max_score }}</strong>.</p>
-                            <p>You took {{ $section->time }} minutes out of a
-                            possible {{ $section->metadata->time_available }} minutes.</p>
-                            @if(!$section->score)
-                                <p>Note: You have to complete both Math sections in order to get a Math Score.</p>
+                            @if($studentExam->exam->IsMiniExam)
+                                <p>Hi {{ $studentExam->student->name }}, you got <strong>{{ $section->number_correct }}</strong>
+                                    correct out of a possible <strong>{{ $studentExam->exam->mini_exam_questions }}</strong>
+                                <p>You took {{ $section->time }} minutes out of a
+                                    possible {{ $studentExam->exam->mini_exam_time }} minutes.</p>
+                            @else
+                                <p>Hi {{ $studentExam->student->name }}, you got <strong>{{ $section->number_correct }}</strong>
+                                    correct out of
+                                    a possible <strong>{{ $section->metadata->questions }}</strong>
+                                    on {{ $section->metadata->section_name }}. That Calculates to a score of
+                                    <strong>{{ $section->score }}</strong> out of a possible
+                                    <strong>{{ $section->metadata->max_score }}</strong>.</p>
+                                <p>You took {{ $section->time }} minutes out of a
+                                    possible {{ $section->metadata->time_available }} minutes.</p>
+                                @if(!$section->score)
+                                    <p>Note: You have to complete both Math sections in order to get a Math Score.</p>
+                                @endif
                             @endif
                         </div>
                     </div>

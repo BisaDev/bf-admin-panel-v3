@@ -26822,6 +26822,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             selected: [],
             examType: '',
             examSection: false,
+            miniExam: false,
             selectedTypeSections: []
         };
     },
@@ -26846,12 +26847,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         examType: function examType() {
             var selectedTypeSections = [];
             var examType = this.examType;
-            this.allSections.forEach(function (section) {
-                if (section.exam_type === examType) {
-                    selectedTypeSections.push(section);
-                }
-            });
-            this.selectedTypeSections = selectedTypeSections;
+            if (examType !== 'ACT' && examType !== 'SAT') {
+                this.miniExam = true;
+                this.examSection = true;
+            } else {
+                this.allSections.forEach(function (section) {
+                    if (section.exam_type === examType) {
+                        selectedTypeSections.push(section);
+                    }
+                });
+                this.selectedTypeSections = selectedTypeSections;
+            }
         }
     }
 });
@@ -84607,8 +84613,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.examSection),
-      expression: "examSection"
+      value: (_vm.examSection && !_vm.miniExam),
+      expression: "examSection && !miniExam"
     }]
   }, [_c('label', {
     staticClass: "col-md-offset-2"
@@ -84702,7 +84708,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.examSection = !_vm.examSection
       }
     }
-  }, [_vm._v("Next")]) : _vm._e(), _vm._v(" "), (_vm.examSection) ? _c('button', {
+  }, [_vm._v("Next")]) : _vm._e(), _vm._v(" "), (_vm.examSection || _vm.miniExam) ? _c('button', {
     staticClass: "btn btn-md btn-info",
     attrs: {
       "type": "submit"

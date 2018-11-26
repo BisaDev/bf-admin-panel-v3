@@ -42,7 +42,6 @@ class Exam extends Model
 
     public function getIsMiniExamAttribute()
     {
-
         if ($this->type !== 'SAT' && $this->type !== 'ACT') {
             return true;
         } else {
