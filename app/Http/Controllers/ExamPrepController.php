@@ -121,8 +121,7 @@ class ExamPrepController extends Controller
      */
     public function show(Exam $exam)
     {
-        $item = $exam;
-        return view('web.exam_prep.show', compact('item'));
+        return view('web.exam_prep.show', compact('exam'));
     }
 
     /**
