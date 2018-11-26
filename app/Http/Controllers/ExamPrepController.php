@@ -273,8 +273,7 @@ class ExamPrepController extends Controller
             'answersByTopic' => $answersByTopic,
             'answersByQuestion' => $answersByQuestion,
             'studentExamSections' => $studentExamSections,
-            'section' => $this->sections[$studentExamSection->section_number],
-            'examId' => Exam::find($studentExamSection->studentExam->exam_id)->test_id,
+            'exam' => Exam::find($studentExamSection->studentExam->exam_id),
         ]);
     }
 
@@ -296,7 +295,16 @@ class ExamPrepController extends Controller
         $examId = $request->get('exam_id');
         $exam = Exam::find($examId);
 
-        return response()->json($exam->sectionsMetadata->toArray());
+        if ($exam->IsMiniExam) {
+            $sections[] = [
+                'section_number' => 1,
+                'section_name' => 'Mini-Exam',
+            ];
+        } else {
+            $sections = $exam->sectionsMetadata->toArray();
+        }
+
+        return response()->json($sections);
     }
 
     public function createArray($file)
