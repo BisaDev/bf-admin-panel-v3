@@ -39,4 +39,14 @@ class Exam extends Model
     {
         return $this->hasMany(ExamSectionMetadata::class, 'exam_type', 'type');
     }
+
+    public function getIsMiniExamAttribute()
+    {
+
+        if ($this->type !== 'SAT' && $this->type !== 'ACT') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

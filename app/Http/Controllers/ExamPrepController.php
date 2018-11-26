@@ -60,6 +60,12 @@ class ExamPrepController extends Controller
             'description' => $examArray['description'],
         ]);
 
+        if ($exam->IsMiniExam) {
+           $exam->mini_exam_format = $examArray['format'];
+           $exam->mini_exam_time = $examArray['time'];
+           $exam->mini_exam_questions = count($examArray['answers']);
+        }
+
         $exam->test_id = $exam->create_test_id;
         $exam->save();
 
@@ -88,15 +94,17 @@ class ExamPrepController extends Controller
             }
         }
 
-        try {
-            ExamScoreTable::create([
-                'exam_id' => $exam->id,
-                'score_table' => json_encode($examArray['score'], JSON_FORCE_OBJECT),
-            ]);
-        } catch(\Exception $error) {
-            DB::rollBack();
-            $request->session()->flash('msg', ['type' => 'danger', 'text' => 'The Exam failed to upload: ' . $error->errorInfo[2]]);
-            return redirect(route('exams.index'));
+        if (!$exam->IsMiniExam) {
+            try {
+                ExamScoreTable::create([
+                    'exam_id' => $exam->id,
+                    'score_table' => json_encode($examArray['score'], JSON_FORCE_OBJECT),
+                ]);
+            } catch(\Exception $error) {
+                DB::rollBack();
+                $request->session()->flash('msg', ['type' => 'danger', 'text' => 'The Exam failed to upload: ' . $error->errorInfo[2]]);
+                return redirect(route('exams.index'));
+            }
         }
 
         DB::commit();
