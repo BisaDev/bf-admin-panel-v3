@@ -523,10 +523,11 @@ class QuestionController extends Controller
 
             try {
                 $question = Question::create([
-                    'type' => json_encode(['key' => $type_key, 'name' => $this->types[$type_key]], JSON_FORCE_OBJECT),
+                    'type' => json_encode(['key' => strval($type_key), 'name' => $this->types[$type_key]], JSON_FORCE_OBJECT),
                     'title' => $csvQuestion['title'],
                     'topic_id' => $csvQuestion['topic_id'],
                     'user_id' => auth()->user()->id,
+                    'answer_explanation' => $csvQuestion['explanation'] ? $csvQuestion['explanation'] : NULL,
                 ]);
 
             } catch (\Exception $error) {
@@ -619,6 +620,7 @@ class QuestionController extends Controller
             'answer_4' => 'required',
             'answer_5' => 'required',
             'correct' => 'required',
+            'explanation' => 'required'
         ];
 
         $arrayToValidate = [
@@ -632,6 +634,7 @@ class QuestionController extends Controller
             'answer_4' => $this->getKeyByValue($header, 'answer_4'),
             'answer_5' => $this->getKeyByValue($header, 'answer_5'),
             'correct' => $this->getKeyByValue($header, 'correct'),
+            'explanation' => $this->getKeyByValue($header, 'explanation'),
         ];
 
         $validator = Validator::make($arrayToValidate, $validationRules);

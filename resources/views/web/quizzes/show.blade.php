@@ -92,6 +92,14 @@
                                         @endforeach
                                     </div>
                                 </div>
+                                @if($question->answer_explanation || $question->answer_explanation_photo)
+                                    <div class="row">
+                                        <div class="col-sm-6 m-t-15">
+                                            <label class="control-label">Answer Explanation: </label>
+                                            <span><a href="#" data-toggle="modal" data-target="{{'#answerExplanationModal_' . $key}}"><i class="ti-info-alt m-l-5"></i></a></span>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="row answer-list m-t-10">
                                     @foreach($question->answers as $answer)
                                     <div class="col-lg-3 col-sm-6 text-center answer-item">
@@ -105,7 +113,30 @@
                                     @endforeach
                                 </div>
                             </li>
-                        @endforeach
+                                <div class="modal fade" id="{{ 'answerExplanationModal_' . $key }}" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Answer Explanation</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if($question->answer_explanation)
+                                                    <p>{{$question->answer_explanation}}</p>
+                                                @endif
+                                                @if($question->answer_explanation_photo)
+                                                    <img src="{{ $question->answer_explanation_photo }}" class="img-responsive center-block">
+                                                @endif
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </ol>
                     </div>
                 </div>
