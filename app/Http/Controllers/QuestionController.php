@@ -179,6 +179,11 @@ class QuestionController extends Controller
             'user_id' => auth()->user()->id
         ]);
 
+        if ($request->has('answer_explanation') && $request->input('answer_explanation') != '') {
+            $question->answer_explanation = $request->input('answer_explanation');
+            $question->save();
+        }
+
         if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
             $image_width = $this->question_type_resize($question_type);
 
@@ -193,6 +198,15 @@ class QuestionController extends Controller
 
             $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, $image_height);
 
+            $question->save();
+        }
+
+        if ($request->has('answer_explanation_photo_cropped') && $request->input('answer_explanation_photo_cropped') != '') {
+            $image_size = getimagesize($request->input('answer_explanation_photo_cropped'));
+            $image_width = $image_size[0];
+            $image_height = $image_size[1];
+
+            $question->answer_explanation_photo = $this->createAndSavePhoto($request->input('answer_explanation_photo_cropped'), Question::PHOTO_PATH, $image_width, $image_height);
             $question->save();
         }
 
@@ -289,6 +303,11 @@ class QuestionController extends Controller
         $question->title = $request->input('title');
         $question->topic_id = $request->input('topic');
         $question->save();
+
+        if ($request->has('answer_explanation') && $request->input('answer_explanation') != '') {
+            $question->answer_explanation = $request->input('answer_explanation');
+            $question->save();
+        }
     
         if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
             if (!is_null($question->getOriginal('photo')) || $question->getOriginal('photo') != '') {
@@ -310,6 +329,15 @@ class QuestionController extends Controller
             $image_height = $image_size[1];
 
             $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, $image_height);
+            $question->save();
+        }
+
+        if ($request->has('answer_explanation_photo_cropped') && $request->input('answer_explanation_photo_cropped') != '') {
+            $image_size = getimagesize($request->input('answer_explanation_photo_cropped'));
+            $image_width = $image_size[0];
+            $image_height = $image_size[1];
+
+            $question->answer_explanation_photo = $this->createAndSavePhoto($request->input('answer_explanation_photo_cropped'), Question::PHOTO_PATH, $image_width, $image_height);
             $question->save();
         }
 
@@ -495,10 +523,11 @@ class QuestionController extends Controller
 
             try {
                 $question = Question::create([
-                    'type' => json_encode(['key' => $type_key, 'name' => $this->types[$type_key]], JSON_FORCE_OBJECT),
+                    'type' => json_encode(['key' => strval($type_key), 'name' => $this->types[$type_key]], JSON_FORCE_OBJECT),
                     'title' => $csvQuestion['title'],
                     'topic_id' => $csvQuestion['topic_id'],
                     'user_id' => auth()->user()->id,
+                    'answer_explanation' => $csvQuestion['explanation'] ? $csvQuestion['explanation'] : NULL,
                 ]);
 
             } catch (\Exception $error) {
@@ -591,6 +620,7 @@ class QuestionController extends Controller
             'answer_4' => 'required',
             'answer_5' => 'required',
             'correct' => 'required',
+            'explanation' => 'required'
         ];
 
         $arrayToValidate = [
@@ -604,6 +634,7 @@ class QuestionController extends Controller
             'answer_4' => $this->getKeyByValue($header, 'answer_4'),
             'answer_5' => $this->getKeyByValue($header, 'answer_5'),
             'correct' => $this->getKeyByValue($header, 'correct'),
+            'explanation' => $this->getKeyByValue($header, 'explanation'),
         ];
 
         $validator = Validator::make($arrayToValidate, $validationRules);

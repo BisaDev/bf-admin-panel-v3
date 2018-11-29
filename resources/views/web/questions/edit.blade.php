@@ -161,6 +161,27 @@
                         @include('partials.add-answers-drag-drop')
                     </div>
 
+                    <div class="row form-group" v-if="type === '0' || type === '7'">
+                        <div class="col-md-6">
+                            <label class="control-label" for="answer_explanation">Answer Explanation</label>
+                            <textarea class="form-control" name="answer_explanation" placeholder="Answer Explanation">{{ $item->answer_explanation }}</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label" for="other_photo">Answer Explanation Image</label>
+                            @if($item->answer_explanation_photo != '')
+                                <div class="col-md-12 m-b-10">
+                                    <img src="{{ $item->answer_explanation_photo }}" class="img-responsive center-block">
+                                </div>
+                            @endif
+                            <div class="droppable droppable-small">
+                                <span v-if="!answer_explanation_photo">Drag an image or click to browse</span>
+                                <img v-else :src="answer_explanation_photo"/>
+                                <input name="answer_explanation_photo" type="file" @change="uploadAnswerExplanationImage($event)">
+                                <input type="hidden" name="answer_explanation_photo_cropped" :value="answer_explanation_photo">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="form-group col-md-12 text-right">
                             <a href="{{ route('questions.index') }}" class="btn btn-md btn-info">Cancel</a>

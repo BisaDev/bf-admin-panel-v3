@@ -27279,6 +27279,7 @@ if (token) {
                 type_has_canvas: false,
                 equationImageShow: true,
                 type_shows_answers: true,
+                answer_explanation_photo: '',
                 type_answer_has_additional_data: false
             },
             mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_cropImages__["a" /* default */]],
@@ -27345,6 +27346,16 @@ if (token) {
                     var fileReader = new FileReader();
                     fileReader.onload = function (loadEvent) {
                         _this.other_photo = loadEvent.target.result;
+                    };
+                    fileReader.readAsDataURL(input.files[0]);
+                },
+                uploadAnswerExplanationImage: function uploadAnswerExplanationImage(e) {
+                    var _this2 = this;
+
+                    var input = e.target;
+                    var fileReader = new FileReader();
+                    fileReader.onload = function (loadEvent) {
+                        _this2.answer_explanation_photo = loadEvent.target.result;
                     };
                     fileReader.readAsDataURL(input.files[0]);
                 },

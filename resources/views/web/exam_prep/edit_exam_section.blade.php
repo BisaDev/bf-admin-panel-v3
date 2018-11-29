@@ -70,7 +70,7 @@
                             <div class="row question-number">{{$i}}</div>
                             @for($j = 1; $j <= 9; $j++)
                                 <div class="col-md-1 edit">
-                                    @if($i == $exam->mini_exam_questions + 1)
+                                    @if($i === 1)
                                         <label class="label-edit">Correct {{$j}}</label>
                                     @endif
                                     <input class="form-control" type="text" name="question_{{$i}}[]"

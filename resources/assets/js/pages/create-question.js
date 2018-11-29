@@ -32,6 +32,7 @@ export default {
                 type_has_canvas: false,
                 equationImageShow: true,
                 type_shows_answers: true,
+                answer_explanation_photo: '',
                 type_answer_has_additional_data: false,
             },
             mixins: [getAcademicContent, imagePreview, tagRepository, cropImages],
@@ -96,6 +97,15 @@ export default {
                     var fileReader = new FileReader();
                     fileReader.onload = (loadEvent) => {
                         this.other_photo = (loadEvent.target.result);
+                    };
+                    fileReader.readAsDataURL(input.files[0]);
+                },
+
+                uploadAnswerExplanationImage(e) {
+                    var input = e.target;
+                    var fileReader = new FileReader();
+                    fileReader.onload = (loadEvent) => {
+                        this.answer_explanation_photo = (loadEvent.target.result);
                     };
                     fileReader.readAsDataURL(input.files[0]);
                 },

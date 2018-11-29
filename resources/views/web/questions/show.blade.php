@@ -79,10 +79,17 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-8">
                         <label class="control-label">Created by:</label>
                         <p>{{ ($item->user)? $item->user->full_name : '' }}</p>
                     </div>
+                    @if($item->answer_explanation || $item->answer_explanation_photo)
+                        <div class="col-sm-4">
+                            <label class="control-label">Answer Explanation </label>
+                            <p><a href="#" data-toggle="modal" data-target="#answerExplanationModal"><i
+                                            class="ti-info-alt"></i></a></p>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="row">
@@ -108,6 +115,30 @@
                             </div>
                         </div>
                     @endforeach
+                </div>
+
+                <div class="modal fade" id="answerExplanationModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Answer Explanation</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                @if($item->answer_explanation)
+                                    <p>{{$item->answer_explanation}}</p>
+                                @endif
+                                @if($item->answer_explanation_photo)
+                                    <img src="{{ $item->answer_explanation_photo }}" class="img-responsive center-block">
+                                @endif
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">

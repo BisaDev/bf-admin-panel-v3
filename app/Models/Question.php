@@ -30,7 +30,7 @@ class Question extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'image', 'type', 'topic_id', 'user_id'
+        'title', 'image', 'type', 'topic_id', 'user_id', 'answer_explanation', 'answer_explanation_photo'
     ];
 
     /**
@@ -60,6 +60,14 @@ class Question extends Model
     }
 
     public function getOtherPhotoAttribute($value)
+    {
+        if (!$value || $value == '') {
+            return $value;
+        }
+        return asset(self::PHOTO_PATH . $value);
+    }
+
+    public function getAnswerExplanationPhotoAttribute($value)
     {
         if (!$value || $value == '') {
             return $value;
