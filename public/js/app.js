@@ -26540,13 +26540,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['question', 'section', 'url', 'correct-answer', 'section-id'],
+    props: ['question', 'section', 'url', 'correct-answer', 'section-id', 'answer-background'],
     data: function data() {
         return {
             understood: 0,
@@ -85917,7 +85913,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.answer ? this.question.answer.toUpperCase() : ''))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1.toUpperCase()))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.question.guessed ? 'Guessed' : '-'))]), _vm._v(" "), (this.question.answer === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [_vm._m(0), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_c('span', {
+  return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1.toUpperCase()))]), _vm._v(" "), _c('td', {
+    class: _vm.answerBackground
+  }, [_vm._v(_vm._s(this.question.answer ? this.question.answer.toUpperCase() : ''))]), _vm._v(" "), (this.question.answer === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [(_vm.questionUnderstood) ? _c('td', [_c('span', {
     staticClass: "badge badge-pill badge-success"
   }, [_c('i', {
     staticClass: "ti-check",
@@ -85957,7 +85955,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  })])] : [_vm._m(1), _vm._v(" "), (_vm.questionUnderstood) ? _c('td', [_c('span', {
+  })])] : [(_vm.questionUnderstood) ? _c('td', [_c('span', {
     staticClass: "badge badge-pill badge-success"
   }, [_c('i', {
     staticClass: "ti-check",
@@ -85997,7 +85995,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  })])], _vm._v(" "), _c('td', {
+  })])], _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.topic))]), _vm._v(" "), _c('td', {
     attrs: {
       "data-toggle": "tooltip",
       "title": "Answer Explanation"
@@ -86011,15 +86009,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "ti-info-alt"
   })])])], 2)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', [_c('span', {
-    staticClass: "badge badge-success"
-  }, [_vm._v("Correct")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', [_c('span', {
-    staticClass: "badge badge-danger"
-  }, [_vm._v("Incorrect")])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
