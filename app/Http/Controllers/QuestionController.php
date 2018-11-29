@@ -179,6 +179,11 @@ class QuestionController extends Controller
             'user_id' => auth()->user()->id
         ]);
 
+        if ($request->has('answer_explanation') && $request->input('answer_explanation') != '') {
+            $question->answer_explanation = $request->input('answer_explanation');
+            $question->save();
+        }
+
         if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
             $image_width = $this->question_type_resize($question_type);
 
@@ -193,6 +198,15 @@ class QuestionController extends Controller
 
             $question->other_photo = $this->createAndSavePhoto($request->input('other_photo_cropped'), Question::PHOTO_PATH, $image_width, $image_height);
 
+            $question->save();
+        }
+
+        if ($request->has('answer_explanation_photo_cropped') && $request->input('answer_explanation_photo_cropped') != '') {
+            $image_size = getimagesize($request->input('answer_explanation_photo_cropped'));
+            $image_width = $image_size[0];
+            $image_height = $image_size[1];
+
+            $question->answer_explanation_photo = $this->createAndSavePhoto($request->input('answer_explanation_photo_cropped'), Question::PHOTO_PATH, $image_width, $image_height);
             $question->save();
         }
 
