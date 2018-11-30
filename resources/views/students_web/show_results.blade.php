@@ -79,16 +79,25 @@
                     </div>
 
                     <div class="row">
+                        <div class="text-center m-b-15">
+                            <span class="badge right badge-legend">Right</span>
+                            <span class="badge wrong badge-legend">Wrong</span>
+                            <span class="badge guessed-wrong badge-legend">Guessed-Wrong</span>
+                            <span class="badge wrong-understood badge-legend">Wrong-Understood</span>
+                            <span class="badge guessed-right badge-legend">Guessed-Right</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-12">
                             <table class="table table-responsive table-hover model-list text-center">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Question</th>
-                                    <th class="text-center">Your Answer</th>
                                     <th class="text-center">Correct Answer</th>
-                                    <th class="text-center">Guessed Answer</th>
-                                    <th class="text-center">Correct / Incorrect</th>
+                                    <th class="text-center">Your Answer</th>
                                     <th class="text-center">I get it now</th>
+                                    <th class="text-center">Topic</th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 </thead>
@@ -97,7 +106,8 @@
                                     <tr is="show-results-table" :question="{{$question}}"
                                         :section="{{$section->section_number}}" :section-id="{{$section->id}}"
                                         :url=`{{route('answer_sheet.edit_understood', $section->id)}}`
-                                        :correct-answer="{{$question->correctAnswer}}"></tr>
+                                        :correct-answer="{{$question->correctAnswer}}"
+                                        :answer-background=`{{$question->BackgroundForReport}}`></tr>
 
                                     <div class="modal fade" id="answerExplanationModal_{{$question->id}}" tabindex="-1" role="dialog">
                                         <div class="modal-dialog modal-lg" role="document">
