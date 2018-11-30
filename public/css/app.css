@@ -28600,22 +28600,21 @@ table.model-list td img {
   text-align: center;
 }
 .guessed-wrong {
-  color: #797979;
   background-color: #DAA3A3;
 }
 .guessed-right {
-  color: #797979;
   background-color: #F9AE71;
 }
 .wrong-understood {
-  color: #797979;
   background-color: #F5E79E;
 }
 .right {
-  color: #797979;
   background-color: #B2DBA1;
 }
 .wrong {
-  color: #797979;
   background-color: #f2dede;
+}
+.badge-legend {
+  color: #000000;
+  padding: 5px 10px;
 }
