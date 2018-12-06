@@ -131,7 +131,9 @@
                                     <label class="control-label" for="title">Equation Image</label>
                                 @endif
                                 <div class="col-xs-12 m-b-10 text-center">
-                                    <img src="{{ $item->other_photo }}" class="img-responsive center-block">
+                                    <img v-show="!delete_other_photo" src="{{ $item->other_photo }}" class="img-responsive center-block">
+                                    <button v-show="!delete_other_photo" type="button" class="btn btn-mid btn-danger" @click="confirmDelete('other_photo')">Delete Image</button>
+                                    <input type="hidden" name="delete_other_photo" :value="delete_other_photo">
                                 </div>
                                 <div class="droppable droppable-small">
                                     <span v-if="!other_photo">Drag an image or click to browse</span>
@@ -167,7 +169,7 @@
                             <textarea class="form-control" name="answer_explanation" placeholder="Answer Explanation">{{ $item->answer_explanation }}</textarea>
                         </div>
                         <div class="col-md-6">
-                            <label class="control-label" for="other_photo">Answer Explanation Image</label>
+                            <label class="control-label" for="answer_explanation_photo">Answer Explanation Image</label>
                             @if($item->answer_explanation_photo != '')
                                 <div class="col-md-12 m-b-10">
                                     <img src="{{ $item->answer_explanation_photo }}" class="img-responsive center-block">

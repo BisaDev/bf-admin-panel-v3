@@ -5,6 +5,7 @@ import cropImages from './mixins/cropImages';
 import {
     fabric
 } from 'fabric'
+import swal from "sweetalert2";
 
 export default {
     init() {
@@ -27,6 +28,7 @@ export default {
                 photo: '',
                 other_photo: '',
                 canvas_bg: '',
+                delete_other_photo: false,
                 number_of_answers_allowed: 4,
                 allows_answers: false,
                 type_has_canvas: false,
@@ -271,6 +273,29 @@ export default {
                 },
                 trimAnswer(index) {
                     this.children[index].name = this.children[index].name.substring(0, 50);
+                },
+                confirmDelete(imageType){
+                    let vue_instance = this;
+
+                    let confirmation_text = "This action can't be undone. ";
+                    swal({
+                        title: 'Are you sure?',
+                        text: confirmation_text,
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#23527c',
+                        cancelButtonColor: '#f05050',
+                        confirmButtonText: 'Delete'
+                    }).then(function () {
+                        if (imageType == 'other_photo') {
+                            vue_instance.delete_other_photo = true;
+                        }
+                    }, function (dismiss) {
+
+                        if (dismiss === 'cancel') {
+
+                        }
+                    });
                 },
             },
             mounted() {

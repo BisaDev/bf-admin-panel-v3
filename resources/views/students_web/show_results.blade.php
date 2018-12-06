@@ -83,7 +83,7 @@
                             <span class="badge right badge-legend">Right</span>
                             <span class="badge wrong badge-legend">Wrong</span>
                             <span class="badge guessed-wrong badge-legend">Guessed-Wrong</span>
-                            <span class="badge wrong-understood badge-legend">Wrong-Understood</span>
+                            <span class="badge wrong-understood badge-legend">Wrong-I get it now</span>
                             <span class="badge guessed-right badge-legend">Guessed-Right</span>
                         </div>
                     </div>
