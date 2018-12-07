@@ -35,67 +35,72 @@
                     <a href="{{ route('meetups.index').'?start_of_week='.$start_of_week->copy()->addWeek()->format('Y-m-d') }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="btn btn-sm btn-info navbar-btn btn-block">Next week &#187;</a>
                 </div>
             </div>
-            <div class="row calendar-nav">
-                <div class="col-xs-12">
-                    <form class="form-inline" action="{{ route('meetups.filter') }}{{ (Request::getQueryString())? '?'.Request::getQueryString() : '' }}" method="POST">
-                        {{ csrf_field() }}
-                        
-                        <div class="form-group">
-                            <select id="location" name="location" class="form-control">
-                                <option value="">Select Location</option>
-                                @foreach($locations as $location)
-                                <option value="{{ $location->id }}" {{ (array_key_exists('location', $filters) && $filters['location'] == $location->id)? 'selected' : '' }}>{{ $location->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="go_to_week" class="form-control datepicker-general" placeholder="Go to week">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Filter</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
             <div class="row">
-                @foreach($meetups_by_date as $date)
-                <div class="col-md-2 col-md-custom">
-                    <div class="clearfix weekday-title">
-                        <small>{{ $date['date']->format('m/d/Y') }}</small>
-                        <h3 class="m-b-15">{{ $date['date']->format('l') }}</h3>
-                    </div>
-                    @if(array_key_exists('meetups', $date))
-                    <div class="row">
-                        @foreach($date['meetups'] as $meetup)
-                        <div class="col-xs-12 col-sm-4 col-md-12">
-                            <div class="panel panel-border panel-primary">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ ($meetup->room)? $meetup->room->location->name : '' }}</a></h3>
-                                    <p class="panel-subtitle">{{ ($meetup->room)? $meetup->room->name : '' }}</p>
-                                    <span class="status"><small>{{ $meetup->status->name }}</small></span>
-                                </div>
-                                <div class="panel-body">
-                                    @if(!is_null($meetup->activity_bucket))
-                                    <p class="meetup-title">{{ $meetup->activity_bucket->title }}</p>
-                                    <p>{{ ($meetup->activity_bucket)? $meetup->activity_bucket->subject->grade_level->name : ''}}, {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }}</p>
-                                    @endif
-                                    <p class="m-t-0">{{ ($meetup->user)? $meetup->user->full_name : '' }}</p>
-                                    <p class="m-t-0"><small>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</small></p>
-                                    <a href="{{ route('meetups.attendance', $meetup->id) }}" class="icon icon-user pull-right m-l-15"></a>
-                                    <a href="" @click="confirmDelete({{ $meetup->id }}, 0, $event)" class="icon icon-trash pull-right m-l-15"></a>
-                                        <form id="delete-form-{{ $meetup->id }}" action="{{ route('meetups.destroy', $meetup->id) }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                            {{ method_field('delete') }}
-                                        </form>
-                                    <a href="{{ route('meetups.edit', $meetup->id) }}" class="icon icon-pencil pull-right"></a>
+                <div class="col-md-10">
+                    @foreach($meetups_by_date as $date)
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="clearfix weekday-title">
+                                    <small>{{ $date['date']->format('m/d/Y') }}</small>
+                                    <h3 class="m-b-15">{{ $date['date']->format('l') }}</h3>
                                 </div>
                             </div>
+                            @if(array_key_exists('meetups', $date))
+                                <div class="col-md-9">
+                                    @foreach($date['meetups'] as $meetup)
+                                        <div class="col-md-4">
+                                            <div class="panel panel-border panel-primary">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ ($meetup->room)? $meetup->room->location->name : '' }}</a></h3>
+                                                    <p class="panel-subtitle">{{ ($meetup->room)? $meetup->room->name : '' }}</p>
+                                                    <span class="status"><small>{{ $meetup->status->name }}</small></span>
+                                                </div>
+                                                <div class="panel-body">
+                                                    @if(!is_null($meetup->activity_bucket))
+                                                        <p class="meetup-title">{{ $meetup->activity_bucket->title }}</p>
+                                                        <p>{{ ($meetup->activity_bucket)? $meetup->activity_bucket->subject->grade_level->name : ''}}, {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }}</p>
+                                                    @endif
+                                                    <p class="m-t-0">{{ ($meetup->user)? $meetup->user->full_name : '' }}</p>
+                                                    <p class="m-t-0"><small>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</small></p>
+                                                    <a href="{{ route('meetups.attendance', $meetup->id) }}" class="icon icon-user pull-right m-l-15"></a>
+                                                    <a href="" @click="confirmDelete({{ $meetup->id }}, 0, $event)" class="icon icon-trash pull-right m-l-15"></a>
+                                                    <form id="delete-form-{{ $meetup->id }}" action="{{ route('meetups.destroy', $meetup->id) }}" method="POST" style="display: none;">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('delete') }}
+                                                    </form>
+                                                    <a href="{{ route('meetups.edit', $meetup->id) }}" class="icon icon-pencil pull-right"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
-                        @endforeach
-                    </div>
-                    @endif
+                    @endforeach
                 </div>
-                @endforeach
+                <div class="col-md-2">
+                        <form action="{{ route('meetups.filter') }}{{ (Request::getQueryString())? '?'.Request::getQueryString() : '' }}" method="POST">
+                            {{ csrf_field() }}
+                            <div class="row calendar-nav">
+                                <select id="location" name="location" class="form-control">
+                                    <option value="">Select Location</option>
+                                    @foreach($locations as $location)
+                                        <option value="{{ $location->id }}" {{ (array_key_exists('location', $filters) && $filters['location'] == $location->id)? 'selected' : '' }}>{{ $location->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <input type="text" name="go_to_week" class="form-control datepicker-general" placeholder="Go to week">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                </div>
+                            </div>
+                        </form>
+                </div>
             </div>
         </div>
     </div>

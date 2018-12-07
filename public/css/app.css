@@ -28060,6 +28060,9 @@ img.img-responsive {
   padding: 6px;
   background: #FFF;
 }
+#calendar .weekday-title {
+  padding-top: 50%;
+}
 #calendar .weekday-title h3 {
   margin-top: 0;
 }
