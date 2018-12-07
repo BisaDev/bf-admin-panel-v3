@@ -523,7 +523,7 @@ class QuestionController extends Controller
         $questionsArray = $this->createArray(storage_path('app/' . $path));
         DB::beginTransaction();
 
-        foreach ($questionsArray as $csvQuestion) {
+        foreach ($questionsArray as $key => $csvQuestion) {
             $type_key = $this->getQuestionTypeKey($csvQuestion['type']);
 
             try {
@@ -537,8 +537,10 @@ class QuestionController extends Controller
 
             } catch (\Exception $error) {
                 DB::rollBack();
+                $csvErrorLine = $key+1;
+                $customErrorMessage = 'Please check line ' . $csvErrorLine . ' of your CSV, with title: ' . $csvQuestion['title'];
                 $request->session()->flash('msg', ['type' => 'danger', 'text' => 'Something went wrong, please check your CSV File']);
-                return redirect(route('questions.csv_importer'));
+                return redirect(route('questions.csv_importer'))->withErrors([$customErrorMessage]);
             }
 
             for ($i = 1; $i < 6; $i++){
@@ -551,8 +553,10 @@ class QuestionController extends Controller
                         ]);
                     } catch (\Exception $error) {
                         DB::rollBack();
+                        $csvErrorLine = $key+1;
+                        $customErrorMessage = 'Please check line ' . $csvErrorLine . ' of your CSV, with title: ' . $csvQuestion['title'];
                         $request->session()->flash('msg', ['type' => 'danger', 'text' => 'Something went wrong, please check your CSV File']);
-                        return redirect(route('questions.csv_importer'))->back();
+                        return redirect(route('questions.csv_importer'))->withErrors([$customErrorMessage]);
                     }
                 }
             }
