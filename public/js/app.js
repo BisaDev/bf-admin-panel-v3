@@ -27243,6 +27243,9 @@ if (token) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_cropImages__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_fabric__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_fabric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_fabric__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_sweetalert2__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_sweetalert2__);
+
 
 
 
@@ -27270,6 +27273,7 @@ if (token) {
                 photo: '',
                 other_photo: '',
                 canvas_bg: '',
+                delete_other_photo: false,
                 number_of_answers_allowed: 4,
                 allows_answers: false,
                 type_has_canvas: false,
@@ -27522,6 +27526,27 @@ if (token) {
                 },
                 trimAnswer: function trimAnswer(index) {
                     this.children[index].name = this.children[index].name.substring(0, 50);
+                },
+                confirmDelete: function confirmDelete(imageType) {
+                    var vue_instance = this;
+
+                    var confirmation_text = "This action can't be undone. ";
+                    __WEBPACK_IMPORTED_MODULE_5_sweetalert2___default()({
+                        title: 'Are you sure?',
+                        text: confirmation_text,
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#23527c',
+                        cancelButtonColor: '#f05050',
+                        confirmButtonText: 'Delete'
+                    }).then(function () {
+                        if (imageType == 'other_photo') {
+                            vue_instance.delete_other_photo = true;
+                        }
+                    }, function (dismiss) {
+
+                        if (dismiss === 'cancel') {}
+                    });
                 }
             },
             mounted: function mounted() {
