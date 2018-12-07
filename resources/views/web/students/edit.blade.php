@@ -181,7 +181,7 @@
                     <div class="row">
                         <div class="form-group col-md-6 {{ $errors->has('current_classes')? 'has-error' : '' }}">
                             <label class="control-label" for="current_classes">Current Classes at School:</label>
-                            <textarea name="current_classes" class="form-control">{{ old('current_classes', $item->current_classes) }}</textarea>
+                            <input type="text" name="current_classes" class="form-control" value="{{ old('current_classes', $item->current_classes) }}" maxlength="50">
                             @if($errors->has('current_classes'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('current_classes') }}</strong>
@@ -191,7 +191,7 @@
 
                         <div class="form-group col-md-6 {{ $errors->has('previous_classes')? 'has-error' : '' }}">
                             <label class="control-label" for="previous_classes">Previous Classes at School:</label>
-                            <textarea name="previous_classes" class="form-control">{{ old('previous_classes', $item->previous_classes) }}</textarea>
+                            <input type="text" name="previous_classes" class="form-control" value="{{ old('previous_classes', $item->previous_classes) }}" maxlength="50">
                             @if($errors->has('previous_classes'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('previous_classes') }}</strong>
