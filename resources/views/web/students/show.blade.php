@@ -104,6 +104,17 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-xs-6">
+                        <label>Current Classes at School</label>
+                        <p>{{ (!is_null($item->current_classes) ? $item->current_classes : 'N/A') }}</p>
+                    </div>
+                    <div class="col-xs-6">
+                        <label>Previous Classes at School</label>
+                        <p>{{ (!is_null($item->previous_classes) ? $item->previous_classes : 'N/A') }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-sm-12">
                         <hr/>
                     </div>

@@ -183,6 +183,28 @@
                     </div>
 
                     <div class="row">
+                        <div class="form-group col-md-6 {{ $errors->has('current_classes')? 'has-error' : '' }}">
+                            <label class="control-label" for="current_classes">Current Classes at School:</label>
+                            <textarea name="current_classes" class="form-control">{{ old('current_classes') }}</textarea>
+                            @if($errors->has('current_classes'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('current_classes') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group col-md-6 {{ $errors->has('previous_classes')? 'has-error' : '' }}">
+                            <label class="control-label" for="previous_classes">Previous Classes at School:</label>
+                            <textarea name="previous_classes" class="form-control">{{ old('previous_classes') }}</textarea>
+                            @if($errors->has('previous_classes'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('previous_classes') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="form-group col-md-6">
                             <label class="control-label" >Add Student User</label>
                             <input type="checkbox" name="add_user" v-model="studentUserShow" data-old="{{ old('add_user') }}" data-plugin="switchery" data-color="#FC7044" data-size="small"/>

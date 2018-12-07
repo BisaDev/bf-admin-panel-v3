@@ -94,7 +94,9 @@ class StudentController extends Controller
             'current_school' => $request->input('current_school'),
             'teacher' => $request->input('teacher'),
             'former_school' => $request->input('former_school'),
-            'location_id' => $request->input('location')
+            'location_id' => $request->input('location'),
+            'current_classes' => $request->input('current_classes'),
+            'previous_classes' => $request->input('previous_classes'),
         ]);
 
         if ($request->hasFile('photo')) {
@@ -214,6 +216,8 @@ class StudentController extends Controller
         $student->teacher = $request->input('teacher');
         $student->former_school = $request->input('former_school');
         $student->location_id = $request->input('location');
+        $student->current_classes = $request->input('current_classes');
+        $student->previous_classes = $request->input('previous_classes');
         $student->save();
 
         if ($request->hasFile('photo')) {
