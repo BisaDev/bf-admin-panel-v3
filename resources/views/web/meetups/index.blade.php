@@ -41,15 +41,15 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="clearfix weekday-title">
+                                    <h3>{{ $date['date']->format('l') }}</h3>
                                     <small>{{ $date['date']->format('m/d/Y') }}</small>
-                                    <h3 class="m-b-15">{{ $date['date']->format('l') }}</h3>
                                 </div>
                             </div>
                             @if(array_key_exists('meetups', $date))
                                 <div class="col-md-9">
                                     @foreach($date['meetups'] as $meetup)
                                         <div class="col-md-4">
-                                            <div class="panel panel-border panel-primary">
+                                            <div class="panel panel-border panel-info">
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ ($meetup->room)? $meetup->room->location->name : '' }}</a></h3>
                                                     <p class="panel-subtitle">{{ ($meetup->room)? $meetup->room->name : '' }}</p>
@@ -96,7 +96,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                    <button type="submit" class="btn btn-info">Filter</button>
                                 </div>
                             </div>
                         </form>

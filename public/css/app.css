@@ -28064,7 +28064,9 @@ img.img-responsive {
   padding-top: 50%;
 }
 #calendar .weekday-title h3 {
-  margin-top: 0;
+  color: #336ca2;
+  margin-bottom: 0;
+  font-weight: 600;
 }
 #calendar .weekday-title small {
   color: #98a6ad;
