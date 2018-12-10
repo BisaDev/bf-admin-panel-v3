@@ -23,14 +23,20 @@
                 </div>
             </div>
             @if($exam->IsMiniExam)
-                @if($exam->mini_exam_format === 'mc-4')
+                @if($exam->mini_exam_format === 'mc-4-ABCD')
                     <div class="col-md-11 card-box">
                         <div class="row">
                             <student-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :answers="[]"></student-answer-sheet>
                         </div>
                     </div>
-                @elseif($exam->mini_exam_format === 'mc-5')
-                    <div class="col-md-11 col-md-offset-1 card-box">
+                @elseif($exam->mini_exam_format === 'mc-4-FGHJ')
+                    <div class="col-md-10 col-md-offset-1 card-box">
+                        <div class="row">
+                            <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="1" :answers="[]"></act-answer-sheet>
+                        </div>
+                    </div>
+                @elseif($exam->mini_exam_format === 'mc-5-FGHJ')
+                    <div class="col-md-11 card-box">
                         <div class="row">
                             <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="2" :answers="[]"></act-answer-sheet>
                         </div>
