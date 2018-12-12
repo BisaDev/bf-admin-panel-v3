@@ -54,13 +54,13 @@
             <table class="table table-responsive table-bordered table-hover model-list text-center">
                 <thead>
                     <tr>
-                        <th class="text-center">Question</th>
+                        <th class="text-center">Question <a href="{{ route('exams.generate_report', $requestData).'&sort_column=question_number&sort_value='.$sort_columns['question_number'] }}" class="fa fa-sort"></a></th>
                         <th class="text-center">Correct Answer</th>
-                        <th class="text-center">% Correct</th>
+                        <th class="text-center">% Correct <a href="{{ route('exams.generate_report', $requestData).'&sort_column=score&sort_value='.$sort_columns['score'] }}" class="fa fa-sort"></a></th>
                         @foreach($studentExamSections as $studentExamSection)
                             <th class="text-center">{{$studentExamSection->studentExam->student->name}}</th>
                         @endforeach
-                        <th class="text-center">Topic</th>
+                        <th class="text-center">Topic <a href="{{ route('exams.generate_report', $requestData).'&sort_column=topic&sort_value='.$sort_columns['topic'] }}" class="fa fa-sort"></a></th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
