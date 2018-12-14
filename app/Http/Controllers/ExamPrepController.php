@@ -274,7 +274,7 @@ class ExamPrepController extends Controller
             'score' => 'asc',
             'topic' => 'asc',
         ];
-//
+
         $sort = ['column' => 'created_at', 'value' => 'desc'];
         if ($request->has('sort_column')) {
             $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
