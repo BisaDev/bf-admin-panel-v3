@@ -28,7 +28,7 @@ class MeetupController extends Controller
 
         $meetups_by_date = [];
         $end_of_week = $start_of_week->copy();
-        while ($end_of_week->format('l') != 'Saturday') {
+        while (count($meetups_by_date) < 7) {
             $meetups_by_date[$end_of_week->format('Y-m-d')] = [
                 'date' => $end_of_week->copy()
             ];

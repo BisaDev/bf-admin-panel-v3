@@ -28060,8 +28060,13 @@ img.img-responsive {
   padding: 6px;
   background: #FFF;
 }
+#calendar .weekday-title {
+  padding-top: 50%;
+}
 #calendar .weekday-title h3 {
-  margin-top: 0;
+  color: #336ca2;
+  margin-bottom: 0;
+  font-weight: 600;
 }
 #calendar .weekday-title small {
   color: #98a6ad;
@@ -28617,4 +28622,20 @@ table.model-list td img {
 .badge-legend {
   color: #000000;
   padding: 5px 10px;
+}
+.horizontal-scroll-cards {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow-x: scroll;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+}
+.meetup-card {
+  width: 24.5%;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
 }
