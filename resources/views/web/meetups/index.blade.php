@@ -23,6 +23,31 @@
                 </div>
             @endif
         </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                <form action="{{ route('meetups.filter') }}{{ (Request::getQueryString())? '?'.Request::getQueryString() : '' }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="col-md-offset-5 col-md-3">
+                        <select id="location" name="location" class="form-control">
+                            <option value="">Select Location</option>
+                            @foreach($locations as $location)
+                                <option value="{{ $location->id }}" {{ (array_key_exists('location', $filters) && $filters['location'] == $location->id)? 'selected' : '' }}>{{ $location->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" name="go_to_week" class="form-control datepicker-general" placeholder="Go to week">
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div id="calendar" class="col-xs-12">
             <div class="row calendar-nav">
                 <div class="col-md-2 text-left">
@@ -36,9 +61,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     @foreach($meetups_by_date as $date)
-                        <div class="row">
+                        @if((array_key_exists('meetups', $date)))
+                            <div class="row">
                             <div class="col-md-2">
                                 <div class="clearfix weekday-title">
                                     <h3>{{ $date['date']->format('l') }}</h3>
@@ -46,9 +72,9 @@
                                 </div>
                             </div>
                             @if(array_key_exists('meetups', $date))
-                                <div class="col-md-9">
+                                <div class="col-md-10 horizontal-scroll-cards">
                                     @foreach($date['meetups'] as $meetup)
-                                        <div class="col-md-4">
+                                        <div class="col-md-3 meetup-card">
                                             <div class="panel panel-border panel-info">
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ ($meetup->room)? $meetup->room->location->name : '' }}</a></h3>
@@ -76,30 +102,8 @@
                                 </div>
                             @endif
                         </div>
+                        @endif
                     @endforeach
-                </div>
-                <div class="col-md-2">
-                        <form action="{{ route('meetups.filter') }}{{ (Request::getQueryString())? '?'.Request::getQueryString() : '' }}" method="POST">
-                            {{ csrf_field() }}
-                            <div class="row calendar-nav">
-                                <select id="location" name="location" class="form-control">
-                                    <option value="">Select Location</option>
-                                    @foreach($locations as $location)
-                                        <option value="{{ $location->id }}" {{ (array_key_exists('location', $filters) && $filters['location'] == $location->id)? 'selected' : '' }}>{{ $location->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <input type="text" name="go_to_week" class="form-control datepicker-general" placeholder="Go to week">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-info">Filter</button>
-                                </div>
-                            </div>
-                        </form>
                 </div>
             </div>
         </div>

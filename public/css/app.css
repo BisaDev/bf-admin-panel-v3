@@ -28623,3 +28623,19 @@ table.model-list td img {
   color: #000000;
   padding: 5px 10px;
 }
+.horizontal-scroll-cards {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow-x: scroll;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+}
+.meetup-card {
+  width: 24.5%;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
