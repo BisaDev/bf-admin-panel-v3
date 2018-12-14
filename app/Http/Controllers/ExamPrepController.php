@@ -268,12 +268,61 @@ class ExamPrepController extends Controller
             ];
         }
 
+        /* TABLE SORTING */
+        $sort_columns = [
+            'question_number' => 'asc',
+            'score' => 'asc',
+            'topic' => 'asc',
+        ];
+
+        $sort = ['column' => 'created_at', 'value' => 'desc'];
+        if ($request->has('sort_column')) {
+            $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
+            $sort_columns[$sort['column']] = ($sort['value'] == 'asc')? 'desc' : 'asc';
+        }
+
+        switch ($sort['column']) {
+            case 'question_number':
+                if ($sort['value'] === 'asc') {
+                    $answers = $answers->sortBy($sort['column']);
+                } else {
+                    $answers = $answers->sortByDesc($sort['column']);
+                }
+                break;
+
+            case 'score':
+                if ($sort['value'] === 'asc') {
+                    $sortedScores = collect($answersByQuestion)->sortBy($sort['column'])->toArray();
+                    foreach($sortedScores as $key => $sortedScore) {
+                        $sortedAnswers[] = $answers[$key-1];
+                    }
+                    $answers = collect($sortedAnswers);
+                } else {
+                    $sortedScores = collect($answersByQuestion)->sortByDesc($sort['column'])->toArray();
+                    foreach($sortedScores as $key => $sortedScore) {
+                        $sortedAnswers[] = $answers[$key-1];
+                    }
+                    $answers = collect($sortedAnswers);
+                }
+                break;
+
+            case 'topic':
+                if ($sort['value'] === 'asc') {
+                    $answers = $answers->sortBy($sort['column']);
+                } else {
+                    $answers = $answers->sortByDesc($sort['column']);
+                }
+                break;
+        }
+
         return view('web.exam_prep.report', [
             'answers' => $answers,
             'answersByTopic' => $answersByTopic,
             'answersByQuestion' => $answersByQuestion,
             'studentExamSections' => $studentExamSections,
             'exam' => Exam::find($studentExamSection->studentExam->exam_id),
+            'sort_columns' => $sort_columns,
+            'requestData' => $request->all(),
         ]);
     }
 

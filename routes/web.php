@@ -106,12 +106,12 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::post('tags/repository',  'TagController@repository')->name('tags.repository');
 
-    Route::get('exams/logs',                            'ExamPrepController@logs')->name('exams.logs');
-    Route::post('exams/logs/results',                   'ExamPrepController@generate_report')->name('exams.generate_report');
-    Route::post('exams/logs/get_for_results',           'ExamPrepController@get_sections_for_results')->name('exams.sections_for_results');
-    Route::post('exams/logs/get_sections_for_exam',     'ExamPrepController@get_sections_for_exam')->name('exams.sections_for_exam');
-    Route::resource('exams',                            'ExamPrepController', ['except' => ['edit', 'update']]);
-    Route::get('exams/{exam}/{exam_section}',           'ExamPrepController@exam_section_show')->name('exams.section.show');
-    Route::get('exams/{exam}/{exam_section}/edit',      'ExamPrepController@exam_section_edit')->name('exams.section.edit');
-    Route::post('exams/{exam}/{exam_section}/update',   'ExamPrepController@exam_section_update')->name('exams.section.update');
+    Route::get('exams/logs',                                'ExamPrepController@logs')->name('exams.logs');
+    Route::match(['get', 'post'], 'exams/logs/results',     'ExamPrepController@generate_report')->name('exams.generate_report');
+    Route::post('exams/logs/get_for_results',               'ExamPrepController@get_sections_for_results')->name('exams.sections_for_results');
+    Route::post('exams/logs/get_sections_for_exam',         'ExamPrepController@get_sections_for_exam')->name('exams.sections_for_exam');
+    Route::resource('exams',                                'ExamPrepController', ['except' => ['edit', 'update']]);
+    Route::get('exams/{exam}/{exam_section}',               'ExamPrepController@exam_section_show')->name('exams.section.show');
+    Route::get('exams/{exam}/{exam_section}/edit',          'ExamPrepController@exam_section_edit')->name('exams.section.edit');
+    Route::post('exams/{exam}/{exam_section}/update',       'ExamPrepController@exam_section_update')->name('exams.section.update');
 });
