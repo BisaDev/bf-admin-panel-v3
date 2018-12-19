@@ -309,11 +309,11 @@ class QuestionController extends Controller
             $question->save();
         }
 
-        if ($request->has('answer_explanation') && $request->input('answer_explanation') != '') {
+        if ($question_type === '0' || $question_type === '7') {
             $question->answer_explanation = $request->input('answer_explanation');
             $question->save();
         }
-    
+
         if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
             if (!is_null($question->getOriginal('photo')) || $question->getOriginal('photo') != '') {
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
