@@ -50,13 +50,13 @@
         </div>
         <div id="calendar" class="col-xs-12">
             <div class="row calendar-nav">
-                <div class="col-md-2 text-left">
+                <div class="col-md-4 text-center">
+                    <span class="nav-title">{{ $start_of_week->toFormattedDateString() }} - {{ $end_of_week->toFormattedDateString() }}</span>
+                </div>
+                <div class="col-md-2 text-left col-md-offset-4">
                     <a href="{{ route('meetups.index').'?start_of_week='.$start_of_week->copy()->subWeek()->format('Y-m-d') }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="btn btn-sm btn-info navbar-btn btn-block">&#171; Previous week</a>
                 </div>
-                <div class="col-md-offset-2 col-md-4 text-center">
-                    <span class="nav-title">{{ $start_of_week->toFormattedDateString() }} - {{ $end_of_week->toFormattedDateString() }}</span>    
-                </div>
-                <div class="col-md-offset-2 col-md-2 text-right">
+                <div class="col-md-2 text-right">
                     <a href="{{ route('meetups.index').'?start_of_week='.$start_of_week->copy()->addWeek()->format('Y-m-d') }}{{ ($filter_string)? '&'.$filter_string : '' }}" class="btn btn-sm btn-info navbar-btn btn-block">Next week &#187;</a>
                 </div>
             </div>
@@ -75,19 +75,24 @@
                                 <div class="col-md-10 horizontal-scroll-cards">
                                     @foreach($date['meetups'] as $meetup)
                                         <div class="col-md-3 meetup-card">
-                                            <div class="panel panel-border panel-info">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ ($meetup->room)? $meetup->room->location->name : '' }}</a></h3>
-                                                    <p class="panel-subtitle">{{ ($meetup->room)? $meetup->room->name : '' }}</p>
-                                                    <span class="status"><small>{{ $meetup->status->name }}</small></span>
+                                            <div class="panel panel-border panel-left-border">
+                                                <div class="panel-heading panel-custom-heading">
+                                                    <p class="m-t-0">{{ ($meetup->user)? $meetup->user->full_name : '' }}</p>
+                                                    <p class="m-t-0">{{ $date['date']->format('m/d/Y') }}</p>
                                                 </div>
                                                 <div class="panel-body">
                                                     @if(!is_null($meetup->activity_bucket))
-                                                        <p class="meetup-title">{{ $meetup->activity_bucket->title }}</p>
-                                                        <p>{{ ($meetup->activity_bucket)? $meetup->activity_bucket->subject->grade_level->name : ''}}, {{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }}</p>
+                                                        <div class="panel-block">
+                                                            <p class="meetup-title"><a href="{{ route('meetups.show', $meetup->id) }}">{{ $meetup->activity_bucket->title }}</a></p>
+                                                            <p class="m-t-0">{{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->name : '' }} - {{ ($meetup->activity_bucket)? $meetup->activity_bucket->subject->grade_level->name : ''}}</p>
+                                                        </div>
                                                     @endif
-                                                    <p class="m-t-0">{{ ($meetup->user)? $meetup->user->full_name : '' }}</p>
-                                                    <p class="m-t-0"><small>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</small></p>
+                                                    <div class="panel-block">
+                                                        <p class="meetup-title">{{ ($meetup->room)? $meetup->room->location->name : '' }}</p>
+                                                        <p class="m-t-0">{{ ($meetup->room)? $meetup->room->name : '' }}</p>
+                                                        <span class="status"><small>{{ $meetup->status->name }}</small></span>
+                                                    </div>
+                                                    <small>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</small>
                                                     <a href="{{ route('meetups.attendance', $meetup->id) }}" class="icon icon-user pull-right m-l-15"></a>
                                                     <a href="" @click="confirmDelete({{ $meetup->id }}, 0, $event)" class="icon icon-trash pull-right m-l-15"></a>
                                                     <form id="delete-form-{{ $meetup->id }}" action="{{ route('meetups.destroy', $meetup->id) }}" method="POST" style="display: none;">
