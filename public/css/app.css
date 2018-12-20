@@ -28537,6 +28537,10 @@ table.model-list td img {
 .bg-exams-hover tr:hover {
   color: #797979;
 }
+.modal-image {
+  margin: 0 auto;
+  max-height: 500px;
+}
 .question {
   padding-top: 10px;
   position: relative;
