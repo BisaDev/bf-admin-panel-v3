@@ -304,8 +304,18 @@ class QuestionController extends Controller
         $question->topic_id = $request->input('topic');
         $question->save();
 
-        if ($request->input('delete_other_photo')) {
+        if ($request->input('delete_other_photo') == 'true') {
             $question->other_photo = NULL;
+            $question->save();
+        }
+
+        if ($request->input('delete_photo') == 'true') {
+            $question->photo = NULL;
+            $question->save();
+        }
+
+        if ($request->input('delete_explanation_photo') == 'true') {
+            $question->answer_explanation_photo = NULL;
             $question->save();
         }
 

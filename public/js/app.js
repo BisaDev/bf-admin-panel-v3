@@ -27271,7 +27271,9 @@ if (token) {
                 photo: '',
                 other_photo: '',
                 canvas_bg: '',
+                delete_photo: false,
                 delete_other_photo: false,
+                delete_explanation_photo: false,
                 number_of_answers_allowed: 4,
                 allows_answers: false,
                 type_has_canvas: false,
@@ -27540,6 +27542,10 @@ if (token) {
                     }).then(function () {
                         if (imageType == 'other_photo') {
                             vue_instance.delete_other_photo = true;
+                        } else if (imageType == 'photo') {
+                            vue_instance.delete_photo = true;
+                        } else if (imageType == 'explanation_photo') {
+                            vue_instance.delete_explanation_photo = true;
                         }
                     }, function (dismiss) {
 
