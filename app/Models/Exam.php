@@ -16,7 +16,8 @@ class Exam extends Model
         $exams->pop();
         if ($exams->isNotEmpty()) {
             $lastExamId = $exams->last()->test_id;
-            $lastExamId = substr($lastExamId, 4);
+            $typeLength = strlen($this->type);
+            $lastExamId = substr($lastExamId, $typeLength + 1);
             $testId = $lastExamId + 1;
         } else {
             $testId = 1;
