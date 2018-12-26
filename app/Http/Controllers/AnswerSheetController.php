@@ -260,9 +260,17 @@ class AnswerSheetController extends Controller
 
             $scoreByTopic = collect($scoreByTopic)->sortByDesc('score')->groupBy('id')->toArray();
 
+            $sortedQuestions = $studentExam->sections->map(function ($section) {
+                $sortedQuestions = $section->questions->sortBy(function ($question) {
+                    return $question->BackgroundForReport;
+                });
+               return $sortedQuestions;
+            });
+
             return view('students_web.show_results', [
                 'studentExam' => StudentExam::find($studentExamId),
-                'topics' => $scoreByTopic
+                'topics' => $scoreByTopic,
+                'sortedQuestions' => $sortedQuestions,
             ]);
         } else {
             return redirect()->back();

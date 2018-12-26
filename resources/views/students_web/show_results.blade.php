@@ -15,7 +15,7 @@
 @section('content')
 
     <div id="app" class="container">
-        @foreach($studentExam->sections as $section)
+        @foreach($studentExam->sections as $key => $section)
             <div class="row">
                 <div class="card-box col-md-12">
                     <div class="container">
@@ -80,11 +80,11 @@
 
                     <div class="row">
                         <div class="text-center m-b-15">
-                            <span class="badge right badge-legend">Right</span>
-                            <span class="badge wrong badge-legend">Wrong</span>
-                            <span class="badge guessed-wrong badge-legend">Guessed-Wrong</span>
-                            <span class="badge wrong-understood badge-legend">Wrong-I get it now</span>
-                            <span class="badge guessed-right badge-legend">Guessed-Right</span>
+                            <span class="badge e-right badge-legend">Right</span>
+                            <span class="badge a-wrong badge-legend">Wrong</span>
+                            <span class="badge b-guessed-wrong badge-legend">Guessed-Wrong</span>
+                            <span class="badge c-wrong-understood badge-legend">Wrong-I get it now</span>
+                            <span class="badge d-guessed-right badge-legend">Guessed-Right</span>
                         </div>
                     </div>
 
@@ -102,7 +102,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($section->questions as $question)
+                                @foreach($sortedQuestions[$key] as $question)
                                     <tr is="show-results-table" :question="{{$question}}"
                                         :section="{{$section->section_number}}" :section-id="{{$section->id}}"
                                         :url=`{{route('answer_sheet.edit_understood', $section->id)}}`
