@@ -93,9 +93,9 @@
                             <table class="table table-responsive table-hover model-list text-center">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">Question</th>
+                                    <th class="text-center">Question <a href="{{ route('answer_sheet.show_results', $studentExam->id). '?sort_column=question_number&sort_value='.$sort_columns['question_number'] }}" class="fa fa-sort"></a></th>
                                     <th class="text-center">Correct Answer</th>
-                                    <th class="text-center">Your Answer</th>
+                                    <th class="text-center">Your Answer <a href="{{ route('answer_sheet.show_results', $studentExam->id). '?sort_column=color_code&sort_value='.$sort_columns['color_code'] }}" class="fa fa-sort"></a></th>
                                     <th class="text-center">I get it now</th>
                                     <th class="text-center">Topic</th>
                                     <th>&nbsp;</th>
