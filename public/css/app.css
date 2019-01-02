@@ -28538,6 +28538,10 @@ table.model-list td img {
 .bg-exams-hover tr:hover {
   color: #797979;
 }
+.modal-image {
+  margin: 0 auto;
+  max-height: 500px;
+}
 .question {
   padding-top: 10px;
   position: relative;
@@ -28606,10 +28610,10 @@ table.model-list td img {
   text-align: center;
 }
 .guessed-wrong {
-  background-color: #DAA3A3;
+  background-color: #f2dede;
 }
 .guessed-right {
-  background-color: #F9AE71;
+  background-color: #D8EDD0;
 }
 .wrong-understood {
   background-color: #F5E79E;
@@ -28618,7 +28622,7 @@ table.model-list td img {
   background-color: #B2DBA1;
 }
 .wrong {
-  background-color: #f2dede;
+  background-color: #DAA3A3;
 }
 .badge-legend {
   color: #000000;

@@ -70,7 +70,7 @@
                                                     <p>{{$question->answer_explanation}}</p>
                                                 @endif
                                                 @if($question->answer_explanation_photo)
-                                                    <img src="{{ $question->answer_explanation_photo }}" class="img-responsive center-block">
+                                                    <img src="{{ $question->answer_explanation_photo }}" class="modal-image center-block">
                                                 @endif
                                             </div>
                                             <div class="modal-footer">
