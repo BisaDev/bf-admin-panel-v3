@@ -43,11 +43,11 @@
 
             <div class="row">
                 <div class="text-center m-b-15">
-                    <span class="badge e-right badge-legend">Right</span>
                     <span class="badge a-wrong badge-legend">Wrong</span>
                     <span class="badge b-guessed-wrong badge-legend">Guessed-Wrong</span>
                     <span class="badge c-wrong-understood badge-legend">Wrong-I get it now</span>
                     <span class="badge d-guessed-right badge-legend">Guessed-Right</span>
+                    <span class="badge e-right badge-legend">Right</span>
                 </div>
             </div>
 

@@ -107,8 +107,9 @@
                             <label class="control-label" for="title">Image</label>
                             @if($item->photo)
                                 <div class="col-xs-12 m-b-10 text-center" v-show="!type_has_canvas">
-                                    <img src="{{ $item->photo }}" id="question_photo"
-                                         class="img-responsive center-block">
+                                    <img v-show="!delete_photo" src="{{ $item->photo }}" id="question_photo" class="img-responsive center-block">
+                                    <button v-show="!delete_photo" type="button" class="btn btn-mid btn-danger m-t-5" @click="confirmDelete('photo')">Delete Image</button>
+                                    <input type="hidden" name="delete_photo" :value="delete_photo">
                                 </div>
                             @endif
                             <div class="droppable droppable-small">
@@ -132,7 +133,7 @@
                                 @endif
                                 <div class="col-xs-12 m-b-10 text-center">
                                     <img v-show="!delete_other_photo" src="{{ $item->other_photo }}" class="img-responsive center-block">
-                                    <button v-show="!delete_other_photo" type="button" class="btn btn-mid btn-danger" @click="confirmDelete('other_photo')">Delete Image</button>
+                                    <button v-show="!delete_other_photo" type="button" class="btn btn-mid btn-danger m-t-5" @click="confirmDelete('other_photo')">Delete Image</button>
                                     <input type="hidden" name="delete_other_photo" :value="delete_other_photo">
                                 </div>
                                 <div class="droppable droppable-small">
@@ -172,7 +173,9 @@
                             <label class="control-label" for="answer_explanation_photo">Answer Explanation Image</label>
                             @if($item->answer_explanation_photo != '')
                                 <div class="col-md-12 m-b-10">
-                                    <img src="{{ $item->answer_explanation_photo }}" class="img-responsive center-block">
+                                    <img v-show="!delete_explanation_photo" src="{{ $item->answer_explanation_photo }}" class="img-responsive center-block">
+                                    <button v-show="!delete_explanation_photo" type="button" class="btn btn-mid btn-danger center-block m-t-5" @click="confirmDelete('explanation_photo')">Delete Image</button>
+                                    <input type="hidden" name="delete_explanation_photo" :value="delete_explanation_photo">
                                 </div>
                             @endif
                             <div class="droppable droppable-small">

@@ -304,16 +304,26 @@ class QuestionController extends Controller
         $question->topic_id = $request->input('topic');
         $question->save();
 
-        if ($request->input('delete_other_photo')) {
+        if ($request->input('delete_other_photo') == 'true') {
             $question->other_photo = NULL;
             $question->save();
         }
 
-        if ($request->has('answer_explanation') && $request->input('answer_explanation') != '') {
+        if ($request->input('delete_photo') == 'true') {
+            $question->photo = NULL;
+            $question->save();
+        }
+
+        if ($request->input('delete_explanation_photo') == 'true') {
+            $question->answer_explanation_photo = NULL;
+            $question->save();
+        }
+
+        if ($question_type === '0' || $question_type === '7') {
             $question->answer_explanation = $request->input('answer_explanation');
             $question->save();
         }
-    
+
         if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
             if (!is_null($question->getOriginal('photo')) || $question->getOriginal('photo') != '') {
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
