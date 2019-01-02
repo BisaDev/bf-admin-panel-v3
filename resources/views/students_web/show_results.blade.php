@@ -15,7 +15,7 @@
 @section('content')
 
     <div id="app" class="container">
-        @foreach($studentExam->sections as $section)
+        @foreach($studentExam->sections as $key => $section)
             <div class="row">
                 <div class="card-box col-md-12">
                     <div class="container">
@@ -80,11 +80,11 @@
 
                     <div class="row">
                         <div class="text-center m-b-15">
-                            <span class="badge wrong badge-legend">Wrong</span>
-                            <span class="badge guessed-wrong badge-legend">Guessed-Wrong</span>
-                            <span class="badge wrong-understood badge-legend">Wrong-I get it now</span>
-                            <span class="badge guessed-right badge-legend">Guessed-Right</span>
-                            <span class="badge right badge-legend">Right</span>
+                            <span class="badge a-wrong badge-legend">Wrong</span>
+                            <span class="badge b-guessed-wrong badge-legend">Guessed-Wrong</span>
+                            <span class="badge c-wrong-understood badge-legend">Wrong-I get it now</span>
+                            <span class="badge d-guessed-right badge-legend">Guessed-Right</span>
+                            <span class="badge e-right badge-legend">Right</span>
                         </div>
                     </div>
 
@@ -93,16 +93,16 @@
                             <table class="table table-responsive table-hover model-list text-center">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">Question</th>
+                                    <th class="text-center">Question <a href="{{ route('answer_sheet.show_results', $studentExam->id). '?sort_column=question_number&sort_value='.$sort_columns['question_number'] }}" class="fa fa-sort"></a></th>
                                     <th class="text-center">Correct Answer</th>
-                                    <th class="text-center">Your Answer</th>
+                                    <th class="text-center">Your Answer <a href="{{ route('answer_sheet.show_results', $studentExam->id). '?sort_column=color_code&sort_value='.$sort_columns['color_code'] }}" class="fa fa-sort"></a></th>
                                     <th class="text-center">I get it now</th>
                                     <th class="text-center">Topic</th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($section->questions as $question)
+                                @foreach($sortedQuestions[$key] as $question)
                                     <tr is="show-results-table" :question="{{$question}}"
                                         :section="{{$section->section_number}}" :section-id="{{$section->id}}"
                                         :url=`{{route('answer_sheet.edit_understood', $section->id)}}`

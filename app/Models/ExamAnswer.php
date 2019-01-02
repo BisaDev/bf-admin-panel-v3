@@ -41,18 +41,18 @@ class ExamAnswer extends Model
     {
         if ($this->guessed) {
            if ($this->AnswerResult) {
-               return 'guessed-right';
+               return 'd-guessed-right';
            } else {
-               return 'guessed-wrong';
+               return 'b-guessed-wrong';
            }
         } else {
             if ($this->AnswerResult) {
-                return 'right';
+                return 'e-right';
             } else {
                 if($this->understood) {
-                    return 'wrong-understood';
+                    return 'c-wrong-understood';
                 } else {
-                    return 'wrong';
+                    return 'a-wrong';
                 }
             }
         }

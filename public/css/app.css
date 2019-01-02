@@ -28609,19 +28609,19 @@ table.model-list td img {
   font-size: 11px;
   text-align: center;
 }
-.guessed-wrong {
+.b-guessed-wrong {
   background-color: #f2dede;
 }
-.guessed-right {
+.d-guessed-right {
   background-color: #D8EDD0;
 }
-.wrong-understood {
+.c-wrong-understood {
   background-color: #F5E79E;
 }
-.right {
+.e-right {
   background-color: #B2DBA1;
 }
-.wrong {
+.a-wrong {
   background-color: #DAA3A3;
 }
 .badge-legend {

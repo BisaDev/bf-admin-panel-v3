@@ -209,7 +209,7 @@ class AnswerSheetController extends Controller
         }
     }
 
-    public function show_results($studentExamId)
+    public function show_results(Request $request, $studentExamId)
     {
         $studentExam = StudentExam::find($studentExamId);
         $user = Auth::user();
@@ -260,9 +260,58 @@ class AnswerSheetController extends Controller
 
             $scoreByTopic = collect($scoreByTopic)->sortByDesc('score')->groupBy('id')->toArray();
 
+            $sort_columns = [
+                'question_number' => 'asc',
+                'color_code' => 'asc',
+            ];
+
+            $sort = ['column' => 'created_at', 'value' => 'desc'];
+            if ($request->has('sort_column')) {
+                $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
+                $sort_columns[$sort['column']] = ($sort['value'] == 'asc') ? 'desc' : 'asc';
+            } else {
+                $sortedQuestions = $studentExam->sections->map(function ($section) {
+                    return $section->questions;
+                });
+            }
+
+            switch ($sort['column']) {
+                case 'question_number':
+                    if ($sort['value'] === 'asc') {
+                        $sortedQuestions = $studentExam->sections->map(function ($section) use ($sort) {
+                            return $section->questions->sortBy($sort['column']);
+                        });
+                    } else {
+                        $sortedQuestions = $studentExam->sections->map(function ($section) use ($sort) {
+                            return $section->questions->sortByDesc($sort['column']);
+                        });
+                    }
+                    break;
+
+                case 'color_code':
+                    if ($sort['value'] === 'asc') {
+                        $sortedQuestions = $studentExam->sections->map(function ($section) {
+                            $sortedQuestions = $section->questions->sortBy(function ($question) {
+                                return $question->BackgroundForReport;
+                            });
+                            return $sortedQuestions;
+                        });
+                    } else {
+                        $sortedQuestions = $studentExam->sections->map(function ($section) {
+                            $sortedQuestions = $section->questions->sortByDesc(function ($question) {
+                                return $question->BackgroundForReport;
+                            });
+                            return $sortedQuestions;
+                        });
+                    }
+                    break;
+            }
+
             return view('students_web.show_results', [
                 'studentExam' => StudentExam::find($studentExamId),
-                'topics' => $scoreByTopic
+                'topics' => $scoreByTopic,
+                'sortedQuestions' => $sortedQuestions,
+                'sort_columns' => $sort_columns,
             ]);
         } else {
             return redirect()->back();
