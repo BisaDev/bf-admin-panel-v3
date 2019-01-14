@@ -95,14 +95,27 @@
                         @endif
                     @endif
                 </tab>
-                <tab name="topics">
-                    <div class="col-md-11 card-box">
-                        <h1>Here you can edit the topics</h1>
-                    </div>
-                </tab>
+                {{--<tab name="topics">--}}
+                    {{--<div class="col-md-11 card-box">--}}
+                        {{--<h1>Here you can edit the topics</h1>--}}
+                    {{--</div>--}}
+                {{--</tab>--}}
                 <tab name="answer explanations">
                     <div class="col-md-11 card-box">
-                        <h1>Here you can edit answer explanations</h1>
+                        @foreach($examAnswers as $examAnswer)
+                            <div class="row form-group">
+                                <div class="col-md-1">
+                                    <span> {{$examAnswer->question_number}}.</span>
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="control-label" for="answer_explanation_{{$examAnswer->id}}">Answer Explanation</label>
+                                    <textarea class="form-control" name="answer_explanation_{{$examAnswer->id}}" placeholder="Answer Explanation">{{ $examAnswer->explanation }}</textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <upload-image :image="{{$examAnswer}}" />
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </tab>
             </tabs>
