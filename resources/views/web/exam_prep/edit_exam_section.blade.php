@@ -108,11 +108,13 @@
                                     <span> {{$examAnswer->question_number}}.</span>
                                 </div>
                                 <div class="col-md-5">
-                                    <label class="control-label" for="answer_explanation_{{$examAnswer->id}}">Answer Explanation</label>
-                                    <textarea class="form-control" name="answer_explanation_{{$examAnswer->id}}" placeholder="Answer Explanation">{{ $examAnswer->explanation }}</textarea>
+                                    <label class="control-label" for="answer_explanation_{{$examAnswer->question_number}}">Answer Explanation</label>
+                                    <textarea class="form-control" name="answer_explanation_{{$examAnswer->question_number}}" placeholder="Answer Explanation">{{ $examAnswer->explanation }}</textarea>
                                 </div>
                                 <div class="col-md-6">
-                                    <upload-image :image="{{$examAnswer}}" />
+                                    <upload-image :image="{{$examAnswer}}">
+                                        <img src="{{ $examAnswer->explanation_image }}" class="img-responsive center-block">
+                                    </upload-image>
                                 </div>
                             </div>
                         @endforeach

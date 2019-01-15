@@ -97560,23 +97560,12 @@ module.exports = Component.exports
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "col-md-6 create-container"
+    staticClass: "create-container"
   }, [_c('label', {
     staticClass: "control-label"
   }, [_vm._v("Answer Explanation Image")]), _vm._v(" "), (_vm.image.explanation_image) ? _c('div', {
     staticClass: "col-md-12 m-b-10"
-  }, [_c('img', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (!_vm.delete_photo),
-      expression: "!delete_photo"
-    }],
-    staticClass: "img-responsive center-block",
-    attrs: {
-      "src": _vm.uploadedPhoto
-    }
-  }), _vm._v(" "), _c('button', {
+  }, [_vm._t("default"), _vm._v(" "), _c('button', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -97598,7 +97587,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": _vm.delete_photo
     }
-  })]) : _vm._e(), _vm._v(" "), _c('div', {
+  })], 2) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "droppable droppable-small"
   }, [(!_vm.uploadedPhoto) ? _c('span', [_vm._v("Drag an image or click to browse")]) : _c('img', {
     attrs: {
@@ -97617,7 +97606,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('input', {
     attrs: {
       "type": "hidden",
-      "name": ("uploadedPhoto_" + (_vm.image.id))
+      "name": ("uploadedPhoto_" + (_vm.image.question_number))
     },
     domProps: {
       "value": _vm.uploadedPhoto

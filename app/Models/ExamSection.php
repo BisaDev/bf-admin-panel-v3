@@ -21,4 +21,23 @@ class ExamSection extends Model
         return $this->hasOne(ExamSectionMetadata::class, 'section_number', 'section_number')
             ->where('exam_type', $examType);
     }
+
+    public function getExplanationImageAttribute($value)
+    {
+        if (!$value || $value == '') {
+            return $value;
+        }
+        return asset('uploads/activities/' . $value);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($object) {
+            if (!is_null($object->getOriginal('photo')) || $object->getOriginal('photo') != '') {
+                File::delete(public_path(self::PHOTO_PATH . $object->getOriginal('photo')));
+            }
+        });
+    }
 }

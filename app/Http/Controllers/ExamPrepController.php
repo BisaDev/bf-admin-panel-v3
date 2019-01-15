@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Brightfox\Models\Exam, Brightfox\Models\ExamSection, Brightfox\Models\StudentExamSection, Brightfox\Models\StudentExam, Brightfox\Models\ExamScoreTable, Brightfox\Models\ExamAnswer;
+use Brightfox\Models\Question;
+use Brightfox\Traits\CreatesAndSavesPhotos;
 
 class ExamPrepController extends Controller
 {
+    use CreatesAndSavesPhotos;
     protected $sections = StudentExamSection::SECTIONS;
     /**
      * Display a listing of the resource.
@@ -156,7 +159,9 @@ class ExamPrepController extends Controller
     public function exam_section_update(Request $request, Exam $exam, $sectionId)
     {
         $examSections = $exam->sections->where('section_number', $sectionId)->values();
-        $updatedAnswers = collect($request->all())->splice(1);
+        $updatedAnswers = collect($request->all())->filter(function ($inputEntry, $key) {
+            return strpos($key, 'question_') === 0;
+        });
 
         $examSections->each(function($examSection, $key) use($updatedAnswers, $request) {
             $key = $key + 1;
@@ -174,6 +179,18 @@ class ExamPrepController extends Controller
                 $examSection->correct_7 = is_null($request->input('question_' . $key . '.6'))  ? '' : $request->input('question_' . $key . '.6');
                 $examSection->correct_8 = is_null($request->input('question_' . $key . '.7'))  ? '' : $request->input('question_' . $key . '.7');
                 $examSection->correct_9 = is_null($request->input('question_' . $key . '.8'))  ? '' : $request->input('question_' . $key . '.8');
+            }
+
+            $examSection->explanation = $request->input('answer_explanation_' . $key);
+            if ($request->has('uploadedPhoto_' . $key)) {
+                if (!is_null($examSection->getOriginal('photo')) || $examSection->getOriginal('photo') != '') {
+                    File::delete(public_path(Question::PHOTO_PATH . $examSection->getOriginal('photo')));
+                }
+                $image_size = getimagesize($request->input('uploadedPhoto_' . $key));
+                $image_width = $image_size[0];
+                $image_height = $image_size[1];
+
+                $examSection->explanation_image = $this->createAndSavePhoto($request->input('uploadedPhoto_' . $key), Question::PHOTO_PATH, $image_width, $image_height);
             }
             $examSection->save();
         });

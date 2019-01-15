@@ -1,8 +1,8 @@
 <template>
-    <div class="col-md-6 create-container">
+    <div class="create-container">
         <label class="control-label">Answer Explanation Image</label>
         <div class="col-md-12 m-b-10" v-if="image.explanation_image">
-            <img v-show="!delete_photo" :src="uploadedPhoto" class="img-responsive center-block">
+            <slot v-show="!delete_photo" />
             <button v-show="!delete_photo" type="button" class="btn btn-mid btn-danger center-block m-t-5" @click="confirmDelete">Delete Image</button>
             <input type="hidden" name="delete_photo" :value="delete_photo">
         </div>
@@ -10,7 +10,7 @@
             <span v-if="!uploadedPhoto">Drag an image or click to browse</span>
             <img v-else :src="uploadedPhoto"/>
             <input name="uploadedPhoto" type="file" @change="uploadImage($event)">
-            <input type="hidden" :name="`uploadedPhoto_${image.id}`" :value="uploadedPhoto">
+            <input type="hidden" :name="`uploadedPhoto_${image.question_number}`" :value="uploadedPhoto">
         </div>
     </div>
 </template>
