@@ -3,6 +3,7 @@
 namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Brightfox\Models\Exam, Brightfox\Models\ExamSection, Brightfox\Models\StudentExamSection, Brightfox\Models\StudentExam, Brightfox\Models\ExamScoreTable, Brightfox\Models\ExamAnswer;
@@ -191,6 +192,11 @@ class ExamPrepController extends Controller
                 $image_height = $image_size[1];
 
                 $examSection->explanation_image = $this->createAndSavePhoto($request->input('uploadedPhoto_' . $key), Question::PHOTO_PATH, $image_width, $image_height);
+            }
+            if ($request->has('delete_photo_' . $key)) {
+                if ($request->input('delete_photo_' . $key) === 'true') {
+                    $examSection->explanation_image = NULL;
+                }
             }
             $examSection->save();
         });

@@ -112,9 +112,7 @@
                                     <textarea class="form-control" name="answer_explanation_{{$examAnswer->question_number}}" placeholder="Answer Explanation">{{ $examAnswer->explanation }}</textarea>
                                 </div>
                                 <div class="col-md-6">
-                                    <upload-image :image="{{$examAnswer}}">
-                                        <img src="{{ $examAnswer->explanation_image }}" class="img-responsive center-block">
-                                    </upload-image>
+                                    <upload-image :image="{{$examAnswer}}" :image-url="`{{$examAnswer->explanation_image}}`" />
                                 </div>
                             </div>
                         @endforeach

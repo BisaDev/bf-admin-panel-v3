@@ -2,9 +2,9 @@
     <div class="create-container">
         <label class="control-label">Answer Explanation Image</label>
         <div class="col-md-12 m-b-10" v-if="image.explanation_image">
-            <slot v-show="!delete_photo" />
+            <img v-show="!delete_photo" :src="imageUrl" class="img-responsive center-block">
             <button v-show="!delete_photo" type="button" class="btn btn-mid btn-danger center-block m-t-5" @click="confirmDelete">Delete Image</button>
-            <input type="hidden" name="delete_photo" :value="delete_photo">
+            <input type="hidden" :name="`delete_photo_${image.question_number}`" :value="delete_photo">
         </div>
         <div class="droppable droppable-small">
             <span v-if="!uploadedPhoto">Drag an image or click to browse</span>
@@ -17,9 +17,10 @@
 
 <script>
     import imagePreview from './../pages/mixins/imagePreview';
+    import swal from "sweetalert2";
 
     export default {
-        props: ['image', 'event'],
+        props: ['image', 'imageUrl'],
         mixins: [imagePreview],
         data() {
             return {
@@ -29,6 +30,8 @@
         },
         methods: {
             confirmDelete(){
+                let vue_instance = this;
+
                 let confirmation_text = "This action can't be undone. ";
                 swal({
                     title: 'Are you sure?',
@@ -39,7 +42,7 @@
                     cancelButtonColor: '#f05050',
                     confirmButtonText: 'Delete'
                 }).then(function () {
-                    this.delete_photo = true;
+                    vue_instance.delete_photo = true;
                 }, function (dismiss) {if (dismiss === 'cancel') {}});
             },
             uploadImage(e) {

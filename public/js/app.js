@@ -97460,6 +97460,8 @@ module.exports = __webpack_require__(45);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_mixins_imagePreview__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
 //
 //
 //
@@ -97477,11 +97479,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['image', 'event'],
+    props: ['image', 'imageUrl'],
     mixins: [__WEBPACK_IMPORTED_MODULE_0__pages_mixins_imagePreview__["a" /* default */]],
     data: function data() {
         return {
@@ -97492,8 +97495,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         confirmDelete: function confirmDelete() {
+            var vue_instance = this;
+
             var confirmation_text = "This action can't be undone. ";
-            swal({
+            __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
                 title: 'Are you sure?',
                 text: confirmation_text,
                 type: 'warning',
@@ -97502,7 +97507,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 cancelButtonColor: '#f05050',
                 confirmButtonText: 'Delete'
             }).then(function () {
-                this.delete_photo = true;
+                vue_instance.delete_photo = true;
             }, function (dismiss) {
                 if (dismiss === 'cancel') {}
             });
@@ -97565,7 +97570,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "control-label"
   }, [_vm._v("Answer Explanation Image")]), _vm._v(" "), (_vm.image.explanation_image) ? _c('div', {
     staticClass: "col-md-12 m-b-10"
-  }, [_vm._t("default"), _vm._v(" "), _c('button', {
+  }, [_c('img', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.delete_photo),
+      expression: "!delete_photo"
+    }],
+    staticClass: "img-responsive center-block",
+    attrs: {
+      "src": _vm.imageUrl
+    }
+  }), _vm._v(" "), _c('button', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -97582,12 +97598,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Delete Image")]), _vm._v(" "), _c('input', {
     attrs: {
       "type": "hidden",
-      "name": "delete_photo"
+      "name": ("delete_photo_" + (_vm.image.question_number))
     },
     domProps: {
       "value": _vm.delete_photo
     }
-  })], 2) : _vm._e(), _vm._v(" "), _c('div', {
+  })]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "droppable droppable-small"
   }, [(!_vm.uploadedPhoto) ? _c('span', [_vm._v("Drag an image or click to browse")]) : _c('img', {
     attrs: {
