@@ -37,6 +37,9 @@ Vue.component('tags-input', VoerroTagsInput);
 Vue.component('upload-file', require('./components/uploadFile'));
 Vue.component('take-practice-exam', require('./components/takePracticeExamModal'));
 Vue.component('act-answer-sheet', require('./components/ACTAnswerSheet'));
+Vue.component('tab', require('./components/tab'));
+Vue.component('tabs', require('./components/tabs'));
+Vue.component('upload-image', require('./components/uploadImage'));
 
 const app = new Vue({
     el: '#app'
