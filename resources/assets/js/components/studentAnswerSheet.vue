@@ -30,17 +30,10 @@
 <script>
     export default {
         props: ['questions', 'answers'],
-        data () {
-            return {
-                numberOfColumns : 5,
-                remainder : this.questions % 5,
-                maxRows : Math.floor(((this.questions - 1) / 5)) + 1,
-            }
-        },
         methods: {
             rowsPerColumn : function (column) {
-                if(column === 5 && this.remainder > 0) {
-                    return this.maxRows + (this.remainder - 5)
+                if (column === this.numberOfColumns && this.remainder > 0) {
+                    return this.maxRows + (this.remainder - this.numberOfColumns)
                 } else {
                     return this.maxRows
                 }
@@ -48,6 +41,22 @@
         },
         mounted() {
             $('[data-toggle="popover"]').popover();
+        },
+        computed: {
+            numberOfColumns() {
+                if (this.questions > 8) {
+                    return 5;
+                } else {
+                    return Math.floor((this.questions+1)/2);
+                }
+            },
+            remainder() {
+                return this.questions % this.numberOfColumns;
+            },
+            maxRows() {
+                return Math.floor(((this.questions - 1) / this.numberOfColumns)) + 1;
+            }
+
         },
     }
 </script>
