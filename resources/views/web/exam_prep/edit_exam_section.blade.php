@@ -61,7 +61,7 @@
                 @elseif($exam->mini_exam_format === 'mc-4-FGHJ')
                     <div class="col-md-10 col-md-offset-1 card-box">
                         <div class="row">
-                            <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="1" :answers="[]"></act-answer-sheet>
+                            <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="1" :answers="{{ $examAnswers }}"></act-answer-sheet>
                         </div>
                     </div>
                 @elseif($exam->mini_exam_format === 'mc-5-FGHJ')

@@ -26286,18 +26286,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['questions', 'section', 'answers'],
-    data: function data() {
-        return {
-            numberOfColumns: 5,
-            remainder: this.questions % 5,
-            maxRows: Math.floor((this.questions - 1) / 5) + 1
-        };
-    },
-
     methods: {
         rowsPerColumn: function rowsPerColumn(column) {
-            if (column === 5 && this.remainder > 0) {
-                return this.maxRows + (this.remainder - 5);
+            if (column === this.numberOfColumns && this.remainder > 0) {
+                return this.maxRows + (this.remainder - this.numberOfColumns);
             } else {
                 return this.maxRows;
             }
@@ -26305,6 +26297,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         $('[data-toggle="popover"]').popover();
+    },
+
+    computed: {
+        numberOfColumns: function numberOfColumns() {
+            if (this.questions > 8) {
+                return 5;
+            } else {
+                return Math.floor((this.questions + 1) / 2);
+            }
+        },
+        remainder: function remainder() {
+            return this.questions % this.numberOfColumns;
+        },
+        maxRows: function maxRows() {
+            return Math.floor((this.questions - 1) / this.numberOfColumns) + 1;
+        }
     }
 });
 
@@ -26602,18 +26610,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['questions', 'answers'],
-    data: function data() {
-        return {
-            numberOfColumns: 5,
-            remainder: this.questions % 5,
-            maxRows: Math.floor((this.questions - 1) / 5) + 1
-        };
-    },
-
     methods: {
         rowsPerColumn: function rowsPerColumn(column) {
-            if (column === 5 && this.remainder > 0) {
-                return this.maxRows + (this.remainder - 5);
+            if (column === this.numberOfColumns && this.remainder > 0) {
+                return this.maxRows + (this.remainder - this.numberOfColumns);
             } else {
                 return this.maxRows;
             }
@@ -26621,6 +26621,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         $('[data-toggle="popover"]').popover();
+    },
+
+    computed: {
+        numberOfColumns: function numberOfColumns() {
+            if (this.questions > 8) {
+                return 5;
+            } else {
+                return Math.floor((this.questions + 1) / 2);
+            }
+        },
+        remainder: function remainder() {
+            return this.questions % this.numberOfColumns;
+        },
+        maxRows: function maxRows() {
+            return Math.floor((this.questions - 1) / this.numberOfColumns) + 1;
+        }
     }
 });
 
