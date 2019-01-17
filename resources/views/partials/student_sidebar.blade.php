@@ -15,6 +15,12 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('answer_sheet.analytics') }}" class="waves-effect">
+                        <i class="ti-bar-chart"></i><span> Analytics </span>
+                    </a>
+                </li>
+
             </ul>
             <div class="clearfix"></div>
         </div>

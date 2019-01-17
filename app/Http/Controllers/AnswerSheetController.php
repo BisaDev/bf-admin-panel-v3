@@ -330,4 +330,9 @@ class AnswerSheetController extends Controller
 
         return response()->json($understood);
     }
+
+    public function analytics()
+    {
+        return view('students_web.analytics');
+    }
 }
