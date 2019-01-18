@@ -333,6 +333,40 @@ class AnswerSheetController extends Controller
 
     public function analytics()
     {
-        return view('students_web.analytics');
+        $user_id = Auth::id();
+        $student = Student::where('user_id', $user_id)->first();
+        $questions = [];
+
+        foreach ($student->exams as $studentExam) {
+            foreach($studentExam->sections as $studentExamSection) {
+                foreach($studentExamSection->questions as $question) {
+                    $questions[] = [
+                        'isCorrect' => $question->AnswerResult,
+                        'topic' => $question->correctAnswer->topic,
+                        'date' => $question->created_at->format('M-Y'),
+                    ];
+                }
+            }
+        }
+
+        $questionsByTopic = collect($questions)->groupBy('topic');
+        $dates = collect($questions)->pluck('date')->unique();
+
+        $overall = $questionsByTopic->map(function($topic) {
+           return ['total' => $topic->count(), 'correct' => $topic->where('isCorrect', true)->count(), 'avg' => round(($topic->where('isCorrect', true)->count() / $topic->count())*100)];
+        });
+
+        $questionsByMonth = $questionsByTopic->map(function($topic) {
+            return $topic->groupBy('date')->map(function($date) {
+                return ['total' => $date->count(), 'correct' => $date->where('isCorrect', true)->count(), 'avg' => round(($date->where('isCorrect', true)->count() / $date->count())*100)];
+            });
+        });
+//        dd($questionsByMonth->toArray());
+
+        return view('students_web.analytics', [
+            'dates' => $dates,
+            'overall' => $overall,
+            'questionsByMonth' => $questionsByMonth->toArray(),
+        ]);
     }
 }
