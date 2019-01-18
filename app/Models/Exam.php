@@ -7,23 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 class Exam extends Model
 {
     protected $fillable = [
-        'type', 'test_id', 'source', 'description'
+        'type', 'subtype', 'test_id', 'source', 'description'
     ];
 
     public function getCreateTestIdAttribute()
     {
-        $exams = Exam::all()->where('type', $this->type);
-        $exams->pop();
+        if ($this->subtype) {
+            $exams = Exam::all()->where('type', $this->type)->where('subtype', $this->subtype);
+        } else {
+            $exams = Exam::all()->where('type', $this->type);
+            $exams->pop();
+        }
         if ($exams->isNotEmpty()) {
             $lastExamId = $exams->last()->test_id;
-            $typeLength = strlen($this->type);
+            $typeLength = $this->subtype ? strlen($this->type) + strlen($this->subtype) + 1 : strlen($this->type);
             $lastExamId = substr($lastExamId, $typeLength + 1);
             $testId = $lastExamId + 1;
         } else {
             $testId = 1;
         }
 
-        return "{$this->type}-{$testId}";
+        if ($this->subtype) {
+            return "{$this->type}-{$this->subtype}-{$testId}";
+        } else {
+            return "{$this->type}-{$testId}";
+        }
     }
 
     public function sections()
