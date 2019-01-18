@@ -331,7 +331,7 @@ class AnswerSheetController extends Controller
         return response()->json($understood);
     }
 
-    public function analytics()
+    public function analytics(Request $request)
     {
         $user_id = Auth::id();
         $student = Student::where('user_id', $user_id)->first();
@@ -361,7 +361,16 @@ class AnswerSheetController extends Controller
                 return ['total' => $date->count(), 'correct' => $date->where('isCorrect', true)->count(), 'avg' => round(($date->where('isCorrect', true)->count() / $date->count())*100)];
             });
         });
-//        dd($questionsByMonth->toArray());
+
+        if ($request->has('sort_column')) {
+            switch ($request->input('sort_column')) {
+                case 'overall':
+                    $overall = $overall->sortByDesc('avg');
+                    break;
+                case 'topic':
+                    break;
+            }
+        }
 
         return view('students_web.analytics', [
             'dates' => $dates,

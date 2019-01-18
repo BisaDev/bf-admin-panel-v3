@@ -17,13 +17,11 @@
     <div id="app" class="container">
         <div class="row">
             <div class="card-box col-md-12">
-                {{--<div class="row">--}}
-                {{--<div class="col-md-12">--}}
                 <table class="table table-responsive table-hover model-list text-center">
                     <thead>
                     <tr>
-                        <th class="text-center">Topic</th>
-                        <th class="text-center">Overall</th>
+                        <th class="text-center">Topic  <a href="{{ route('answer_sheet.analytics'). '?sort_column=topic' }}" class="fa fa-sort"></a></th>
+                        <th class="text-center">Overall <a href="{{ route('answer_sheet.analytics'). '?sort_column=overall' }}" class="fa fa-sort"></a></th>
                         @foreach($dates as $date)
                             <th class="text-center">{{$date}}</th>
                         @endforeach
@@ -51,8 +49,6 @@
                     </tbody>
                 </table>
             </div>
-            {{--</div>--}}
-            {{--</div>--}}
         </div>
     </div>
 @endsection
