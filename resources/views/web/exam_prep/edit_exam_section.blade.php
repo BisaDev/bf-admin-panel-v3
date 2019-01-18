@@ -47,7 +47,7 @@
                             @endif
                         </div>
                     @elseif($exam->type === 'ACT')
-                        <div class="{{ $section->section_number === 2 ? 'col-md-11' : 'col-md-10 col-md-offset-1' }} card-box">
+                        <div class="col-md-11 card-box">
                             <div class="row">
                                 <act-answer-sheet :questions="{{ $section->questions }}"
                                                   :section="{{ $section->section_number }}"
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                         @elseif($exam->mini_exam_format === 'mc-4-FGHJ')
-                            <div class="col-md-10 col-md-offset-1 card-box">
+                            <div class="col-md-11 card-box">
                                 <div class="row">
                                     <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="1"
                                                       :answers="{{ $examAnswers }}"></act-answer-sheet>
@@ -104,15 +104,17 @@
                     <div class="col-md-11 card-box">
                         @foreach($examAnswers as $examAnswer)
                             <div class="row form-group">
-                                <div class="col-md-1">
-                                    <span> {{$examAnswer->question_number}}.</span>
+                                <div class="col-md-1 question-number-container">
+                                    <span class="edit-exam-question-number"> {{$examAnswer->question_number}}.</span>
                                 </div>
-                                <div class="col-md-5">
-                                    <label class="control-label" for="answer_explanation_{{$examAnswer->question_number}}">Answer Explanation</label>
-                                    <textarea class="form-control" name="answer_explanation_{{$examAnswer->question_number}}" placeholder="Answer Explanation">{{ $examAnswer->explanation }}</textarea>
-                                </div>
-                                <div class="col-md-6">
-                                    <upload-image :image="{{$examAnswer}}" :image-url="`{{$examAnswer->explanation_image}}`" />
+                                <div class="col-md-11">
+                                    <div class="col-md-12">
+                                        <label class="control-label" for="answer_explanation_{{$examAnswer->question_number}}">Answer Explanation</label>
+                                        <textarea class="form-control" name="answer_explanation_{{$examAnswer->question_number}}" placeholder="Answer Explanation" rows="8">{{ $examAnswer->explanation }}</textarea>
+                                    </div>
+                                    <div class="col-md-12 m-t-15">
+                                        <upload-image :image="{{$examAnswer}}" :image-url="`{{$examAnswer->explanation_image}}`" />
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
