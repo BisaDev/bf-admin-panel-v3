@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Brightfox\Models\Exam, Brightfox\Models\ExamSection, Brightfox\Models\StudentExamSection, Brightfox\Models\StudentExam, Brightfox\Models\ExamScoreTable, Brightfox\Models\ExamAnswer;
 use Brightfox\Models\Question;
 use Brightfox\Traits\CreatesAndSavesPhotos;
+use Illuminate\Validation\Rule;
 
 class ExamPrepController extends Controller
 {
@@ -68,6 +69,7 @@ class ExamPrepController extends Controller
            $exam->mini_exam_format = $examArray['format'];
            $exam->mini_exam_time = $examArray['time'];
            $exam->mini_exam_questions = count($examArray['answers']);
+           $exam->subtype = $examArray['subType'] ? $examArray['subType'] : NULL;
         }
 
         $exam->test_id = $exam->create_test_id;
@@ -390,6 +392,7 @@ class ExamPrepController extends Controller
         if ($examType !== 'SAT' && $examType !== 'ACT') {
             $examFormat = $data[3][1];
             $examTime = $data[4][1];
+            $examSubType = $data[0][2];
 
             $answersTablePosition = collect($data)->collapse()->search('Section #')/13;
             $answersTableKeys = $data[$answersTablePosition];
@@ -408,6 +411,7 @@ class ExamPrepController extends Controller
 
             $examArray = [
                 'type' => $examType,
+                'subType' => $examSubType,
                 'source' => $examSource,
                 'description' => $examDescription,
                 'answers' => $answersArray,
@@ -529,7 +533,7 @@ class ExamPrepController extends Controller
 
         if ($type !== 'SAT' && $type !== 'ACT') {
             $validationRules['type'] = 'required|string';
-            $validationRules['format'] = 'required|string';
+            $validationRules['format'] = ['required', Rule::in([ 'mc-4-ABCD', 'mc-4-FGHJ', 'mc-5-FGHJ', 'math-grid'])];
             $validationRules['time'] = 'required|integer';
             $arrayToValidate['format'] = $format;
             $arrayToValidate['time'] = $time;
