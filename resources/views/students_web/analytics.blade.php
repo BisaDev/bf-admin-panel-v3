@@ -20,15 +20,21 @@
                 <table class="table table-responsive table-hover model-list text-center">
                     <thead>
                     <tr>
-                        <th class="text-center">Topic  <a href="{{ route('answer_sheet.analytics'). '?sort_column=topic' }}" class="fa fa-sort"></a></th>
-                        <th class="text-center">Overall <a href="{{ route('answer_sheet.analytics'). '?sort_column=overall' }}" class="fa fa-sort"></a></th>
+                        <th class="text-center">Topic <a
+                                    href="{{ route('answer_sheet.analytics'). '?sort_column=topic&sort_value='.$sortValue }}"
+                                    class="fa fa-sort"></a></th>
+                        <th class="text-center">Overall <a
+                                    href="{{ route('answer_sheet.analytics'). '?sort_column=overall&sort_value='.$sortValue }}"
+                                    class="fa fa-sort"></a></th>
                         @foreach($dates as $date)
-                            <th class="text-center">{{$date}}</th>
+                            <th class="text-center">{{$date}} <a
+                                        href="{{ route('answer_sheet.analytics'). '?sort_column=' . $date . '&sort_value='.$sortValue }}"
+                                        class="fa fa-sort"></a></th>
                         @endforeach
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($overall as $key => $question)
+                    @foreach($sortedBy === 'overall' ? $overall : $questionsByMonth as $key => $question)
                         <tr>
                             <td> {{$key}} </td>
                             <td> {{ $overall[$key]['correct'] }} / {{ $overall[$key]['total'] }}
