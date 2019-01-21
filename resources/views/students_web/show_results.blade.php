@@ -31,12 +31,15 @@
                     <div class="row container">
                         <div class="col-md-12">
                             @if($studentExam->exam->IsMiniExam)
-                                <p>Hi {{ $studentExam->student->name }}, you got <strong>{{ $section->number_correct }}</strong>
-                                    correct out of a possible <strong>{{ $studentExam->exam->mini_exam_questions }}</strong>
+                                <p>Hi {{ $studentExam->student->name }}, you got
+                                    <strong>{{ $section->number_correct }}</strong>
+                                    correct out of a possible
+                                    <strong>{{ $studentExam->exam->mini_exam_questions }}</strong>
                                 <p>You took {{ $section->time }} minutes out of a
                                     possible {{ $studentExam->exam->mini_exam_time }} minutes.</p>
                             @else
-                                <p>Hi {{ $studentExam->student->name }}, you got <strong>{{ $section->number_correct }}</strong>
+                                <p>Hi {{ $studentExam->student->name }}, you got
+                                    <strong>{{ $section->number_correct }}</strong>
                                     correct out of
                                     a possible <strong>{{ $section->metadata->questions }}</strong>
                                     on {{ $section->metadata->section_name }}. That Calculates to a score of
@@ -93,9 +96,13 @@
                             <table class="table table-responsive table-hover model-list text-center">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">Question <a href="{{ route('answer_sheet.show_results', $studentExam->id). '?sort_column=question_number&sort_value='.$sort_columns['question_number'] }}" class="fa fa-sort"></a></th>
+                                    <th class="text-center">Question <a
+                                                href="{{ route('answer_sheet.show_results', $studentExam->id). '?sort_column=question_number&sort_value='.$sort_columns['question_number'] }}"
+                                                class="fa fa-sort"></a></th>
                                     <th class="text-center">Correct Answer</th>
-                                    <th class="text-center">Your Answer <a href="{{ route('answer_sheet.show_results', $studentExam->id). '?sort_column=color_code&sort_value='.$sort_columns['color_code'] }}" class="fa fa-sort"></a></th>
+                                    <th class="text-center">Your Answer <a
+                                                href="{{ route('answer_sheet.show_results', $studentExam->id). '?sort_column=color_code&sort_value='.$sort_columns['color_code'] }}"
+                                                class="fa fa-sort"></a></th>
                                     <th class="text-center">I get it now</th>
                                     <th class="text-center">Topic</th>
                                     <th>&nbsp;</th>
@@ -109,12 +116,15 @@
                                         :correct-answer="{{$question->correctAnswer}}"
                                         :answer-background=`{{$question->BackgroundForReport}}`></tr>
 
-                                    <div class="modal fade" id="answerExplanationModal_{{$question->id}}" tabindex="-1" role="dialog">
+                                    <div class="modal fade" id="answerExplanationModal_{{$question->id}}" tabindex="-1"
+                                         role="dialog">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Question {{$question->question_number}} Explanation</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <h5 class="modal-title">Question {{$question->question_number}}
+                                                        Explanation</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
@@ -124,9 +134,15 @@
                                                     @else
                                                         <p>There is no explanation for this answer.</p>
                                                     @endif
+                                                    @if($question->correctAnswer->explanation_image)
+                                                        <img src="{{ $question->correctAnswer->explanation_image }}"
+                                                             class="modal-image center-block">
+                                                    @endif
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-info" data-dismiss="modal">
+                                                        Close
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

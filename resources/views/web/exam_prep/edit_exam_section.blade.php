@@ -104,7 +104,7 @@
                                         <span class="edit-exam-question-number m-t-10"> {{$examAnswer->question_number}}.</span>
                                     </div>
                                     <div class="col-md-11">
-                                        <input type="text" class="form-control" name="topic_{{$examAnswer->question_number}}" placeholder="Topic ..." value="{{$examAnswer->explanation}}">
+                                        <input type="text" class="form-control" name="topic_{{$examAnswer->question_number}}" placeholder="Topic ..." value="{{$examAnswer->topic}}">
                                     </div>
                                 </div>
                             @endforeach
