@@ -185,6 +185,7 @@ class ExamPrepController extends Controller
             }
 
             $examSection->explanation = $request->input('answer_explanation_' . $key);
+            $examSection->topic = $request->input('topic_' . $key);
             if ($request->has('uploadedPhoto_' . $key)) {
                 if (!is_null($examSection->getOriginal('photo')) || $examSection->getOriginal('photo') != '') {
                     File::delete(public_path(Question::PHOTO_PATH . $examSection->getOriginal('photo')));

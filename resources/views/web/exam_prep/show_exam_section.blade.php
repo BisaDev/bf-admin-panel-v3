@@ -35,6 +35,7 @@
                                     <th class="text-center">Correct 8</th>
                                     <th class="text-center">Correct 9</th>
                                     <th class="text-center">Topic</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                             </thead>
 
@@ -52,7 +53,39 @@
                                         <td> {{ $question->correct_8 }} </td>
                                         <td> {{ $question->correct_9 }} </td>
                                         <td> {{ $question->topic }} </td>
+                                        <td data-toggle="tooltip" title="Answer Explanation"><a href="#" data-toggle="modal" data-target="#answerExplanationModal_{{$question->id}}"><i class="ti-info-alt"></i></a></td>
                                     </tr>
+                                    <div class="modal fade" id="answerExplanationModal_{{$question->id}}" tabindex="-1"
+                                         role="dialog">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Question {{$question->question_number}}
+                                                        Explanation</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @if($question->explanation)
+                                                        <p>{{$question->explanation}}</p>
+                                                    @else
+                                                        <p>There is no explanation for this answer.</p>
+                                                    @endif
+                                                    @if($question->explanation_image)
+                                                        <img src="{{ $question->explanation_image }}"
+                                                             class="modal-image center-block">
+                                                    @endif
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-info" data-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
