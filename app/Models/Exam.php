@@ -3,6 +3,7 @@
 namespace Brightfox\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Exam extends Model
 {
@@ -55,6 +56,25 @@ class Exam extends Model
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function getIsCompletedAttribute()
+    {
+        $student = Student::where('user_id', Auth::id())->first();
+        $examId = $this->id;
+        $completed = $student->exams->contains(function ($item) use($examId) {
+            return $item->exam_id === $examId;
+        });
+        return $completed;
+    }
+
+    public function getNumberOfSectionsAttribute()
+    {
+        if ($this->IsMiniExam) {
+           return 1;
+        } else {
+            return count($this->sectionsMetadata);
         }
     }
 }

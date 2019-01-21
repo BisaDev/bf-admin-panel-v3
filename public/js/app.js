@@ -24935,7 +24935,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_print__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_upload_file__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_generate_results__ = __webpack_require__(84);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_tooltip_math_score__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_student_dashboard__ = __webpack_require__(377);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -24983,7 +24983,7 @@ var app = new Vue({
     el: '#app'
 });
 
-var vue_elements = [__WEBPACK_IMPORTED_MODULE_2__pages_index__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__pages_index_academic_content__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__pages_index_users__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__pages_create__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__pages_create_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__pages_create_question__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__pages_create_quiz__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__pages_create_activity_bucket__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__pages_create_meetup__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__pages_show_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_12__pages_take_practice_exam__["a" /* default */], __WEBPACK_IMPORTED_MODULE_13__pages_print__["a" /* default */], __WEBPACK_IMPORTED_MODULE_14__pages_upload_file__["a" /* default */], __WEBPACK_IMPORTED_MODULE_15__pages_generate_results__["a" /* default */], __WEBPACK_IMPORTED_MODULE_16__pages_tooltip_math_score__["a" /* default */]];
+var vue_elements = [__WEBPACK_IMPORTED_MODULE_2__pages_index__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__pages_index_academic_content__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__pages_index_users__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__pages_create__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__pages_create_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__pages_create_question__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__pages_create_quiz__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__pages_create_activity_bucket__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__pages_create_meetup__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__pages_show_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_12__pages_take_practice_exam__["a" /* default */], __WEBPACK_IMPORTED_MODULE_13__pages_print__["a" /* default */], __WEBPACK_IMPORTED_MODULE_14__pages_upload_file__["a" /* default */], __WEBPACK_IMPORTED_MODULE_15__pages_generate_results__["a" /* default */], __WEBPACK_IMPORTED_MODULE_16__pages_student_dashboard__["a" /* default */]];
 
 vue_elements.forEach(function (element) {
     element.init();
@@ -28550,31 +28550,7 @@ if (token) {
 });
 
 /***/ }),
-/* 92 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-    init: function init() {
-        var domElement = 'tooltip-math';
-        if (document.getElementById(domElement)) {
-            this.execute();
-        }
-    },
-    execute: function execute() {
-        new Vue({
-            el: '#tooltip-math',
-            data: {},
-            mounted: function mounted() {
-                $(function () {
-                    $('[data-toggle="tooltip"]').tooltip();
-                });
-            }
-        });
-    }
-});
-
-/***/ }),
+/* 92 */,
 /* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -97442,6 +97418,248 @@ function extend() {
 __webpack_require__(44);
 module.exports = __webpack_require__(45);
 
+
+/***/ }),
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    init: function init() {
+        var domElement = 'student-dashboard';
+        if (document.getElementById(domElement)) {
+            this.execute();
+        }
+    },
+    execute: function execute() {
+        new Vue({
+            el: '#student-dashboard',
+            data: {
+                showAllExams: false
+            },
+            methods: {},
+            mounted: function mounted() {
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+
+                if ($('input[name="showAllExams"]').data('old') === 'on') {
+                    this.showAllExams = true;
+                }
+            }
+        });
+    }
+});
 
 /***/ })
 /******/ ]);

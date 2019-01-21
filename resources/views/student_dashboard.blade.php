@@ -13,9 +13,22 @@
 @endsection
 
 @section('content')
-    <div class="row" id="tooltip-math">
+    <div class="row" id="student-dashboard">
         <div class="col-sm-12 card-box">
-            <table class="table table-responsive table-hover model-list text-center">
+            <div class="row student-dashboard-filters">
+                <div class="col-md-3">
+                    <label v-show="!showAllExams" for="showAllExams">Show All Exams</label>
+                    <label v-show="showAllExams" for="showAllExams">Show Completed Exams</label>
+                    <input type="checkbox" name="showAllExams" v-model="showAllExams" data-plugin="switchery" data-color="#FC7044" data-size="small">
+                </div>
+                <div class="col-md-3">
+                    <label for="">Filter By Exam Type</label>
+                    <select name="examType" class="form-control">
+                        <option value="">Select Type</option>
+                    </select>
+                </div>
+            </div>
+            <table class="table table-responsive table-hover model-list text-center" v-show="!showAllExams">
                 <thead>
                 <tr>
                     <th class="text-center">Date</th>
@@ -74,6 +87,36 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <table class="table table-responsive table-hover model-list text-center" v-show="showAllExams">
+                <thead>
+                <tr>
+                    <th class="text-center">Exam Type</th>
+                    <th class="text-center">Exam ID</th>
+                    <th class="text-center">Source</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">Sections</th>
+                    <th class="text-center">Completed</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($exams as $exam)
+                    <tr>
+                        <td>{{$exam->type}}</td>
+                        <td>{{$exam->test_id}}</td>
+                        <td>{{$exam->source}}</td>
+                        <td>{{$exam->description}}</td>
+                        <td>{{$exam->numberOfSections}}</td>
+                        @if($exam->isCompleted)
+                            <td><span class="badge badge-pill badge-success"><i class="ti-check"></i></span></td>
+                        @else
+                            <td> - </td>
+                        @endif
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+
         </div>
     </div>
 
