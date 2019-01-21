@@ -22,15 +22,28 @@ class StudentDashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user_id = Auth::id();
-        $student = Student::where('user_id', $user_id)->first();
+        $student = Student::where('user_id', Auth::id())->first();
         $exams = Exam::all();
+        $studentExams = $student->exams;
+        $examTypes = $exams->unique('type')->pluck('type')->all();
+        $typeSelected = '';
+
+        if($request->has('examType')) {
+            $exams = $exams->where('type', $request->input('examType'));
+            $studentExams = $studentExams->filter(function ($studentExam) use($request) {
+               return $studentExam->exam->type === $request->input('examType');
+            });
+            $typeSelected = $request->input('examType');
+        }
+
         return view('student_dashboard', [
             'exams' => $exams,
-            'student' => $student,
+            'studentExams' => $studentExams,
             'allSections' => ExamSectionMetadata::all(),
+            'examTypes' => $examTypes,
+            'typeSelected' => $typeSelected,
         ]);
     }
 }

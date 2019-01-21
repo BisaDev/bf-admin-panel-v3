@@ -26,7 +26,8 @@ Route::domain(env('STUDENT_APP_URL', 'students.brightfoxv2.test'))->group(functi
 
     Route::group(['middleware' => ['auth']], function(){
 
-        Route::get('/', 'StudentDashboardController@index')->name('student_dashboard');
+        Route::match(['get', 'post'], '/',              'StudentDashboardController@index')->name('student_dashboard');
+//        Route::get('/', 'StudentDashboardController@index')->name('student_dashboard');
         Route::post('answer_sheet/',                    'AnswerSheetController@create_exam')->name('answer_sheet.create_exam');
         Route::get('answer_sheet/{examSectionID}',      'AnswerSheetController@show_answer_sheet')->name('answer_sheet.show_answer_sheet');
         Route::post('answer_sheet/{examSectionID}',     'AnswerSheetController@save_answers')->name('answer_sheet.save_answers');
