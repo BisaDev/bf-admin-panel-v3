@@ -27,7 +27,7 @@ class AnswerSheetController extends Controller
         $exam = Exam::where('test_id', $request->input('test-id'))->first();
         $studentExam = $student->exams->whereIn('exam_id', $exam->id);
 
-        if($studentExam->isEmpty()) {
+        if ($studentExam->isEmpty()) {
             $studentExam = StudentExam::create([
                 'exam_id' => $exam->id,
                 'student_id' => $student->id
@@ -189,7 +189,7 @@ class AnswerSheetController extends Controller
 
             if ($firstSections->count() == 4) {
                 if ($examType === 'SAT') {
-                    $spanishScore =  $firstSections->whereIn('section_number', [1, 2])->pluck('score')->sum();
+                    $spanishScore = $firstSections->whereIn('section_number', [1, 2])->pluck('score')->sum();
                     $mathScore = $firstSections->where('section_number', 3)->pluck('score')->sum();
                     $totalScore = $mathScore + $spanishScore;
                     $studentExam->score = $totalScore;
@@ -217,7 +217,7 @@ class AnswerSheetController extends Controller
         if ($user->can('view', $studentExam)) {
             foreach ($studentExam->sections as $examSection) {
 
-                if(!$examSection->time) {
+                if (!$examSection->time) {
                     $examSection->delete();
                 } else {
                     foreach ($examSection->questions as $question) {
@@ -326,8 +326,79 @@ class AnswerSheetController extends Controller
 
         ExamAnswer::where('student_exam_section_id', $studentExamSectionId)
             ->where('question_number', $questionNumber)
-             ->update(['understood' => $understood]);
+            ->update(['understood' => $understood]);
 
         return response()->json($understood);
+    }
+
+    public function analytics(Request $request)
+    {
+        $user_id = Auth::id();
+        $student = Student::where('user_id', $user_id)->first();
+        $questions = [];
+
+        foreach ($student->exams as $studentExam) {
+            foreach ($studentExam->sections as $studentExamSection) {
+                foreach ($studentExamSection->questions as $question) {
+                    $questions[] = [
+                        'isCorrect' => $question->AnswerResult,
+                        'topic' => $question->correctAnswer->topic,
+                        'date' => $question->created_at->format('M-Y'),
+                    ];
+                }
+            }
+        }
+
+        $questionsByTopic = collect($questions)->groupBy('topic');
+        $dates = collect($questions)->pluck('date')->unique();
+
+        $overall = $questionsByTopic->map(function ($topic) {
+            return ['total' => $topic->count(), 'correct' => $topic->where('isCorrect', true)->count(), 'avg' => round(($topic->where('isCorrect', true)->count() / $topic->count()) * 100)];
+        });
+
+        $questionsByMonth = $questionsByTopic->map(function ($topic) {
+            return $topic->groupBy('date')->map(function ($date) {
+                return ['total' => $date->count(), 'correct' => $date->where('isCorrect', true)->count(), 'avg' => round(($date->where('isCorrect', true)->count() / $date->count()) * 100)];
+            });
+        });
+
+        if ($request->has('sort_column')) {
+            $sortValue = $request->input('sort_value') === 'asc' ? 'desc' : 'asc';
+
+            $sortBy = $request->input('sort_column');
+            switch ($sortBy) {
+                case 'overall':
+                    if ($sortValue === 'desc') {
+                        $overall = $overall->sortBy('avg');
+                    } else {
+                        $overall = $overall->sortByDesc('avg');
+                    }
+                    break;
+                case 'topic':
+                    break;
+                default:
+                    if ($sortValue === 'desc') {
+                        $questionsByMonth = $questionsByMonth->sortBy(function ($question) use ($sortBy) {
+                            return isset($question[$sortBy]) ? $question[$sortBy]['avg'] : '';
+                        });
+                    } else {
+                        $questionsByMonth = $questionsByMonth->sortByDesc(function ($question) use ($sortBy) {
+                            return isset($question[$sortBy]) ? $question[$sortBy]['avg'] : '';
+                        });
+                    }
+                    break;
+            }
+        } else {
+            $sortBy = '';
+            $sortValue = 'asc';
+        }
+
+        return view('students_web.analytics', [
+            'dates' => $dates,
+            'overall' => $overall,
+            'questionsByMonth' => $questionsByMonth->toArray(),
+            'sortedBy' => $sortBy,
+            'sortValue' => $sortValue
+        ]);
     }
 }

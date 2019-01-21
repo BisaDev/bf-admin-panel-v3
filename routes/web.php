@@ -32,6 +32,7 @@ Route::domain(env('STUDENT_APP_URL', 'students.brightfoxv2.test'))->group(functi
         Route::post('answer_sheet/{examSectionID}',     'AnswerSheetController@save_answers')->name('answer_sheet.save_answers');
         Route::match(['get', 'post'], 'results/{exam}', 'AnswerSheetController@show_results')->name('answer_sheet.show_results');
         Route::post('results/{exam}',                   'AnswerSheetController@edit_understood')->name('answer_sheet.edit_understood');
+        Route::match(['get', 'post'], 'analytics/',     'AnswerSheetController@analytics')->name('answer_sheet.analytics');
     });
 });
 
