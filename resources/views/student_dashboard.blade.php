@@ -19,8 +19,7 @@
                 {{ csrf_field() }}
                 <div class="row student-dashboard-filters">
                     <div class="col-md-3">
-                        <label v-show="!showAllExams" for="showAllExams">Show All Exams</label>
-                        <label v-show="showAllExams" for="showAllExams">Show Completed Exams</label>
+                        <label for="showAllExams">Show All Exams</label>
                         <input type="checkbox" name="showAllExams" v-model="showAllExams" data-plugin="switchery"
                                data-color="#FC7044" data-size="small">
                     </div>
@@ -44,6 +43,7 @@
                 <tr>
                     <th class="text-center">Date</th>
                     <th class="text-center">Exam Type</th>
+                    <th class="text-center">Subtype</th>
                     <th class="text-center">Section</th>
                     <th class="text-center">Exam ID</th>
                     <th class="text-center">Raw Score</th>
@@ -56,13 +56,14 @@
                 @foreach($studentExams as $exam)
                     <tr>
                         <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}"
-                            class="clickable">{{ $exam->created_at->format('d M Y') }}</td>
+                            class="clickable">{{ $exam->created_at->format('M d Y') }}</td>
                         <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}"
                             class="clickable">{{$exam->exam->type}}</td>
+                        <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}"
+                            class="clickable">{{$exam->exam->subtype ? $exam->exam->subtype : '-'}}</td>
                         <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">
                                 <span>
-                                    Sections:
-                                    @foreach($exam->sections->unique('section_number') as $section)
+                                    @foreach($exam->sections->unique('section_number')->sortBy('section_number') as $section)
                                         {{$section->section_number}}
                                     @endforeach
                                 </span>
@@ -78,7 +79,7 @@
                         @else
                             <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable"><span
                                         data-toggle="tooltip" data-placement="right"
-                                        title="You will have a Calculated Score when you finish all Exam Sections">{{$exam->score}}</span>
+                                        title="You will have a Calculated Score when you finish all Exam Sections"><i class="ti-info-alt"></i></span>
                             </td>
                         @endif
                         <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}"
@@ -88,14 +89,15 @@
                     </tr>
                     @foreach($exam->sections as $section)
                         <tr class="bg-exams-dashboard collapse accordion_{{$exam->id}}">
-                            <td>{{ $exam->created_at->format('d M Y') }}</td>
+                            <td>{{ $exam->created_at->format('M d Y') }}</td>
+                            <td></td>
                             <td></td>
                             <td>{{ $exam->exam->IsMiniExam ? '-' : $section->metadata->section_name }}</td>
                             <td></td>
                             <td>{{$section->number_correct}}
                                 / {{ $exam->exam->IsMiniExam ? $exam->exam->mini_exam_questions : $section->metadata->questions }}</td>
                             @if($section->score)
-                                @if($section->section_number == 3 || $section->section_number == 4)
+                                @if($exam->exam->type === 'SAT' && ($section->section_number == 3 || $section->section_number == 4))
                                     <td><span data-toggle="tooltip" data-placement="right"
                                               title="Both Math sections have the same score but only one is considered in the overall exam score">{{$section->score}}</span>
                                     </td>
@@ -120,8 +122,8 @@
                 <thead>
                 <tr>
                     <th class="text-center">Exam Type</th>
+                    <th class="text-center">Subtype</th>
                     <th class="text-center">Exam ID</th>
-                    <th class="text-center">Source</th>
                     <th class="text-center">Description</th>
                     <th class="text-center">Sections</th>
                     <th class="text-center">Completed</th>
@@ -131,8 +133,8 @@
                 @foreach($exams as $exam)
                     <tr>
                         <td>{{$exam->type}}</td>
+                        <td>{{$exam->subtype ? $exam->subtype : '-'}}</td>
                         <td>{{$exam->test_id}}</td>
-                        <td>{{$exam->source}}</td>
                         <td>{{$exam->description}}</td>
                         <td>{{$exam->numberOfSections}}</td>
                         @if($exam->isCompleted)
