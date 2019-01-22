@@ -34,6 +34,10 @@
             </div>
         </div>
 
+        <div class="alert alert-danger" role="alert" v-show="examCompleted">
+            You have already completed this exam!
+        </div>
+
         <div class="modal-footer">
             <button type="button" v-on:click="examSection = !examSection" v-if="!examSection" class="btn btn-md btn-info">Next</button>
             <button type="submit" v-if="examSection || miniExam" class="btn btn-md btn-info">Start Exam</button>
@@ -45,7 +49,7 @@
     import swal from "sweetalert2";
 
     export default {
-        props: ['exams', 'examTypes', 'allSections', 'studentExams'],
+        props: ['exams', 'examTypes', 'allSections', 'examsCompleted'],
         data() {
             return {
                 selected: [],
@@ -54,6 +58,7 @@
                 examSection: false,
                 miniExam: false,
                 selectedTypeSections: [],
+                examCompleted: false
             }
         },
         computed: {
@@ -89,6 +94,9 @@
                     });
                     this.selectedTypeSections = selectedTypeSections;
                 }
+            },
+            examId: function () {
+                this.examCompleted = Object.values(this.examsCompleted).includes(this.examId);
             }
         }
     }

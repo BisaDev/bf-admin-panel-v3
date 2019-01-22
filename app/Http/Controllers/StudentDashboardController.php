@@ -31,6 +31,12 @@ class StudentDashboardController extends Controller
         $examTypes = $exams->unique('type')->pluck('type')->all();
         $typeSelected = '';
 
+        $examsCompleted = $student->exams->filter(function ($studentExam) {
+           return $studentExam->score !== 0;
+        })->map(function ($examCompleted) {
+           return $examCompleted->exam->test_id;
+        });
+
         if($request->has('examType')) {
             $exams = $exams->where('type', $request->input('examType'));
             $studentExams = $studentExams->filter(function ($studentExam) use($request) {
@@ -41,7 +47,7 @@ class StudentDashboardController extends Controller
 
         return view('student_dashboard', [
             'exams' => $exams,
-            'student' => $student,
+            'examsCompleted' => $examsCompleted,
             'studentExams' => $studentExams,
             'allSections' => ExamSectionMetadata::all(),
             'examTypes' => $examTypes,

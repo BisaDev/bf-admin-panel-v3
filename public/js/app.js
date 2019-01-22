@@ -26903,11 +26903,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['exams', 'examTypes', 'allSections', 'studentExams'],
+    props: ['exams', 'examTypes', 'allSections', 'examsCompleted'],
     data: function data() {
         return {
             selected: [],
@@ -26915,7 +26919,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             examId: '',
             examSection: false,
             miniExam: false,
-            selectedTypeSections: []
+            selectedTypeSections: [],
+            examCompleted: false
         };
     },
 
@@ -26952,6 +26957,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
                 this.selectedTypeSections = selectedTypeSections;
             }
+        },
+        examId: function examId() {
+            this.examCompleted = Object.values(this.examsCompleted).includes(this.examId);
         }
     }
 });
@@ -85053,6 +85061,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" All sections ")])])], 2)])])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.examCompleted),
+      expression: "examCompleted"
+    }],
+    staticClass: "alert alert-danger",
+    attrs: {
+      "role": "alert"
+    }
+  }, [_vm._v("\n        You have already completed this exam!\n    ")]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [(!_vm.examSection) ? _c('button', {
     staticClass: "btn btn-md btn-info",
