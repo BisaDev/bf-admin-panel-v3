@@ -63,7 +63,7 @@
                             class="clickable">{{$exam->exam->subtype ? $exam->exam->subtype : '-'}}</td>
                         <td data-toggle="collapse" data-target=".accordion_{{$exam->id}}" class="clickable">
                                 <span>
-                                    @foreach($exam->sections->unique('section_number') as $section)
+                                    @foreach($exam->sections->unique('section_number')->sortBy('section_number') as $section)
                                         {{$section->section_number}}
                                     @endforeach
                                 </span>
