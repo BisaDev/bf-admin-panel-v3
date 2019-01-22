@@ -86405,7 +86405,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1.toUpperCase()))]), _vm._v(" "), _c('td', {
     class: _vm.answerBackground
-  }, [_vm._v(_vm._s(this.question.answer ? this.question.answer.toUpperCase() : ''))]), _vm._v(" "), (this.question.answer.toUpperCase() === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5) ? [(_vm.questionUnderstood) ? _c('td') : _c('td', [_c('input', {
+  }, [_vm._v(_vm._s(this.question.answer ? this.question.answer.toUpperCase() : ''))]), _vm._v(" "), (this.question.answer ? this.question.answer.toUpperCase() === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5 : '') ? [(_vm.questionUnderstood) ? _c('td') : _c('td', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",

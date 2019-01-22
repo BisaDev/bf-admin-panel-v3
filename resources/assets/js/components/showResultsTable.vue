@@ -3,7 +3,7 @@
         <td>{{ this.question.question_number }}</td>
         <td>{{ this.correctAnswer.correct_1.toUpperCase() }}</td>
         <td :class="answerBackground">{{ this.question.answer ? this.question.answer.toUpperCase() : '' }}</td>
-        <template v-if="this.question.answer.toUpperCase() === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5">
+        <template v-if="this.question.answer ? this.question.answer.toUpperCase() === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5 : ''">
             <td v-if="questionUnderstood"></td>
             <td v-else>
                 <input type="checkbox" v-model="questionUnderstood" @click="toggleActive"
