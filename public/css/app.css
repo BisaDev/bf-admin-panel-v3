@@ -28557,6 +28557,18 @@ table.model-list td img {
   font-size: 20px;
   margin-top: 20px;
 }
+.student-dashboard-filters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 15px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 .question {
   padding-top: 10px;
   position: relative;

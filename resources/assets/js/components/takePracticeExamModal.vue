@@ -10,7 +10,7 @@
 
             <div class="form-group">
                 <label for="test-id">Enter Test ID:</label>
-                <select class="form-control" name="test-id" id="test-id">
+                <select class="form-control" name="test-id" id="test-id" v-model="examId">
                     <option v-if="examType === exam.type" v-for="exam in exams">{{exam.test_id}}</option>
                 </select>
             </div>
@@ -34,6 +34,10 @@
             </div>
         </div>
 
+        <div class="alert alert-danger" role="alert" v-show="examCompleted">
+            You have already completed this exam!
+        </div>
+
         <div class="modal-footer">
             <button type="button" v-on:click="examSection = !examSection" v-if="!examSection" class="btn btn-md btn-info">Next</button>
             <button type="submit" v-if="examSection || miniExam" class="btn btn-md btn-info">Start Exam</button>
@@ -42,15 +46,19 @@
 </template>
 
 <script>
+    import swal from "sweetalert2";
+
     export default {
-        props: ['exams', 'examTypes', 'allSections'],
+        props: ['exams', 'examTypes', 'allSections', 'examsCompleted'],
         data() {
             return {
                 selected: [],
                 examType: '',
+                examId: '',
                 examSection: false,
                 miniExam: false,
                 selectedTypeSections: [],
+                examCompleted: false
             }
         },
         computed: {
@@ -77,6 +85,8 @@
                     this.miniExam = true;
                     this.examSection = true;
                 } else {
+                    this.miniExam = false;
+                    this.examSection = false;
                     this.allSections.forEach(function (section) {
                         if (section.exam_type === examType) {
                             selectedTypeSections.push(section);
@@ -84,6 +94,9 @@
                     });
                     this.selectedTypeSections = selectedTypeSections;
                 }
+            },
+            examId: function () {
+                this.examCompleted = Object.values(this.examsCompleted).includes(this.examId);
             }
         }
     }

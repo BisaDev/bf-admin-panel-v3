@@ -2522,7 +2522,7 @@ var objectKeys = Object.keys || function (obj) {
 module.exports = Duplex;
 
 /*<replacement>*/
-var util = __webpack_require__(9);
+var util = __webpack_require__(10);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -2604,301 +2604,6 @@ function forEach(xs, f) {
 
 /***/ }),
 /* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var getAcademicContent = {
-    methods: {
-        getSubjectsFromGradeLevel: function getSubjectsFromGradeLevel(url, event) {
-
-            axios.post(url, {
-                grade_level_id: event.target.value
-            }).then(function (response) {
-                var option = new Option('Select subject', '');
-                $("#subject").html('').append(option);
-
-                $.each(response.data, function (i, item) {
-                    var option = new Option(item.name, item.id);
-                    $("#subject").append(option);
-                });
-
-                if ($('#subject').data('selected') != '') {
-
-                    $('#subject option[value=' + $('#subject').data('selected') + ']').prop('selected', true);
-                    var _event = document.createEvent('HTMLEvents');
-                    _event.initEvent('change', true, true);
-
-                    $('#subject')[0].dispatchEvent(_event);
-                }
-            });
-        },
-        getTopicsFromSubject: function getTopicsFromSubject(url, event) {
-
-            axios.post(url, {
-                subject_id: event.target.value
-            }).then(function (response) {
-                var option = new Option('Select topic', '');
-                $("#topic").html('').append(option);
-
-                $.each(response.data, function (i, item) {
-                    var option = new Option(item.name, item.id);
-                    $("#topic").append(option);
-                });
-
-                if ($('#topic').data('selected') != '') {
-                    $('#topic option[value=' + $('#topic').data('selected') + ']').prop('selected', true);
-                }
-            });
-        }
-    },
-    mounted: function mounted() {
-
-        if ($('#grade_level').length > 0 && $('#grade_level').data('selected') != '') {
-
-            $('#grade_level option[value=' + $('#grade_level').data('selected') + ']').prop('selected', true);
-            var event = document.createEvent('HTMLEvents');
-            event.initEvent('change', true, true);
-
-            $('#grade_level')[0].dispatchEvent(event);
-        }
-    }
-};
-/* harmony default export */ __webpack_exports__["a"] = (getAcademicContent);
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
-
-
-var imagePreview = {
-    methods: {
-        createImage: function createImage(e) {
-            var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length) return;
-
-            var reader = new FileReader();
-            var vm = this;
-
-            reader.onload = function (e2) {
-                var image_src = e2.target.result;
-
-                vm.validateImage(image_src, index, function (invalid) {
-
-                    if (invalid) {
-                        e.target.value = null;
-                        var title = void 0,
-                            text = void 0;
-
-                        if (index !== null) {
-                            title = 'Invalid Image';
-                            text = 'Answer images must be square.';
-                        } else {
-                            switch (vm.type) {
-                                case '4':
-                                    //Drag and drop
-                                    title = 'Invalid Image';
-                                    text = 'Image must be 1366 x 512.';
-                                    break;
-                                case '3': //Apple pencil
-                                case '5': //Touch select
-                                case '6':
-                                    //Research and Report back
-                                    title = 'Invalid Image';
-                                    text = 'Image must be 1024 x 512.';
-                                    break;
-                                case '':
-                                    title = 'Select Question Type';
-                                    text = 'Please select a question type before adding an image.';
-                            }
-                        }
-
-                        __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default()({
-                            title: title,
-                            text: text,
-                            type: 'warning',
-                            confirmButtonColor: '#23527c',
-                            cancelButtonColor: '#f05050',
-                            confirmButtonText: 'Dismiss'
-                        });
-                    } else {
-                        if (index === null) {
-                            vm.photo = image_src;
-                        } else {
-                            vm.children[index].photo = image_src;
-                        }
-                    }
-                });
-            };
-
-            reader.readAsDataURL(files[0]);
-        },
-        validateImage: function validateImage(image_src, index, callback) {
-
-            var image = new Image();
-            var vue_instance = this;
-            var invalid_image = false;
-
-            image.onload = function () {
-
-                if (vue_instance.type !== 'not-question') {
-                    if (index !== null) {
-                        if (image.width !== image.height) {
-                            invalid_image = true;
-                        }
-                    } else {
-                        switch (vue_instance.type) {
-                            case '4':
-                                //Drag and drop
-                                if (image.width !== 1366 || image.height !== 512) {
-                                    invalid_image = true;
-                                }
-                                break;
-                            case '3': //Apple pencil
-                            case '5': //Touch select
-                            case '6':
-                                //Research and Report back
-                                if (image.width !== 1024 || image.height !== 512) {
-                                    invalid_image = true;
-                                }
-                                break;
-                            case '':
-                                invalid_image = true;
-                        }
-                    }
-                }
-
-                callback(invalid_image);
-            };
-
-            image.src = image_src;
-        }
-    }
-};
-/* harmony default export */ __webpack_exports__["a"] = (imagePreview);
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-
-function isArray(arg) {
-  if (Array.isArray) {
-    return Array.isArray(arg);
-  }
-  return objectToString(arg) === '[object Array]';
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = Buffer.isBuffer;
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).Buffer))
-
-/***/ }),
-/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -4583,13 +4288,308 @@ if (window.Sweetalert2) window.sweetAlert = window.swal = window.Sweetalert2;
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var getAcademicContent = {
+    methods: {
+        getSubjectsFromGradeLevel: function getSubjectsFromGradeLevel(url, event) {
+
+            axios.post(url, {
+                grade_level_id: event.target.value
+            }).then(function (response) {
+                var option = new Option('Select subject', '');
+                $("#subject").html('').append(option);
+
+                $.each(response.data, function (i, item) {
+                    var option = new Option(item.name, item.id);
+                    $("#subject").append(option);
+                });
+
+                if ($('#subject').data('selected') != '') {
+
+                    $('#subject option[value=' + $('#subject').data('selected') + ']').prop('selected', true);
+                    var _event = document.createEvent('HTMLEvents');
+                    _event.initEvent('change', true, true);
+
+                    $('#subject')[0].dispatchEvent(_event);
+                }
+            });
+        },
+        getTopicsFromSubject: function getTopicsFromSubject(url, event) {
+
+            axios.post(url, {
+                subject_id: event.target.value
+            }).then(function (response) {
+                var option = new Option('Select topic', '');
+                $("#topic").html('').append(option);
+
+                $.each(response.data, function (i, item) {
+                    var option = new Option(item.name, item.id);
+                    $("#topic").append(option);
+                });
+
+                if ($('#topic').data('selected') != '') {
+                    $('#topic option[value=' + $('#topic').data('selected') + ']').prop('selected', true);
+                }
+            });
+        }
+    },
+    mounted: function mounted() {
+
+        if ($('#grade_level').length > 0 && $('#grade_level').data('selected') != '') {
+
+            $('#grade_level option[value=' + $('#grade_level').data('selected') + ']').prop('selected', true);
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', true, true);
+
+            $('#grade_level')[0].dispatchEvent(event);
+        }
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (getAcademicContent);
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
+
+
+var imagePreview = {
+    methods: {
+        createImage: function createImage(e) {
+            var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+
+            var reader = new FileReader();
+            var vm = this;
+
+            reader.onload = function (e2) {
+                var image_src = e2.target.result;
+
+                vm.validateImage(image_src, index, function (invalid) {
+
+                    if (invalid) {
+                        e.target.value = null;
+                        var title = void 0,
+                            text = void 0;
+
+                        if (index !== null) {
+                            title = 'Invalid Image';
+                            text = 'Answer images must be square.';
+                        } else {
+                            switch (vm.type) {
+                                case '4':
+                                    //Drag and drop
+                                    title = 'Invalid Image';
+                                    text = 'Image must be 1366 x 512.';
+                                    break;
+                                case '3': //Apple pencil
+                                case '5': //Touch select
+                                case '6':
+                                    //Research and Report back
+                                    title = 'Invalid Image';
+                                    text = 'Image must be 1024 x 512.';
+                                    break;
+                                case '':
+                                    title = 'Select Question Type';
+                                    text = 'Please select a question type before adding an image.';
+                            }
+                        }
+
+                        __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default()({
+                            title: title,
+                            text: text,
+                            type: 'warning',
+                            confirmButtonColor: '#23527c',
+                            cancelButtonColor: '#f05050',
+                            confirmButtonText: 'Dismiss'
+                        });
+                    } else {
+                        if (index === null) {
+                            vm.photo = image_src;
+                        } else {
+                            vm.children[index].photo = image_src;
+                        }
+                    }
+                });
+            };
+
+            reader.readAsDataURL(files[0]);
+        },
+        validateImage: function validateImage(image_src, index, callback) {
+
+            var image = new Image();
+            var vue_instance = this;
+            var invalid_image = false;
+
+            image.onload = function () {
+
+                if (vue_instance.type !== 'not-question') {
+                    if (index !== null) {
+                        if (image.width !== image.height) {
+                            invalid_image = true;
+                        }
+                    } else {
+                        switch (vue_instance.type) {
+                            case '4':
+                                //Drag and drop
+                                if (image.width !== 1366 || image.height !== 512) {
+                                    invalid_image = true;
+                                }
+                                break;
+                            case '3': //Apple pencil
+                            case '5': //Touch select
+                            case '6':
+                                //Research and Report back
+                                if (image.width !== 1024 || image.height !== 512) {
+                                    invalid_image = true;
+                                }
+                                break;
+                            case '':
+                                invalid_image = true;
+                        }
+                    }
+                }
+
+                callback(invalid_image);
+            };
+
+            image.src = image_src;
+        }
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (imagePreview);
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+function isArray(arg) {
+  if (Array.isArray) {
+    return Array.isArray(arg);
+  }
+  return objectToString(arg) === '[object Array]';
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = Buffer.isBuffer;
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).Buffer))
+
+/***/ }),
 /* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
 
 
@@ -20054,7 +20054,7 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 /*<replacement>*/
-var util = __webpack_require__(9);
+var util = __webpack_require__(10);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -21072,7 +21072,7 @@ module.exports = Transform;
 var Duplex = __webpack_require__(6);
 
 /*<replacement>*/
-var util = __webpack_require__(9);
+var util = __webpack_require__(10);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -21288,7 +21288,7 @@ var Duplex;
 Writable.WritableState = WritableState;
 
 /*<replacement>*/
-var util = __webpack_require__(9);
+var util = __webpack_require__(10);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -24931,11 +24931,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_create_activity_bucket__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_create_meetup__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_show_student__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_take_practice_exam__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_take_practice_exam__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_print__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_upload_file__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_generate_results__ = __webpack_require__(84);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_tooltip_math_score__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_student_dashboard__ = __webpack_require__(91);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -24983,7 +24983,7 @@ var app = new Vue({
     el: '#app'
 });
 
-var vue_elements = [__WEBPACK_IMPORTED_MODULE_2__pages_index__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__pages_index_academic_content__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__pages_index_users__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__pages_create__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__pages_create_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__pages_create_question__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__pages_create_quiz__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__pages_create_activity_bucket__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__pages_create_meetup__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__pages_show_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_12__pages_take_practice_exam__["a" /* default */], __WEBPACK_IMPORTED_MODULE_13__pages_print__["a" /* default */], __WEBPACK_IMPORTED_MODULE_14__pages_upload_file__["a" /* default */], __WEBPACK_IMPORTED_MODULE_15__pages_generate_results__["a" /* default */], __WEBPACK_IMPORTED_MODULE_16__pages_tooltip_math_score__["a" /* default */]];
+var vue_elements = [__WEBPACK_IMPORTED_MODULE_2__pages_index__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__pages_index_academic_content__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__pages_index_users__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__pages_create__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__pages_create_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__pages_create_question__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__pages_create_quiz__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__pages_create_activity_bucket__["a" /* default */], __WEBPACK_IMPORTED_MODULE_10__pages_create_meetup__["a" /* default */], __WEBPACK_IMPORTED_MODULE_11__pages_show_student__["a" /* default */], __WEBPACK_IMPORTED_MODULE_12__pages_take_practice_exam__["a" /* default */], __WEBPACK_IMPORTED_MODULE_13__pages_print__["a" /* default */], __WEBPACK_IMPORTED_MODULE_14__pages_upload_file__["a" /* default */], __WEBPACK_IMPORTED_MODULE_15__pages_generate_results__["a" /* default */], __WEBPACK_IMPORTED_MODULE_16__pages_student_dashboard__["a" /* default */]];
 
 vue_elements.forEach(function (element) {
     element.init();
@@ -26858,6 +26858,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
+//
+//
+//
+//
 //
 //
 //
@@ -26902,15 +26908,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['exams', 'examTypes', 'allSections'],
+    props: ['exams', 'examTypes', 'allSections', 'examsCompleted'],
     data: function data() {
         return {
             selected: [],
             examType: '',
+            examId: '',
             examSection: false,
             miniExam: false,
-            selectedTypeSections: []
+            selectedTypeSections: [],
+            examCompleted: false
         };
     },
 
@@ -26938,6 +26948,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.miniExam = true;
                 this.examSection = true;
             } else {
+                this.miniExam = false;
+                this.examSection = false;
                 this.allSections.forEach(function (section) {
                     if (section.exam_type === examType) {
                         selectedTypeSections.push(section);
@@ -26945,6 +26957,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
                 this.selectedTypeSections = selectedTypeSections;
             }
+        },
+        examId: function examId() {
+            this.examCompleted = Object.values(this.examsCompleted).includes(this.examId);
         }
     }
 });
@@ -27001,8 +27016,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_mixins_imagePreview__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_mixins_imagePreview__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
 //
 //
@@ -27130,7 +27145,7 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
 
@@ -27248,7 +27263,7 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_managesChildren__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
@@ -27400,13 +27415,13 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_cropImages__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_fabric__ = __webpack_require__(114);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_fabric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_fabric__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_sweetalert2__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_sweetalert2__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_sweetalert2__);
 
 
@@ -27871,8 +27886,8 @@ if (token) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_imagePreview__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_imagePreview__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_tagRepository__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuedraggable__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vuedraggable__);
@@ -28018,7 +28033,7 @@ if (token) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_managesChildren__ = __webpack_require__(12);
 
 
@@ -28064,7 +28079,7 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_imagePreview__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_imagePreview__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_managesChildren__ = __webpack_require__(12);
 
 
@@ -28180,7 +28195,7 @@ if (token) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_indexGeneral__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(8);
 
 
 
@@ -28281,7 +28296,7 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_cropImage__ = __webpack_require__(134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_cropImage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_cropImage__);
@@ -28534,6 +28549,38 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    init: function init() {
+        var domElement = 'student-dashboard';
+        if (document.getElementById(domElement)) {
+            this.execute();
+        }
+    },
+    execute: function execute() {
+        new Vue({
+            el: '#student-dashboard',
+            data: {
+                showAllExams: false
+            },
+            methods: {},
+            mounted: function mounted() {
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+
+                if ($('input[name="showAllExams"]').data('old') === 'on') {
+                    this.showAllExams = true;
+                }
+            }
+        });
+    }
+});
+
+/***/ }),
+/* 92 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     init: function init() {
@@ -28545,31 +28592,6 @@ if (token) {
     execute: function execute() {
         new Vue({
             el: '#take-practice-exam'
-        });
-    }
-});
-
-/***/ }),
-/* 92 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-    init: function init() {
-        var domElement = 'tooltip-math';
-        if (document.getElementById(domElement)) {
-            this.execute();
-        }
-    },
-    execute: function execute() {
-        new Vue({
-            el: '#tooltip-math',
-            data: {},
-            mounted: function mounted() {
-                $(function () {
-                    $('[data-toggle="tooltip"]').tooltip();
-                });
-            }
         });
     }
 });
@@ -81313,7 +81335,7 @@ module.exports = PassThrough;
 var Transform = __webpack_require__(34);
 
 /*<replacement>*/
-var util = __webpack_require__(9);
+var util = __webpack_require__(10);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -84927,10 +84949,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "for": "test-id"
     }
   }, [_vm._v("Enter Test ID:")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.examId),
+      expression: "examId"
+    }],
     staticClass: "form-control",
     attrs: {
       "name": "test-id",
       "id": "test-id"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.examId = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
   }, _vm._l((_vm.exams), function(exam) {
     return (_vm.examType === exam.type) ? _c('option', [_vm._v(_vm._s(exam.test_id))]) : _vm._e()
@@ -85022,6 +85061,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" All sections ")])])], 2)])])])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.examCompleted),
+      expression: "examCompleted"
+    }],
+    staticClass: "alert alert-danger",
+    attrs: {
+      "role": "alert"
+    }
+  }, [_vm._v("\n        You have already completed this exam!\n    ")]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [(!_vm.examSection) ? _c('button', {
     staticClass: "btn btn-md btn-info",
