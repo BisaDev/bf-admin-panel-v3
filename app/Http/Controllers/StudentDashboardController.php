@@ -26,6 +26,7 @@ class StudentDashboardController extends Controller
     {
         $student = Student::where('user_id', Auth::id())->first();
         $exams = Exam::all();
+        $allExams = Exam::all();
         $studentExams = $student->exams;
         $examTypes = $exams->unique('type')->pluck('type')->all();
         $typeSelected = '';
@@ -40,10 +41,12 @@ class StudentDashboardController extends Controller
 
         return view('student_dashboard', [
             'exams' => $exams,
+            'student' => $student,
             'studentExams' => $studentExams,
             'allSections' => ExamSectionMetadata::all(),
             'examTypes' => $examTypes,
             'typeSelected' => $typeSelected,
+            'allExams' => $allExams,
         ]);
     }
 }

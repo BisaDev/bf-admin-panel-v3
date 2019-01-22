@@ -159,8 +159,9 @@
 
                 <form action="{{ route('answer_sheet.create_exam') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <take-practice-exam :exams="{{$exams}}" :exam-types="{{$exams->unique('type')}}"
-                                        :all-sections="{{$allSections}}"></take-practice-exam>
+                    <take-practice-exam :exams="{{$allExams}}" :exam-types="{{$allExams->unique('type')}}"
+                                        :all-sections="{{$allSections}}"
+                                        :student-exams="{{$student->exams->pluck('exam_id')->unique()}}"></take-practice-exam>
                 </form>
             </div>
         </div>
