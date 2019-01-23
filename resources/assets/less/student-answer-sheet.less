@@ -57,9 +57,11 @@
 }
 
 .wrapper {
-  display: flex;
-  padding: 0 20px;
-  justify-content: space-between;
+  @media screen and (min-width: 850px) {
+    display: flex;
+    padding: 0 20px;
+    justify-content: space-between;
+  }
 }
 
 .edit {
