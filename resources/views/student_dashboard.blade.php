@@ -89,7 +89,7 @@
                     </tr>
                     @foreach($exam->sections as $section)
                         <tr class="bg-exams-dashboard collapse accordion_{{$exam->id}}">
-                            <td>{{ $exam->created_at->format('M d Y') }}</td>
+                            <td>{{ $section->created_at->format('M d Y') }}</td>
                             <td></td>
                             <td></td>
                             <td>{{ $exam->exam->IsMiniExam ? '-' : $section->metadata->section_name }}</td>
