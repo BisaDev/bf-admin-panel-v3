@@ -46,8 +46,6 @@
 </template>
 
 <script>
-    import swal from "sweetalert2";
-
     export default {
         props: ['exams', 'examTypes', 'allSections', 'examsCompleted'],
         data() {
@@ -58,7 +56,7 @@
                 examSection: false,
                 miniExam: false,
                 selectedTypeSections: [],
-                examCompleted: false
+                examCompleted: false,
             }
         },
         computed: {
