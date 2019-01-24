@@ -25,6 +25,8 @@ class ActivityBucketController extends Controller
         if($request->has('search')){
             $search = $request->input('search');
             $query->search($search);
+        } else {
+            $search = '';
         }
 
         if(!is_null($filters['subject'])){

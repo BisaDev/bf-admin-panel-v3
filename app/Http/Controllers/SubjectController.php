@@ -63,6 +63,7 @@ class SubjectController extends Controller
             $search = $request->input('search');
             $item->topics = $item->topics()->search($search)->paginate(50);
         }else{
+            $search = '';
             $item->topics = $item->topics()->paginate(50);
         }
 

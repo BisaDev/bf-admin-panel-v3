@@ -25,6 +25,7 @@ class StudentController extends Controller
             $search = $request->input('search');
             $list = Student::search($search)->paginate(50);
         }else{
+            $search = '';
             $list = Student::paginate(50);
         }
 
@@ -159,6 +160,7 @@ class StudentController extends Controller
             $search = $request->input('search');
             $item->family_members = $item->family_members()->search($search)->paginate(50);
         }else{
+            $search = '';
             $item->family_members = $item->family_members()->paginate(50);
         }
 
