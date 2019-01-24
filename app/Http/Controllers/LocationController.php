@@ -19,6 +19,7 @@ class LocationController extends Controller
             $search = $request->input('search');
             $list = Location::search($search)->paginate(50);
         }else{
+            $search = '';
             $list = Location::paginate(50);
         }
 
@@ -78,6 +79,7 @@ class LocationController extends Controller
             $search = $request->input('search');
             $item->rooms = $item->rooms()->search($search)->paginate(50);
         }else{
+            $search = '';
             $item->rooms = $item->rooms()->paginate(50);
         }
 

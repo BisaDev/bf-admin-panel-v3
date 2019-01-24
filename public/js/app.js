@@ -2522,7 +2522,7 @@ var objectKeys = Object.keys || function (obj) {
 module.exports = Duplex;
 
 /*<replacement>*/
-var util = __webpack_require__(10);
+var util = __webpack_require__(9);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -2604,6 +2604,301 @@ function forEach(xs, f) {
 
 /***/ }),
 /* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var getAcademicContent = {
+    methods: {
+        getSubjectsFromGradeLevel: function getSubjectsFromGradeLevel(url, event) {
+
+            axios.post(url, {
+                grade_level_id: event.target.value
+            }).then(function (response) {
+                var option = new Option('Select subject', '');
+                $("#subject").html('').append(option);
+
+                $.each(response.data, function (i, item) {
+                    var option = new Option(item.name, item.id);
+                    $("#subject").append(option);
+                });
+
+                if ($('#subject').data('selected') != '') {
+
+                    $('#subject option[value=' + $('#subject').data('selected') + ']').prop('selected', true);
+                    var _event = document.createEvent('HTMLEvents');
+                    _event.initEvent('change', true, true);
+
+                    $('#subject')[0].dispatchEvent(_event);
+                }
+            });
+        },
+        getTopicsFromSubject: function getTopicsFromSubject(url, event) {
+
+            axios.post(url, {
+                subject_id: event.target.value
+            }).then(function (response) {
+                var option = new Option('Select topic', '');
+                $("#topic").html('').append(option);
+
+                $.each(response.data, function (i, item) {
+                    var option = new Option(item.name, item.id);
+                    $("#topic").append(option);
+                });
+
+                if ($('#topic').data('selected') != '') {
+                    $('#topic option[value=' + $('#topic').data('selected') + ']').prop('selected', true);
+                }
+            });
+        }
+    },
+    mounted: function mounted() {
+
+        if ($('#grade_level').length > 0 && $('#grade_level').data('selected') != '') {
+
+            $('#grade_level option[value=' + $('#grade_level').data('selected') + ']').prop('selected', true);
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', true, true);
+
+            $('#grade_level')[0].dispatchEvent(event);
+        }
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (getAcademicContent);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
+
+
+var imagePreview = {
+    methods: {
+        createImage: function createImage(e) {
+            var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+
+            var reader = new FileReader();
+            var vm = this;
+
+            reader.onload = function (e2) {
+                var image_src = e2.target.result;
+
+                vm.validateImage(image_src, index, function (invalid) {
+
+                    if (invalid) {
+                        e.target.value = null;
+                        var title = void 0,
+                            text = void 0;
+
+                        if (index !== null) {
+                            title = 'Invalid Image';
+                            text = 'Answer images must be square.';
+                        } else {
+                            switch (vm.type) {
+                                case '4':
+                                    //Drag and drop
+                                    title = 'Invalid Image';
+                                    text = 'Image must be 1366 x 512.';
+                                    break;
+                                case '3': //Apple pencil
+                                case '5': //Touch select
+                                case '6':
+                                    //Research and Report back
+                                    title = 'Invalid Image';
+                                    text = 'Image must be 1024 x 512.';
+                                    break;
+                                case '':
+                                    title = 'Select Question Type';
+                                    text = 'Please select a question type before adding an image.';
+                            }
+                        }
+
+                        __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default()({
+                            title: title,
+                            text: text,
+                            type: 'warning',
+                            confirmButtonColor: '#23527c',
+                            cancelButtonColor: '#f05050',
+                            confirmButtonText: 'Dismiss'
+                        });
+                    } else {
+                        if (index === null) {
+                            vm.photo = image_src;
+                        } else {
+                            vm.children[index].photo = image_src;
+                        }
+                    }
+                });
+            };
+
+            reader.readAsDataURL(files[0]);
+        },
+        validateImage: function validateImage(image_src, index, callback) {
+
+            var image = new Image();
+            var vue_instance = this;
+            var invalid_image = false;
+
+            image.onload = function () {
+
+                if (vue_instance.type !== 'not-question') {
+                    if (index !== null) {
+                        if (image.width !== image.height) {
+                            invalid_image = true;
+                        }
+                    } else {
+                        switch (vue_instance.type) {
+                            case '4':
+                                //Drag and drop
+                                if (image.width !== 1366 || image.height !== 512) {
+                                    invalid_image = true;
+                                }
+                                break;
+                            case '3': //Apple pencil
+                            case '5': //Touch select
+                            case '6':
+                                //Research and Report back
+                                if (image.width !== 1024 || image.height !== 512) {
+                                    invalid_image = true;
+                                }
+                                break;
+                            case '':
+                                invalid_image = true;
+                        }
+                    }
+                }
+
+                callback(invalid_image);
+            };
+
+            image.src = image_src;
+        }
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (imagePreview);
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+function isArray(arg) {
+  if (Array.isArray) {
+    return Array.isArray(arg);
+  }
+  return objectToString(arg) === '[object Array]';
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = Buffer.isBuffer;
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).Buffer))
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -4288,308 +4583,13 @@ if (window.Sweetalert2) window.sweetAlert = window.swal = window.Sweetalert2;
 
 
 /***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var getAcademicContent = {
-    methods: {
-        getSubjectsFromGradeLevel: function getSubjectsFromGradeLevel(url, event) {
-
-            axios.post(url, {
-                grade_level_id: event.target.value
-            }).then(function (response) {
-                var option = new Option('Select subject', '');
-                $("#subject").html('').append(option);
-
-                $.each(response.data, function (i, item) {
-                    var option = new Option(item.name, item.id);
-                    $("#subject").append(option);
-                });
-
-                if ($('#subject').data('selected') != '') {
-
-                    $('#subject option[value=' + $('#subject').data('selected') + ']').prop('selected', true);
-                    var _event = document.createEvent('HTMLEvents');
-                    _event.initEvent('change', true, true);
-
-                    $('#subject')[0].dispatchEvent(_event);
-                }
-            });
-        },
-        getTopicsFromSubject: function getTopicsFromSubject(url, event) {
-
-            axios.post(url, {
-                subject_id: event.target.value
-            }).then(function (response) {
-                var option = new Option('Select topic', '');
-                $("#topic").html('').append(option);
-
-                $.each(response.data, function (i, item) {
-                    var option = new Option(item.name, item.id);
-                    $("#topic").append(option);
-                });
-
-                if ($('#topic').data('selected') != '') {
-                    $('#topic option[value=' + $('#topic').data('selected') + ']').prop('selected', true);
-                }
-            });
-        }
-    },
-    mounted: function mounted() {
-
-        if ($('#grade_level').length > 0 && $('#grade_level').data('selected') != '') {
-
-            $('#grade_level option[value=' + $('#grade_level').data('selected') + ']').prop('selected', true);
-            var event = document.createEvent('HTMLEvents');
-            event.initEvent('change', true, true);
-
-            $('#grade_level')[0].dispatchEvent(event);
-        }
-    }
-};
-/* harmony default export */ __webpack_exports__["a"] = (getAcademicContent);
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
-
-
-var imagePreview = {
-    methods: {
-        createImage: function createImage(e) {
-            var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length) return;
-
-            var reader = new FileReader();
-            var vm = this;
-
-            reader.onload = function (e2) {
-                var image_src = e2.target.result;
-
-                vm.validateImage(image_src, index, function (invalid) {
-
-                    if (invalid) {
-                        e.target.value = null;
-                        var title = void 0,
-                            text = void 0;
-
-                        if (index !== null) {
-                            title = 'Invalid Image';
-                            text = 'Answer images must be square.';
-                        } else {
-                            switch (vm.type) {
-                                case '4':
-                                    //Drag and drop
-                                    title = 'Invalid Image';
-                                    text = 'Image must be 1366 x 512.';
-                                    break;
-                                case '3': //Apple pencil
-                                case '5': //Touch select
-                                case '6':
-                                    //Research and Report back
-                                    title = 'Invalid Image';
-                                    text = 'Image must be 1024 x 512.';
-                                    break;
-                                case '':
-                                    title = 'Select Question Type';
-                                    text = 'Please select a question type before adding an image.';
-                            }
-                        }
-
-                        __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default()({
-                            title: title,
-                            text: text,
-                            type: 'warning',
-                            confirmButtonColor: '#23527c',
-                            cancelButtonColor: '#f05050',
-                            confirmButtonText: 'Dismiss'
-                        });
-                    } else {
-                        if (index === null) {
-                            vm.photo = image_src;
-                        } else {
-                            vm.children[index].photo = image_src;
-                        }
-                    }
-                });
-            };
-
-            reader.readAsDataURL(files[0]);
-        },
-        validateImage: function validateImage(image_src, index, callback) {
-
-            var image = new Image();
-            var vue_instance = this;
-            var invalid_image = false;
-
-            image.onload = function () {
-
-                if (vue_instance.type !== 'not-question') {
-                    if (index !== null) {
-                        if (image.width !== image.height) {
-                            invalid_image = true;
-                        }
-                    } else {
-                        switch (vue_instance.type) {
-                            case '4':
-                                //Drag and drop
-                                if (image.width !== 1366 || image.height !== 512) {
-                                    invalid_image = true;
-                                }
-                                break;
-                            case '3': //Apple pencil
-                            case '5': //Touch select
-                            case '6':
-                                //Research and Report back
-                                if (image.width !== 1024 || image.height !== 512) {
-                                    invalid_image = true;
-                                }
-                                break;
-                            case '':
-                                invalid_image = true;
-                        }
-                    }
-                }
-
-                callback(invalid_image);
-            };
-
-            image.src = image_src;
-        }
-    }
-};
-/* harmony default export */ __webpack_exports__["a"] = (imagePreview);
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-
-function isArray(arg) {
-  if (Array.isArray) {
-    return Array.isArray(arg);
-  }
-  return objectToString(arg) === '[object Array]';
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = Buffer.isBuffer;
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).Buffer))
-
-/***/ }),
 /* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
 
 
@@ -20054,7 +20054,7 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 /*<replacement>*/
-var util = __webpack_require__(10);
+var util = __webpack_require__(9);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -21072,7 +21072,7 @@ module.exports = Transform;
 var Duplex = __webpack_require__(6);
 
 /*<replacement>*/
-var util = __webpack_require__(10);
+var util = __webpack_require__(9);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -21288,7 +21288,7 @@ var Duplex;
 Writable.WritableState = WritableState;
 
 /*<replacement>*/
-var util = __webpack_require__(10);
+var util = __webpack_require__(9);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -26012,9 +26012,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        get_tags: function get_tags() {
-            return this.hiddenInput;
-        },
         escapeRegExp: function escapeRegExp(string) {
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         },
@@ -27012,8 +27009,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_mixins_imagePreview__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_mixins_imagePreview__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
 //
 //
@@ -27141,7 +27138,7 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
 
@@ -27259,7 +27256,7 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_managesChildren__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
@@ -27411,13 +27408,13 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_getAcademicContent__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_tagRepository__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_cropImages__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_fabric__ = __webpack_require__(114);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_fabric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_fabric__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_sweetalert2__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_sweetalert2__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_sweetalert2__);
 
 
@@ -27882,8 +27879,8 @@ if (token) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_imagePreview__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_imagePreview__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_tagRepository__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuedraggable__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vuedraggable__);
@@ -28029,7 +28026,7 @@ if (token) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_datepicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_imagePreview__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_managesChildren__ = __webpack_require__(12);
 
 
@@ -28075,7 +28072,7 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_imagePreview__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_imagePreview__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_managesChildren__ = __webpack_require__(12);
 
 
@@ -28191,7 +28188,7 @@ if (token) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_indexGeneral__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_getAcademicContent__ = __webpack_require__(7);
 
 
 
@@ -28292,7 +28289,7 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_cropImage__ = __webpack_require__(134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_cropImage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_cropImage__);
@@ -36231,7 +36228,7 @@ exports.push([module.i, "\n.crop-wrapper[data-v-4948a2bc] {\n    position: fixed
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(18)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* tags-input */\n.tags-input {\n    height: flex;\n    color: #565656;\n    max-width: 100%;\n    box-shadow: none;\n    padding: 7px 12px;\n    border-radius: 4px;\n    background-color: #FFFFFF;\n    border: 1px solid #E3E3E3;\n    transition: all 300ms linear;\n}\n.tags-input input {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    background: transparent;\n    border: none;\n}\n.tags-input span {\n    margin-right: 0.3rem;\n    margin-bottom: 0.2rem;\n}\n.typeahead > span {\n    cursor: pointer;\n    margin-right: 0.3rem;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* tags-input */\n.tags-input {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.tags-input input {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    background: transparent;\n    border: none;\n}\n.tags-input span {\n    margin-right: 0.3rem;\n    margin-bottom: 0.2rem;\n}\n.typeahead > span {\n    cursor: pointer;\n    margin-right: 0.3rem;\n}\n", ""]);
 
 /***/ }),
 /* 114 */
@@ -81331,7 +81328,7 @@ module.exports = PassThrough;
 var Transform = __webpack_require__(34);
 
 /*<replacement>*/
-var util = __webpack_require__(10);
+var util = __webpack_require__(9);
 util.inherits = __webpack_require__(4);
 /*</replacement>*/
 
@@ -85223,12 +85220,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         if (!('button' in $event) && $event.keyCode !== 8) { return null; }
         _vm.removeLastTag($event)
       }, function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "right", 39, $event.key)) { return null; }
-        if ('button' in $event && $event.button !== 2) { return null; }
+        if (!('button' in $event) && _vm._k($event.keyCode, "down", 40, $event.key)) { return null; }
         _vm.nextSearchResult($event)
       }, function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "left", 37, $event.key)) { return null; }
-        if ('button' in $event && $event.button !== 0) { return null; }
+        if (!('button' in $event) && _vm._k($event.keyCode, "up", 38, $event.key)) { return null; }
         _vm.prevSearchResult($event)
       }],
       "keyup": [function($event) {

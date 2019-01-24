@@ -32,6 +32,8 @@ class QuizController extends Controller
         if($request->has('search')){
             $search = $request->input('search');
             $query->search($search);
+        } else {
+            $search = '';
         }
 
         if($request->has('type')){

@@ -71,6 +71,7 @@ class GradeLevelController extends Controller
             $search = $request->input('search');
             $item->subjects = $item->subjects()->search($search)->with('topics')->paginate(50);
         }else{
+            $search = '';
             $item->subjects = $item->subjects()->with('topics')->paginate(50);
         }
 
