@@ -7,9 +7,12 @@
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-md-12" v-for="column in numberOfColumns">
-                <div class="question" v-for="row in rowsPerColumn(column)">
-                    <div class="question-number">{{ num = (column-1)*rowsPerColumn(column-1) + row }}</div>
+            <!--<div class="col-md-12" v-for="column in numberOfColumns">-->
+            <div class="col-md-12" v-for="question in questions">
+                <!--<div class="question" v-for="row in rowsPerColumn(column)">-->
+                <div class="question">
+                    <!--<div class="question-number">{{ num = (column-1)*rowsPerColumn(column-1) + row }}</div>-->
+                    <div class="question-number">{{ num = question }}</div>
                     <template v-if="num % 2">
                         <template v-if="!answers[0]">
                             <label class="form-check-label" :for="'question_' + num"> A <input

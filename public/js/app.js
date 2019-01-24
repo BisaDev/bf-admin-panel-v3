@@ -26330,6 +26330,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['questions', 'section', 'answers'],
@@ -26625,6 +26628,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -84276,147 +84282,145 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row text-center"
   }, [_c('div', {
     staticClass: "col-md-10"
-  }, _vm._l((_vm.numberOfColumns), function(column) {
+  }, _vm._l((_vm.questions), function(question) {
     return _c('div', {
       staticClass: "col-md-12"
-    }, _vm._l((_vm.rowsPerColumn(column)), function(row) {
-      return _c('div', {
-        staticClass: "question"
-      }, [_c('div', {
-        staticClass: "question-number"
-      }, [_vm._v(_vm._s(_vm.num = (column - 1) * _vm.rowsPerColumn(column - 1) + row))]), _vm._v(" "), (!_vm.answers[0]) ? [_c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" A "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "A"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" B "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "B"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" C "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "C"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" D "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "D"
-        }
-      })]), _vm._v(" "), (row === 1 && column === 1) ? _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "data-toggle": "popover"
-        }
-      }, [_c('i', {
-        staticClass: "ti-help-alt"
-      }), _vm._v(" "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "checkbox",
-          "name": 'guessed_' + _vm.num,
-          "value": "1"
-        }
-      })]) : _c('label', {
-        staticClass: "form-check-label"
-      }, [_vm._v("   "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "checkbox",
-          "name": 'guessed_' + _vm.num,
-          "value": "1"
-        }
-      })])] : [_c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" A "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "A"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'A') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" B "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "B"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'B') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" C "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "C"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'C') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" D "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "D"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'D') ? true : false
-        }
-      })])]], 2)
-    }))
+    }, [_c('div', {
+      staticClass: "question"
+    }, [_c('div', {
+      staticClass: "question-number"
+    }, [_vm._v(_vm._s(_vm.num = question))]), _vm._v(" "), (!_vm.answers[0]) ? [_c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" A "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "A"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" B "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "B"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" C "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "C"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" D "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "D"
+      }
+    })]), _vm._v(" "), (_vm.row === 1 && _vm.column === 1) ? _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "data-toggle": "popover"
+      }
+    }, [_c('i', {
+      staticClass: "ti-help-alt"
+    }), _vm._v(" "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "checkbox",
+        "name": 'guessed_' + _vm.num,
+        "value": "1"
+      }
+    })]) : _c('label', {
+      staticClass: "form-check-label"
+    }, [_vm._v("   "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "checkbox",
+        "name": 'guessed_' + _vm.num,
+        "value": "1"
+      }
+    })])] : [_c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" A "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "A"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'A') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" B "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "B"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'B') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" C "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "C"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'C') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" D "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "D"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'D') ? true : false
+      }
+    })])]], 2)])
   })), _vm._v(" "), (!_vm.answers[0]) ? _c('div', {
     staticClass: "col-sm-2 question"
   }, [_c('i', {
@@ -84600,332 +84604,330 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row text-center"
-  }, _vm._l((_vm.numberOfColumns), function(column) {
+  }, _vm._l((_vm.questions), function(question) {
     return _c('div', {
       staticClass: "col-md-12"
-    }, _vm._l((_vm.rowsPerColumn(column)), function(row) {
-      return _c('div', {
-        staticClass: "question"
-      }, [_c('div', {
-        staticClass: "question-number"
-      }, [_vm._v(_vm._s(_vm.num = (column - 1) * _vm.rowsPerColumn(column - 1) + row))]), _vm._v(" "), (_vm.num % 2) ? [(!_vm.answers[0]) ? [_c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" A "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "A"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" B "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "B"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" C "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "C"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" D "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "D"
-        }
-      })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" E "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "e"
-        }
-      })]) : _vm._e(), _vm._v(" "), (row === 1 && column === 1) ? _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "data-toggle": "popover"
-        }
-      }, [_c('i', {
-        staticClass: "ti-help-alt"
-      }), _vm._v(" "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "checkbox",
-          "name": 'guessed_' + _vm.num,
-          "value": "1"
-        }
-      })]) : _c('label', {
-        staticClass: "form-check-label"
-      }, [_vm._v("   "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "checkbox",
-          "name": 'guessed_' + _vm.num,
-          "value": "1"
-        }
-      })])] : [_c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" A "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "A"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'A') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" B "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "B"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'B') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" C "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "C"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'C') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" D "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "D"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'D') ? true : false
-        }
-      })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" E "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "e"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'E') ? true : false
-        }
-      })]) : _vm._e()]] : [(!_vm.answers[0]) ? [_c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" F "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "F"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" G "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "G"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" H "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "H"
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" J "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "J"
-        }
-      })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" K "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "K"
-        }
-      })]) : _vm._e(), _vm._v(" "), (row === 1 && column === 1) ? _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "data-toggle": "popover"
-        }
-      }, [_c('i', {
-        staticClass: "ti-help-alt"
-      }), _vm._v(" "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "checkbox",
-          "name": 'guessed_' + _vm.num,
-          "value": "1"
-        }
-      })]) : _c('label', {
-        staticClass: "form-check-label"
-      }, [_vm._v("   "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "checkbox",
-          "name": 'guessed_' + _vm.num,
-          "value": "1"
-        }
-      })])] : [_c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" F "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "F"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'F') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" G "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "G"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'G') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" H "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "H"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'H') ? true : false
-        }
-      })]), _vm._v(" "), _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" J "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "J"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'J') ? true : false
-        }
-      })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
-        staticClass: "form-check-label",
-        attrs: {
-          "for": 'question_' + _vm.num
-        }
-      }, [_vm._v(" K "), _c('input', {
-        staticClass: "student-answer radio-inline",
-        attrs: {
-          "type": "radio",
-          "name": 'question_' + _vm.num,
-          "value": "K"
-        },
-        domProps: {
-          "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'K') ? true : false
-        }
-      })]) : _vm._e()]]], 2)
-    }))
+    }, [_c('div', {
+      staticClass: "question"
+    }, [_c('div', {
+      staticClass: "question-number"
+    }, [_vm._v(_vm._s(_vm.num = question))]), _vm._v(" "), (_vm.num % 2) ? [(!_vm.answers[0]) ? [_c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" A "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "A"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" B "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "B"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" C "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "C"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" D "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "D"
+      }
+    })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" E "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "e"
+      }
+    })]) : _vm._e(), _vm._v(" "), (_vm.row === 1 && _vm.column === 1) ? _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "data-toggle": "popover"
+      }
+    }, [_c('i', {
+      staticClass: "ti-help-alt"
+    }), _vm._v(" "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "checkbox",
+        "name": 'guessed_' + _vm.num,
+        "value": "1"
+      }
+    })]) : _c('label', {
+      staticClass: "form-check-label"
+    }, [_vm._v("   "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "checkbox",
+        "name": 'guessed_' + _vm.num,
+        "value": "1"
+      }
+    })])] : [_c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" A "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "A"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'A') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" B "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "B"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'B') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" C "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "C"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'C') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" D "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "D"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'D') ? true : false
+      }
+    })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" E "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "e"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'E') ? true : false
+      }
+    })]) : _vm._e()]] : [(!_vm.answers[0]) ? [_c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" F "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "F"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" G "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "G"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" H "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "H"
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" J "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "J"
+      }
+    })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" K "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "K"
+      }
+    })]) : _vm._e(), _vm._v(" "), (_vm.row === 1 && _vm.column === 1) ? _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "data-toggle": "popover"
+      }
+    }, [_c('i', {
+      staticClass: "ti-help-alt"
+    }), _vm._v(" "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "checkbox",
+        "name": 'guessed_' + _vm.num,
+        "value": "1"
+      }
+    })]) : _c('label', {
+      staticClass: "form-check-label"
+    }, [_vm._v("   "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "checkbox",
+        "name": 'guessed_' + _vm.num,
+        "value": "1"
+      }
+    })])] : [_c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" F "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "F"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'F') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" G "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "G"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'G') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" H "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "H"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'H') ? true : false
+      }
+    })]), _vm._v(" "), _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" J "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "J"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'J') ? true : false
+      }
+    })]), _vm._v(" "), (_vm.section == 2) ? _c('label', {
+      staticClass: "form-check-label",
+      attrs: {
+        "for": 'question_' + _vm.num
+      }
+    }, [_vm._v(" K "), _c('input', {
+      staticClass: "student-answer radio-inline",
+      attrs: {
+        "type": "radio",
+        "name": 'question_' + _vm.num,
+        "value": "K"
+      },
+      domProps: {
+        "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'K') ? true : false
+      }
+    })]) : _vm._e()]]], 2)])
   }))])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
