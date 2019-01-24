@@ -26283,6 +26283,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['questions', 'section', 'answers'],
@@ -26578,6 +26625,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -84225,9 +84274,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "container col-md-offset-1"
   }, [_c('div', {
     staticClass: "row text-center"
-  }, [_vm._l((_vm.numberOfColumns), function(column) {
+  }, [_c('div', {
+    staticClass: "col-md-10"
+  }, _vm._l((_vm.numberOfColumns), function(column) {
     return _c('div', {
-      staticClass: "col-md-2"
+      staticClass: "col-md-12"
     }, _vm._l((_vm.rowsPerColumn(column)), function(row) {
       return _c('div', {
         staticClass: "question"
@@ -84281,7 +84332,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'question_' + _vm.num,
           "value": "D"
         }
-      })]), _vm._v(" "), (row === 1) ? _c('label', {
+      })]), _vm._v(" "), (row === 1 && column === 1) ? _c('label', {
         staticClass: "form-check-label",
         attrs: {
           "data-toggle": "popover"
@@ -84295,7 +84346,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'guessed_' + _vm.num,
           "value": "1"
         }
-      })]) : _vm._e(), _vm._v(" "), (row !== 1) ? _c('label', {
+      })]) : _c('label', {
         staticClass: "form-check-label"
       }, [_vm._v("   "), _c('input', {
         staticClass: "student-answer radio-inline",
@@ -84304,7 +84355,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'guessed_' + _vm.num,
           "value": "1"
         }
-      })]) : _vm._e()] : [_c('label', {
+      })])] : [_c('label', {
         staticClass: "form-check-label",
         attrs: {
           "for": 'question_' + _vm.num
@@ -84366,8 +84417,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       })])]], 2)
     }))
-  }), _vm._v(" "), (!_vm.answers[0]) ? _c('div', {
-    staticClass: "col-md-1 question text-right"
+  })), _vm._v(" "), (!_vm.answers[0]) ? _c('div', {
+    staticClass: "col-sm-2 question"
   }, [_c('i', {
     staticClass: "ti-help-alt guessed-question",
     attrs: {
@@ -84375,7 +84426,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": "Guessed",
       "data-content": "If you guessed the question, please mark its checkbox"
     }
-  })]) : _vm._e()], 2)])
+  })]) : _vm._e()])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -84549,11 +84600,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row text-center"
-  }, [_c('div', {
-    staticClass: "wrapper"
   }, _vm._l((_vm.numberOfColumns), function(column) {
     return _c('div', {
-      staticClass: "col-md-2"
+      staticClass: "col-md-12"
     }, _vm._l((_vm.rowsPerColumn(column)), function(row) {
       return _c('div', {
         staticClass: "question"
@@ -84619,7 +84668,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'question_' + _vm.num,
           "value": "e"
         }
-      })]) : _vm._e(), _vm._v(" "), (row === 1) ? _c('label', {
+      })]) : _vm._e(), _vm._v(" "), (row === 1 && column === 1) ? _c('label', {
         staticClass: "form-check-label",
         attrs: {
           "data-toggle": "popover"
@@ -84633,7 +84682,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'guessed_' + _vm.num,
           "value": "1"
         }
-      })]) : _vm._e(), _vm._v(" "), (row !== 1) ? _c('label', {
+      })]) : _c('label', {
         staticClass: "form-check-label"
       }, [_vm._v("   "), _c('input', {
         staticClass: "student-answer radio-inline",
@@ -84642,7 +84691,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'guessed_' + _vm.num,
           "value": "1"
         }
-      })]) : _vm._e()] : [_c('label', {
+      })])] : [_c('label', {
         staticClass: "form-check-label",
         attrs: {
           "for": 'question_' + _vm.num
@@ -84777,7 +84826,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'question_' + _vm.num,
           "value": "K"
         }
-      })]) : _vm._e(), _vm._v(" "), (row === 1) ? _c('label', {
+      })]) : _vm._e(), _vm._v(" "), (row === 1 && column === 1) ? _c('label', {
         staticClass: "form-check-label",
         attrs: {
           "data-toggle": "popover"
@@ -84791,7 +84840,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'guessed_' + _vm.num,
           "value": "1"
         }
-      })]) : _vm._e(), _vm._v(" "), (row !== 1) ? _c('label', {
+      })]) : _c('label', {
         staticClass: "form-check-label"
       }, [_vm._v("   "), _c('input', {
         staticClass: "student-answer radio-inline",
@@ -84800,7 +84849,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "name": 'guessed_' + _vm.num,
           "value": "1"
         }
-      })]) : _vm._e()] : [_c('label', {
+      })])] : [_c('label', {
         staticClass: "form-check-label",
         attrs: {
           "for": 'question_' + _vm.num
@@ -84877,7 +84926,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       })]) : _vm._e()]]], 2)
     }))
-  }))])])
+  }))])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-md-12 text-right"
