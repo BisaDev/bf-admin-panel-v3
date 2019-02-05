@@ -26601,7 +26601,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['question', 'section', 'url', 'correct-answer', 'section-id', 'answer-background'],
     data: function data() {
         return {
-            understood: 0,
             questionUnderstood: this.question.understood
         };
     },
@@ -26610,7 +26609,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         toggleActive: function toggleActive() {
             var _this = this;
 
-            this.questionUnderstood = !this.questionUnderstood;
             axios.post(this.url, {
                 section: this.sectionId,
                 question: this.question.question_number,
@@ -86448,37 +86446,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('tr', [_c('td', [_vm._v(_vm._s(this.question.question_number))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.correct_1.toUpperCase()))]), _vm._v(" "), _c('td', {
     class: _vm.answerBackground
   }, [_vm._v(_vm._s(this.question.answer ? this.question.answer.toUpperCase() : ''))]), _vm._v(" "), (this.question.answer ? this.question.answer.toUpperCase() === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5 : '') ? [(_vm.questionUnderstood) ? _c('td') : _c('td', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.questionUnderstood),
-      expression: "questionUnderstood"
-    }],
     attrs: {
       "type": "checkbox",
       "name": 'understood_' + this.section + '_' + this.question.question_number
     },
-    domProps: {
-      "checked": Array.isArray(_vm.questionUnderstood) ? _vm._i(_vm.questionUnderstood, null) > -1 : (_vm.questionUnderstood)
-    },
     on: {
-      "click": _vm.toggleActive,
-      "change": function($event) {
-        var $$a = _vm.questionUnderstood,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.questionUnderstood = $$a.concat([$$v]))
-          } else {
-            $$i > -1 && (_vm.questionUnderstood = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.questionUnderstood = $$c
-        }
-      }
+      "click": _vm.toggleActive
     }
   })])] : [(_vm.questionUnderstood) ? _c('td', [_c('span', {
     staticClass: "badge badge-pill badge-success"
@@ -86488,37 +86461,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.toggleActive
     }
   })])]) : _c('td', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.questionUnderstood),
-      expression: "questionUnderstood"
-    }],
     attrs: {
       "type": "checkbox",
       "name": 'understood_' + this.section + '_' + this.question.question_number
     },
-    domProps: {
-      "checked": Array.isArray(_vm.questionUnderstood) ? _vm._i(_vm.questionUnderstood, null) > -1 : (_vm.questionUnderstood)
-    },
     on: {
-      "click": _vm.toggleActive,
-      "change": function($event) {
-        var $$a = _vm.questionUnderstood,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.questionUnderstood = $$a.concat([$$v]))
-          } else {
-            $$i > -1 && (_vm.questionUnderstood = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.questionUnderstood = $$c
-        }
-      }
+      "click": _vm.toggleActive
     }
   })])], _vm._v(" "), _c('td', [_vm._v(_vm._s(this.correctAnswer.topic))]), _vm._v(" "), _c('td', {
     attrs: {

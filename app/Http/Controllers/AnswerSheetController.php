@@ -322,7 +322,7 @@ class AnswerSheetController extends Controller
     {
         $studentExamSectionId = $request->input('section');
         $questionNumber = $request->input('question');
-        $understood = $request->input('understood');
+        $understood = !$request->input('understood');
 
         ExamAnswer::where('student_exam_section_id', $studentExamSectionId)
             ->where('question_number', $questionNumber)

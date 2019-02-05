@@ -6,7 +6,7 @@
         <template v-if="this.question.answer ? this.question.answer.toUpperCase() === this.correctAnswer.correct_1.toUpperCase() || this.question.answer === this.correctAnswer.correct_2 || this.question.answer === this.correctAnswer.correct_3 || this.question.answer === this.correctAnswer.correct_4 || this.question.answer === this.correctAnswer.correct_5 : ''">
             <td v-if="questionUnderstood"></td>
             <td v-else>
-                <input type="checkbox" v-model="questionUnderstood" @click="toggleActive"
+                <input type="checkbox" @click="toggleActive"
                        :name="'understood_' + this.section + '_' + this.question.question_number">
             </td>
         </template>
@@ -15,7 +15,7 @@
                 <span class="badge badge-pill badge-success"><i class="ti-check" @click="toggleActive"></i></span>
             </td>
             <td v-else>
-                <input type="checkbox" v-model="questionUnderstood" @click="toggleActive"
+                <input type="checkbox" @click="toggleActive"
                        :name="'understood_' + this.section + '_' + this.question.question_number">
             </td>
         </template>
@@ -29,13 +29,11 @@
         props: ['question', 'section', 'url', 'correct-answer', 'section-id', 'answer-background'],
         data() {
             return {
-                understood: 0,
                 questionUnderstood : this.question.understood,
             }
         },
         methods: {
             toggleActive() {
-                this.questionUnderstood = !this.questionUnderstood;
                 axios.post(this.url, {
                     section: this.sectionId,
                     question: this.question.question_number,
