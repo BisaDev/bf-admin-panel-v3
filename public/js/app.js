@@ -84340,7 +84340,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "name": 'question_' + _vm.num,
         "value": "D"
       }
-    })]), _vm._v(" "), (_vm.row === 1 && _vm.column === 1) ? _c('label', {
+    })]), _vm._v(" "), (_vm.num === 1) ? _c('label', {
       staticClass: "form-check-label",
       attrs: {
         "data-toggle": "popover"
