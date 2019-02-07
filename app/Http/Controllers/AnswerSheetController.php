@@ -63,8 +63,11 @@ class AnswerSheetController extends Controller
         if ($request->session()->has('studentExam')) {
             $studentExamSection = StudentExamSection::find($studentExamSectionID);
             $exam = Exam::find($studentExamSection->studentExam->exam_id);
+            $examAnswers = $exam->sections->where('section_number', $studentExamSection->section_number)->values();
+
             return view('students_web.student_answer_sheet', [
                 'exam' => $exam,
+                'examAnswers' => $examAnswers,
                 'studentExamSection' => $studentExamSection,
                 'examMetadata' => $studentExamSection->metadata,
             ]);

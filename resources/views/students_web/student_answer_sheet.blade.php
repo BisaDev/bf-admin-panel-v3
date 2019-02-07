@@ -32,13 +32,21 @@
                 @elseif($exam->mini_exam_format === 'mc-4-FGHJ')
                     <div class="col-md-10 col-md-offset-1 card-box">
                         <div class="row">
-                            <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="1" :answers="[]"></act-answer-sheet>
+                            <act-answer-sheet
+                                    :questions="{{ $exam->mini_exam_questions }}"
+                                    :section="1"
+                                    :answers="{{$examAnswers}}"
+                                    :edit="0"></act-answer-sheet>
                         </div>
                     </div>
                 @elseif($exam->mini_exam_format === 'mc-5-FGHJ')
                     <div class="col-md-11 card-box">
                         <div class="row">
-                            <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="2" :answers="[]"></act-answer-sheet>
+                            <act-answer-sheet
+                                    :questions="{{ $exam->mini_exam_questions }}"
+                                    :section="2"
+                                    :answers="{{$examAnswers}}"
+                                    :edit="0"></act-answer-sheet>
                         </div>
                     </div>
                 @elseif($exam->mini_exam_format === 'math-grid')
@@ -89,7 +97,11 @@
                 @elseif($exam->type === 'ACT')
                     <div class="{{ $examMetadata->section_number === 2 ? 'col-md-11' : 'col-md-10 col-md-offset-1' }} card-box">
                         <div class="row">
-                            <act-answer-sheet :questions="{{ $examMetadata->questions }}" :section="{{ $studentExamSection->section_number }}" :answers="[]"></act-answer-sheet>
+                            <act-answer-sheet
+                                    :questions="{{ $examMetadata->questions }}"
+                                    :section="{{ $studentExamSection->section_number }}"
+                                    :answers="{{$examAnswers}}"
+                                    :edit="0"></act-answer-sheet>
                         </div>
                     </div>
                 @endif

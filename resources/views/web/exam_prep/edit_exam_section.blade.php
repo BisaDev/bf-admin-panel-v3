@@ -51,7 +51,8 @@
                             <div class="row">
                                 <act-answer-sheet :questions="{{ $section->questions }}"
                                                   :section="{{ $section->section_number }}"
-                                                  :answers="{{ $examAnswers }}"></act-answer-sheet>
+                                                  :answers="{{ $examAnswers }}"
+                                                  :edit="{{true}}"></act-answer-sheet>
                             </div>
                         </div>
                     @elseif($exam->IsMiniExam)
@@ -66,14 +67,16 @@
                             <div class="col-md-11 card-box">
                                 <div class="row">
                                     <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="1"
-                                                      :answers="{{ $examAnswers }}"></act-answer-sheet>
+                                                      :answers="{{ $examAnswers }}"
+                                                      :edit="{{true}}"></act-answer-sheet>
                                 </div>
                             </div>
                         @elseif($exam->mini_exam_format === 'mc-5-FGHJ')
                             <div class="col-md-11 card-box">
                                 <div class="row">
                                     <act-answer-sheet :questions="{{ $exam->mini_exam_questions }}" :section="2"
-                                                      :answers="{{ $examAnswers }}"></act-answer-sheet>
+                                                      :answers="{{ $examAnswers }}"
+                                                      :edit="{{true}}"></act-answer-sheet>
                                 </div>
                             </div>
                         @elseif($exam->mini_exam_format === 'math-grid')
