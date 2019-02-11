@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row" v-if="!answers[0]">
+        <div class="row" v-if="!edit">
             <div class="col-md-12 text-right">
                 <i class="ti-help-alt guessed-question m-r-15" data-toggle="popover" title="Guessed"
                    data-content="If you guessed the question, please mark its checkbox"></i>
@@ -13,8 +13,8 @@
                 <div class="question">
                     <!--<div class="question-number">{{ num = (column-1)*rowsPerColumn(column-1) + row }}</div>-->
                     <div class="question-number">{{ num = question }}</div>
-                    <template v-if="num % 2">
-                        <template v-if="!answers[0]">
+                    <template v-if="showABCD(num)">
+                        <template v-if="!edit">
                             <label class="form-check-label" :for="'question_' + num"> A <input
                                     class="student-answer radio-inline" type="radio" :name="'question_' + num"
                                     value="A"></label>
@@ -30,7 +30,7 @@
                             <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> E <input
                                     class="student-answer radio-inline" type="radio" :name="'question_' + num"
                                     value="e"></label>
-                            <label class="form-check-label" v-if="row === 1 && column === 1" data-toggle="popover"><i
+                            <label class="form-check-label" v-if="num === 1" data-toggle="popover"><i
                                     class="ti-help-alt"></i> <input class="student-answer radio-inline" type="checkbox"
                                                                     :name="'guessed_' + num" value="1"></label>
                             <label class="form-check-label" v-else> &nbsp; <input
@@ -56,7 +56,7 @@
                         </template>
                     </template>
                     <template v-else>
-                        <template v-if="!answers[0]">
+                        <template v-if="!edit">
                             <label class="form-check-label" :for="'question_' + num"> F <input
                                     class="student-answer radio-inline" type="radio" :name="'question_' + num"
                                     value="F"></label>
@@ -72,7 +72,7 @@
                             <label v-if="section == 2" class="form-check-label" :for="'question_' + num"> K <input
                                     class="student-answer radio-inline" type="radio" :name="'question_' + num"
                                     value="K"></label>
-                            <label class="form-check-label" v-if="row === 1 && column === 1" data-toggle="popover"><i
+                            <label class="form-check-label" v-if="num === 1" data-toggle="popover"><i
                                     class="ti-help-alt"></i> <input class="student-answer radio-inline" type="checkbox"
                                                                     :name="'guessed_' + num" value="1"></label>
                             <label class="form-check-label" v-else> &nbsp; <input
@@ -105,7 +105,7 @@
 
 <script>
     export default {
-        props: ['questions', 'section', 'answers'],
+        props: ['questions', 'section', 'answers', 'edit'],
         methods: {
             rowsPerColumn: function (column) {
                 if (column === this.numberOfColumns && this.remainder > 0) {
@@ -113,6 +113,11 @@
                 } else {
                     return this.maxRows
                 }
+            },
+            showABCD: function (num) {
+                const correctAnswer = this.answers[num-1].correct_1.toUpperCase();
+                const conditionToRender = ['A', 'B', 'C', 'D', 'E'];
+                return conditionToRender.includes(correctAnswer)
             },
         },
         mounted() {

@@ -26335,7 +26335,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['questions', 'section', 'answers'],
+    props: ['questions', 'section', 'answers', 'edit'],
     methods: {
         rowsPerColumn: function rowsPerColumn(column) {
             if (column === this.numberOfColumns && this.remainder > 0) {
@@ -26343,6 +26343,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 return this.maxRows;
             }
+        },
+        showABCD: function showABCD(num) {
+            var correctAnswer = this.answers[num - 1].correct_1.toUpperCase();
+            var conditionToRender = ['A', 'B', 'C', 'D', 'E'];
+            return conditionToRender.includes(correctAnswer);
         }
     },
     mounted: function mounted() {
@@ -84335,7 +84340,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "name": 'question_' + _vm.num,
         "value": "D"
       }
-    })]), _vm._v(" "), (_vm.row === 1 && _vm.column === 1) ? _c('label', {
+    })]), _vm._v(" "), (_vm.num === 1) ? _c('label', {
       staticClass: "form-check-label",
       attrs: {
         "data-toggle": "popover"
@@ -84598,7 +84603,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
-  }, [(!_vm.answers[0]) ? _c('div', {
+  }, [(!_vm.edit) ? _c('div', {
     staticClass: "row"
   }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row text-center"
@@ -84609,7 +84614,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "question"
     }, [_c('div', {
       staticClass: "question-number"
-    }, [_vm._v(_vm._s(_vm.num = question))]), _vm._v(" "), (_vm.num % 2) ? [(!_vm.answers[0]) ? [_c('label', {
+    }, [_vm._v(_vm._s(_vm.num = question))]), _vm._v(" "), (_vm.showABCD(_vm.num)) ? [(!_vm.edit) ? [_c('label', {
       staticClass: "form-check-label",
       attrs: {
         "for": 'question_' + _vm.num
@@ -84669,7 +84674,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "name": 'question_' + _vm.num,
         "value": "e"
       }
-    })]) : _vm._e(), _vm._v(" "), (_vm.row === 1 && _vm.column === 1) ? _c('label', {
+    })]) : _vm._e(), _vm._v(" "), (_vm.num === 1) ? _c('label', {
       staticClass: "form-check-label",
       attrs: {
         "data-toggle": "popover"
@@ -84767,7 +84772,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "checked": (_vm.answers[_vm.num - 1].correct_1.toUpperCase() === 'E') ? true : false
       }
-    })]) : _vm._e()]] : [(!_vm.answers[0]) ? [_c('label', {
+    })]) : _vm._e()]] : [(!_vm.edit) ? [_c('label', {
       staticClass: "form-check-label",
       attrs: {
         "for": 'question_' + _vm.num
@@ -84827,7 +84832,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "name": 'question_' + _vm.num,
         "value": "K"
       }
-    })]) : _vm._e(), _vm._v(" "), (_vm.row === 1 && _vm.column === 1) ? _c('label', {
+    })]) : _vm._e(), _vm._v(" "), (_vm.num === 1) ? _c('label', {
       staticClass: "form-check-label",
       attrs: {
         "data-toggle": "popover"
