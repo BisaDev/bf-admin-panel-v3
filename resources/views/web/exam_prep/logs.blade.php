@@ -84,7 +84,7 @@
                                 <td>{{ $section->section_number }}</td>
                                 <td>{{ $section->number_correct }} / {{ $section->studentExam->exam->IsMiniExam ? $section->studentExam->exam->mini_exam_questions : $section->metadata->questions }}</td>
                                 <td> {{$section->score}} </td>
-                                <td>{{ $section->time }} / {{ $section->studentExam->exam->IsMiniExam ? $section->studentExam->exam->mini_exam_time : $section->metadata->questions }}</td>
+                                <td>{{ $section->time }} / {{ $section->studentExam->exam->IsMiniExam ? $section->studentExam->exam->mini_exam_time : $section->metadata->time_available }}</td>
                                 <td></td>
                             </tr>
                         @endforeach
