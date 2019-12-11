@@ -11,6 +11,6 @@ class TaggingQuestion extends Model
     }
 
     public function topic () {
-        return $this->hasMany(TaggingTopic::class);
+        return $this->hasOne(TaggingTopic::class);
     }
 }
