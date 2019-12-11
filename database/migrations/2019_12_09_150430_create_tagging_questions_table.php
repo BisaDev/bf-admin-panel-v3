@@ -14,7 +14,7 @@ class CreateTaggingQuestionsTable extends Migration
     public function up()
     {
         Schema::create('tagging_questions', function (Blueprint $table) {
-            $table->increments('tagging_question_id');
+            $table->increments('id');
             $table->unsignedInteger('tagging_question_id');
             $table->unsignedInteger('tagging_topic_id')->nullable();
             $table->string('pdf_number');

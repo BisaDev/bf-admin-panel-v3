@@ -14,8 +14,8 @@ class CreateTaggingSubjectsTable extends Migration
     public function up()
     {
         Schema::create('tagging_subjects', function (Blueprint $table) {
-            $table->increments('tagging_subject_id');
-            $table->string('tagging_subject_name');
+            $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
     }

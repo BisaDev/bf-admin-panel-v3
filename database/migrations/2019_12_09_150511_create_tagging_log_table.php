@@ -14,7 +14,7 @@ class CreateTaggingLogTable extends Migration
     public function up()
     {
         Schema::create('tagging_log', function (Blueprint $table) {
-            $table->increments('tagging_log_id');
+            $table->increments('id');
             $table->unsignedInteger('tagging_subject_id');
             $table->unsignedInteger('tagging_question_id');
             $table->timestamps();
