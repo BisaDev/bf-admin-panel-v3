@@ -15,7 +15,7 @@ class CreateTaggingTopicsTable extends Migration
     {
         Schema::create('tagging_topics', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('topic_name');
+            $table->string('name');
             $table->unsignedInteger('tagging_subject_id');
             $table->timestamps();
         });
