@@ -24,14 +24,10 @@ Vue.component('act-answer-sheet', require('./components/ACTAnswerSheet'));
 Vue.component('tab', require('./components/tab'));
 Vue.component('tabs', require('./components/tabs'));
 Vue.component('upload-image', require('./components/uploadImage'));
-Vue.component('example', require('./components/Example'));
+Vue.component('tag-stats', require('./components/tagging-tool/tagStats'));
 
 const app = new Vue({
     el: '#app'
-});
-
-new Vue({
-    el: '#tt_wrapper'
 });
 
 import index from './pages/index';
