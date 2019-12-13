@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 class TaggingToolController extends Controller
 {
-    function index () {
-        return view('tagging_tool.tt_index');
-
+    public function index() {
+        return view('tagging_tool.index');
     }
 }
