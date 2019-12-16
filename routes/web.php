@@ -40,6 +40,9 @@ Route::domain(env('STUDENT_APP_URL', 'students.brightfoxv2.test'))->group(functi
 Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], function(){
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
+
+    Route::get('taggingtool', 'TaggingToolController@index');
+
     Route::resource('grade_levels',                     'GradeLevelController');
     Route::post('grade_levels/{grade_level}',           'GradeLevelController@show')->name('grade_levels.show.search');
 

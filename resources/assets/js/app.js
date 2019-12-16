@@ -13,6 +13,23 @@ import VoerroTagsInput from '@voerro/vue-tagsinput';
 
 Vue.use(Lightbox);
 
+Vue.component('chronometer', require('./components/Chronometer'));
+Vue.component('student-answer-sheet', require('./components/studentAnswerSheet'));
+Vue.component('student-answer-sheet-3', require('./components/studentAnswerSheetMath'));
+Vue.component('show-results-table', require('./components/showResultsTable'));
+Vue.component('tags-input', VoerroTagsInput);
+Vue.component('upload-file', require('./components/uploadFile'));
+Vue.component('take-practice-exam', require('./components/takePracticeExamModal'));
+Vue.component('act-answer-sheet', require('./components/ACTAnswerSheet'));
+Vue.component('tab', require('./components/tab'));
+Vue.component('tabs', require('./components/tabs'));
+Vue.component('upload-image', require('./components/uploadImage'));
+Vue.component('tag-stats', require('./components/tagging-tool/tagStats'));
+
+const app = new Vue({
+    el: '#app'
+});
+
 import index from './pages/index';
 import index_academic_content from './pages/index-academic-content';
 import index_users from './pages/index-users';
@@ -28,22 +45,6 @@ import print from './pages/print';
 import upload_file from './pages/upload-file';
 import generate_results from './pages/generate_results';
 import student_dashboard from './pages/student-dashboard';
-
-Vue.component('chronometer', require('./components/Chronometer'));
-Vue.component('student-answer-sheet', require('./components/studentAnswerSheet'));
-Vue.component('student-answer-sheet-3', require('./components/studentAnswerSheetMath'));
-Vue.component('show-results-table', require('./components/showResultsTable'));
-Vue.component('tags-input', VoerroTagsInput);
-Vue.component('upload-file', require('./components/uploadFile'));
-Vue.component('take-practice-exam', require('./components/takePracticeExamModal'));
-Vue.component('act-answer-sheet', require('./components/ACTAnswerSheet'));
-Vue.component('tab', require('./components/tab'));
-Vue.component('tabs', require('./components/tabs'));
-Vue.component('upload-image', require('./components/uploadImage'));
-
-const app = new Vue({
-    el: '#app'
-});
 
 const vue_elements = [
     index,
