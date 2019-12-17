@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::resource('grade_levels',                     'GradeLevelController');
     Route::post('grade_levels/{grade_level}',           'GradeLevelController@show')->name('grade_levels.show.search');
 
-    Route::resource('subjects',                         'SubjectController', ['except' => ['index', 'create']]); 
+    Route::resource('subjects',                         'SubjectController', ['except' => ['index', 'create']]);
     Route::get('subjects/create/{grade_level_id}',      'SubjectController@create')->name('subjects.create');
     Route::post('subjects/get_by_grade',                'SubjectController@get_subjects_by_grade_level')->name('subjects.by_grade');
     Route::post('subjects/{subject}',                   'SubjectController@show')->name('subjects.show.search');
