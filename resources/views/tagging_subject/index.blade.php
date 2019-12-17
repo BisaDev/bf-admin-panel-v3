@@ -4,11 +4,11 @@
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Grade Levels',
-        'link' => [ 'label' => 'Create Topic', 'url' => '/taggingsubject/create'],
+        'link' => [ 'label' => 'Create Subject', 'url' => route('taggingsubject.create')],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')]
         ],
-        'currentSection' => 'Tagging Tool Topics',
+        'currentSection' => 'Tagging Tool Subjects',
     ])
 @endsection
 

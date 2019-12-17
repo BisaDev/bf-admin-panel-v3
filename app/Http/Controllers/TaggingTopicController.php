@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-
+use Brightfox\TaggingTopic;
 
 class TaggingTopicController extends Controller
 {
