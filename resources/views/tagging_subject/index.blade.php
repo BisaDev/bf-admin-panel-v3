@@ -4,7 +4,7 @@
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Grade Levels',
-        'link' => [ 'label' => 'Create Topic', 'url' => '/taggingtopics/create'],
+        'link' => [ 'label' => 'Create Topic', 'url' => '/taggingsubject/create'],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')]
         ],
@@ -18,9 +18,9 @@
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
                     <tbody>
-                    @foreach( $topics as $topic )
+                    @foreach( $subjects as $subject )
                         <tr>
-                            <th>{{ $topic->name }}</th>
+                            <th>{{ $subject->name }}</th>
                             <td class="text-center">View</td>
                             <td class="text-center">Edit</td>
                         </tr>
