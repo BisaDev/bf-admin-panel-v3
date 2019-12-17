@@ -3,30 +3,95 @@
 namespace Brightfox\Http\Controllers;
 
 use Brightfox\TaggingSubject;
+use Illuminate\Http\Request;
 
 class TaggingSubjectController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $subjects = TaggingSubject::all();
 
-        return view('tagging_subject.index', compact('subjects'));
+        return view('tagging_subject.index', compact(['subjects']));
     }
 
-    public function create ()
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
+
         return view('tagging_subject.create');
     }
 
-    public function store()
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        $subjects = new TaggingSubject();
+        //$subject = TaggingSubject::create($request->only(['name' => "subject_name"]));
 
-        $subjects->name = request('subject_name');
-        $subjects->save();
+        //$subjects->name = request('subject_name');
 
-        return redirect('/taggingsubject');
+        //$subjects->save();
+
+
+        //return redirect('/taggingsubject');
 
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }
+

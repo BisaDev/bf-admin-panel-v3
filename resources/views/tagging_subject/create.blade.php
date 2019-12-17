@@ -6,27 +6,29 @@
         'pageTitle' => 'Create topic',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Subjects', 'url' =>  '/taggingsubject']
+            [ 'label' => 'Subjects', 'url' =>  '/taggingsubjects']
         ],
         'currentSection' => 'Create a tagging subject',
     ])
 @endsection
 
 @section('content')
-    <div id="app" class="container">
+    <div id="create-container" class="container">
         <div class="card-box row">
             <form method="POST" action="/taggingsubject">
 
                 {{csrf_field()}}
 
                 <div class="form-group col-lg-12 {{ $errors->has('last_name')? 'has-error' : '' }}">
-                    <label class="control-label" for="subject_name">
+                    <label class="control-label" for="name">
                         Subject:
                     </label>
-                    <input type="text" name="subject_name" class="form-control">
+                    <input type="text" name="name" class="form-control">
                 </div>
-                <div class="form-group col-lg-2">
-                    <button type="submit">Submit</button>
+
+                <div class="form-group col-md-12 text-right m-t-30">
+                    <a href="/taggingsubject" class="btn btn-md btn-info">Cancel</a>
+                    <button type="submit" class="btn btn-md btn-primary">Create</button>
                 </div>
             </form>
         </div>
