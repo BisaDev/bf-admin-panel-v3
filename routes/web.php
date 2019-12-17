@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::get('taggingtool', 'TaggingToolController@index');
 
     Route::get('taggingtopics', 'TaggingTopicController@index');
+    Route::post('taggingtopics', 'TaggingTopicController@store');
+
     Route::get('taggingtopics/create', 'TaggingTopicController@create');
 
     Route::resource('grade_levels',                     'GradeLevelController');

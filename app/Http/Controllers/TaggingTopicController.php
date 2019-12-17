@@ -2,15 +2,25 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Brightfox\TaggingTopic;
 
 class TaggingTopicController extends Controller
 {
-    public function index () {
-        return view('tagging_topic.index');
+    public function index()
+    {
+        $topics = TaggingTopic::all();
+
+        return view('tagging_topic.index', compact('topics'));
     }
 
-    public function create () {
+    public function create()
+    {
         return view('tagging_topic.create');
     }
- }
+
+    public function store()
+    {
+        return view('tagging_topic.index');
+
+    }
+}
