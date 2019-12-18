@@ -34,23 +34,22 @@ class TaggingSubjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $subject = TaggingSubject::create($request->only(['name']));
 
-        $latestId =  DB::table('tagging_subjects')->latest('updated_at')->first()->id;
+        if ($request->has('topics')) {
+            $latestId = DB::table('tagging_subjects')->latest('updated_at')->first()->id;
 
-        if($request->has('topics')){
             foreach ($request->input('topics') as $topic_name) {
-                if(!is_null($topic_name)){
+                if (!is_null($topic_name)) {
                     TaggingTopic::create(['name' => $topic_name, 'tagging_subject_id' => $latestId]);
                 }
             }
         }
-
 
         return redirect(route('taggingsubjects'));
 
@@ -60,23 +59,23 @@ class TaggingSubjectController extends Controller
      * Display the specified resource.
      * var $item
      *
-     * @param  \Brightfox\TaggingSubject $subject
+     * @param \Brightfox\TaggingSubject $subject
      * @return \Illuminate\Http\Response
      */
-    public function show($id , TaggingSubject $subject)
+    public function show($id, TaggingSubject $subject)
     {
         $item = $subject;
 
-        $item->topics = response()->json(DB::table('tagging_topics')->where('tagging_subject_id','=',$id)->get());
+        $item->subject = TaggingSubject::find($id);
+        $item->topics = TaggingTopic::where('tagging_subject_id', '>', 1)->get();
 
-
-        return view('tagging_subject.show' , compact('item'));
+        return view('tagging_subject.show', compact('item'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -87,8 +86,8 @@ class TaggingSubjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -99,7 +98,7 @@ class TaggingSubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

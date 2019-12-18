@@ -9,7 +9,7 @@
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Subjects', 'url' => '/taggingsubjects'],
         ],
-        'currentSection' => '$item',
+        'currentSection' => $item->subject->name,
     ])
 @endsection
 @section('content')
@@ -18,10 +18,9 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3>Subject: dude</h3>
+                        <h3>{{$item->subject->name}}</h3>
                     </div>
                 </div>
-                {{$item}}
 
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -34,8 +33,8 @@
                     <tbody>
                     @foreach($item->topics as $topic)
                         <tr>
-                            <td>topic</td>
-                            <td>{{$topic}}</td>
+                            <td>{{$topic->id}}</td>
+                            <td>{{$topic->name}}</td>
                             <td class="text-center"><a href="/topic" class="icon icon-pencil"></a></td>
                         </tr>
                     @endforeach
