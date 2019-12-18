@@ -37,14 +37,10 @@ class TaggingSubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //$subject = TaggingSubject::create($request->only(['subject_name']));
+        $subject = TaggingSubject::create($request->only(['name']));
 
-        $subjects = new TaggingSubject();
-
-        $subjects->name = request('subject_name');
-        $subjects->save();
 
         return redirect(route('taggingsubjects'));
 

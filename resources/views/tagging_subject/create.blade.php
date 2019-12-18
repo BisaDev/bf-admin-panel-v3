@@ -15,15 +15,14 @@
 @section('content')
     <div id="create-container" class="container">
         <div class="card-box row">
-            <form method="POST" action={{route('taggingsubjects')}}>
+            <form method="POST" action="{{route('taggingsubjects.store')}}">
 
                 {{csrf_field()}}
-
                 <div class="form-group col-lg-12 {{ $errors->has('last_name')? 'has-error' : '' }}">
-                    <label class="control-label" for="subject_name">
+                    <label class="control-label" for="name">
                         Subject:
                     </label>
-                    <input type="text" name="subject_name" class="form-control">
+                    <input type="text" name="name" class="form-control">
                 </div>
 
                 @include('partials.add-topics')
