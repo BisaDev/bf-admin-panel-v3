@@ -6,7 +6,7 @@
         'pageTitle' => 'Create topic',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Subjects', 'url' =>  '/taggingsubjects']
+            [ 'label' => 'Subjects', 'url' =>  route('taggingsubjects')]
         ],
         'currentSection' => 'Create a tagging subject',
     ])
@@ -15,7 +15,7 @@
 @section('content')
     <div id="create-container" class="container">
         <div class="card-box row">
-            <form method="POST" action="/taggingsubjects">
+            <form method="POST" action={{route('taggingsubjects')}}>
 
                 {{csrf_field()}}
 
@@ -29,7 +29,7 @@
                 @include('partials.add-topics')
 
                 <div class="form-group col-md-12 text-right m-t-30">
-                    <a href="/taggingsubject" class="btn btn-md btn-info">Cancel</a>
+                    <a href={{route('taggingsubjects')}} class="btn btn-md btn-info">Cancel</a>
                     <button type="submit" class="btn btn-md btn-primary">Create</button>
                 </div>
             </form>

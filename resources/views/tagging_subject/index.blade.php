@@ -4,7 +4,7 @@
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Tagging Subjects',
-        'link' => [ 'label' => 'Create Subject', 'url' => route('taggingsubject.create')],
+        'link' => [ 'label' => 'Create Subject', 'url' => route('taggingsubjects.create')],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')]
         ],
@@ -27,7 +27,7 @@
                     @foreach( $subjects as $subject )
                         <tr>
                             <th>
-                                <a href={{route('taggingsubject.show' , $subject->id)}}>
+                                <a href={{route('taggingsubjects.show' , $subject->id)}}>
                                     {{ $subject->name }}
                                 </a>
                             </th>
