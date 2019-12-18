@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\TaggingSubject;
+use Brightfox\TaggingSubject, Brightfox\TaggingTopic;
 use Illuminate\Http\Request;
 use DB;
 
@@ -40,6 +40,16 @@ class TaggingSubjectController extends Controller
     public function store(Request $request)
     {
         $subject = TaggingSubject::create($request->only(['name']));
+
+        $latestId =  DB::table('tagging_subjects')->latest('updated_at')->first()->id;
+
+        if($request->has('topics')){
+            foreach ($request->input('topics') as $topic_name) {
+                if(!is_null($topic_name)){
+                    TaggingTopic::create(['name' => $topic_name, 'tagging_subject_id' => $latestId]);
+                }
+            }
+        }
 
 
         return redirect(route('taggingsubjects'));
