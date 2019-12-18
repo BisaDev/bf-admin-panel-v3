@@ -19,7 +19,7 @@ class TaggingSubject extends Model
     ];
 
 
-    public function topic () {
+    public function topics () {
         return $this->hasMany(TaggingTopic::class);
     }
 }

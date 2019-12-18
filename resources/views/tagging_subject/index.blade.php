@@ -3,7 +3,7 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Grade Levels',
+        'pageTitle' => 'Tagging Subjects',
         'link' => [ 'label' => 'Create Subject', 'url' => route('taggingsubject.create')],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')]
@@ -17,10 +17,17 @@
         <div class="col-sm-12" id="app">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
+                    <thead>
+                        <th>Subject</th>
+                        <th>Topics</th>
+                        <th width="90" class="text-center"></th>
+                        <th width="90" class="text-center"></th>
+                    </thead>
                     <tbody>
                     @foreach( $subjects as $subject )
                         <tr>
                             <th>{{ $subject->name }}</th>
+                            <td>{{ $subject->topics->count() }}</td>
                             <td class="text-center">View</td>
                             <td class="text-center">Edit</td>
                         </tr>
