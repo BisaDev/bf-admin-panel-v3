@@ -2,22 +2,20 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\TaggingTopic;
+use Brightfox\TaggingSubject, Brightfox\TaggingTopic;
 
 class TaggingTopicController extends Controller
 {
-    public function create()
+    public function create($subject_id)
     {
-        return view('tagging_topic.create');
+        $subject = TaggingSubject::find($subject_id);
+        
+        return view('tagging_topic.create' , compact('subject'));
     }
 
     public function store()
     {
-        $topics = new TaggingTopic();
-
-        $topics->name = request('topic_name');
-        $topics->tagging_subject_id = request('tagging_subject_id');
-        $topics->save();
+        $subject = TaggingTopic::create($request->only(['name' , 'tagging_subject_id']));
 
         return redirect('/taggingtopics');
     }

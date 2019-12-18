@@ -2,7 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\TaggingSubject , Brightfox\TaggingTopic;
+use Brightfox\TaggingSubject;
 use Illuminate\Http\Request;
 use DB;
 
