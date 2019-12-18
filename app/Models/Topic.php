@@ -23,7 +23,7 @@ class Topic extends Model
      *
      * @var array
      */
-    protected $searchableColumns = [
+            protected $searchableColumns = [
         'name'
     ];
 

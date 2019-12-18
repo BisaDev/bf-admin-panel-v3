@@ -18,6 +18,10 @@ class TaggingSubject extends Model
         'name'
     ];
 
+    protected $searchableColumns = [
+        'name'
+    ];
+
 
     public function topics () {
         return $this->hasMany(TaggingTopic::class);

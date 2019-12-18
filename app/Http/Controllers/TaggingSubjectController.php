@@ -52,12 +52,16 @@ class TaggingSubjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     *
+     * @param  \Brightfox\TaggingSubject $subject
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TaggingSubject $subject)
     {
-        return view('tagging_subject.show');
+        $item = $subject;
+        $item->topics = $item->topics()->paginate(20);
+
+        return view('tagging_subject.show' , compact('item'));
     }
 
     /**

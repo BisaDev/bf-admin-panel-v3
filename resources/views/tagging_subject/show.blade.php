@@ -3,17 +3,15 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'dude',
-        'link' => [ 'label' => 'Create Topic', 'url' => '/dude'],
+        'pageTitle' => 'Subject',
+        'link' => [ 'label' => 'Create Topic', 'url' => '/Subject'],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Academic Content', 'url' => '/dude'],
-            [ 'label' => 'dude', 'url' => '/dude'],
+            [ 'label' => 'Subject', 'url' => '/Subject'],
         ],
-        'currentSection' => "Dude",
+        'currentSection' => $item,
     ])
 @endsection
-
 @section('content')
     <div id="index-container" data-model="topic" class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -33,13 +31,13 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                    @foreach($item->topics as $topic)
                         <tr>
                             <td>topic</td>
-                            <td>topic name</td>
+                            <td>{{$topic->id}}</td>
                             <td class="text-center"><a href="/topic" class="icon icon-pencil"></a></td>
                         </tr>
-
+                    @endforeach
                     </tbody>
                 </table>
             </div>

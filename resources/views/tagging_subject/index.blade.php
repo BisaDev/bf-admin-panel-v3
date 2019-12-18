@@ -26,7 +26,11 @@
                     <tbody>
                     @foreach( $subjects as $subject )
                         <tr>
-                            <th>{{ $subject->name }}</th>
+                            <th>
+                                <a href={{route('taggingsubject.show' , $subject->id)}}>
+                                    {{ $subject->name }}
+                                </a>
+                            </th>
                             <td>{{ $subject->topics->count() }}</td>
                             <td class="text-center">View</td>
                             <td class="text-center">Edit</td>
