@@ -67,7 +67,7 @@ class TaggingSubjectController extends Controller
         $item = $subject;
 
         $item->subject = TaggingSubject::find($id);
-        $item->topics = TaggingTopic::where('tagging_subject_id', '>', 1)->get();
+        $item->topics = TaggingTopic::where('tagging_subject_id', '=', $id)->get();
 
         return view('tagging_subject.show', compact('item'));
     }
