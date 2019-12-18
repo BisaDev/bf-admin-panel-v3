@@ -57,7 +57,7 @@ class TaggingSubjectController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('tagging_subject.show');
     }
 
     /**

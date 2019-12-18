@@ -26,6 +26,8 @@
                     <input type="text" name="subject_name" class="form-control">
                 </div>
 
+                @include('partials.add-topics')
+
                 <div class="form-group col-md-12 text-right m-t-30">
                     <a href="/taggingsubject" class="btn btn-md btn-info">Cancel</a>
                     <button type="submit" class="btn btn-md btn-primary">Create</button>
