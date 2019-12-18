@@ -46,7 +46,7 @@ class TaggingSubjectController extends Controller
         $subjects->name = request('subject_name');
         $subjects->save();
 
-        return redirect('/taggingsubjects');
+        return redirect(route('taggingsubjects'));
 
     }
 
