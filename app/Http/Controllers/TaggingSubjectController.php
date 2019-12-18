@@ -2,8 +2,9 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\TaggingSubject;
+use Brightfox\TaggingSubject , Brightfox\TaggingTopic;
 use Illuminate\Http\Request;
+use DB;
 
 class TaggingSubjectController extends Controller
 {
@@ -51,15 +52,17 @@ class TaggingSubjectController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     * var $item
      *
      * @param  \Brightfox\TaggingSubject $subject
      * @return \Illuminate\Http\Response
      */
-    public function show(TaggingSubject $subject)
+    public function show($id , TaggingSubject $subject)
     {
         $item = $subject;
-        $item->topics = $item->topics()->paginate(20);
+
+        $item->topics = response()->json(DB::table('tagging_topics')->where('tagging_subject_id','=',$id)->get());
+
 
         return view('tagging_subject.show' , compact('item'));
     }

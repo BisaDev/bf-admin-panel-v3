@@ -7,9 +7,9 @@
         'link' => [ 'label' => 'Create Topic', 'url' => '/Subject'],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Subject', 'url' => '/Subject'],
+            [ 'label' => 'Subjects', 'url' => '/taggingsubjects'],
         ],
-        'currentSection' => $item,
+        'currentSection' => '$item',
     ])
 @endsection
 @section('content')
@@ -21,6 +21,7 @@
                         <h3>Subject: dude</h3>
                     </div>
                 </div>
+                {{$item}}
 
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -34,7 +35,7 @@
                     @foreach($item->topics as $topic)
                         <tr>
                             <td>topic</td>
-                            <td>{{$topic->id}}</td>
+                            <td>{{$topic}}</td>
                             <td class="text-center"><a href="/topic" class="icon icon-pencil"></a></td>
                         </tr>
                     @endforeach

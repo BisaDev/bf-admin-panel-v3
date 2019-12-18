@@ -18,6 +18,11 @@ class TaggingSubject extends Model
         'name'
     ];
 
+    /**
+     * The attributes that will be searchable, can be relations.
+     *
+     * @var array
+     */
     protected $searchableColumns = [
         'name'
     ];
