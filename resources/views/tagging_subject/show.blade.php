@@ -4,10 +4,10 @@
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Subject',
-        'link' => [ 'label' => 'Create Topic', 'url' => '/Subject'],
+        'link' => [ 'label' => 'Create Topic', 'url' => route('taggingtopics.create', $item->subject->id)],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Subjects', 'url' => '/taggingsubjects'],
+            [ 'label' => 'Subjects', 'url' => route('taggingsubjects')],
         ],
         'currentSection' => $item->subject->name,
     ])

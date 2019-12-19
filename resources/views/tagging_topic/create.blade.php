@@ -6,7 +6,7 @@
         'pageTitle' => 'Create topic',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Topics', 'url' =>  '/taggingtopics']
+            [ 'label' => 'Subjects', 'url' =>  route('taggingsubjects')]
         ],
         'currentSection' => 'Create Tagging Topic',
     ])
@@ -15,22 +15,18 @@
 @section('content')
     <div id="app" class="container">
         <div class="card-box row">
-            <form method="POST" action="/taggingtopics">
+            <form method="POST" action="{{route('taggingtopics.store')}}">
                 {{csrf_field()}}
-                <div class="form-group col-lg-6 {{ $errors->has('last_name')? 'has-error' : '' }}">
+                <div class="form-group col-lg-12 {{ $errors->has('last_name')? 'has-error' : '' }}">
                     <label class="control-label" for="topic_name">
                         Topic:
                     </label>
-                    <input type="text" name="topic_name" class="form-control">
+                    <input type="text" name="name" class="form-control">
+                    <input type="hidden" name="tagging_subject_id" value="{{$subject_id}}">
                 </div>
-                <div class="form-group col-lg-6 {{ $errors->has('last_name')? 'has-error' : '' }}">
-                    <label class="control-label" for="tagging_subject_id">
-                        Subject ID:
-                    </label>
-                    <input type="number" name="tagging_subject_id" class="form-control">
-                </div>
-                <div class="form-group col-lg-2">
-                    <button type="submit">Submit</button>
+                <div class="form-group col-md-12 text-right m-t-30">
+                    <a href="{{route('taggingsubjects')}}" class="btn btn-md btn-info">Cancel</a>
+                    <button type="submit" class="btn btn-md btn-primary">Create</button>
                 </div>
             </form>
         </div>

@@ -3,20 +3,19 @@
 namespace Brightfox\Http\Controllers;
 
 use Brightfox\TaggingSubject, Brightfox\TaggingTopic;
+use Illuminate\Http\Request;
 
 class TaggingTopicController extends Controller
 {
     public function create($subject_id)
     {
-        $subject = TaggingSubject::find($subject_id);
-        
-        return view('tagging_topic.create' , compact('subject'));
+        return view('tagging_topic.create' , compact('subject_id'));
     }
 
-    public function store()
+    public function store(Request $request)
     {
         $subject = TaggingTopic::create($request->only(['name' , 'tagging_subject_id']));
 
-        return redirect('/taggingtopics');
+        return redirect(route('taggingsubjects'));
     }
 }

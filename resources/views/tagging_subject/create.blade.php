@@ -28,7 +28,7 @@
                 @include('partials.add-topics')
 
                 <div class="form-group col-md-12 text-right m-t-30">
-                    <a href={{route('taggingsubjects')}} class="btn btn-md btn-info">Cancel</a>
+                    <a href="{{route('taggingsubjects')}}" class="btn btn-md btn-info">Cancel</a>
                     <button type="submit" class="btn btn-md btn-primary">Create</button>
                 </div>
             </form>
