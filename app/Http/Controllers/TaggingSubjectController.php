@@ -42,11 +42,10 @@ class TaggingSubjectController extends Controller
         $subject = TaggingSubject::create($request->only(['name']));
 
         if ($request->has('topics')) {
-            $latestId = DB::table('tagging_subjects')->latest('updated_at')->first()->id;
 
             foreach ($request->input('topics') as $topic_name) {
                 if (!is_null($topic_name)) {
-                    TaggingTopic::create(['name' => $topic_name, 'tagging_subject_id' => $latestId]);
+                    TaggingTopic::create(['name' => $topic_name, 'tagging_subject_id' => $subject->id]);
                 }
             }
         }
