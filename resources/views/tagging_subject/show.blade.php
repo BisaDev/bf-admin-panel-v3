@@ -4,12 +4,12 @@
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Subject',
-        'link' => [ 'label' => 'Create Topic', 'url' => route('taggingtopics.create', $item->subject->id)],
+        'link' => [ 'label' => 'Create Topic', 'url' => route('taggingtopics.create', $subject->id)],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
             [ 'label' => 'Subjects', 'url' => route('taggingsubjects')],
         ],
-        'currentSection' => $item->subject->name,
+        'currentSection' => $subject->name,
     ])
 @endsection
 @section('content')
@@ -18,7 +18,7 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3>{{$item->subject->name}}</h3>
+                        <h3>{{$subject->name}}</h3>
                     </div>
                 </div>
 
@@ -31,7 +31,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($item->topics as $topic)
+                    @foreach($subject->topics as $topic)
                         <tr>
                             <td>{{$topic->id}}</td>
                             <td>{{$topic->name}}</td>
