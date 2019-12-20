@@ -7,7 +7,7 @@
         'link' => [ 'label' => 'Create Topic', 'url' => route('taggingtopics.create', $subject->id)],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Subjects', 'url' => route('taggingsubjects')],
+            [ 'label' => 'Subjects', 'url' => route('taggingsubjects.index')],
         ],
         'currentSection' => $subject->name,
     ])

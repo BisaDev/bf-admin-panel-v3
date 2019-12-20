@@ -44,11 +44,8 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::get('taggingtool',                           'TaggingToolController@index');
 
     Route::resource('taggingsubjects',                  'TaggingSubjectController');
-    Route::get('taggingsubjects',                       'TaggingSubjectController@index')->name('taggingsubjects');
-    Route::get('taggingsubjects/create',                'TaggingSubjectController@create')-> name('taggingsubjects.create');
-    Route::post('taggingsubjects/{subject_id}',         'TaggingSubjectController@show')->name('taggingsubjects.show');
 
-    Route::resource('taggingtopics',                    'TaggingTopicController',['except' =>['index', 'create']]);
+    Route::resource('taggingtopics',                    'TaggingTopicController',['except' =>['index', 'show']]);
     Route::get('taggingtopics/create/{subject_id}',     'TaggingTopicController@create')->name('taggingtopics.create');
 
     Route::resource('grade_levels',                     'GradeLevelController');

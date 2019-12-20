@@ -6,7 +6,7 @@
         'pageTitle' => 'Create topic',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Subjects', 'url' =>  route('taggingsubjects')]
+            [ 'label' => 'Subjects', 'url' =>  route('taggingsubjects.index')]
         ],
         'currentSection' => 'Create Tagging Topic',
     ])
@@ -25,7 +25,7 @@
                     <input type="hidden" name="tagging_subject_id" value="{{$subject_id}}">
                 </div>
                 <div class="form-group col-md-12 text-right m-t-30">
-                    <a href="{{route('taggingsubjects')}}" class="btn btn-md btn-info">Cancel</a>
+                    <a href="{{route('taggingsubjects.index')}}" class="btn btn-md btn-info">Cancel</a>
                     <button type="submit" class="btn btn-md btn-primary">Create</button>
                 </div>
             </form>
