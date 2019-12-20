@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaggingSubject extends Model
 {
-    public function topic () {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name'
+    ];
+
+    public function topics () {
         return $this->hasMany(TaggingTopic::class);
     }
 }

@@ -38,15 +38,20 @@ Route::domain(env('STUDENT_APP_URL', 'students.brightfoxv2.test'))->group(functi
 });
 
 Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], function(){
+
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
+    Route::get('taggingtool',                           'TaggingToolController@index');
 
-    Route::get('taggingtool', 'TaggingToolController@index');
+    Route::resource('taggingsubjects',                  'TaggingSubjectController');
+
+    Route::resource('taggingtopics',                    'TaggingTopicController',['except' =>['index', 'show']]);
+    Route::get('taggingtopics/create/{subject_id}',     'TaggingTopicController@create')->name('taggingtopics.create');
 
     Route::resource('grade_levels',                     'GradeLevelController');
     Route::post('grade_levels/{grade_level}',           'GradeLevelController@show')->name('grade_levels.show.search');
 
-    Route::resource('subjects',                         'SubjectController', ['except' => ['index', 'create']]); 
+    Route::resource('subjects',                         'SubjectController', ['except' => ['index', 'create']]);
     Route::get('subjects/create/{grade_level_id}',      'SubjectController@create')->name('subjects.create');
     Route::post('subjects/get_by_grade',                'SubjectController@get_subjects_by_grade_level')->name('subjects.by_grade');
     Route::post('subjects/{subject}',                   'SubjectController@show')->name('subjects.show.search');
