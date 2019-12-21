@@ -13,7 +13,7 @@ class ImageUploadController extends Controller
      */
     public function index()
     {
-        return "Image";
+        return view('image_upload.index');
     }
 
     /**
