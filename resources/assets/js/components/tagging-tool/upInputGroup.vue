@@ -9,18 +9,18 @@
                     <option>Option4</option>
                 </select>
             </label>
-            <button type="button" class="btn btn-sm btn-default add-img-btn">
+            <button type="button" @click="addInputs" class="btn btn-sm btn-default add-img-btn">
                 Add image
                 <span class="m-l-5">
                     <i class="fa fa-plus"></i>
                 </span>
             </button>
         </div>
-        <div class="input-group col-md-12 text-right flex">
-            <input type="file">
-            <input type="text" placeholder="dude">
-            <input type="file">
+
+        <div v-for="index in images" :key="index">
+            <up-inputs></up-inputs>
         </div>
+
         <div class="form-group col-md-12 text-right m-t-30">
             <button @click="handleClick(inputID)" class="btn btn-md btn-info">Cancel</button>
             <button type="submit" class="btn btn-md btn-primary">Upload</button>
@@ -31,7 +31,18 @@
 
 <script>
     export default {
+        data: function () {
+            return {
+                images: 1
+            }
+        },
+        methods: {
+            addInputs: function () {
+                this.$data.images++
+            }
+        },
         props: ['inputID' , 'handleClick']
+
     }
 </script>
 

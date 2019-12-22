@@ -10,11 +10,11 @@
         </div>
 
         <div class="form-group col-md-12" v-for="index in questions" :key="index">
-            <up-input
+            <up-input-group
                     v-bind:inputID="index"
                     v-bind:handleClick="removeInput"
             >
-            </up-input>
+            </up-input-group>
         </div>
     </div>
 </template>
@@ -23,7 +23,7 @@
     export default {
         data: function () {
             return {
-                questions: []
+                questions: [1]
             }
         },
         methods: {

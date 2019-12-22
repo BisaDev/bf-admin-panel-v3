@@ -26,7 +26,8 @@ Vue.component('tabs', require('./components/tabs'));
 Vue.component('upload-image', require('./components/uploadImage'));
 Vue.component('tag-stats', require('./components/tagging-tool/tagStats'));
 Vue.component('upWrapper', require('./components/tagging-tool/upWrapper'));
-Vue.component('upInput', require('./components/tagging-tool/imageUploadInput'));
+Vue.component('upInputGroup', require('./components/tagging-tool/upInputGroup'));
+Vue.component('upInputs', require('./components/tagging-tool/upInputs'));
 
 const app = new Vue({
     el: '#app'
