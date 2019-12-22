@@ -1,0 +1,55 @@
+<template>
+    <div class="card-box wrapper">
+        <div class="input-group col-md-12 text-left text-left">
+            <label for="subject">
+                <select name="subject">
+                    <option>Option1</option>
+                    <option>Option2</option>
+                    <option>Option3</option>
+                    <option>Option4</option>
+                </select>
+            </label>
+            <button type="button" class="btn btn-sm btn-default add-img-btn">
+                Add image
+                <span class="m-l-5">
+                    <i class="fa fa-plus"></i>
+                </span>
+            </button>
+        </div>
+        <div class="input-group col-md-12 text-right flex">
+            <input type="file">
+            <input type="text" placeholder="dude">
+            <input type="file">
+        </div>
+        <div class="form-group col-md-12 text-right m-t-30">
+            <button @click="handleClick(inputID)" class="btn btn-md btn-info">Cancel</button>
+            <button type="submit" class="btn btn-md btn-primary">Upload</button>
+        </div>
+    </div>
+    
+</template>
+
+<script>
+    export default {
+        props: ['inputID' , 'handleClick']
+    }
+</script>
+
+<style scoped>
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    .add-img-btn {
+        margin-left: 50px;
+    }
+    .input-group {
+        margin: 30px 0 10px;
+    }
+    .flex {
+        display: flex;
+        align-items:center;
+        justify-content:space-between;
+    }
+
+</style>

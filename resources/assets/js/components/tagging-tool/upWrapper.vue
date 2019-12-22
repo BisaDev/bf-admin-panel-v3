@@ -2,7 +2,7 @@
     <div id="add-children">
         <div class="form-group col-md-12">
             <button type="button" class="btn btn-sm btn-default" @click="addInput">
-                Add topic
+                Add upload
                 <span class="m-l-5">
                     <i class="fa fa-plus"></i>
                 </span>
@@ -10,8 +10,11 @@
         </div>
 
         <div class="form-group col-md-12" v-for="index in questions" :key="index">
-            <p>dude</p>
-            <p @click="removeInput(index)">{{index}}</p>
+            <up-input
+                    v-bind:inputID="index"
+                    v-bind:handleClick="removeInput"
+            >
+            </up-input>
         </div>
     </div>
 </template>
