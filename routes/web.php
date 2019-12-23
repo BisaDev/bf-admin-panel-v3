@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::get('taggingtool',                           'TaggingToolController@index');
 
-    Route::resource('tt_image_upload',                  'ImageUploadController');
+    Route::resource('image-upload',                      'ImageUploadController');
 
     Route::resource('taggingsubjects',                  'TaggingSubjectController');
 
