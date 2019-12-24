@@ -50,7 +50,7 @@ class TaggingSubjectController extends Controller
             }
         }
 
-        return redirect(route('taggingsubjects'));
+        return redirect(route('taggingsubjects.index'));
 
     }
 
