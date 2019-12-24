@@ -3,10 +3,9 @@
         <div class="input-group col-md-12 text-left text-left">
             <label for="subject">
                 <select name="subject">
-                    <option>Option1</option>
-                    <option>Option2</option>
-                    <option>Option3</option>
-                    <option>Option4</option>
+                    <option v-for="subject in subjects">
+                        {{subject.name}}
+                    </option>
                 </select>
             </label>
             <button type="button" @click="addInputs" class="btn btn-sm btn-default add-img-btn">
@@ -26,7 +25,7 @@
             <button type="submit" class="btn btn-md btn-primary">Upload</button>
         </div>
     </div>
-    
+
 </template>
 
 <script>
@@ -41,7 +40,7 @@
                 this.$data.images++
             }
         },
-        props: ['inputID' , 'handleClick']
+        props: ['inputID', 'handleClick', 'subjects']
 
     }
 </script>
@@ -51,16 +50,19 @@
         display: flex;
         flex-direction: column;
     }
+
     .add-img-btn {
         margin-left: 50px;
     }
+
     .input-group {
         margin: 30px 0 10px;
     }
+
     .flex {
         display: flex;
-        align-items:center;
-        justify-content:space-between;
+        align-items: center;
+        justify-content: space-between;
     }
 
 </style>
