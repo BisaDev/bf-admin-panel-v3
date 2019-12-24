@@ -41,19 +41,21 @@
             }
         },
         mounted: function () {
-            const url = "image-upload/getsubjects";
             var that = this;
+
+            const url = that.route;
             axios.get(url)
                 .then(function (response) {
                     that.subjects = response.data;
                     console.log(response);
+                    console.log(that.route);
                 })
                 .catch(function (error) {
                     // handle error
                     console.log(error);
-                    console.log("Failed dudeee")
                 })
-        }
+        },
+        props: ['route']
     }
 </script>
 
