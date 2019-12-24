@@ -47,8 +47,6 @@
             axios.get(url)
                 .then(function (response) {
                     that.subjects = response.data;
-                    console.log(response);
-                    console.log(that.route);
                 })
                 .catch(function (error) {
                     // handle error
