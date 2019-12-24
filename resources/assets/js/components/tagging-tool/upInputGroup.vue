@@ -17,7 +17,8 @@
         </div>
 
         <div v-for="index in images" :key="index">
-            <up-inputs></up-inputs>
+            <up-inputs :locator="index">
+            </up-inputs>
         </div>
 
         <div class="form-group col-md-12 text-right m-t-30">
@@ -32,12 +33,14 @@
     export default {
         data: function () {
             return {
-                images: 1
+                images: [1]
             }
         },
         methods: {
             addInputs: function () {
-                this.$data.images++
+                const {images} = this.$data;
+                const randomId = Math.random().toString(36).substr(2, 9);
+                images.push(randomId);
             }
         },
         props: ['inputID', 'handleClick', 'subjects']

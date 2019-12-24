@@ -41,7 +41,7 @@
             }
         },
         mounted: function () {
-            var that = this;
+            const that = this;
 
             const url = that.route;
             axios.get(url)
