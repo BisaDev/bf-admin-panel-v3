@@ -11,11 +11,31 @@
 
         <div class="form-group col-md-12" v-for="index in questions" :key="index">
             <up-input-group
-                    v-bind:subjects="subjects"
-                    v-bind:inputID="index"
-                    v-bind:handleClick="removeInput"
+                    :subjects="subjects"
+                    :inputID="index"
+                    :handleClick="removeInput"
+                    :method="updateModalImg"
             >
             </up-input-group>
+        </div>
+        <!-- Image Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img
+                                class="modal-img"
+                                src=""
+                                alt="modal-img"></img>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -25,7 +45,8 @@
         data: function () {
             return {
                 questions: [1],
-                subjects: null
+                subjects: null,
+                modalImageUrl: ""
             }
         },
         methods: {
@@ -38,6 +59,13 @@
             removeInput: function (index) {
                 const {questions} = this.$data;
                 this.$data.questions = questions.filter(id => id !== index);
+            },
+            updateModalImg: function (imgURL) {
+                console.log(imgURL);
+                const imageSelector = document.querySelector('.modal-img');
+                if (imageSelector) {
+                    imageSelector.src = imgURL
+                }
             }
         },
         mounted: function () {
@@ -58,5 +86,16 @@
 </script>
 
 <style scoped>
+    .modal-img {
+        max-height: 50vh;
+    }
+
+    .modal-dialog {
+        min-width: fit-content;
+    }
+
+    .modal-header {
+        border: none;
+    }
 
 </style>

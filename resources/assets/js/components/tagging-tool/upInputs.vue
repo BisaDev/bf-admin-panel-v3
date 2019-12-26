@@ -1,19 +1,31 @@
 <template>
     <div class="input-group col-md-12 text-right flex">
         <div class="flex-column">
-            <img src="" alt="" :id="`left-img${locator}`"></img>
+            <button type="button" data-toggle="modal" data-target="#exampleModal" v-on:click="onModalCall(leftImageUrl)">
+                <img :src="leftImageUrl" alt="left-img" :id="`left-img${locator}`"></img>
+            </button>
             <input type="file" :id="`left-${locator}`" accept="image/*">
         </div>
         <input type="text" placeholder="dude">
         <div class="flex-column">
-            <img src="" alt="" :id="`right-img${locator}`"></img>
+            <button type="button" data-toggle="modal" data-target="#exampleModal" v-on:click="onModalCall(rightImageUrl)">
+                <img :src="rightImageUrl" alt="right-img" :id="`right-img${locator}`"></img>
+            </button>
             <input type="file" :id="`right-${locator}`" accept="image/*">
         </div>
+
+
     </div>
 </template>
 
 <script>
     export default {
+        data: function () {
+            return {
+                leftImageUrl: "",
+                rightImageUrl: ""
+            }
+        },
         mounted() {
             const that = this;
 
@@ -30,16 +42,13 @@
             function readURL(input , target) {
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
-                    let image;
-
-                    if( target === "left") {
-                        image = document.querySelector(`#left-img${that.locator}`);
-                    } else  if (target === "right") {
-                        image = document.querySelector(`#right-img${that.locator}`);
-                    }
 
                     reader.onload = function (e) {
-                        image.src = e.target.result
+                        if( target === "left") {
+                            that.leftImageUrl = e.target.result;
+                        } else  if (target === "right") {
+                            that.rightImageUrl = e.target.result;
+                        }
                     };
 
 
@@ -47,7 +56,7 @@
                 }
             }
         },
-        props: ['locator']
+        props: ['locator' , 'onModalCall']
     }
 </script>
 
@@ -55,6 +64,13 @@
     .flex-column {
         display: flex;
         flex-direction: column;
+    }
+    .modal-header {
+        border: none;
+    }
+
+    button {
+        border:none;
     }
 
 </style>
