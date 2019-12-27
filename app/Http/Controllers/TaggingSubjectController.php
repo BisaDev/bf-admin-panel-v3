@@ -72,11 +72,14 @@ class TaggingSubjectController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
+     * @param \Brightfox\TaggingSubject $subject
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $subject = TaggingSubject::find($id);
+        // return $subject;
+        return view('tagging_subject.edit', compact('subject'));
     }
 
     /**
