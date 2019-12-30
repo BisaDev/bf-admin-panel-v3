@@ -5,8 +5,8 @@
     @include('partials.breadcrumbs', [
         'pageTitle' => 'Topic',
         'breadcrumbs' => [
-            [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
-            [ 'label' => 'Subjects', 'url' => route('taggingtopics.index')],
+                [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
+            [ 'label' => 'Subjects', 'url' => route('taggingsubjects.index')],
         ],
         'currentSection' => 'Edit Topic'
     ])

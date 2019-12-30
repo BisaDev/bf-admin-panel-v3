@@ -35,7 +35,7 @@
                         <tr>
                             <td>{{$topic->id}}</td>
                             <td>{{$topic->name}}</td>
-                            <td class="text-center"><a href="{{route('taggingtopics.edit' , $subject->id)}}" class="icon icon-pencil"></a></td>
+                            <td class="text-center"><a href="{{route('taggingtopics.edit' , $topic->id)}}" class="icon icon-pencil"></a></td>
                         </tr>
                     @endforeach
                     </tbody>
