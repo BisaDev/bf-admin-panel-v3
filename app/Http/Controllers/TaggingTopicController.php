@@ -16,7 +16,7 @@ class TaggingTopicController extends Controller
     {
         $subject = TaggingTopic::create($request->only(['name' , 'tagging_subject_id']));
 
-        return redirect(route('taggingsubjects'));
+        return redirect(route('taggingsubjects.index'));
     }
 
     public function edit($id)
