@@ -13,7 +13,7 @@
 @endsection
 @section('content')
     <div id="index-container" data-model="topic" class="row">
-        <form action="{{ route('taggingsubjects.update', $topic->id) }}" method="POST">
+        <form action="{{ route('taggingtopics.update', $topic->id) }}" method="POST">
             {{ csrf_field() }}
             {{ method_field('put') }}
             <div class="col-md-8 col-md-offset-2 card-box">
