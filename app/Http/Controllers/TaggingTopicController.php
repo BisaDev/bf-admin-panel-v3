@@ -22,7 +22,8 @@ class TaggingTopicController extends Controller
     public function edit($id)
     {
         $topic = TaggingTopic::find($id);
-        return view('tagging_topic.edit', compact(['topic']));
+        $subject = TaggingSubject::find($topic->tagging_subject_id)->first();
+        return view('tagging_topic.edit', compact(['topic' , 'subject']));
     }
 
     /**
