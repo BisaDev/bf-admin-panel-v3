@@ -18,4 +18,23 @@ class TaggingTopicController extends Controller
 
         return redirect(route('taggingsubjects'));
     }
+
+    public function edit($id)
+    {
+        $topic = TaggingTopic::find($id);
+
+        return view('taggingtopics');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
 }

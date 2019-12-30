@@ -87,11 +87,16 @@ class TaggingSubjectController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
+     * @param \Brightfox\TaggingSubject
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $subject = TaggingSubject::find($id);
+        $subject->name = $request->name;
+        $subject->save();
+
+        return redirect(route('taggingsubjects.index'));
     }
 
     /**
