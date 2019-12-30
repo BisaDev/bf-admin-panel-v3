@@ -36,17 +36,19 @@ class TaggingTopicController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
      * @param int $id
+     * @param \Illuminate\Http\Request $request
      * @param \Brightfox\TaggingTopic
+     * @param \Brightfox\TaggingSubject
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $subject = TaggingTopic::find($id);
-        $subject->name = $request->name;
-        $subject->save();
+        $topic = TaggingTopic::find($id);
+        $topic->name = $request->name;
+        $topic->save();
+        $subject = TaggingSubject::find($topic->tagging_subject_id);
 
-        return redirect(route('taggingsubjects.index'));
+        return redirect(route('taggingsubjects.show', compact('subject')));
     }
 }
