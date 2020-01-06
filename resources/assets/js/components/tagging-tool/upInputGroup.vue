@@ -22,7 +22,7 @@
 
         <div v-for="index in images" :key="index">
             <up-inputs
-                    :onModalCall="method"
+                    :onModalCall="modalCall"
                     :locator="index">
             </up-inputs>
         </div>
@@ -49,7 +49,7 @@
                 images.push(randomId);
             }
         },
-        props: ['inputID', 'handleClick', 'subjects','method']
+        props: ['inputID', 'handleClick', 'subjects','modalCall']
 
     }
 </script>

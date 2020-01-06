@@ -14,12 +14,12 @@
                     :subjects="subjects"
                     :inputID="index"
                     :handleClick="removeInput"
-                    :method="updateModalImg"
+                    :modalCall="updateModalImg"
             >
             </up-input-group>
         </div>
         <!-- Image Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -29,10 +29,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <img
-                                class="modal-img"
-                                src=""
-                                alt="modal-img"></img>
+                        <img class="modal-img" src="" alt="modal-img" />
                     </div>
                 </div>
             </div>
@@ -71,7 +68,8 @@
         mounted: function () {
             const that = this;
 
-            const url = that.route;
+            const url = that.subject_url;
+            console.log(that);
             axios.get(url)
                 .then(function (response) {
                     that.subjects = response.data;
@@ -81,7 +79,7 @@
                     console.log(error);
                 })
         },
-        props: ['route']
+        props: ['subject_url']
     }
 </script>
 

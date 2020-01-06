@@ -14,8 +14,7 @@
 @section('content')
     <div id="app" class="container">
         <up-wrapper
-                route="{{route('taggingsubjects.subjects')}}">
-
+                subject_url="{{route('taggingsubjects.subjects')}}">
         </up-wrapper>
     </div>
 @endsection

@@ -2,8 +2,8 @@
     <div class="input-group col-md-12 text-right flex">
         <div class="flex-column">
             <label class="control-label" for="question-img">Question image:</label>
-            <button type="button" data-toggle="modal" data-target="#exampleModal" v-on:click="onModalCall(leftImageUrl)">
-                <img :src="leftImageUrl" alt="left-img" :id="`left-img${locator}`" v-if="leftImageUrl !== ''"></img>
+            <button type="button" data-toggle="modal" data-target="#previewModal" v-on:click="onModalCall(leftImageUrl)">
+                <img :src="leftImageUrl" alt="left-img" :id="`left-img${locator}`" v-if="leftImageUrl !== ''" />
             </button>
             <input type="file" :id="`left-${locator}`" name="question-img" accept="image/*">
         </div>
@@ -13,8 +13,8 @@
         </div>
         <div class="flex-column">
             <label class="control-label" for="answer-img">Answer image:</label>
-            <button type="button" data-toggle="modal" data-target="#exampleModal" v-on:click="onModalCall(rightImageUrl)">
-                <img :src="rightImageUrl" alt="right-img" :id="`right-img${locator}`" v-if="rightImageUrl !== ''"></img>
+            <button type="button" data-toggle="modal" data-target="#previewModal" v-on:click="onModalCall(rightImageUrl)">
+                <img :src="rightImageUrl" alt="right-img" :id="`right-img${locator}`" v-if="rightImageUrl !== ''" />
             </button>
             <input type="file" :id="`right-${locator}`" name="answer-img" accept="image/*">
         </div>
