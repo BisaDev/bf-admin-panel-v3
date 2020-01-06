@@ -4,15 +4,10 @@ namespace Brightfox\Http\Controllers;
 
 use Brightfox\TaggingSubject, Brightfox\TaggingTopic;
 use Illuminate\Http\Request;
-use DB;
 
 class TaggingSubjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $subjects = TaggingSubject::all();
@@ -20,23 +15,14 @@ class TaggingSubjectController extends Controller
         return view('tagging_subject.index', compact(['subjects']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
 
         return view('tagging_subject.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $subject = TaggingSubject::create($request->only(['name']));
@@ -54,13 +40,7 @@ class TaggingSubjectController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     * var $item
-     *
-     * @param \Brightfox\TaggingSubject $subject
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id, TaggingSubject $subject)
     {
         $subject = TaggingSubject::find($id);
@@ -68,13 +48,7 @@ class TaggingSubjectController extends Controller
         return view('tagging_subject.show', compact('subject'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @param \Brightfox\TaggingSubject $subject
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $subject = TaggingSubject::find($id);
@@ -82,14 +56,7 @@ class TaggingSubjectController extends Controller
         return view('tagging_subject.edit', compact('subject'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @param \Brightfox\TaggingSubject
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $subject = TaggingSubject::find($id);
@@ -99,12 +66,7 @@ class TaggingSubjectController extends Controller
         return redirect(route('taggingsubjects.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
