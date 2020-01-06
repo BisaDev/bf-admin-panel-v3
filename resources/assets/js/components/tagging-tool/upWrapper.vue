@@ -1,5 +1,5 @@
 <template>
-    <div id="add-children">
+    <div>
         <div class="form-group col-md-12">
             <button type="button" class="btn btn-sm btn-default" @click="addInput">
                 Add upload
