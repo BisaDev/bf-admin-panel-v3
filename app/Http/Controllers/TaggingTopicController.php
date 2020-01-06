@@ -22,27 +22,11 @@ class TaggingTopicController extends Controller
     public function edit($id)
     {
         $topic = TaggingTopic::find($id);
-        $subject = TaggingSubject::find($topic->tagging_subject_id)->first();
+        $subject= TaggingSubject::find($topic->tagging_subject_id);
         return view('tagging_topic.edit', compact(['topic' , 'subject']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param int $id
-     * @param \Illuminate\Http\Request $request
-     * @param \Brightfox\TaggingTopic
-     * @param \Brightfox\TaggingSubject
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $topic = TaggingTopic::find($id);
