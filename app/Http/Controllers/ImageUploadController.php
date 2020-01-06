@@ -17,8 +17,4 @@ class ImageUploadController extends Controller
         return view('image_upload.index');
     }
 
-    public function getSubjects ()
-    {
-        return TaggingSubject::all();
-    }
 }

@@ -101,5 +101,10 @@ class TaggingSubjectController extends Controller
     {
         //
     }
+
+    public function getSubjects ()
+    {
+        return TaggingSubject::all();
+    }
 }
 
