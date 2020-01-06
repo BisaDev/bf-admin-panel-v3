@@ -29,7 +29,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <img class="modal-img" src="" alt="modal-img" />
+                        <img class="modal-img" :src="modalImageUrl" alt="modal-img" />
                     </div>
                 </div>
             </div>
@@ -58,11 +58,8 @@
                 this.$data.questions = questions.filter(id => id !== index);
             },
             updateModalImg: function (imgURL) {
-                console.log(imgURL);
-                const imageSelector = document.querySelector('.modal-img');
-                if (imageSelector) {
-                    imageSelector.src = imgURL
-                }
+                const that= this;
+                this.modalImageUrl = imgURL
             }
         },
         mounted: function () {
