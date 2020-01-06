@@ -1,19 +1,23 @@
 <template>
     <div class="card-box wrapper">
         <div class="input-group col-md-12 text-left text-left">
-            <label for="subject">
-                <select name="subject">
-                    <option v-for="subject in subjects">
-                        {{subject.name}}
-                    </option>
-                </select>
-            </label>
-            <button type="button" @click="addInputs" class="btn btn-sm btn-default add-img-btn">
-                Add image
-                <span class="m-l-5">
-                    <i class="fa fa-plus"></i>
-                </span>
-            </button>
+            <div class="flex">
+                <div class="flex column">
+                    <label for="subject">Subject:</label>
+                    <select name="subject">
+                        <option v-for="subject in subjects">
+                            {{subject.name}}
+                        </option>
+                    </select>
+                </div>
+
+                <button type="button" @click="addInputs" class="btn btn-sm btn-default add-img-btn">
+                    Add image
+                    <span class="m-l-5">
+                        <i class="fa fa-plus"></i>
+                    </span>
+                </button>
+            </div>
         </div>
 
         <div v-for="index in images" :key="index">
@@ -66,8 +70,11 @@
 
     .flex {
         display: flex;
-        align-items: center;
         justify-content: space-between;
+    }
+
+    .column {
+        flex-direction: column;
     }
 
 </style>

@@ -1,17 +1,22 @@
 <template>
     <div class="input-group col-md-12 text-right flex">
         <div class="flex-column">
+            <label class="control-label" for="question-img">Question image:</label>
             <button type="button" data-toggle="modal" data-target="#exampleModal" v-on:click="onModalCall(leftImageUrl)">
-                <img :src="leftImageUrl" alt="left-img" :id="`left-img${locator}`"></img>
+                <img :src="leftImageUrl" alt="left-img" :id="`left-img${locator}`" v-if="leftImageUrl !== ''"></img>
             </button>
-            <input type="file" :id="`left-${locator}`" accept="image/*">
+            <input type="file" :id="`left-${locator}`" name="question-img" accept="image/*">
         </div>
-        <input type="text" placeholder="dude">
+        <div class="form-group col-md-12 text-left">
+            <label class="control-label" for="answer">Answer:</label>
+            <input type="text" name="answer" class="form-control">
+        </div>
         <div class="flex-column">
+            <label class="control-label" for="answer-img">Answer image:</label>
             <button type="button" data-toggle="modal" data-target="#exampleModal" v-on:click="onModalCall(rightImageUrl)">
-                <img :src="rightImageUrl" alt="right-img" :id="`right-img${locator}`"></img>
+                <img :src="rightImageUrl" alt="right-img" :id="`right-img${locator}`" v-if="rightImageUrl !== ''"></img>
             </button>
-            <input type="file" :id="`right-${locator}`" accept="image/*">
+            <input type="file" :id="`right-${locator}`" name="answer-img" accept="image/*">
         </div>
 
 
@@ -64,13 +69,15 @@
     .flex-column {
         display: flex;
         flex-direction: column;
-    }
-    .modal-header {
-        border: none;
+        align-items: flex-start;
     }
 
     button {
         border:none;
+    }
+
+    img {
+        max-width: 100%;
     }
 
 </style>
