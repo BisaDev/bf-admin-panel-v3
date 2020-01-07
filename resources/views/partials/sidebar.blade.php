@@ -73,6 +73,17 @@
                     </ul>
                 </li>
 
+                <li class="has_sub">
+                    <a href="#" class="waves-effect">
+                        <i class="ti-tag"></i><span> Tagging Tool </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="list-unstyled">
+                        <li class="{{ Request::is('tagging_tool/*')? 'active' : '' }}"><a href="{{ route('taggingtool.index') }}">Dashboard</a></li>
+                        <li class="{{ Request::is('tagging_subject.show')? 'active' : '' }}"><a href="{{ route('taggingsubjects.index') }}">Subject tags</a></li>
+                    </ul>
+                </li>
+
             </ul>
             <div class="clearfix"></div>
         </div>
