@@ -63,17 +63,17 @@
             }
         },
         mounted: function () {
-            const that = this;
-
-            const url = that.subject_url;
-            console.log(that);
+            const vueInstance = this;
+            const url = vueInstance.subject_url;
+            console.log(vueInstance.subject_url);
             axios.get(url)
                 .then(function (response) {
-                    that.subjects = response.data;
+                    vueInstance.subjects = response.data;
                 })
                 .catch(function (error) {
                     // handle error
                     console.log(error);
+                    console.log("dude");
                 })
         },
         props: ['subject_url']

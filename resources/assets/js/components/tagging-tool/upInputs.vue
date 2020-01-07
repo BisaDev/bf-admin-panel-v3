@@ -32,10 +32,10 @@
             }
         },
         mounted() {
-            const that = this;
+            const vueInstance = this;
 
-            const leftInput = document.querySelector(`#left-${that.locator}`);
-            const rightInput = document.querySelector(`#right-${that.locator}`);
+            const leftInput = document.querySelector(`#left-${vueInstance.locator}`);
+            const rightInput = document.querySelector(`#right-${vueInstance.locator}`);
 
             leftInput.addEventListener('change', function () {
                 readURL(this, 'left')
@@ -50,9 +50,9 @@
 
                     reader.onload = function (e) {
                         if( target === "left") {
-                            that.leftImageUrl = e.target.result;
+                            vueInstance.leftImageUrl = e.target.result;
                         } else  if (target === "right") {
-                            that.rightImageUrl = e.target.result;
+                            vueInstance.rightImageUrl = e.target.result;
                         }
                     };
 
