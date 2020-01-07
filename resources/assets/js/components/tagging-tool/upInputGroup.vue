@@ -20,8 +20,7 @@
 
         <div v-for="index in images" :key="index">
             <up-inputs
-                    :onModalCall="modalCall"
-                    :locator="index">
+                    :onModalCall="modalCall">
             </up-inputs>
         </div>
 

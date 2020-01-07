@@ -2,10 +2,12 @@
     <div class="input-group col-md-12 text-right flex">
         <div class="flex-column">
             <label class="control-label" for="question-img">Question image:</label>
-            <button type="button" data-toggle="modal" data-target="#previewModal" v-on:click="onModalCall(leftImageUrl)">
-                <img :src="leftImageUrl" alt="left-img" :id="`left-img${locator}`" v-if="leftImageUrl !== ''" />
+            <button type="button" data-toggle="modal" data-target="#previewModal"
+                    v-on:click="onModalCall(leftImageUrl)">
+                <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
             </button>
-            <input type="file" :id="`left-${locator}`" name="question-img" accept="image/*">
+            <input type="file" name="question-img"
+                   accept="image/*" @change="readURL($event, 'left')">
         </div>
         <div class="form-group col-md-12 text-left">
             <label class="control-label" for="answer">Answer:</label>
@@ -13,10 +15,11 @@
         </div>
         <div class="flex-column">
             <label class="control-label" for="answer-img">Answer image:</label>
-            <button type="button" data-toggle="modal" data-target="#previewModal" v-on:click="onModalCall(rightImageUrl)">
-                <img :src="rightImageUrl" alt="right-img" :id="`right-img${locator}`" v-if="rightImageUrl !== ''" />
+            <button type="button" data-toggle="modal" data-target="#previewModal"
+                    v-on:click="onModalCall(rightImageUrl)">
+                <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" :id="`right-${locator}`" name="answer-img" accept="image/*">
+            <input type="file" @change="readURL($event, 'right')"name="answer-img" accept="image/*">
         </div>
 
 
@@ -31,37 +34,26 @@
                 rightImageUrl: ""
             }
         },
-        mounted() {
-            const vueInstance = this;
-
-            const leftInput = document.querySelector(`#left-${vueInstance.locator}`);
-            const rightInput = document.querySelector(`#right-${vueInstance.locator}`);
-
-            leftInput.addEventListener('change', function () {
-                readURL(this, 'left')
-            });
-            rightInput.addEventListener('change', function () {
-                readURL(this, 'right')
-            });
-
-            function readURL(input , target) {
+        methods: {
+            readURL: function (event, target) {
+                const vueInstance = this;
+                const input = event.target;
+                console.log(event);
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
 
                     reader.onload = function (e) {
-                        if( target === "left") {
+                        if (target === "left") {
                             vueInstance.leftImageUrl = e.target.result;
-                        } else  if (target === "right") {
+                        } else if (target === "right") {
                             vueInstance.rightImageUrl = e.target.result;
                         }
                     };
-
-
                     reader.readAsDataURL(input.files[0]);
                 }
             }
         },
-        props: ['locator' , 'onModalCall']
+        props: ['onModalCall']
     }
 </script>
 
@@ -73,7 +65,7 @@
     }
 
     button {
-        border:none;
+        border: none;
     }
 
     img {
