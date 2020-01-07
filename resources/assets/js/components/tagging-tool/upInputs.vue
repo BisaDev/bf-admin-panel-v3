@@ -38,7 +38,6 @@
             readURL: function (event, target) {
                 const vueInstance = this;
                 const input = event.target;
-                console.log(event);
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
 
