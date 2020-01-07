@@ -19,7 +19,7 @@
                     v-on:click="onModalCall(rightImageUrl)">
                 <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" @change="readURL($event, 'right')"name="answer-img" accept="image/*">
+            <input type="file" @change="readURL($event, 'right')" name="answer-img" accept="image/*">
         </div>
 
 
