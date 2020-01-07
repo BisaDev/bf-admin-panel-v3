@@ -2,15 +2,13 @@
     <div class="card-box wrapper">
         <div class="input-group col-md-12 text-left text-left">
             <div class="flex">
-                <div class="flex column">
-                    <label for="subject">Subject:</label>
+                <label class="flex column" >Subject:
                     <select name="subject">
                         <option v-for="subject in subjects">
                             {{subject.name}}
                         </option>
                     </select>
-                </div>
-
+                </label>
                 <button type="button" @click="addInputs" class="btn btn-sm btn-default add-img-btn">
                     Add image
                     <span class="m-l-5">
@@ -49,7 +47,7 @@
                 images.push(randomId);
             }
         },
-        props: ['inputID', 'handleClick', 'subjects','modalCall']
+        props: ['inputID', 'handleClick', 'subjects', 'modalCall']
 
     }
 </script>

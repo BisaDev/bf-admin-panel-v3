@@ -65,7 +65,6 @@
         mounted: function () {
             const vueInstance = this;
             const url = vueInstance.subject_url;
-            console.log(vueInstance.subject_url);
             axios.get(url)
                 .then(function (response) {
                     vueInstance.subjects = response.data;
