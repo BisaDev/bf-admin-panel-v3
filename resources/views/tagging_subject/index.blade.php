@@ -3,7 +3,7 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Tagging Subjects',
+        'pageTitle' => 'Manage Subjects',
         'link' => [ 'label' => 'Create Subject', 'url' => route('taggingsubjects.create')],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')]
