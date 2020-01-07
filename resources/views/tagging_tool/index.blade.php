@@ -3,7 +3,8 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Grade Levels',
+        'pageTitle' => 'Tagging Tool',
+        'link' => [ 'label' => 'Upload image', 'url' => route('image-upload.index')],
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')]
         ],
