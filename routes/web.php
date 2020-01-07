@@ -43,9 +43,10 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::get('taggingtool',                           'TaggingToolController@index');
 
-    Route::resource('image-upload',                      'ImageUploadController');
+    Route::resource('image-upload',                     'ImageUploadController', ['except' =>['show']]);
 
     Route::resource('taggingsubjects',                  'TaggingSubjectController');
+    Route::get('TaggingSubjectController/getsubjects',  'TaggingSubjectController@getSubjects')->name('taggingsubjects.subjects');
 
     Route::resource('taggingtopics',                    'TaggingTopicController',['except' =>['index', 'show']]);
     Route::get('taggingtopics/create/{subject_id}',     'TaggingTopicController@create')->name('taggingtopics.create');

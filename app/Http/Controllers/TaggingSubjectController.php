@@ -36,7 +36,7 @@ class TaggingSubjectController extends Controller
             }
         }
 
-        return redirect(route('taggingsubjects'));
+        return redirect(route('taggingsubjects.index'));
 
     }
 
@@ -70,6 +70,11 @@ class TaggingSubjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getSubjects ()
+    {
+        return TaggingSubject::all();
     }
 }
 
