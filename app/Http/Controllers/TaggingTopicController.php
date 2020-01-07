@@ -16,6 +16,24 @@ class TaggingTopicController extends Controller
     {
         $subject = TaggingTopic::create($request->only(['name' , 'tagging_subject_id']));
 
-        return redirect(route('taggingsubjects'));
+        return redirect(route('taggingsubjects.index'));
+    }
+
+    public function edit($id)
+    {
+        $topic = TaggingTopic::find($id);
+        $subject= TaggingSubject::find($topic->tagging_subject_id);
+        return view('tagging_topic.edit', compact(['topic' , 'subject']));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $topic = TaggingTopic::find($id);
+        $topic->name = $request->name;
+        $topic->save();
+        $subject = TaggingSubject::find($topic->tagging_subject_id);
+
+        return redirect(route('taggingsubjects.show', compact('subject')));
     }
 }

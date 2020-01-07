@@ -32,8 +32,11 @@
                                 </a>
                             </th>
                             <td>{{ $subject->topics->count() }}</td>
-                            <td class="text-center">View</td>
-                            <td class="text-center">Edit</td>
+                            <td class="text-center">
+                                <a href={{route('taggingsubjects.edit' , $subject->id)}}>
+                                    Edit
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
