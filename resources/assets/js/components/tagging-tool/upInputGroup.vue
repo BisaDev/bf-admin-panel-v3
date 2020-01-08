@@ -52,8 +52,6 @@
             handleUpload: function () {
                 const formData = new FormData();
 
-                formData.set("username", "user is dude");
-
                 const payload = [
                     {Subject: this.currentSubject},
                     formData

@@ -11,7 +11,7 @@
         </div>
         <div class="form-group col-md-12 text-left">
             <label class="control-label" for="answer">Answer:</label>
-            <input type="text" name="answer" v-model="answerValue" class="form-control">
+            <input type="text" name="answer" v-model="inputsState.answerValue" class="form-control">
         </div>
         <div class="flex-column">
             <label class="control-label" for="answer-img">Answer image:</label>
@@ -32,9 +32,11 @@
             return {
                 leftImageUrl: "",
                 rightImageUrl: "",
-                answerValue : "",
-                questionImg: null,
-                explanationImg: null
+                inputsState: {
+                    answerValue: "",
+                    questionImg: null,
+                    explanationImg: null
+                }
             }
         },
         methods: {
@@ -43,12 +45,17 @@
                 const input = event.target;
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
+                    const formData = new FormData();
 
                     reader.onload = function (e) {
                         if (target === "left") {
                             vueInstance.leftImageUrl = e.target.result;
+                            formData.append('questionImg' , input.files[0]);
+                            vueInstance.inputsState.questionImg = formData.get('questionImg')
                         } else if (target === "right") {
                             vueInstance.rightImageUrl = e.target.result;
+                            formData.append('explanationImg' , input.files[0]);
+                            vueInstance.inputsState.explanationImg = formData.get('explanationImg')
                         }
                     };
                     reader.readAsDataURL(input.files[0]);
@@ -56,19 +63,31 @@
             }
         },
         props: ['onModalCall' , 'inputValues'],
-        mounted: function () {
-          console.log(this)
-        },
         computed: {
             textInput() {
-                return this.answerValue;
-            }
+                return this.inputsState.answerValue;
+            },
+            questionInput() {
+                return this.inputsState.questionImg;
+            },
+            explanationInput() {
+                return this.inputsState.explanationImg;
+            },
+
         },
         watch: {
             textInput() {
-                console.log("Changes text");
-                this.$emit( 'update:answer' , this.answerValue)
-            }
+                console.log("text input");
+                this.$emit( 'update:answer' , this.inputsState.answerValue)
+            },
+            questionInput() {
+                console.log("left upload!");
+                this.$emit( 'update:questionImg' , this.inputsState.questionImg)
+            },
+            explanationInput() {
+                this.$emit( 'update:explanationImg' , this.inputsState.explanationImg)
+
+            },
         }
     }
 </script>
