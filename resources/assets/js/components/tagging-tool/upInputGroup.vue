@@ -3,7 +3,7 @@
         <div class="input-group col-md-12 text-left text-left">
             <div class="flex">
                 <label class="flex column">Subject:
-                    <select name="subject" @change="updateSubject($event)">
+                    <select v-model="currentSubject" name="subject" @change="updateSubject($event)">
                         <option v-for="subject in subjects">
                             {{subject.name}}
                         </option>
@@ -17,13 +17,13 @@
                 </button>
             </div>
         </div>
-
-        <div v-for="index in images" :key="index">
+        <div v-for="(input ,index) in imgInputs" :key="index">
             <up-inputs
-                    :onModalCall="modalCall">
+                    :onModalCall="modalCall"
+                    v-bind.sync="imgInputs[index]"
+            >
             </up-inputs>
         </div>
-
         <div class="form-group col-md-12 text-right m-t-30">
             <button @click="handleClick(inputID)" class="btn btn-md btn-info">Cancel</button>
             <button @click="handleUpload" type="submit" class="btn btn-md btn-primary">Upload</button>
@@ -35,26 +35,35 @@
     export default {
         data: function () {
             return {
-                currentSubject: "",
-                images: [1]
+                imgInputs: [],
+                currentSubject: null
             }
         },
         methods: {
             addInputs: function () {
-                const {images} = this.$data;
-                const randomId = Math.random().toString(36).substr(2, 9);
-                images.push(randomId);
+                const {imgInputs} = this.$data;
+                const ttDataSet = {
+                    questionImg: null,
+                    answer: "",
+                    explanationImg: null,
+                };
+                imgInputs.push(ttDataSet);
             },
             handleUpload: function () {
                 const formData = new FormData();
 
-                formData.append("username", "user is dude");
+                formData.set("username", "user is dude");
 
                 const payload = [
-                    {subject: this.currentSubject}
+                    {Subject: this.currentSubject},
+                    formData
                 ];
 
-                axios.post(this.postUrl, payload)
+                const header = {
+                    'Content-Type': 'multipart/form-data'
+                };
+
+                axios.post(this.postUrl, payload , header)
                     .then(function (response) {
                         console.log(response)
                     })
@@ -66,8 +75,10 @@
                 this.currentSubject = event.target.value;
             }
         },
-        props: ['inputID', 'handleClick', 'subjects', 'modalCall', 'postUrl']
-
+        props: ['inputID', 'handleClick', 'subjects', 'modalCall', 'postUrl'],
+        mounted() {
+            this.addInputs();
+        }
     }
 </script>
 

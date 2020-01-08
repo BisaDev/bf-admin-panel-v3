@@ -7,11 +7,11 @@
                 <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
             </button>
             <input type="file" name="question-img"
-                   accept="image/*" @change="readURL($event, 'left')">
+                   accept="image/*" @change="previewImgUrl($event, 'left')">
         </div>
         <div class="form-group col-md-12 text-left">
             <label class="control-label" for="answer">Answer:</label>
-            <input type="text" name="answer" class="form-control">
+            <input type="text" name="answer" v-model="answerValue" class="form-control">
         </div>
         <div class="flex-column">
             <label class="control-label" for="answer-img">Answer image:</label>
@@ -19,7 +19,7 @@
                     v-on:click="onModalCall(rightImageUrl)">
                 <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" @change="readURL($event, 'right')" name="answer-img" accept="image/*">
+            <input type="file" @change="previewImgUrl($event, 'right')" name="answer-img" accept="image/*">
         </div>
 
 
@@ -31,11 +31,14 @@
         data: function () {
             return {
                 leftImageUrl: "",
-                rightImageUrl: ""
+                rightImageUrl: "",
+                answerValue : "",
+                questionImg: null,
+                explanationImg: null
             }
         },
         methods: {
-            readURL: function (event, target) {
+            previewImgUrl: function (event, target) {
                 const vueInstance = this;
                 const input = event.target;
                 if (input.files && input.files[0]) {
@@ -52,7 +55,20 @@
                 }
             }
         },
-        props: ['onModalCall']
+        props: ['onModalCall' , 'inputValues'],
+        mounted: function () {
+          console.log(this)
+        },
+        computed: {
+            textInput() {
+                return this.answerValue;
+            }
+        },
+        watch: {
+            textInput() {
+                console.log("Changes text")
+            }
+        }
     }
 </script>
 
