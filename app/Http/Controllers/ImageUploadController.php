@@ -7,14 +7,15 @@ use Brightfox\TaggingSubject;
 
 class ImageUploadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('image_upload.index');
+    }
+
+    public function upload (Request $request)
+    {
+        return $request;
     }
 
 }

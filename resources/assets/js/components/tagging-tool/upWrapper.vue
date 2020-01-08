@@ -15,6 +15,7 @@
                     :inputID="index"
                     :handleClick="removeInput"
                     :modalCall="updateModalImg"
+                    :postUrl="update_url"
             >
             </up-input-group>
         </div>
@@ -75,7 +76,7 @@
                     console.log("dude");
                 })
         },
-        props: ['subject_url']
+        props: ['subject_url' , 'update_url']
     }
 </script>
 

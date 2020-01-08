@@ -26,10 +26,9 @@
 
         <div class="form-group col-md-12 text-right m-t-30">
             <button @click="handleClick(inputID)" class="btn btn-md btn-info">Cancel</button>
-            <button type="submit" class="btn btn-md btn-primary">Upload</button>
+            <button @click="handleUpload" type="submit" class="btn btn-md btn-primary">Upload</button>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -44,9 +43,27 @@
                 const {images} = this.$data;
                 const randomId = Math.random().toString(36).substr(2, 9);
                 images.push(randomId);
+            },
+            handleUpload: function () {
+                const formData = new FormData();
+
+                formData.append("username", "Dude");
+
+
+                const payload = {
+                    name: "dude"
+                };
+
+                axios.post(this.postUrl, payload)
+                .then(function(response){
+                    console.log(response)
+                })
+                .catch(function(error) {
+                    console.log(error)
+                })
             }
         },
-        props: ['inputID', 'handleClick', 'subjects', 'modalCall']
+        props: ['inputID', 'handleClick', 'subjects', 'modalCall','postUrl']
 
     }
 </script>
