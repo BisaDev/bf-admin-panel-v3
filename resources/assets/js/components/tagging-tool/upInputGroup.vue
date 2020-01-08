@@ -50,11 +50,10 @@
                 imgInputs.push(ttDataSet);
             },
             handleUpload: function () {
-                const formData = new FormData();
 
                 const payload = [
                     {Subject: this.currentSubject},
-                    formData
+                    this.imgInputs
                 ];
 
                 const header = {
