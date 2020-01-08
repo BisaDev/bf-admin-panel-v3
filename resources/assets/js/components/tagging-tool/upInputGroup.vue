@@ -2,8 +2,8 @@
     <div class="card-box wrapper">
         <div class="input-group col-md-12 text-left text-left">
             <div class="flex">
-                <label class="flex column" >Subject:
-                    <select name="subject">
+                <label class="flex column">Subject:
+                    <select name="subject" @change="updateSubject($event)">
                         <option v-for="subject in subjects">
                             {{subject.name}}
                         </option>
@@ -35,6 +35,7 @@
     export default {
         data: function () {
             return {
+                currentSubject: "",
                 images: [1]
             }
         },
@@ -47,23 +48,25 @@
             handleUpload: function () {
                 const formData = new FormData();
 
-                formData.append("username", "Dude");
+                formData.append("username", "user is dude");
 
-
-                const payload = {
-                    name: "dude"
-                };
+                const payload = [
+                    {subject: this.currentSubject}
+                ];
 
                 axios.post(this.postUrl, payload)
-                .then(function(response){
-                    console.log(response)
-                })
-                .catch(function(error) {
-                    console.log(error)
-                })
+                    .then(function (response) {
+                        console.log(response)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            },
+            updateSubject: function (event) {
+                this.currentSubject = event.target.value;
             }
         },
-        props: ['inputID', 'handleClick', 'subjects', 'modalCall','postUrl']
+        props: ['inputID', 'handleClick', 'subjects', 'modalCall', 'postUrl']
 
     }
 </script>
