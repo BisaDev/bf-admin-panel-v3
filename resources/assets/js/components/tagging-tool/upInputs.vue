@@ -66,7 +66,8 @@
         },
         watch: {
             textInput() {
-                console.log("Changes text")
+                console.log("Changes text");
+                this.$emit( 'update:answer' , this.answerValue)
             }
         }
     }
