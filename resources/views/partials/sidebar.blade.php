@@ -9,7 +9,7 @@
                     </a>
                 </li>
 
-                <li class="has_sub">
+                <!--li class="has_sub">
                     <a href="#" class="waves-effect {{ (Request::is('meetups/*') || Request::is('activity_buckets/*'))? 'active' : '' }}">
                         <i class="ti-calendar"></i><span> Meetups </span>
                         <span class="menu-arrow"></span>
@@ -18,7 +18,7 @@
                         <li class="{{ Request::is('meetups/*')? 'active' : '' }}"><a href="{{ route('meetups.index') }}">Meetups</a></li>
                         <li class="{{ Request::is('activity_buckets/*')? 'active' : '' }}"><a href="{{ route('activity_buckets.index') }}">Activity Buckets</a></li>
                     </ul>
-                </li>
+                </li-->
 
                 <!--li>
                     <a href="{{ route('quizzes.index') }}" class="waves-effect {{ Request::is('quizzes/*')? 'active' : '' }}">
