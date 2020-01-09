@@ -2,14 +2,6 @@
     <div class="card-box wrapper">
         <div class="input-group col-md-12 text-left text-left">
             <div class="flex">
-                <label class="flex column">Subject:
-                    <select v-model="currentSubject" name="subject" class="form-control">
-                        <option value="">Select subject</option>
-                        <option v-for="subject in subjects">
-                            {{subject.name}}
-                        </option>
-                    </select>
-                </label>
                 <a href="#" @click="addInputs" class="pointer">
                     Add image
                     <span href="#" class="m-l-5">
@@ -37,14 +29,13 @@
         data: function () {
             return {
                 imgInputs: [],
-                currentSubject: ""
             }
         },
         methods: {
             addInputs: function () {
                 this.imgInputs.push({
-                    questionImg: null,
                     answer: "",
+                    questionImg: null,
                     explanationImg: null,
                 });
             },
@@ -56,7 +47,7 @@
                     formData.append(`questionImage_${index}`, inputs.questionImg);
                     formData.append(`answer_${index}`, inputs.answer);
                     formData.append(`explanationImg_${index}`, inputs.explanationImg);
-                })
+                });
 
                 const config = {
                     headers: {
@@ -73,7 +64,7 @@
                     })
             }
         },
-        props: ['removeItem', 'subjects', 'modalCall', 'postUrl'],
+        props: ['removeItem',  'modalCall', 'postUrl', 'subject'],
         mounted() {
             this.addInputs();
         }
@@ -96,18 +87,8 @@
 
     .flex {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
-
-    .column {
-        flex-direction: column;
-    }
-
-    .form-control {
-        margin-top: 5px;
-        min-width: 160px;
-    }
-
     .pointer {
         cursor: pointer;
     }

@@ -1,17 +1,25 @@
 <template>
     <div>
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-12 upper-group">
             <button type="button" class="btn btn-default" @click="addInput">
                 Add upload
                 <span class="m-l-5">
                     <i class="fa fa-plus"></i>
                 </span>
             </button>
+            <label class="subject-input">Subject:
+                <select v-model="currentSubject" name="subject" class="form-control">
+                    <option value="">Select subject</option>
+                    <option v-for="subject in subjects">
+                        {{subject.name}}
+                    </option>
+                </select>
+            </label>
         </div>
 
         <div class="form-group col-md-12" v-for="(item, index) in questions" :key="index">
             <up-input-group
-                    :subjects="subjects"
+                    :subject="currentSubject"
                     :removeItem="() => removeInput(index)"
                     :modalCall="updateModalImg"
                     :postUrl="update_url"
@@ -41,9 +49,10 @@
     export default {
         data: function () {
             return {
-                questions: [1],
                 subjects: null,
-                modalImageUrl: ""
+                modalImageUrl: "",
+                currentSubject: "",
+                questions: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20]
             }
         },
         methods: {
@@ -88,5 +97,15 @@
 
     .modal-header {
         border: none;
+    }
+
+    .upper-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .subject-input {
+        margin-top: 18px;
     }
 </style>
