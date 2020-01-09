@@ -6,23 +6,21 @@
                     v-on:click="onModalCall(leftImageUrl)">
                 <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
             </button>
-            <input type="file" name="question-img"
-                   accept="image/*" @change="readURL($event, 'left')">
+            <input type="file" name="question-img" id="question-img"
+                   accept="image/*" @change="previewImgUrl($event, 'left')">
         </div>
         <div class="form-group col-md-12 text-left">
             <label class="control-label" for="answer">Answer:</label>
-            <input type="text" name="answer" class="form-control">
+            <input type="text" name="answer" id="answer" v-model="answerValue" class="form-control">
         </div>
         <div class="flex-column">
-            <label class="control-label" for="answer-img">Answer image:</label>
+            <label class="control-label" for="explanation-img">Explanation image:</label>
             <button type="button" data-toggle="modal" data-target="#previewModal"
                     v-on:click="onModalCall(rightImageUrl)">
                 <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" @change="readURL($event, 'right')" name="answer-img" accept="image/*">
+            <input type="file" @change="previewImgUrl($event, 'right')" name="explanation-img" accept="image/*">
         </div>
-
-
     </div>
 </template>
 
@@ -31,33 +29,55 @@
         data: function () {
             return {
                 leftImageUrl: "",
-                rightImageUrl: ""
+                rightImageUrl: "",
+                answerValue: "",
+                questionImg: null,
+                explanationImg: null
             }
         },
         methods: {
-            readURL: function (event, target) {
+            previewImgUrl: function (event, target) {
                 const vueInstance = this;
                 const input = event.target;
+
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
 
                     reader.onload = function (e) {
                         if (target === "left") {
                             vueInstance.leftImageUrl = e.target.result;
+                            vueInstance.questionImg = input.files[0];
                         } else if (target === "right") {
                             vueInstance.rightImageUrl = e.target.result;
+                            vueInstance.explanationImg = input.files[0]
                         }
                     };
+
                     reader.readAsDataURL(input.files[0]);
                 }
             }
         },
-        props: ['onModalCall']
+        props: ['onModalCall' , 'inputValues'],
+        watch: {
+            answerValue() {
+                console.log("text input");
+                this.$emit( 'update:answer' , this.answerValue)
+            },
+            questionImg() {
+                console.log("left upload!");
+                this.$emit( 'update:questionImg' , this.questionImg)
+            },
+            explanationImg() {
+                this.$emit( 'update:explanationImg' , this.explanationImg)
+
+            },
+        }
     }
 </script>
 
 <style scoped>
     .flex-column {
+        width: 40%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;

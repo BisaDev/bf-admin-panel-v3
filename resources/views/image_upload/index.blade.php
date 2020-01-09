@@ -14,7 +14,9 @@
 @section('content')
     <div id="app" class="container">
         <up-wrapper
-                subject_url="{{route('taggingsubjects.subjects')}}">
+                subject_url="{{route('taggingsubjects.subjects')}}"
+                update_url="{{route('imageupload.upload')}}"
+        >
         </up-wrapper>
     </div>
 @endsection

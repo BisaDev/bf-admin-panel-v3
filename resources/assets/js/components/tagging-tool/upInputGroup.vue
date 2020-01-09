@@ -2,52 +2,81 @@
     <div class="card-box wrapper">
         <div class="input-group col-md-12 text-left text-left">
             <div class="flex">
-                <label class="flex column" >Subject:
-                    <select name="subject">
+                <label class="flex column">Subject:
+                    <select v-model="currentSubject" name="subject" class="form-control">
+                        <option value="">Select subject</option>
                         <option v-for="subject in subjects">
                             {{subject.name}}
                         </option>
                     </select>
                 </label>
-                <button type="button" @click="addInputs" class="btn btn-sm btn-default add-img-btn">
+                <a href="#" @click="addInputs" class="pointer">
                     Add image
-                    <span class="m-l-5">
+                    <span href="#" class="m-l-5">
                         <i class="fa fa-plus"></i>
                     </span>
-                </button>
+                </a>
             </div>
         </div>
-
-        <div v-for="index in images" :key="index">
+        <div v-for="(input ,index) in imgInputs" :key="index">
             <up-inputs
-                    :onModalCall="modalCall">
+                    :onModalCall="modalCall"
+                    v-bind.sync="imgInputs[index]"
+            >
             </up-inputs>
         </div>
-
         <div class="form-group col-md-12 text-right m-t-30">
-            <button @click="handleClick(inputID)" class="btn btn-md btn-info">Cancel</button>
-            <button type="submit" class="btn btn-md btn-primary">Upload</button>
+            <button @click="removeItem" class="btn btn-md btn-info">Cancel</button>
+            <button @click="handleUpload" type="submit" class="btn btn-md btn-primary">Upload</button>
         </div>
     </div>
-
 </template>
 
 <script>
     export default {
         data: function () {
             return {
-                images: [1]
+                imgInputs: [],
+                currentSubject: ""
             }
         },
         methods: {
             addInputs: function () {
-                const {images} = this.$data;
-                const randomId = Math.random().toString(36).substr(2, 9);
-                images.push(randomId);
+                this.imgInputs.push({
+                    questionImg: null,
+                    answer: "",
+                    explanationImg: null,
+                });
+            },
+            handleUpload: function () {
+                const formData = new FormData;
+
+                formData.append("subject", this.currentSubject);
+                this.imgInputs.forEach((inputs, index) => {
+                    formData.append(`questionImage_${index}`, inputs.questionImg);
+                    formData.append(`answer_${index}`, inputs.answer);
+                    formData.append(`explanationImg_${index}`, inputs.explanationImg);
+                })
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+
+                axios.post(this.postUrl, formData, config)
+                    .then(function (response) {
+                        console.log(response)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
             }
         },
-        props: ['inputID', 'handleClick', 'subjects', 'modalCall']
-
+        props: ['removeItem', 'subjects', 'modalCall', 'postUrl'],
+        mounted() {
+            this.addInputs();
+        }
     }
 </script>
 
@@ -72,6 +101,15 @@
 
     .column {
         flex-direction: column;
+    }
+
+    .form-control {
+        margin-top: 5px;
+        min-width: 160px;
+    }
+
+    .pointer {
+        cursor: pointer;
     }
 
 </style>
