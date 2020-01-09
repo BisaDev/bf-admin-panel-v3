@@ -10,8 +10,9 @@
                    accept="image/*" @change="previewImgUrl($event, 'left')">
         </div>
         <div class="form-group col-md-12 text-left">
-            <label class="control-label" for="answer">Answer:</label>
-            <input type="text" name="answer" id="answer" v-model="answerValue" class="form-control">
+            <label class="control-label" for="answer">Answer:
+            <input type="text" v-model="answerValue" class="form-control">
+            </label>
         </div>
         <div class="flex-column">
             <label class="control-label" for="explanation-img">Explanation image:</label>

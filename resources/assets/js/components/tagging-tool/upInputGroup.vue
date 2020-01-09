@@ -2,7 +2,7 @@
     <div class="card-box wrapper">
         <div class="input-group col-md-12 text-left text-left">
             <div class="flex">
-                <a href="#" @click="addInputs" class="pointer">
+                <a @click="addInputs" class="pointer">
                     Add image
                     <span href="#" class="m-l-5">
                         <i class="fa fa-plus"></i>
