@@ -20,7 +20,7 @@
                     </ul>
                 </li>
 
-                <li>
+                <!--li>
                     <a href="{{ route('quizzes.index') }}" class="waves-effect {{ Request::is('quizzes/*')? 'active' : '' }}">
                         <i class="ti-pencil-alt"></i><span> Quizzes </span>
                     </a>
@@ -36,7 +36,7 @@
                     <a href="{{ route('minigames.index') }}" class="waves-effect {{ Request::is('minigames/*')? 'active' : '' }}">
                         <i class="ti-game"></i><span> Minigames </span>
                     </a>
-                </li>
+                </li-->
 
                 <li>
                     <a href="{{ route('students.index') }}" class="waves-effect {{ (Request::is('students/*') || Request::is('family_members/*'))? 'active' : '' }}">
@@ -56,11 +56,11 @@
                     </a>
                 </li>
 
-                <li>
+                <!--li>
                     <a href="{{ route('grade_levels.index') }}" class="waves-effect {{ (Request::is('grade_levels/*') || Request::is('subjects/*') || Request::is('topics/*'))? 'active' : '' }}">
                         <i class="ti-bookmark-alt"></i><span> Academic Content </span>
                     </a>
-                </li>
+                </li-->
 
                 <li class="has_sub">
                     <a href="#" class="waves-effect {{ (Request::is('sat_exams/*') || Request::is('sat_results/*'))? 'active' : '' }}">
