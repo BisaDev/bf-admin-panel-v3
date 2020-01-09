@@ -12,63 +12,29 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th>AP- Physics</th>
-                        <td class="text-center">500</td>
-                        <td class="text-center">146</td>
+                    <tr v-for="subject in subjects">
+                        <th>{{ subject.name }}</th>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
                         <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
                     </tr>
-                    <!--                        Hard coded data , todo: map -->
-                    <tr>
-                        <th>SAT- Physics</th>
-                        <td class="text-center">500</td>
-                        <td class="text-center">146</td>
-                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
-                    </tr>
-                    <tr>
-                        <th>ACT- Physics</th>
-                        <td class="text-center">500</td>
-                        <td class="text-center">146</td>
-                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
-                    </tr>
-                    <tr>
-                        <th>SAT- Math</th>
-                        <td class="text-center">500</td>
-                        <td class="text-center">146</td>
-                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
-                    </tr>
-
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-md-6">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
                     <thead>
                     <tr>
-                        <th width="300">Instructor</th>
-                        <th width="600">Tagged Questions by Instructor</th>
+                        <th width="400">Instructor</th>
+                        <th width="200">Tagged Questions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th>David Smith</th>
-                        <td>500</td>
-                    </tr>
-                    <!--                        Hard coded data , todo: map -->
-
-                    <tr>
-                        <th>Rachel Perez</th>
-                        <td>345</td>
-                    </tr>
-                    <tr>
-                        <th>Jose Ramirez</th>
-                        <td>94</td>
-                    </tr>
-                    <tr>
-                        <th>Jessie Johnson</th>
-                        <td>4</td>
+                    <tr v-for="instructor in instructors">
+                        <th>{{ instructor.name }}</th>
+                        <td>0</td>
                     </tr>
                     </tbody>
                 </table>
@@ -79,6 +45,9 @@
 
 <script>
     export default {
-
+        props: {
+            "instructors": Array,
+            "subjects" : Array
+        }
     }
 </script>

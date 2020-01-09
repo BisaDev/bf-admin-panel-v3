@@ -14,6 +14,8 @@
 
 @section('content')
     <div id="app">
-        <tag-stats></tag-stats>
+        <tag-stats
+            :instructors='{{ json_encode($instructors) }}'
+            :subjects='{{ json_encode($subjects) }}'></tag-stats>
     </div>
 @endsection
