@@ -15,7 +15,17 @@ class ImageUploadController extends Controller
 
     public function upload (Request $request)
     {
-        return $request;
+        $images = [];
+
+        foreach($request->all() as $key => $value) {
+            if(strpos($key, "_") != false){
+                $keys = explode("_", $key);
+                $images[$keys[1]][$keys[0]] = $value;
+            }
+        }
+
+        /* Do everything */
+        dd($images);
     }
 
 }

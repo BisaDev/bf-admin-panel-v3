@@ -3,7 +3,8 @@
         <div class="input-group col-md-12 text-left text-left">
             <div class="flex">
                 <label class="flex column">Subject:
-                    <select v-model="currentSubject" name="subject" @change="updateSubject($event)">
+                    <select v-model="currentSubject" name="subject">
+                        <option value="">Select subject</option>
                         <option v-for="subject in subjects">
                             {{subject.name}}
                         </option>
@@ -25,7 +26,7 @@
             </up-inputs>
         </div>
         <div class="form-group col-md-12 text-right m-t-30">
-            <button @click="handleClick(inputID)" class="btn btn-md btn-info">Cancel</button>
+            <button @click="removeItem" class="btn btn-md btn-info">Cancel</button>
             <button @click="handleUpload" type="submit" class="btn btn-md btn-primary">Upload</button>
         </div>
     </div>
@@ -36,43 +37,43 @@
         data: function () {
             return {
                 imgInputs: [],
-                currentSubject: null
+                currentSubject: ""
             }
         },
         methods: {
             addInputs: function () {
-                const {imgInputs} = this.$data;
-                const ttDataSet = {
+                this.imgInputs.push({
                     questionImg: null,
                     answer: "",
                     explanationImg: null,
-                };
-                imgInputs.push(ttDataSet);
+                });
             },
             handleUpload: function () {
+                const formData = new FormData;
 
-                const payload = [
-                    {Subject: this.currentSubject},
-                    this.imgInputs
-                ];
+                formData.append("subject", this.currentSubject);
+                this.imgInputs.forEach((inputs, index) => {
+                    formData.append(`questionImage_${index}`, inputs.questionImg);
+                    formData.append(`answer_${index}`, inputs.answer);
+                    formData.append(`explanationImg_${index}`, inputs.explanationImg);
+                })
 
-                const header = {
-                    'Content-Type': 'multipart/form-data'
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 };
 
-                axios.post(this.postUrl, payload , header)
+                axios.post(this.postUrl, formData, config)
                     .then(function (response) {
                         console.log(response)
                     })
                     .catch(function (error) {
                         console.log(error)
                     })
-            },
-            updateSubject: function (event) {
-                this.currentSubject = event.target.value;
             }
         },
-        props: ['inputID', 'handleClick', 'subjects', 'modalCall', 'postUrl'],
+        props: ['removeItem', 'subjects', 'modalCall', 'postUrl'],
         mounted() {
             this.addInputs();
         }

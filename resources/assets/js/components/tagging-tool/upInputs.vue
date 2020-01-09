@@ -6,23 +6,21 @@
                     v-on:click="onModalCall(leftImageUrl)">
                 <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
             </button>
-            <input type="file" name="question-img"
+            <input type="file" name="question-img" id="question-img"
                    accept="image/*" @change="previewImgUrl($event, 'left')">
         </div>
         <div class="form-group col-md-12 text-left">
             <label class="control-label" for="answer">Answer:</label>
-            <input type="text" name="answer" v-model="inputsState.answerValue" class="form-control">
+            <input type="text" name="answer" id="answer" v-model="answerValue" class="form-control">
         </div>
         <div class="flex-column">
-            <label class="control-label" for="answer-img">Answer image:</label>
+            <label class="control-label" for="explanation-img">Explanation image:</label>
             <button type="button" data-toggle="modal" data-target="#previewModal"
                     v-on:click="onModalCall(rightImageUrl)">
                 <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" @change="previewImgUrl($event, 'right')" name="answer-img" accept="image/*">
+            <input type="file" @change="previewImgUrl($event, 'right')" name="explanation-img" accept="image/*">
         </div>
-
-
     </div>
 </template>
 
@@ -32,60 +30,45 @@
             return {
                 leftImageUrl: "",
                 rightImageUrl: "",
-                inputsState: {
-                    answerValue: "",
-                    questionImg: null,
-                    explanationImg: null
-                }
+                answerValue: "",
+                questionImg: null,
+                explanationImg: null
             }
         },
         methods: {
             previewImgUrl: function (event, target) {
                 const vueInstance = this;
                 const input = event.target;
+
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
-                    const formData = new FormData();
 
                     reader.onload = function (e) {
                         if (target === "left") {
                             vueInstance.leftImageUrl = e.target.result;
-                            formData.append('questionImg' , input.files[0]);
-                            vueInstance.inputsState.questionImg = formData.get('questionImg')
+                            vueInstance.questionImg = input.files[0];
                         } else if (target === "right") {
                             vueInstance.rightImageUrl = e.target.result;
-                            formData.append('explanationImg' , input.files[0]);
-                            vueInstance.inputsState.explanationImg = formData.get('explanationImg')
+                            vueInstance.explanationImg = input.files[0]
                         }
                     };
+
                     reader.readAsDataURL(input.files[0]);
                 }
             }
         },
         props: ['onModalCall' , 'inputValues'],
-        computed: {
-            textInput() {
-                return this.inputsState.answerValue;
-            },
-            questionInput() {
-                return this.inputsState.questionImg;
-            },
-            explanationInput() {
-                return this.inputsState.explanationImg;
-            },
-
-        },
         watch: {
-            textInput() {
+            answerValue() {
                 console.log("text input");
-                this.$emit( 'update:answer' , this.inputsState.answerValue)
+                this.$emit( 'update:answer' , this.answerValue)
             },
-            questionInput() {
+            questionImg() {
                 console.log("left upload!");
-                this.$emit( 'update:questionImg' , this.inputsState.questionImg)
+                this.$emit( 'update:questionImg' , this.questionImg)
             },
-            explanationInput() {
-                this.$emit( 'update:explanationImg' , this.inputsState.explanationImg)
+            explanationImg() {
+                this.$emit( 'update:explanationImg' , this.explanationImg)
 
             },
         }

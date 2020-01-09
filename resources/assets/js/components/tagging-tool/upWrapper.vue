@@ -9,11 +9,10 @@
             </button>
         </div>
 
-        <div class="form-group col-md-12" v-for="index in questions" :key="index">
+        <div class="form-group col-md-12" v-for="(item, index) in questions" :key="index">
             <up-input-group
                     :subjects="subjects"
-                    :inputID="index"
-                    :handleClick="removeInput"
+                    :removeItem="() => removeInput(index)"
                     :modalCall="updateModalImg"
                     :postUrl="update_url"
             >
@@ -52,20 +51,18 @@
                 const {questions} = this.$data;
                 const randomId = Math.random().toString(36).substr(2, 9);
                 questions.push(randomId);
-
             },
             removeInput: function (index) {
-                const {questions} = this.$data;
-                this.$data.questions = questions.filter(id => id !== index);
+                this.questions.splice(index, 1);
             },
             updateModalImg: function (imgURL) {
-                const that= this;
                 this.modalImageUrl = imgURL
             }
         },
         mounted: function () {
             const vueInstance = this;
             const url = vueInstance.subject_url;
+
             axios.get(url)
                 .then(function (response) {
                     vueInstance.subjects = response.data;
@@ -92,5 +89,4 @@
     .modal-header {
         border: none;
     }
-
 </style>
