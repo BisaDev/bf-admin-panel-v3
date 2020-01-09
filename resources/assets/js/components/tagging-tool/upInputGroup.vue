@@ -10,7 +10,7 @@
                         </option>
                     </select>
                 </label>
-                <a @click="addInputs" class="pointer">
+                <a href="#" @click="addInputs" class="pointer">
                     Add image
                     <span href="#" class="m-l-5">
                         <i class="fa fa-plus"></i>
@@ -104,6 +104,7 @@
     }
 
     .form-control {
+        margin-top: 5px;
         min-width: 160px;
     }
 
