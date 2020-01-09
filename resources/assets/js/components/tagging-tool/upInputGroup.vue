@@ -3,19 +3,19 @@
         <div class="input-group col-md-12 text-left text-left">
             <div class="flex">
                 <label class="flex column">Subject:
-                    <select v-model="currentSubject" name="subject">
+                    <select v-model="currentSubject" name="subject" class="form-control">
                         <option value="">Select subject</option>
                         <option v-for="subject in subjects">
                             {{subject.name}}
                         </option>
                     </select>
                 </label>
-                <button type="button" @click="addInputs" class="btn btn-sm btn-default add-img-btn">
+                <a @click="addInputs" class="pointer">
                     Add image
-                    <span class="m-l-5">
+                    <span href="#" class="m-l-5">
                         <i class="fa fa-plus"></i>
                     </span>
-                </button>
+                </a>
             </div>
         </div>
         <div v-for="(input ,index) in imgInputs" :key="index">
@@ -101,6 +101,14 @@
 
     .column {
         flex-direction: column;
+    }
+
+    .form-control {
+        min-width: 160px;
+    }
+
+    .pointer {
+        cursor: pointer;
     }
 
 </style>

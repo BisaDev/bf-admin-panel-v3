@@ -77,6 +77,7 @@
 
 <style scoped>
     .flex-column {
+        width: 40%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;

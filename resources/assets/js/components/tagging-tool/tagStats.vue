@@ -5,7 +5,7 @@
                 <table class="table table-responsive table-hover model-list">
                     <thead>
                     <tr>
-                        <th width="300">Topic</th>
+                        <th width="300">Subject</th>
                         <th width="300" class="text-center">Tagged Questions</th>
                         <th width="300" class="text-center">Untagged</th>
                         <th width="200"></th>
@@ -16,26 +16,26 @@
                         <th>AP- Physics</th>
                         <td class="text-center">500</td>
                         <td class="text-center">146</td>
-                        <td class="text-center"><button class="tt-button">Start Tagging</button></td>
+                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
                     </tr>
                     <!--                        Hard coded data , todo: map -->
                     <tr>
                         <th>SAT- Physics</th>
                         <td class="text-center">500</td>
                         <td class="text-center">146</td>
-                        <td class="text-center"><button class="tt-button">Start Tagging</button></td>
+                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
                     </tr>
                     <tr>
                         <th>ACT- Physics</th>
                         <td class="text-center">500</td>
                         <td class="text-center">146</td>
-                        <td class="text-center"><button class="tt-button">Start Tagging</button></td>
+                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
                     </tr>
                     <tr>
                         <th>SAT- Math</th>
                         <td class="text-center">500</td>
                         <td class="text-center">146</td>
-                        <td class="text-center"><button class="tt-button">Start Tagging</button></td>
+                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
                     </tr>
 
                     </tbody>
@@ -82,11 +82,3 @@
 
     }
 </script>
-
-<style>
-    .tt-button {
-        color: white;
-        padding: 5px;
-        background-color: orange;
-    }
-</style>

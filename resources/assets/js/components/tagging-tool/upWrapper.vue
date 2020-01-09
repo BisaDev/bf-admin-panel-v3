@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="form-group col-md-12">
-            <button type="button" class="btn btn-sm btn-default" @click="addInput">
+            <button type="button" class="btn btn-default" @click="addInput">
                 Add upload
                 <span class="m-l-5">
                     <i class="fa fa-plus"></i>
