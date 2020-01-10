@@ -19,7 +19,6 @@ class ImageUploadController extends Controller
 
 
         foreach($request->all() as $key => $value) {
-            $dude = "dude";
             if(strpos($key, "_") != false){
                 $keys = explode("_", $key);
                 $images[$keys[1]][$keys[0]] = $value;

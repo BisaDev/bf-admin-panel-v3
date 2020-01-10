@@ -6,7 +6,7 @@
                     v-on:click="onModalCall(leftImageUrl)">
                 <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
             </button>
-            <input type="file" name="question-img" id="question-img"
+            <input type="file" name="question-img" id="question-img" class="drop-area"
                    accept="image/*" @change="previewImgUrl($event, 'left')">
         </div>
         <div class="form-group col-md-12 text-left">
@@ -20,7 +20,8 @@
                     v-on:click="onModalCall(rightImageUrl)">
                 <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" @change="previewImgUrl($event, 'right')" name="explanation-img" accept="image/*">
+            <input type="file" @change="previewImgUrl($event, 'right')" class="drop-area"
+                   name="explanation-img" accept="image/*">
         </div>
     </div>
 </template>
@@ -84,6 +85,17 @@
         align-items: flex-start;
     }
 
+    .drop-area::after {
+        content: "";
+        display: block;
+        margin-top: 15px;
+        min-height: 150px;
+        background-image: url("https://image.flaticon.com/icons/png/512/1589/1589085.png");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
     button {
         border: none;
     }
@@ -91,5 +103,4 @@
     img {
         max-width: 100%;
     }
-
 </style>
