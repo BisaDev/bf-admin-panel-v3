@@ -29,10 +29,10 @@ class ImageUploadController extends Controller
                 $answer = $value;
             }
             if (strstr($key, "questionImage") && $value != "null") {
-                Storage::put("tt_images/$subject-$answer-key.jpg", file_get_contents($value));
+                Storage::put("tt_images/$subject-$answer-questionImage.jpg", file_get_contents($value));
             }
             if (strstr($key, "explanationImg") && $value != "null") {
-                Storage::put("tt_images/$subject-$answer-key.jpg", file_get_contents($value));
+                Storage::put("tt_images/$subject-$answer-explanationImg.jpg", file_get_contents($value));
             }
 
         }

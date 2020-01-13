@@ -42,7 +42,7 @@
             handleUpload: function () {
                 const formData = new FormData;
 
-                formData.append("subject", this.currentSubject);
+                formData.append("subject", this.subject);
                 this.imgInputs.forEach((inputs, index) => {
                     formData.append(`questionImage_${index}`, inputs.questionImg);
                     formData.append(`answer_${index}`, inputs.answer);
@@ -75,10 +75,6 @@
     .wrapper {
         display: flex;
         flex-direction: column;
-    }
-
-    .add-img-btn {
-        margin-left: 50px;
     }
 
     .input-group {
