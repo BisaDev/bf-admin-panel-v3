@@ -10,10 +10,11 @@
                 </a>
             </div>
         </div>
-        <div v-for="(input ,index) in imgInputs" :key="index">
+        <div v-for="(input ,index,) in imgInputs" :key="index">
             <up-inputs
                     :onModalCall="modalCall"
                     v-bind.sync="imgInputs[index]"
+                    :error="input.error"
             >
             </up-inputs>
         </div>
@@ -37,34 +38,73 @@
                     answer: "",
                     questionImg: null,
                     explanationImg: null,
+                    error: {
+                        answer: true,
+                        questionImg: true,
+                        explanationImg: true,
+                    }
                 });
             },
             handleUpload: function () {
-                const formData = new FormData;
+                this.validateInputs();
 
-                formData.append("subject", this.subject);
-                this.imgInputs.forEach((inputs, index) => {
-                    formData.append(`questionImage_${index}`, inputs.questionImg);
-                    formData.append(`answer_${index}`, inputs.answer);
-                    formData.append(`explanationImg_${index}`, inputs.explanationImg);
+                if(this.formIsValid()) {
+                    const formData = new FormData;
+
+                    formData.append("subject", this.subject);
+                    this.imgInputs.forEach((inputs, index) => {
+                        formData.append(`questionImage_${index}`, inputs.questionImg);
+                        formData.append(`answer_${index}`, inputs.answer);
+                        formData.append(`explanationImg_${index}`, inputs.explanationImg);
+                    });
+
+                    const config = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    };
+
+                    axios.post(this.postUrl, formData, config)
+                        .then(function (response) {
+                            console.log(response)
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                }
+            },
+            validateInputs: function () {
+                const updatedSet =this.imgInputs;
+
+                this.imgInputs.forEach( (inputGroup, index) => {
+                    inputGroup['answer'] ?
+                        updatedSet[index].error.answer = true :
+                        updatedSet[index].error.answer = false;
+                    inputGroup['questionImg'] ?
+                        updatedSet[index].error.questionImg = true :
+                        updatedSet[index].error.questionImg = false;
+                    inputGroup['explanationImg'] ?
+                        updatedSet[index].error.explanationImg = true :
+                        updatedSet[index].error.explanationImg = false
+
                 });
 
-                const config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                };
+                this.imgInputs = updatedSet;
+            },
+            formIsValid: function () {
+                let inputsFilled = true;
 
-                axios.post(this.postUrl, formData, config)
-                    .then(function (response) {
-                        console.log(response)
+                this.imgInputs.forEach(inputGroup => {
+                    _.forEach(inputGroup.error, input => {
+                        if (!input) {
+                            inputsFilled = false;
+                        }
                     })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
-            }
+                });
+                return inputsFilled
+            },
         },
-        props: ['removeItem',  'modalCall', 'postUrl', 'subject'],
+        props: ['removeItem', 'modalCall', 'postUrl', 'subject'],
         mounted() {
             this.addInputs();
         }
@@ -85,6 +125,7 @@
         display: flex;
         justify-content: flex-end;
     }
+
     .pointer {
         cursor: pointer;
     }

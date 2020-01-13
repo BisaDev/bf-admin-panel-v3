@@ -8,11 +8,17 @@
             </button>
             <input type="file" name="question-img" id="question-img" :class="leftImageUrl ? '' : 'drop-area'"
                    accept="image/*" @change="previewImgUrl($event, 'left')">
+            <span class="error-msg" v-if="error.questionImg === false">
+                No image selected
+            </span>
         </div>
         <div class="form-group col-md-12 text-left">
             <label class="control-label" for="answer">Answer:
-            <input type="text" v-model="answerValue" class="form-control">
+            <input type="text" v-model="answerValue" :class="`form-control ${error.answer ? '' : 'error-msg'}`">
             </label>
+            <span class="error-msg" v-if="error.answer === false">
+                Please write an answer
+            </span>
         </div>
         <div class="flex-column">
             <label class="control-label" for="explanation-img">Explanation image:</label>
@@ -22,6 +28,9 @@
             </button>
             <input type="file" @change="previewImgUrl($event, 'right')" :class="rightImageUrl ? '' : 'drop-area'"
                    name="explanation-img" accept="image/*">
+            <span class="error-msg" v-if="error.explanationImg === false">
+                No image selected
+            </span>
         </div>
     </div>
 </template>
@@ -59,19 +68,16 @@
                 }
             }
         },
-        props: ['onModalCall' , 'inputValues'],
+        props: ['onModalCall' , 'inputValues' , 'error'],
         watch: {
             answerValue() {
-                console.log("text input");
                 this.$emit( 'update:answer' , this.answerValue)
             },
             questionImg() {
-                console.log("left upload!");
                 this.$emit( 'update:questionImg' , this.questionImg)
             },
             explanationImg() {
                 this.$emit( 'update:explanationImg' , this.explanationImg)
-
             },
         }
     }
@@ -102,5 +108,10 @@
 
     img {
         max-width: 100%;
+    }
+
+    .error-msg {
+        color: red;
+        border-color: red;
     }
 </style>
