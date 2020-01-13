@@ -16,6 +16,8 @@ class ImageUploadController extends Controller
     public function upload (Request $request)
     {
         $images = [];
+        $answer = "";
+        $subject = $request->subject;
 
 
         foreach($request->all() as $key => $value) {
@@ -23,11 +25,14 @@ class ImageUploadController extends Controller
                 $keys = explode("_", $key);
                 $images[$keys[1]][$keys[0]] = $value;
             }
+            if (strstr($key, "answer") && $value != "null") {
+                $answer = $value;
+            }
             if (strstr($key, "questionImage") && $value != "null") {
-                Storage::put("/tt_images/", $value);
+                Storage::put("tt_images/$subject-$answer-key.jpg", file_get_contents($value));
             }
             if (strstr($key, "explanationImg") && $value != "null") {
-                Storage::put("/tt_images/", $value);
+                Storage::put("tt_images/$subject-$answer-key.jpg", file_get_contents($value));
             }
 
         }
