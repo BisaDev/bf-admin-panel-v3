@@ -4,6 +4,7 @@ namespace Brightfox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
 
 class ImageUploadController extends Controller
 {
@@ -29,10 +30,12 @@ class ImageUploadController extends Controller
                 $answer = $value;
             }
             if (strstr($key, "questionImage") && $value != "null") {
-                Storage::put("tt_images/$subject-$answer-questionImage.jpg", file_get_contents($value));
+                $extension = $value->getClientOriginalExtension();
+                Storage::put("tt_images/$subject-$answer-$key.$extension", file_get_contents($value));
             }
             if (strstr($key, "explanationImg") && $value != "null") {
-                Storage::put("tt_images/$subject-$answer-explanationImg.jpg", file_get_contents($value));
+                $extension = $value->getClientOriginalExtension();
+                Storage::put("tt_images/$subject-$answer-$key.$extension", file_get_contents($value));
             }
 
         }
