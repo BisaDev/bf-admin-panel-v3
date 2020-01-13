@@ -24,11 +24,10 @@ class ImageUploadController extends Controller
                 $images[$keys[1]][$keys[0]] = $value;
             }
             if (strstr($key, "questionImage") && $value != "null") {
-                var_dump($value);
-//                Storage::put("/tt_images/$dude.txt", "fella");
+                Storage::put("/tt_images/", $value);
             }
             if (strstr($key, "explanationImg") && $value != "null") {
-                var_dump("explanationImg");
+                Storage::put("/tt_images/", $value);
             }
 
         }

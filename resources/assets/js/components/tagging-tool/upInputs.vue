@@ -6,7 +6,7 @@
                     v-on:click="onModalCall(leftImageUrl)">
                 <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
             </button>
-            <input type="file" name="question-img" id="question-img" class="drop-area"
+            <input type="file" name="question-img" id="question-img" :class="leftImageUrl ? '' : 'drop-area'"
                    accept="image/*" @change="previewImgUrl($event, 'left')">
         </div>
         <div class="form-group col-md-12 text-left">
@@ -20,7 +20,7 @@
                     v-on:click="onModalCall(rightImageUrl)">
                 <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" @change="previewImgUrl($event, 'right')" class="drop-area"
+            <input type="file" @change="previewImgUrl($event, 'right')" :class="rightImageUrl ? '' : 'drop-area'"
                    name="explanation-img" accept="image/*">
         </div>
     </div>
