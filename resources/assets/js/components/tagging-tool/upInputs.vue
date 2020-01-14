@@ -142,6 +142,10 @@
         max-width: 100%;
     }
 
+    .control-label {
+        width: 100%;
+    }
+
     .error-msg {
         color: red;
         border-color: red;
