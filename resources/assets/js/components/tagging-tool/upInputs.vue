@@ -144,6 +144,7 @@
 
     .control-label {
         width: 100%;
+        text-align: left;
     }
 
     .error-msg {
