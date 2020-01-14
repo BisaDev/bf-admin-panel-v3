@@ -1,7 +1,7 @@
 <template>
     <div class="card-box wrapper">
         <div class="input-group col-md-12 text-left text-left">
-            <div class="flex">
+            <div class="flex" v-if="!success">
                 <a @click="addInputs" class="pointer">
                     Add image
                     <span href="#" class="m-l-5">
@@ -9,16 +9,20 @@
                     </span>
                 </a>
             </div>
+            <div class="alert alert-success" v-if="success">
+                <h3 class="text-center">Success!</h3>
+            </div>
         </div>
         <div v-for="(input ,index,) in imgInputs" :key="index">
             <up-inputs
+                    :uploaded="success"
                     :onModalCall="modalCall"
                     v-bind.sync="imgInputs[index]"
                     :error="input.error"
             >
             </up-inputs>
         </div>
-        <div class="form-group col-md-12 text-right m-t-30">
+        <div class="form-group col-md-12 text-right m-t-30" v-if="!success">
             <button @click="removeItem" class="btn btn-md btn-info">Cancel</button>
             <button @click="handleUpload" type="submit" class="btn btn-md btn-primary">Upload</button>
         </div>
@@ -30,6 +34,7 @@
         data: function () {
             return {
                 imgInputs: [],
+                success: false,
             }
         },
         methods: {
@@ -50,6 +55,7 @@
 
                 if(this.formIsValid()) {
                     const formData = new FormData;
+                    const vueInstance = this;
 
                     formData.append("subject", this.subject.name);
                     formData.append("subjectID", this.subject.id);
@@ -66,8 +72,8 @@
                     };
 
                     axios.post(this.postUrl, formData, config)
-                        .then(function (response) {
-                            console.log(response)
+                        .then(function () {
+                            vueInstance.success = true;
                         })
                         .catch(function (error) {
                             console.log(error)
