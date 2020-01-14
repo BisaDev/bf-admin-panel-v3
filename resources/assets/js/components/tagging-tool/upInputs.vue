@@ -6,8 +6,13 @@
                     v-on:click="onModalCall(leftImageUrl)">
                 <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
             </button>
-            <input type="file" name="question-img" id="question-img" :class="leftImageUrl ? '' : 'drop-area'"
-                   accept="image/*" @change="previewImgUrl($event, 'left')">
+            <div class="droppable" v-if="!uploaded">
+                <span :class="leftImageUrl ? '' : 'button-thickness'">
+                    Drag an image or click to browse
+                </span>
+                <input type="file" @change="previewImgUrl($event, 'left')"
+                       name="question-img" accept="image/*">
+            </div>
             <span class="error-msg" v-if="error.questionImg === false">
                 No image selected
             </span>
@@ -26,8 +31,13 @@
                     v-on:click="onModalCall(rightImageUrl)">
                 <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" @change="previewImgUrl($event, 'right')" :class="rightImageUrl ? '' : 'drop-area'"
-                   name="explanation-img" accept="image/*">
+            <div class="droppable" v-if="!uploaded">
+                <span :class="rightImageUrl ? '' : 'button-thickness'">
+                    Drag an image or click to browse
+                </span>
+                <input type="file" @change="previewImgUrl($event, 'right')"
+                       name="explanation-img" accept="image/*">
+            </div>
             <span class="error-msg" v-if="error.explanationImg === false">
                 No image selected
             </span>
@@ -68,7 +78,7 @@
                 }
             }
         },
-        props: ['onModalCall' , 'inputValues' , 'error'],
+        props: ['onModalCall' , 'inputValues' , 'error' , 'uploaded'],
         watch: {
             answerValue() {
                 this.$emit( 'update:answer' , this.answerValue)
@@ -89,17 +99,35 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        justify-content: space-between;
     }
 
-    .drop-area::after {
-        content: "";
-        display: block;
-        margin-top: 15px;
-        min-height: 150px;
-        background-image: url("https://image.flaticon.com/icons/png/512/1589/1589085.png");
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
+    .droppable {
+        height: auto;
+        color: #FFF;
+        display: flex;
+        outline: none;
+        padding: 6px 12px;
+        border-radius: 3px;
+        text-align: center;
+        position: relative;
+        align-items: center;
+        background: #5fbeaa;
+        justify-content: center;
+    }
+
+    input[type="file"] {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        width: 100%;
+        position: absolute;
+    }
+
+    .button-thickness {
+        margin: 40px 0;
     }
 
     button {
