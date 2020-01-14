@@ -15,9 +15,8 @@ class CreateTaggingQuestionsTable extends Migration
     {
         Schema::create('tagging_questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('tagging_question_id');
+            $table->unsignedInteger('tagging_subject_id');
             $table->unsignedInteger('tagging_topic_id')->nullable();
-            $table->string('pdf_number');
             $table->timestamps();
         });
     }
