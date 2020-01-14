@@ -4,10 +4,10 @@
             <label class="control-label" for="question-img">Question image:</label>
             <button type="button" data-toggle="modal" data-target="#previewModal"
                     v-on:click="onModalCall(leftImageUrl)">
-                <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
+                <img :src="leftImageUrl" alt="left-img" v-if="leftImageUrl !== ''"/>
             </button>
             <div class="droppable" v-if="!uploaded">
-                <span :class="leftImageUrl ? '' : 'button-thickness'">
+                <span :class="leftImageUrl ? 'button-thin' : 'button-thick'">
                     Drag an image or click to browse
                 </span>
                 <input type="file" @change="previewImgUrl($event, 'left')"
@@ -19,7 +19,7 @@
         </div>
         <div class="form-group col-md-12 text-left">
             <label class="control-label" for="answer">Answer:
-            <input type="text" v-model="answerValue" :class="`form-control ${error.answer ? '' : 'error-msg'}`">
+                <input type="text" v-model="answerValue" :class="`form-control ${error.answer ? '' : 'error-msg'}`">
             </label>
             <span class="error-msg" v-if="error.answer === false">
                 Please write an answer
@@ -29,10 +29,10 @@
             <label class="control-label" for="explanation-img">Explanation image:</label>
             <button type="button" data-toggle="modal" data-target="#previewModal"
                     v-on:click="onModalCall(rightImageUrl)">
-                <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
+                <img :src="rightImageUrl" alt="right-img" v-if="rightImageUrl !== ''"/>
             </button>
             <div class="droppable" v-if="!uploaded">
-                <span :class="rightImageUrl ? '' : 'button-thickness'">
+                <span :class="rightImageUrl ? 'button-thin' : 'button-thick'">
                     Drag an image or click to browse
                 </span>
                 <input type="file" @change="previewImgUrl($event, 'right')"
@@ -78,16 +78,16 @@
                 }
             }
         },
-        props: ['onModalCall' , 'inputValues' , 'error' , 'uploaded'],
+        props: ['onModalCall', 'inputValues', 'error', 'uploaded'],
         watch: {
             answerValue() {
-                this.$emit( 'update:answer' , this.answerValue)
+                this.$emit('update:answer', this.answerValue)
             },
             questionImg() {
-                this.$emit( 'update:questionImg' , this.questionImg)
+                this.$emit('update:questionImg', this.questionImg)
             },
             explanationImg() {
-                this.$emit( 'update:explanationImg' , this.explanationImg)
+                this.$emit('update:explanationImg', this.explanationImg)
             },
         }
     }
@@ -97,8 +97,8 @@
     .flex-column {
         width: 40%;
         display: flex;
+        align-items: center;
         flex-direction: column;
-        align-items: flex-start;
         justify-content: space-between;
     }
 
@@ -126,7 +126,11 @@
         position: absolute;
     }
 
-    .button-thickness {
+    .button-thin {
+        margin: 15px 0;
+    }
+
+    .button-thick {
         margin: 40px 0;
     }
 
