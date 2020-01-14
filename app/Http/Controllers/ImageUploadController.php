@@ -2,9 +2,10 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Brightfox\TaggingImage;
+use Brightfox\TaggingTopic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Input;
 
 class ImageUploadController extends Controller
 {
@@ -37,13 +38,13 @@ class ImageUploadController extends Controller
                 $extension = $value->getClientOriginalExtension();
                 Storage::put("tt_images/$subject-$answer-$key.$extension", file_get_contents($value));
             }
-
         }
 
-
         /* Do everything */
-        dd($images);
-
+        foreach($images as $image) {
+            TaggingImage::create(['image_answer' => $image['answer'], 'image_url' => 'https://',
+                'tagging_question_id' => $request->subjectID, 'explanation_url' => 'http://']);
+        }
     }
 
 }

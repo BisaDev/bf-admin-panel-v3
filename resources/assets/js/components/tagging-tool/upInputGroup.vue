@@ -51,7 +51,8 @@
                 if(this.formIsValid()) {
                     const formData = new FormData;
 
-                    formData.append("subject", this.subject);
+                    formData.append("subject", this.subject.name);
+                    formData.append("subjectID", this.subject.id);
                     this.imgInputs.forEach((inputs, index) => {
                         formData.append(`questionImage_${index}`, inputs.questionImg);
                         formData.append(`answer_${index}`, inputs.answer);

@@ -10,7 +10,7 @@
             <label class="subject-input">Subject:
                 <select v-model="currentSubject" name="subject" class="form-control">
                     <option value="">Select subject</option>
-                    <option v-for="subject in subjects">
+                    <option v-for="(subject, index) in subjects" :value="index">
                         {{subject.name}}
                     </option>
                 </select>
@@ -19,7 +19,7 @@
 
         <div class="form-group col-md-12" v-for="(item, index) in questions" :key="index">
             <up-input-group
-                    :subject="currentSubject"
+                    :subject="subjects[currentSubject]"
                     :removeItem="() => removeInput(index)"
                     :modalCall="updateModalImg"
                     :postUrl="update_url"
