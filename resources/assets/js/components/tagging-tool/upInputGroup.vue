@@ -13,7 +13,7 @@
                 <h3 class="text-center">Success!</h3>
             </div>
         </div>
-        <div v-for="(input ,index,) in imgInputs" :key="index">
+        <div v-for="(input ,index) in imgInputs" :key="index">
             <up-inputs
                     :uploaded="success"
                     :onModalCall="modalCall"
@@ -46,7 +46,6 @@
                     error: {
                         answer: true,
                         questionImg: true,
-                        explanationImg: true,
                     }
                 });
             },
@@ -90,9 +89,6 @@
                     inputGroup['questionImg'] ?
                         updatedSet[index].error.questionImg = true :
                         updatedSet[index].error.questionImg = false;
-                    inputGroup['explanationImg'] ?
-                        updatedSet[index].error.explanationImg = true :
-                        updatedSet[index].error.explanationImg = false
 
                 });
 
