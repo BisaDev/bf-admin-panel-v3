@@ -4,22 +4,43 @@
             <label class="control-label" for="question-img">Question image:</label>
             <button type="button" data-toggle="modal" data-target="#previewModal"
                     v-on:click="onModalCall(leftImageUrl)">
-                <img :src="leftImageUrl" alt="left-img"  v-if="leftImageUrl !== ''"/>
+                <img :src="leftImageUrl" alt="left-img" v-if="leftImageUrl !== ''"/>
             </button>
-            <input type="file" name="question-img" id="question-img"
-                   accept="image/*" @change="previewImgUrl($event, 'left')">
+            <div class="droppable" v-if="!uploaded">
+                <span :class="leftImageUrl ? 'button-thin' : 'button-thick'">
+                    Drag an image or click to browse
+                </span>
+                <input type="file" @change="previewImgUrl($event, 'left')"
+                       name="question-img" accept="image/*">
+            </div>
+            <span class="error-msg" v-if="error.questionImg === false">
+                No image selected
+            </span>
         </div>
         <div class="form-group col-md-12 text-left">
-            <label class="control-label" for="answer">Answer:</label>
-            <input type="text" name="answer" id="answer" v-model="answerValue" class="form-control">
+            <label class="control-label" for="answer">Answer:
+                <input type="text" v-model="answerValue" :class="`form-control ${error.answer ? '' : 'error-msg'}`">
+            </label>
+            <span class="error-msg" v-if="error.answer === false">
+                Please write an answer
+            </span>
         </div>
         <div class="flex-column">
             <label class="control-label" for="explanation-img">Explanation image:</label>
             <button type="button" data-toggle="modal" data-target="#previewModal"
                     v-on:click="onModalCall(rightImageUrl)">
-                <img :src="rightImageUrl" alt="right-img"  v-if="rightImageUrl !== ''"/>
+                <img :src="rightImageUrl" alt="right-img" v-if="rightImageUrl !== ''"/>
             </button>
-            <input type="file" @change="previewImgUrl($event, 'right')" name="explanation-img" accept="image/*">
+            <div class="droppable" v-if="!uploaded">
+                <span :class="rightImageUrl ? 'button-thin' : 'button-thick'">
+                    Drag an image or click to browse
+                </span>
+                <input type="file" @change="previewImgUrl($event, 'right')"
+                       name="explanation-img" accept="image/*">
+            </div>
+            <span class="error-msg" v-if="error.explanationImg === false">
+                No image selected
+            </span>
         </div>
     </div>
 </template>
@@ -57,19 +78,16 @@
                 }
             }
         },
-        props: ['onModalCall' , 'inputValues'],
+        props: ['onModalCall', 'inputValues', 'error', 'uploaded'],
         watch: {
             answerValue() {
-                console.log("text input");
-                this.$emit( 'update:answer' , this.answerValue)
+                this.$emit('update:answer', this.answerValue)
             },
             questionImg() {
-                console.log("left upload!");
-                this.$emit( 'update:questionImg' , this.questionImg)
+                this.$emit('update:questionImg', this.questionImg)
             },
             explanationImg() {
-                this.$emit( 'update:explanationImg' , this.explanationImg)
-
+                this.$emit('update:explanationImg', this.explanationImg)
             },
         }
     }
@@ -79,8 +97,41 @@
     .flex-column {
         width: 40%;
         display: flex;
+        align-items: center;
         flex-direction: column;
-        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .droppable {
+        height: auto;
+        color: #FFF;
+        display: flex;
+        outline: none;
+        padding: 6px 12px;
+        border-radius: 3px;
+        text-align: center;
+        position: relative;
+        align-items: center;
+        background: #5fbeaa;
+        justify-content: center;
+    }
+
+    input[type="file"] {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        width: 100%;
+        position: absolute;
+    }
+
+    .button-thin {
+        margin: 15px 0;
+    }
+
+    .button-thick {
+        margin: 40px 0;
     }
 
     button {
@@ -91,4 +142,13 @@
         max-width: 100%;
     }
 
+    .control-label {
+        width: 100%;
+        text-align: left;
+    }
+
+    .error-msg {
+        color: red;
+        border-color: red;
+    }
 </style>

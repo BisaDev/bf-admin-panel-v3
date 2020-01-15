@@ -52,7 +52,6 @@ class TaggingSubjectController extends Controller
     public function edit($id)
     {
         $subject = TaggingSubject::find($id);
-        // return $subject;
         return view('tagging_subject.edit', compact('subject'));
     }
 

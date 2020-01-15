@@ -17,8 +17,8 @@ class CreateTaggingImagesTable extends Migration
             $table->increments('id');
             $table->string('image_answer');
             $table->string('image_url');
-            $table->unsignedInteger('tagging_question_id');
             $table->string('explanation_url');
+            $table->unsignedInteger('tagging_question_id');
             $table->timestamps();
         });
     }
