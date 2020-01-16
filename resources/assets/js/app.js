@@ -49,27 +49,6 @@ import upload_file from './pages/upload-file';
 import generate_results from './pages/generate_results';
 import student_dashboard from './pages/student-dashboard';
 
-const vue_elements = [
-    index,
-    index_academic_content,
-    index_users,
-    create,
-    create_student,
-    create_question,
-    create_quiz,
-    create_activity_bucket,
-    create_meetup,
-    show_student,
-    take_practice_exam,
-    print,
-    upload_file,
-    generate_results,
-    student_dashboard,
-];
-
-vue_elements.forEach(function (element) {
-    element.init();
-});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -10,11 +10,7 @@ class TaggingQuestion extends Model
         'tagging_subject_id', 'tagging_topic_id'
     ];
 
-    public function subject() {
-        return $this->hasOne(TaggingSubject::class);
-    }
-
-    public function topic () {
-        return $this->hasOne(TaggingTopic::class);
+    public function image() {
+        return $this->hasOne(TaggingImage::class);
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div id="index-container" class="row">
-        <div class="col-sm-12" v-if="!subjectToTag">
+        <div class="col-sm-12" v-if="!questionToTag">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -26,7 +26,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-6" v-if="!subjectToTag">
+        <div class="col-md-6" v-if="!questionToTag">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -44,9 +44,9 @@
                 </table>
             </div>
         </div>
-        <div class="col-sm-12 tagging-tool" v-if="subjectToTag">
+        <div class="col-sm-12 tagging-tool" v-if="questionToTag">
             <div class="card-box">
-                <h1>DUDE</h1>
+                <p>Image to display</p>
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
     export default {
         data: function () {
             return {
-                subjectToTag: ""
+                questionToTag: ""
             }
         },
         props: {
@@ -66,12 +66,14 @@
         },
         methods: {
             getQuestion: function (event) {
+                const vueInstance = this;
                 const subjectID = event.toElement.id;
-                const url = `${this.tagging_route}/${subjectID}`;
+                const url = `${this.tagging_route}/question/${subjectID}`;
 
                 axios.get(url)
                 .then(function (response) {
-                    console.log(response)
+                    console.log(...response.data);
+                    vueInstance.questionToTag = response.data;
                 })
                 .catch(function(err){
                     console.log(err)

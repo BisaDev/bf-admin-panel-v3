@@ -3,9 +3,9 @@
 namespace Brightfox\Http\Controllers;
 
 use Brightfox\Models\User;
-use Brightfox\TaggingSubject;
-use Brightfox\TaggingTopic;
 use Illuminate\Http\Request;
+use Brightfox\TaggingSubject;
+use Illuminate\Support\Facades\DB;
 
 class TaggingToolController extends Controller
 {
@@ -16,8 +16,8 @@ class TaggingToolController extends Controller
         return view('tagging_tool.index', compact('instructors', 'subjects'));
     }
 
-    public function tag($id) {
-        return $id;
-        return view('tagging_tool.create', compact($id));
+    public function questions($id) {
+        $images =  DB::table('tagging_questions')->where('tagging_subject_id', '=',$id)->get();
+        return $images->toJson();
     }
 }
