@@ -6,9 +6,10 @@
         'pageTitle' => 'Tagging Tool',
         'link' => [ 'label' => 'Upload image', 'url' => route('image-upload.index')],
         'breadcrumbs' => [
-            [ 'label' => 'Brightfox', 'url' =>  route('dashboard')]
+            [ 'label' => 'Brightfox', 'url' =>  route('dashboard')],
+            [ 'label' => 'Tagging Tool', 'url' =>  route('taggingtool')]
         ],
-        'currentSection' => 'Tagging Tool',
+        'currentSection' => $subject->name,
     ])
 @endsection
 
@@ -16,7 +17,7 @@
     <div id="app">
         <tagging-tool
                 tagging_route='{{ route('taggingtool') }}'
-                subject_id="{{$subject_id}}"
+                subject_id="{{$subject->id}}"
         ></tagging-tool>
     </div>
 @endsection

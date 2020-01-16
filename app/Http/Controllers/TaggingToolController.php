@@ -17,8 +17,10 @@ class TaggingToolController extends Controller
     }
 
     public function tag($subject_id) {
-        return view('tagging_tool.tag', compact('subject_id'));
-        return $subject_id;
+        $subject = TaggingSubject::find($subject_id);
+
+        return view('tagging_tool.tag', compact('subject'));
+
     }
 
     public function questions($id) {

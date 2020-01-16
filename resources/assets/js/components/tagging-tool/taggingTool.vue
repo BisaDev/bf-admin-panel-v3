@@ -44,5 +44,13 @@
 </script>
 
 <style scoped>
+    .image-display {
+        display: flex;
+        justify-content: space-between;
+    }
 
+    .topic-display {
+        display: flex;
+        flex-direction: column;
+    }
 </style>

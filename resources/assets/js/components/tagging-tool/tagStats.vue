@@ -58,14 +58,3 @@
         }
     }
 </script>
-
-<style scoped>
-    .image-display {
-        display: flex;
-    }
-
-    .topic-display {
-        display: flex;
-        flex-direction: column;
-    }
-</style>
