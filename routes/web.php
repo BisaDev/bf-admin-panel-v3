@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
-    Route::resource('taggingtool',                      'TaggingToolController');
+    Route::get('taggingtool',                           'TaggingToolController@index')->name('taggingtool.index');
 
     Route::resource('image-upload',                     'ImageUploadController', ['except' =>['show']]);
     Route::post('image-upload/upload',                  'ImageUploadController@upload')->name('imageupload.upload');

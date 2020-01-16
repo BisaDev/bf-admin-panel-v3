@@ -24,7 +24,7 @@ Vue.component('act-answer-sheet', require('./components/ACTAnswerSheet'));
 Vue.component('tab', require('./components/tab'));
 Vue.component('tabs', require('./components/tabs'));
 Vue.component('upload-image', require('./components/uploadImage'));
-Vue.component('tag-stats', require('./components/tagging-tool/tagStats'));
+Vue.component('tagging-tool', require('./components/tagging-tool/taggingTool'));
 Vue.component('up-wrapper', require('./components/tagging-tool/upWrapper'));
 Vue.component('up-input-group', require('./components/tagging-tool/upInputGroup'));
 Vue.component('up-inputs', require('./components/tagging-tool/upInputs'));

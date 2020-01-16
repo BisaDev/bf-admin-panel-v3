@@ -1,6 +1,6 @@
 <template>
     <div id="index-container" class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" v-if="!subjectToTag">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -22,7 +22,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" v-if="!subjectToTag">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -40,11 +40,21 @@
                 </table>
             </div>
         </div>
+        <div class="col-sm-12 tagging-tool" v-if="subjectToTag">
+            <div class="card-box">
+                <h1>DUDE</h1>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
+        data: function () {
+            return {
+                subjectToTag: ""
+            }
+        },
         props: {
             "instructors": Array,
             "subjects" : Array
