@@ -14,10 +14,9 @@
 
 @section('content')
     <div id="app">
-        <tag-stats
+        <tagging-tool
                 tagging_route='{{ route('taggingtool') }}'
-                :instructors='{{ json_encode($instructors) }}'
-                :subjects='{{ json_encode($subjects) }}'>
-        </tag-stats>
+                subject_id="{{$subject_id}}"
+        ></tagging-tool>
     </div>
 @endsection

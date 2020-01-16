@@ -16,6 +16,11 @@ class TaggingToolController extends Controller
         return view('tagging_tool.index', compact('instructors', 'subjects'));
     }
 
+    public function tag($subject_id) {
+        return view('tagging_tool.tag', compact('subject_id'));
+        return $subject_id;
+    }
+
     public function questions($id) {
         $images =  DB::table('tagging_questions')->where('tagging_subject_id', '=',$id)->get();
         return $images->toJson();
