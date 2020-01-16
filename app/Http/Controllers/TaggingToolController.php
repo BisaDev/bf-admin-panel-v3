@@ -17,6 +17,7 @@ class TaggingToolController extends Controller
     }
 
     public function tag($id) {
+        return $id;
         return view('tagging_tool.create', compact($id));
     }
 }

@@ -16,7 +16,11 @@
                         <th>{{ subject.name }}</th>
                         <td class="text-center">0</td>
                         <td class="text-center">0</td>
-                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
+                        <td class="text-center">
+                            <button @click="getQuestion" :id="subject.id" class="btn btn-info">
+                                Start Tagging
+                            </button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -56,8 +60,23 @@
             }
         },
         props: {
+            "subjects": Array,
             "instructors": Array,
-            "subjects" : Array
+            "tagging_route": String
+        },
+        methods: {
+            getQuestion: function (event) {
+                const subjectID = event.toElement.id;
+                const url = `${this.tagging_route}/${subjectID}`;
+
+                axios.get(url)
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
+            }
         }
     }
 </script>
