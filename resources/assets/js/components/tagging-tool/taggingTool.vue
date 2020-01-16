@@ -1,6 +1,6 @@
 <template>
     <div id="index-container" class="row">
-        <div class="col-sm-12" v-if="!questionToTag">
+        <div class="col-sm-12" v-if="!questionsToTag">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -26,7 +26,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-6" v-if="!questionToTag">
+        <div class="col-md-6" v-if="!questionsToTag">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">
                     <thead>
@@ -44,9 +44,16 @@
                 </table>
             </div>
         </div>
-        <div class="col-sm-12 tagging-tool" v-if="questionToTag">
-            <div class="card-box">
-                <p>Image to display</p>
+        <div class="col-sm-12 tagging-tool" v-if="questionsToTag">
+            <div class="card-box" v-for="(question, index) in questionsToTag" v-if="tagCount === index">
+                <div class="image-display">
+                    <h2>{{question.id}}</h2>
+                    <h2>{{index}}</h2>
+                    <div class="topic-display"></div>
+                    <button  class="btn btn-info" @click="tagCount++">
+                        Next question
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -56,7 +63,8 @@
     export default {
         data: function () {
             return {
-                questionToTag: ""
+                tagCount: 0,
+                questionsToTag: null,
             }
         },
         props: {
@@ -68,12 +76,12 @@
             getQuestion: function (event) {
                 const vueInstance = this;
                 const subjectID = event.toElement.id;
-                const url = `${this.tagging_route}/question/${subjectID}`;
+                const questionUrl = `${this.tagging_route}/question/${subjectID}`;
 
-                axios.get(url)
+                axios.get(questionUrl)
                 .then(function (response) {
-                    console.log(...response.data);
-                    vueInstance.questionToTag = response.data;
+                    console.log(response);
+                    vueInstance.questionsToTag = response.data;
                 })
                 .catch(function(err){
                     console.log(err)
@@ -82,3 +90,14 @@
         }
     }
 </script>
+
+<style scoped>
+    .image-display {
+        display: flex;
+    }
+
+    .topic-display {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
