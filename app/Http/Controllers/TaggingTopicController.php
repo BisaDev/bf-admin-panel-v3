@@ -38,7 +38,6 @@ class TaggingTopicController extends Controller
     }
 
     public function topicsList($subject_id) {
-
         $topics = TaggingTopic::where('tagging_subject_id',$subject_id)->get();
         return $topics->toJson();
     }

@@ -17,7 +17,7 @@
     <div id="app">
         <tagging-tool
                 topics_route='{{ route('taggingtopics.list') }}'
-                tagging_route='{{ route('taggingtool') }}'
+                questions_route='{{ route('taggingtool.question') }}'
                 subject_id="{{$subject->id}}"
         ></tagging-tool>
     </div>
