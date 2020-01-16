@@ -16,6 +16,7 @@
 @section('content')
     <div id="app">
         <tagging-tool
+                topics_route='{{ route('taggingtopics.list') }}'
                 tagging_route='{{ route('taggingtool') }}'
                 subject_id="{{$subject->id}}"
         ></tagging-tool>

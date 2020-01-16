@@ -17,7 +17,7 @@
                         <td class="text-center">0</td>
                         <td class="text-center">0</td>
                         <td class="text-center">
-                            <a :href="`${tagging_route}/tag/${subject.id}`">
+                            <a :href="`${tagging_route}/${subject.id}`">
                                 <button  class="btn btn-info">
                                     Start Tagging
                                 </button>

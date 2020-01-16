@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
     Route::get('taggingtool',                           'TaggingToolController@index')->name('taggingtool');
-    Route::get('taggingtool/tag/{subject_id}',          'TaggingToolController@tag')->name('taggingtool.tag');
+    Route::get('taggingtool/tag/{subject_id?}',          'TaggingToolController@tag')->name('taggingtool.tag');
     Route::get('taggingtool/question/{subject_id}',     'TaggingToolController@questions')->name('taggingtool.question');
 
     Route::resource('image-upload',                     'ImageUploadController', ['except' =>['show']]);
@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::resource('taggingtopics',                    'TaggingTopicController',['except' =>['index', 'show']]);
     Route::get('taggingtopics/create/{subject_id}',     'TaggingTopicController@create')->name('taggingtopics.create');
+    Route::get('taggingtopics/list/{subject_id?}',      'TaggingTopicController@topicsList')->name('taggingtopics.list');
 
     Route::resource('grade_levels',                     'GradeLevelController');
     Route::post('grade_levels/{grade_level}',           'GradeLevelController@show')->name('grade_levels.show.search');

@@ -25,6 +25,7 @@
             const vueInstance = this;
             const subjectID = this.subject_id;
             const questionUrl = `${this.tagging_route}/question/${subjectID}`;
+            console.log(this.topics_route);
 
             axios.get(questionUrl)
                 .then(function (response) {
@@ -38,6 +39,7 @@
         },
         props: {
             'subject_id' : String,
+            'topics_route' : String,
             'tagging_route' : String
         }
     }
