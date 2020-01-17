@@ -23,7 +23,7 @@ class TaggingToolController extends Controller
 
     }
 
-    public function questions($subject_id) {
+    public function questions_list($subject_id) {
         //to do: add whereNull filter
         $questions =  TaggingQuestion::where('tagging_subject_id',$subject_id)->with('image');
 

@@ -32,6 +32,7 @@
             const subjectID = this.subject_id;
             const questionUrl = `${this.questions_route}/${subjectID}`;
             const topicsUrl = `${this.topics_route}/${subjectID}`;
+            console.log(questionUrl)
 
             axios.get(questionUrl)
                 .then(function (response) {
