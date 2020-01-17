@@ -26,6 +26,10 @@ class TaggingToolController extends Controller
     public function set_topic(Request $request) {
         $topic_id = $request->topic_id;
         $question_id = $request->question_id;
+
+        $question = TaggingQuestion::find($request->question_id);
+        $question->tagging_topic_id = $request->topic_id;
+        $question->save();
         return $request;
     }
 

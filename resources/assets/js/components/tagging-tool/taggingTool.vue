@@ -11,7 +11,7 @@
                         {{topic.name}}
                     </button>
                 </div>
-                <button class="btn btn-info btn-next" @click="tagCount++">
+                <button class="btn btn-info btn-next" @click="nextQuestion">
                     Next question
                 </button>
             </div>
@@ -29,22 +29,24 @@
             }
         },
         methods: {
-            handleTagging: function (topic,question) {
+            handleTagging: function (topic, question) {
+                const vueInstance = this;
                 const url = `${this.tagging_route}/${topic}`;
                 const payload = {
                     topic_id: topic,
-                    question_id:question,
+                    question_id: question,
                 };
 
-                console.log(question);
-
                 axios.post(url, payload)
-                    .then(function (response) {
-                        console.log(response)
+                    .then(function () {
+                        vueInstance.nextQuestion()
                     })
                     .catch(function (error) {
                         console.log(error)
                     })
+            },
+            nextQuestion: function () {
+                this.tagCount++
             }
         },
         mounted: function () {
@@ -56,7 +58,6 @@
             axios.get(questionUrl)
                 .then(function (response) {
                     vueInstance.questionsToTag = response.data;
-                    console.log(response.data)
 
                     axios.get(topicsUrl)
                         .then(function (response) {
