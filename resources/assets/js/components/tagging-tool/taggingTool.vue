@@ -1,6 +1,7 @@
 <template>
-    <div class="col-sm-12 tagging-tool" v-if="questionsToTag">
-        <div class="card-box" v-for="(question, index) in questionsToTag" v-if="tagCount === index">
+    <div class="col-sm-12 tagging-tool">
+        <div class="card-box" v-for="(question, index) in questionsToTag"
+             v-if="questionsToTag && tagCount === index">
             <div class="image-display">
                 <img class="tag-image"
                      :src="`${question.image.image_url}`"
@@ -15,6 +16,9 @@
                     Next question
                 </button>
             </div>
+        </div>
+        <div class="card-box text-center image-display" v-if="!questionsToTag">
+            <h2 class="success-text">All questions tagged !</h2>
         </div>
     </div>
 </template>
@@ -46,7 +50,19 @@
                     })
             },
             nextQuestion: function () {
-                this.tagCount++
+                let {tagCount} = this;
+                let maxCount;
+                this.questionsToTag
+                    ? maxCount = this.questionsToTag.length - 1
+                    : maxCount = 0;
+
+                if (tagCount < maxCount) {
+                    this.tagCount++;
+                    console.log(tagCount + "/" + this.questionsToTag.length)
+                } else if (tagCount === maxCount) {
+                    console.log("Max count reached");
+                    this.questionsToTag = null;
+                }
             }
         },
         mounted: function () {
@@ -57,15 +73,18 @@
 
             axios.get(questionUrl)
                 .then(function (response) {
-                    vueInstance.questionsToTag = response.data;
+                    if (response.data.length > 0) {
+                        vueInstance.questionsToTag = response.data;
 
-                    axios.get(topicsUrl)
-                        .then(function (response) {
-                            vueInstance.topicsList = response.data;
-                        })
-                        .catch(function (err) {
-                            console.log(err)
-                        })
+                        axios.get(topicsUrl)
+                            .then(function (response) {
+                                vueInstance.topicsList = response.data;
+                            })
+                            .catch(function (err) {
+                                console.log(err)
+                            })
+                    }
+
                 })
                 .catch(function (err) {
                     console.log(err)
@@ -119,5 +138,9 @@
 
     .btn-next {
         height: 80px;
+    }
+
+    .success-text {
+        min-width: 100%;
     }
 </style>
