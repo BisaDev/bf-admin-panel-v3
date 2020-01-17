@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::get('taggingtool',                           'TaggingToolController@index')->name('taggingtool');
     Route::get('taggingtool/tag/{subject_id?}',         'TaggingToolController@tag')->name('taggingtool.tag');
+    Route::post('taggingtool/set_topic/{topic_id?}',    'TaggingToolController@set_topic')->name('taggingtool.set_topic');
     Route::get('taggingtool/question_list/{subject_id?}','TaggingToolController@questions_list')->name('taggingtool.question_list');
 
     Route::resource('image-upload',                     'ImageUploadController', ['except' =>['show']]);

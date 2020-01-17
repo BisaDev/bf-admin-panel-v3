@@ -6,11 +6,12 @@
                      :src="`${question.image.image_url}`"
                      :alt="`${question.image.image_url}`">
                 <div class="topic-display">
-                    <button class="topic-item btn" v-for="topic in topicsList">
+                    <button class="topic-item btn" v-for="topic in topicsList"
+                            @click="handleTagging(topic.id,question.id)">
                         {{topic.name}}
                     </button>
                 </div>
-                <button class="btn btn-info" @click="tagCount++">
+                <button class="btn btn-info btn-next" @click="tagCount++">
                     Next question
                 </button>
             </div>
@@ -27,21 +28,39 @@
                 questionsToTag: null,
             }
         },
+        methods: {
+            handleTagging: function (topic,question) {
+                const url = `${this.tagging_route}/${topic}`;
+                const payload = {
+                    topic_id: topic,
+                    question_id:question,
+                };
+
+                console.log(question);
+
+                axios.post(url, payload)
+                    .then(function (response) {
+                        console.log(response)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            }
+        },
         mounted: function () {
             const vueInstance = this;
             const subjectID = this.subject_id;
             const questionUrl = `${this.questions_route}/${subjectID}`;
             const topicsUrl = `${this.topics_route}/${subjectID}`;
-            console.log(questionUrl)
 
             axios.get(questionUrl)
                 .then(function (response) {
                     vueInstance.questionsToTag = response.data;
+                    console.log(response.data)
 
                     axios.get(topicsUrl)
                         .then(function (response) {
                             vueInstance.topicsList = response.data;
-                            console.log(response.data)
                         })
                         .catch(function (err) {
                             console.log(err)
@@ -55,6 +74,7 @@
         props: {
             'subject_id': String,
             'topics_route': String,
+            'tagging_route': String,
             'questions_route': String
         }
     }
@@ -62,15 +82,17 @@
 
 <style scoped>
     .image-display {
-        display: flex;
-        justify-content: space-between;
         width: 100%;
+        display: flex;
+        min-height: 556px;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .topic-display {
+        width: 35%;
         display: flex;
         flex-direction: column;
-        width: 35%;
     }
 
     .topic-item {
@@ -92,5 +114,9 @@
 
     .tag-image {
         width: 35%;
+    }
+
+    .btn-next {
+        height: 80px;
     }
 </style>
