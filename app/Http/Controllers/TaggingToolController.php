@@ -7,9 +7,17 @@ use Brightfox\TaggingTopic;
 use Illuminate\Http\Request;
 use Brightfox\TaggingSubject;
 use Brightfox\TaggingQuestion;
+use Brightfox\Http\Transformers\TaggingQuestionTransformer;
 
 class TaggingToolController extends Controller
 {
+    private $transformer;
+
+    public function __construct(TaggingQuestionTransformer $transformer)
+    {
+        $this->transformer = $transformer;
+    }
+
     public function index() {
         $instructors = User::role('instructor')->get();
         $subjects = TaggingSubject::all();
@@ -38,6 +46,8 @@ class TaggingToolController extends Controller
         //to do: add whereNull filter
         $questions =  TaggingQuestion::where('tagging_subject_id',$subject_id)
             ->with('image')->whereNull('tagging_topic_id')->get();
+
+        $questions = $this->transformer->transform($questions);
 
         $topics = TaggingTopic::where('tagging_subject_id',$subject_id)->get();
 
