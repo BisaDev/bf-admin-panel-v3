@@ -3,6 +3,7 @@
 namespace Brightfox\Http\Controllers;
 
 use Brightfox\Models\User;
+use Brightfox\TaggingTopic;
 use Illuminate\Http\Request;
 use Brightfox\TaggingSubject;
 use Brightfox\TaggingQuestion;
@@ -36,11 +37,12 @@ class TaggingToolController extends Controller
     public function questions_list($subject_id) {
         //to do: add whereNull filter
         $questions =  TaggingQuestion::where('tagging_subject_id',$subject_id)
-            ->with('image')->whereNull('tagging_topic_id');
+            ->with('image')->whereNull('tagging_topic_id')->get();
 
-        $questions = $questions->get();
+        $topics = TaggingTopic::where('tagging_subject_id',$subject_id)->get();
 
-        return $questions->toJson();
+        return [$questions , $topics];
+
     }
 
 }

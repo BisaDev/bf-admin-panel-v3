@@ -74,15 +74,9 @@
             axios.get(questionUrl)
                 .then(function (response) {
                     if (response.data.length > 0) {
-                        vueInstance.questionsToTag = response.data;
-
-                        axios.get(topicsUrl)
-                            .then(function (response) {
-                                vueInstance.topicsList = response.data;
-                            })
-                            .catch(function (err) {
-                                console.log(err)
-                            })
+                        const {data} = response;
+                        vueInstance.questionsToTag = data[0];
+                        vueInstance.topicsList = data[1];
                     }
 
                 })
