@@ -2,6 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Brightfox\TaggingSubject;
 use Illuminate\Http\Request;
 
 class ImageDownloadController extends Controller
@@ -9,7 +10,8 @@ class ImageDownloadController extends Controller
 
     public function index()
     {
-        return(view('image_download.index'));
+        $subjects = TaggingSubject::all();
+        return view('image_download.index', compact('subjects'));
     }
 
     public function create()

@@ -13,6 +13,8 @@
 
 @section('content')
     <div id="app" class="container">
-        <down-wrapper></down-wrapper>
+        <down-wrapper
+                :subjects="{{ json_encode($subjects) }}"
+        ></down-wrapper>
     </div>
 @endsection
