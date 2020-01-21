@@ -4,7 +4,7 @@
             <div class="card-box">
                 <div>
                     <label class="filter-input">Subject:
-                        <select v-model="currentSelection.subject" name="subject" class="form-control">
+                        <select v-model="currentSelection.subject" name="subject" class="form-control" @change="getTopicsList($event)">
                             <option value="">Select subject</option>
                             <option v-for="(subject, index) in subjects" :value="index">
                                 {{subject.name}}
@@ -15,8 +15,8 @@
                     <label class="filter-input">Topic:
                         <select v-model="currentSelection.topic" name="subject" class="form-control">
                             <option value="">Select topic</option>
-                            <option v-for="(subject, index) in subjects" :value="index">
-                                {{subject.name}}
+                            <option v-for="(topics, index) in topicsList" :value="index">
+                                {{topics.name}}
                             </option>
                         </select>
                     </label>
@@ -46,11 +46,24 @@
                 currentSelection: {
                     subject: null,
                     topic: null
-                }
+                },
+                topicsList: null
+
             }
         },
+        methods: {
+            getTopicsList : function (selection) {
+                const inputIndex = selection.target.value;
+                this.topicsList = this.subjects[inputIndex].topics;
+                this.currentSelection.topic = null;
+            }
+        },
+        mounted() {
+            console.log(this.subjects)
+        },
         props: {
-            subjects: Array
+            'subjects': Array,
+            'topics_route': String,
         }
     }
 </script>

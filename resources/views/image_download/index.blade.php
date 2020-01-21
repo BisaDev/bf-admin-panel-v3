@@ -14,6 +14,7 @@
 @section('content')
     <div id="app" class="container">
         <down-wrapper
+                topics_route="{{ route('taggingtopics.list') }}"
                 :subjects="{{ json_encode($subjects) }}"
         ></down-wrapper>
     </div>

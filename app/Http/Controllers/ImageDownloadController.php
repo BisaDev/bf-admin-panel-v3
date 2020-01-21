@@ -10,7 +10,7 @@ class ImageDownloadController extends Controller
 
     public function index()
     {
-        $subjects = TaggingSubject::all();
+        $subjects = TaggingSubject::with('topics')->get();
         return view('image_download.index', compact('subjects'));
     }
 

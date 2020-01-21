@@ -88,7 +88,6 @@
         },
         props: {
             'subject_id': String,
-            'topics_route': String,
             'tagging_route': String,
             'questions_route': String
         }
