@@ -34,20 +34,46 @@
 
                     </thead>
                     <tbody>
-                        <tr v-for="result in results">
-                            <th width="300">
-                                <img :src="result.image.image_url" :alt="result.tagging_topic_id">
-                            </th>
-                            <th width="300" class="text-center">{{result.image.image_answer}}</th>
-                            <th width="300" class="text-center">
-                                <img :src="result.image.explanation_url" :alt="result.tagging_topic_id">
-                            </th>
-                            <th width="110">Download Zip</th>
-                        </tr>
+                    <tr v-for="result in results">
+                        <th>
+                            <button type="button" data-toggle="modal" data-target="#previewModal"
+                                    @click="updatePreviewModal(result.image.image_url)">
+                                <img class="img-preview" :src="result.image.image_url"
+                                     :alt="result.tagging_topic_id">
+                            </button>
+                        </th>
+                        <th class="text-center">{{result.image.image_answer}}</th>
+                        <th>
+                            <button type="button" data-toggle="modal" data-target="#previewModal"
+                                    @click="updatePreviewModal(result.image.image_url)">
+                                <img class="img-preview" :src="result.image.explanation_url"
+                                     :alt="result.tagging_topic_id">
+                            </button>
+                        </th>
+                        <th>Download Zip</th>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <!-- Image Modal -->
+        <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img class="modal-img" :src="modalImageUrl" alt="modal-img"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -57,6 +83,7 @@
             return {
                 results: null,
                 topicsList: null,
+                modalImageUrl: "",
                 currentSelection: {
                     subject: null,
                     topic: null
@@ -85,6 +112,9 @@
                     .catch(function (err) {
                         console.log(err)
                     })
+            },
+            updatePreviewModal: function (imageUrl) {
+                this.modalImageUrl = imageUrl
             }
         },
         mounted() {
