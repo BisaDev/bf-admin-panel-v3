@@ -13,6 +13,6 @@
 
 @section('content')
     <div id="app" class="container">
-        Image download
+        <down-wrapper></down-wrapper>
     </div>
 @endsection

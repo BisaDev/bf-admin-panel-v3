@@ -81,6 +81,7 @@
                     <ul class="list-unstyled">
                         <li class="{{ Request::is('tagging_tool/*')? 'active' : '' }}"><a href="{{ route('taggingtool') }}">Dashboard</a></li>
                         <li class="{{ Request::is('tagging_subject.show')? 'active' : '' }}"><a href="{{ route('taggingsubjects.index') }}">Manage subjects</a></li>
+                        <li class="{{ Request::is('image-download.index')? 'active' : '' }}"><a href="{{ route('image-download.index') }}">Image download</a></li>
                     </ul>
                 </li>
 

@@ -29,6 +29,7 @@ Vue.component('tagging-tool', require('./components/tagging-tool/taggingTool'));
 Vue.component('up-wrapper', require('./components/tagging-tool/upWrapper'));
 Vue.component('up-input-group', require('./components/tagging-tool/upInputGroup'));
 Vue.component('up-inputs', require('./components/tagging-tool/upInputs'));
+Vue.component('down-wrapper', require('./components/tagging-tool/downWrapper'));
 
 const app = new Vue({
     el: '#app'
