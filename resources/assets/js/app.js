@@ -34,7 +34,7 @@ const app = new Vue({
     el: '#app'
 });
 
-/*
+
 import index from './pages/index';
 import index_academic_content from './pages/index-academic-content';
 import index_users from './pages/index-users';
@@ -71,7 +71,7 @@ const vue_elements = [
 
 vue_elements.forEach(function (element) {
     element.init();
-});*/
+});
 
 
 /**
