@@ -68,7 +68,6 @@
                 const vueInstance = this;
                 const subjectID = this.subject_id;
                 const questionUrl = `${this.questions_route}/${subjectID}`;
-                const topicsUrl = `${this.topics_route}/${subjectID}`;
 
                 axios.get(questionUrl)
                     .then(function (response) {
@@ -96,47 +95,3 @@
     }
 </script>
 
-<style scoped>
-    .image-display {
-        width: 100%;
-        display: flex;
-        min-height: 556px;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .topic-display {
-        width: 35%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .topic-item {
-        width: 100%;
-    }
-
-    .topic-item:nth-child(odd) {
-        background-color: #eeeeee;
-    }
-
-    .topic-item:nth-child(even) {
-        color: wheat;
-        background-color: #336ca2;
-    }
-
-    .topic-item:nth-child(even):hover {
-        color: white;
-    }
-
-    .tag-image {
-        width: 35%;
-    }
-
-    .btn-next {
-        height: 80px;
-    }
-
-    .success-text {
-        min-width: 100%;
-    }
-</style>
