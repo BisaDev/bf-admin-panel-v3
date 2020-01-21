@@ -16,7 +16,13 @@
                         <th>{{ subject.name }}</th>
                         <td class="text-center">0</td>
                         <td class="text-center">0</td>
-                        <td class="text-center"><button class="btn btn-info">Start Tagging</button></td>
+                        <td class="text-center">
+                            <a :href="`${tagging_route}/${subject.id}`">
+                                <button  class="btn btn-info">
+                                    Start Tagging
+                                </button>
+                            </a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -46,8 +52,9 @@
 <script>
     export default {
         props: {
+            "subjects": Array,
             "instructors": Array,
-            "subjects" : Array
+            "tagging_route": String
         }
     }
 </script>

@@ -10,6 +10,12 @@ class TaggingImage extends Model
         'image_answer', 'image_url', 'tagging_question_id', 'explanation_url'
     ];
 
+    private $imagePath = 'public/tt_images/';
+
+    public function getImagePath () {
+        return $this->imagePath;
+    }
+
     public function question () {
         return $this->hasOne(TaggingQuestion::class);
     }

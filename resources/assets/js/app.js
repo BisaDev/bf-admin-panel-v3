@@ -25,6 +25,7 @@ Vue.component('tab', require('./components/tab'));
 Vue.component('tabs', require('./components/tabs'));
 Vue.component('upload-image', require('./components/uploadImage'));
 Vue.component('tag-stats', require('./components/tagging-tool/tagStats'));
+Vue.component('tagging-tool', require('./components/tagging-tool/taggingTool'));
 Vue.component('up-wrapper', require('./components/tagging-tool/upWrapper'));
 Vue.component('up-input-group', require('./components/tagging-tool/upInputGroup'));
 Vue.component('up-inputs', require('./components/tagging-tool/upInputs'));
@@ -32,6 +33,7 @@ Vue.component('up-inputs', require('./components/tagging-tool/upInputs'));
 const app = new Vue({
     el: '#app'
 });
+
 
 import index from './pages/index';
 import index_academic_content from './pages/index-academic-content';
@@ -70,6 +72,7 @@ const vue_elements = [
 vue_elements.forEach(function (element) {
     element.init();
 });
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

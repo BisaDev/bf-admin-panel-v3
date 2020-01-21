@@ -23,6 +23,7 @@ class TaggingTopicController extends Controller
     {
         $topic = TaggingTopic::find($id);
         $subject= TaggingSubject::find($topic->tagging_subject_id);
+
         return view('tagging_topic.edit', compact(['topic' , 'subject']));
     }
 
@@ -35,5 +36,10 @@ class TaggingTopicController extends Controller
         $subject = TaggingSubject::find($topic->tagging_subject_id);
 
         return redirect(route('taggingsubjects.show', compact('subject')));
+    }
+
+    public function topicsList($subject_id) {
+        $topics = TaggingTopic::where('tagging_subject_id',$subject_id)->get();
+        return $topics->toJson();
     }
 }

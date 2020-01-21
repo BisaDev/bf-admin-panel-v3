@@ -31,14 +31,14 @@ class ImageUploadController extends Controller
                     $extension = $value->getClientOriginalExtension();
                     $fileName= "$subject-$answer-$key.$extension";
 
-                    Storage::put("$path$fileName", file_get_contents($value));
+                    Storage::disk('public')->put("$path$fileName", file_get_contents($value));
                     $images[$keys[1]]["questionImgUrl"] = $fileName;
                 }
                 if (strstr($key, "explanationImg") && $value != "null") {
                     $extension = $value->getClientOriginalExtension();
                     $fileName= "$subject-$answer-$key.$extension";
 
-                    Storage::put("$path$fileName", file_get_contents($value));
+                    Storage::disk('public')->put("$path$fileName", file_get_contents($value));
                     $images[$keys[1]]["explanationImgUrl"] = $fileName;
                 }
             }
