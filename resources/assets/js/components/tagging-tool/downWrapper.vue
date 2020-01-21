@@ -71,7 +71,6 @@
         },
         props: {
             'subjects': Array,
-            'topics_route': String,
         }
     }
 </script>
