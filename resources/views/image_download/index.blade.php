@@ -3,7 +3,7 @@
 
 @section('breadcrumbs')
     @include('partials.breadcrumbs', [
-        'pageTitle' => 'Image upload',
+        'pageTitle' => 'Image download',
         'breadcrumbs' => [
             [ 'label' => 'Brightfox', 'url' =>  route('dashboard')]
         ],
@@ -14,6 +14,7 @@
 @section('content')
     <div id="app" class="container">
         <down-wrapper
+                question_route="{{route('imagedownload.question')}}"
                 :subjects="{{ json_encode($subjects) }}"
         ></down-wrapper>
     </div>

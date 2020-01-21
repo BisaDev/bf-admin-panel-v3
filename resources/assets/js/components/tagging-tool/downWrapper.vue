@@ -14,7 +14,8 @@
                     </label>
 
                     <label class="filter-input">Topic:
-                        <select v-model="currentSelection.topic" name="subject" class="form-control" @change="getQuestions($event)">
+                        <select v-model="currentSelection.topic" name="subject" class="form-control"
+                                @change="getQuestions($event)">
                             <option value="">Select topic</option>
                             <option v-for="topic in topicsList" :value="topic.id">
                                 {{topic.name}}
@@ -54,7 +55,7 @@
             }
         },
         methods: {
-            getTopicsList : function (selection) {
+            getTopicsList: function (selection) {
                 this.results = null;
                 this.currentSelection.topic = null;
                 const inputIndex = selection.target.value;
@@ -63,14 +64,24 @@
             },
             getQuestions: function (event) {
                 const topicId = event.target.value;
-                console.log(topicId);
+                const url = `${this.question_route}/${topicId}`;
+                axios.get(url)
+                .then(function (response) {
+                    console.log(response.data)
+
+                })
+                .catch(function (err) {
+                    console.log(err)
+                })
             }
         },
         mounted() {
+            console.log(this.question_route);
             console.log(this.subjects)
         },
         props: {
             'subjects': Array,
+            'question_route': String
         }
     }
 </script>

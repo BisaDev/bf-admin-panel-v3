@@ -14,4 +14,8 @@ class ImageDownloadController extends Controller
         return view('image_download.index', compact('subjects'));
     }
 
+    public function question($topic_id){
+        return $topic_id;
+    }
+
 }
