@@ -63,27 +63,29 @@
                     console.log("Max count reached");
                     this.questionsToTag = null;
                 }
+            },
+            getQuestions () {
+                const vueInstance = this;
+                const subjectID = this.subject_id;
+                const questionUrl = `${this.questions_route}/${subjectID}`;
+                const topicsUrl = `${this.topics_route}/${subjectID}`;
+
+                axios.get(questionUrl)
+                    .then(function (response) {
+                        if (response.data.length > 0) {
+                            const {data} = response;
+                            vueInstance.questionsToTag = data[0];
+                            vueInstance.topicsList = data[1];
+                        }
+
+                    })
+                    .catch(function (err) {
+                        console.log(err)
+                    })
             }
         },
         mounted: function () {
-            const vueInstance = this;
-            const subjectID = this.subject_id;
-            const questionUrl = `${this.questions_route}/${subjectID}`;
-            const topicsUrl = `${this.topics_route}/${subjectID}`;
-
-            axios.get(questionUrl)
-                .then(function (response) {
-                    if (response.data.length > 0) {
-                        const {data} = response;
-                        vueInstance.questionsToTag = data[0];
-                        vueInstance.topicsList = data[1];
-                    }
-
-                })
-                .catch(function (err) {
-                    console.log(err)
-                })
-
+            this.getQuestions()
         },
         props: {
             'subject_id': String,
