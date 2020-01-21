@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
     Route::resource('image-upload',                     'ImageUploadController', ['except' =>['show']]);
     Route::post('image-upload/upload',                  'ImageUploadController@upload')->name('imageupload.upload');
 
+    Route::resource('image-download',                    'ImageDownloadController');
+
     Route::resource('taggingsubjects',                  'TaggingSubjectController');
     Route::get('TaggingSubjectController/getsubjects',  'TaggingSubjectController@getSubjects')->name('taggingsubjects.subjects');
 
