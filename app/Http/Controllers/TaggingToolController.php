@@ -33,17 +33,4 @@ class TaggingToolController extends Controller
         $question->save();
         return $request;
     }
-
-    public function questions_list($subject_id) {
-        $questions =  TaggingQuestion::where('tagging_subject_id',$subject_id)
-            ->with('image')->whereNull('tagging_topic_id')->get();
-
-        $questions = $this->transformer->transform($questions);
-
-        $topics = TaggingTopic::where('tagging_subject_id',$subject_id)->get();
-
-        return [$questions , $topics];
-
-    }
-
 }

@@ -26,14 +26,24 @@
                 <table class="table table-responsive table-hover model-list" v-if="results">
                     <thead>
                     <tr>
-                        <th width="300">Image</th>
-                        <th width="300" class="text-center">Subject</th>
+                        <th width="300">Question Image</th>
                         <th width="300" class="text-center">Answer</th>
+                        <th width="300" class="text-center">Answer explanation</th>
                         <th width="110">Download Zip</th>
                     </tr>
+
                     </thead>
                     <tbody>
-
+                        <tr v-for="result in results">
+                            <th width="300">
+                                <img :src="result.image.image_url" :alt="result.tagging_topic_id">
+                            </th>
+                            <th width="300" class="text-center">{{result.image.image_answer}}</th>
+                            <th width="300" class="text-center">
+                                <img :src="result.image.explanation_url" :alt="result.tagging_topic_id">
+                            </th>
+                            <th width="110">Download Zip</th>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -65,14 +75,16 @@
             getQuestions: function (event) {
                 const topicId = event.target.value;
                 const url = `${this.question_route}/${topicId}`;
+                const vueInstance = this;
                 axios.get(url)
-                .then(function (response) {
-                    console.log(response.data)
+                    .then(function (response) {
+                        vueInstance.results = response.data;
+                        console.log(response.data)
 
-                })
-                .catch(function (err) {
-                    console.log(err)
-                })
+                    })
+                    .catch(function (err) {
+                        console.log(err)
+                    })
             }
         },
         mounted() {
