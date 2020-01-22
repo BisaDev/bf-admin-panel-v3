@@ -57,6 +57,7 @@
                 <button class="btn btn-info btn-zip" @click="handleDownload">
                     Download zip
                 </button>
+                <a id="download-link" :href="downloadLink.href" download="file.zip">a</a>
             </div>
         </div>
 
@@ -86,6 +87,10 @@
             return {
                 results: null,
                 topicsList: null,
+                downloadLink: {
+                    href: "testo",
+                    name: "file.jpg"
+                },
                 modalImageUrl: "",
                 currentSelection: {
                     subject: null,
@@ -119,31 +124,23 @@
                 this.modalImageUrl = imageUrl
             },
             handleDownload: function () {
-                console.log(this.download_route);
+                const vueInstance = this;
                 const imageFile = this.results[0].image.image_url;
-                const explanationFile = this.results[0].image.image_url;
-                // hardCoded ids for testing , will add dynamic topic once download is working
+                const explanationFile = this.results[0].image.explanation_url;
+
                 const url = `${this.download_route}`;
 
                 const config = {
-                    url,
-                    method: 'GET',
-                    responseType: 'blob',
                     params: {
                         imageFile,
                         explanationFile
                     }
                 };
 
-                axios(config)
+                axios.get(url , config)
                     .then(function (response) {
                         console.log(response.data);
-                        const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
-                        const link = document.createElement('a');
-                        link.href = downloadUrl;
-                        link.setAttribute('download', 'file.jpg');
-                        document.body.appendChild(link);
-                        link.click();
+                        vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
                     })
                     .catch(function (err) {
                         console.log(err);

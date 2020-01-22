@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Brightfox\TaggingSubject;
 use Brightfox\TaggingQuestion;
 use Brightfox\Http\Transformers\TaggingQuestionTransformer;
+use function GuzzleHttp\Psr7\str;
 
 class ImageDownloadController extends Controller
 {
@@ -33,15 +34,18 @@ class ImageDownloadController extends Controller
 
     public function download(Request $request) {
 
+        $zip_file = 'images.zip';
 
         $questionImg = $request->imageFile;
         $explanationImg = $request->explanationFile;
-        $dude = 'storage/IPN - Physics-answer2-questionImage_0.png';
 
-        $file= public_path()."/download/info.pdf";
+        $zip = new \ZipArchive();
+        $zip->open($zip_file , \ZipArchive::CREATE );
+        $zip->addFile(public_path($explanationImg) , $explanationImg);
+        $zip->addFile(public_path($questionImg), $questionImg);
+        $zip->close();
 
-
-        return response()->download(public_path($questionImg));
+        return response()->download($zip_file);
     }
 
 }
