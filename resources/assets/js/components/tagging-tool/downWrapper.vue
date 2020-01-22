@@ -37,16 +37,16 @@
                     <tr v-for="result in results">
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.image.image_url)">
-                                <img class="img-preview" :src="result.image.image_url"
+                                    @click="updatePreviewModal(result.image.imageFile)">
+                                <img class="img-preview" :src="result.image.imageFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
                         <th class="text-center">{{result.image.image_answer}}</th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.image.image_url)">
-                                <img class="img-preview" :src="result.image.explanation_url"
+                                    @click="updatePreviewModal(result.image.explanationFile)">
+                                <img class="img-preview" :src="result.image.explanationFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
@@ -125,8 +125,8 @@
             },
             handleDownload: function () {
                 const vueInstance = this;
-                const imageFile = this.results[0].image.image_url;
-                const explanationFile = this.results[0].image.explanation_url;
+                const imageFile = this.results[0].image.imageFile;
+                const explanationFile = this.results[0].image.explanationFile;
 
                 const url = `${this.download_route}`;
 
