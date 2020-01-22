@@ -2,11 +2,10 @@
 
 namespace Brightfox\Http\Controllers;
 
-use Brightfox\Http\Transformers\TaggingQuestionTransformer;
-use Brightfox\TaggingImage;
-use Brightfox\TaggingQuestion;
-use Brightfox\TaggingSubject;
 use Illuminate\Http\Request;
+use Brightfox\TaggingSubject;
+use Brightfox\TaggingQuestion;
+use Brightfox\Http\Transformers\TaggingQuestionTransformer;
 
 class ImageDownloadController extends Controller
 {
@@ -30,6 +29,19 @@ class ImageDownloadController extends Controller
         $question = $this->transformer->transform($question);
 
         return $question->toJson();
+    }
+
+    public function download(Request $request) {
+
+
+        $questionImg = $request->imageFile;
+        $explanationImg = $request->explanationFile;
+        $dude = 'storage/IPN - Physics-answer2-questionImage_0.png';
+
+        $file= public_path()."/download/info.pdf";
+
+
+        return response()->download(public_path($questionImg));
     }
 
 }

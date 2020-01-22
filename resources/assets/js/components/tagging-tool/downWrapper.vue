@@ -54,6 +54,9 @@
                     </tr>
                     </tbody>
                 </table>
+                <button class="btn btn-info btn-zip" @click="handleDownload">
+                    Download zip
+                </button>
             </div>
         </div>
 
@@ -106,7 +109,6 @@
                 axios.get(url)
                     .then(function (response) {
                         vueInstance.results = response.data;
-                        console.log(response.data)
 
                     })
                     .catch(function (err) {
@@ -115,15 +117,43 @@
             },
             updatePreviewModal: function (imageUrl) {
                 this.modalImageUrl = imageUrl
+            },
+            handleDownload: function () {
+                console.log(this.download_route);
+                const imageFile = this.results[0].image.image_url;
+                const explanationFile = this.results[0].image.image_url;
+                // hardCoded ids for testing , will add dynamic topic once download is working
+                const url = `${this.download_route}`;
+
+                const config = {
+                    url,
+                    method: 'GET',
+                    responseType: 'blob',
+                    params: {
+                        imageFile,
+                        explanationFile
+                    }
+                };
+
+                axios(config)
+                    .then(function (response) {
+                        console.log(response.data);
+                        const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', 'file.jpg');
+                        document.body.appendChild(link);
+                        link.click();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    })
             }
-        },
-        mounted() {
-            console.log(this.question_route);
-            console.log(this.subjects)
         },
         props: {
             'subjects': Array,
-            'question_route': String
+            'question_route': String,
+            'download_route': String
         }
     }
 </script>

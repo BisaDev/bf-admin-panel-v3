@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::get('image-download',                        'ImageDownloadController@index')->name('imagedownload.index');
     Route::get('image-download/question/{topic_id?}',   'ImageDownloadController@question')->name('imagedownload.question');
+    Route::get('image-download/download',              'ImageDownloadController@download')->name('imagedownload.download');
 
     Route::resource('taggingsubjects',                  'TaggingSubjectController');
     Route::get('TaggingSubjectController/getsubjects',  'TaggingSubjectController@getSubjects')->name('taggingsubjects.subjects');

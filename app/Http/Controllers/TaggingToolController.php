@@ -3,7 +3,6 @@
 namespace Brightfox\Http\Controllers;
 
 use Brightfox\Models\User;
-use Brightfox\TaggingTopic;
 use Illuminate\Http\Request;
 use Brightfox\TaggingSubject;
 use Brightfox\TaggingQuestion;
@@ -28,8 +27,8 @@ class TaggingToolController extends Controller
         $topic_id = $request->topic_id;
         $question_id = $request->question_id;
 
-        $question = TaggingQuestion::find($request->question_id);
-        $question->tagging_topic_id = $request->topic_id;
+        $question = TaggingQuestion::find($question_id);
+        $question->tagging_topic_id = $topic_id;
         $question->save();
         return $request;
     }
