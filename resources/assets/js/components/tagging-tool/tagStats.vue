@@ -1,5 +1,5 @@
 <template>
-    <div id="index-container" class="row">
+    <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
                 <table class="table table-responsive table-hover model-list">

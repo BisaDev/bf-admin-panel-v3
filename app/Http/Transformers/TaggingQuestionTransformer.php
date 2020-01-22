@@ -9,9 +9,12 @@ class TaggingQuestionTransformer {
 
         foreach ($questions as $key => $value) {
             $filePath = $value->image->getImagePath();
-            $fileName = $value->image->image_url;
-            $fileLocation = Storage::url($filePath.$fileName);
+            $questionFile = $value->image->image_url;
+            $explanationFile = $value->image->explanation_url;
+            $fileLocation = Storage::url($filePath.$questionFile);
+            $fileLocation = Storage::url($filePath.$explanationFile);
             $value->image->image_url = $fileLocation;
+            $value->image->explanation_url = $fileLocation;
         }
         return $questions;
 
