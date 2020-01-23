@@ -27,14 +27,15 @@
                     <thead>
                     <tr>
                         <th width="300">Question Image</th>
-                        <th width="300" class="text-center">Answer</th>
+                        <th width="200" class="text-center">Answer</th>
                         <th width="300" class="text-center">Answer explanation</th>
-                        <th width="110">Download Zip</th>
+                        <th width="50" class="text-center">PDF</th>
+                        <th width="50" class="text-center">Download Zip</th>
                     </tr>
 
                     </thead>
                     <tbody>
-                    <tr v-for="result in results">
+                    <tr v-for="(result,index) in results">
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
                                     @click="updatePreviewModal(result.image.imageFile)">
@@ -42,7 +43,7 @@
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
-                        <th class="text-center">{{result.image.image_answer}}</th>
+                        <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
                                     @click="updatePreviewModal(result.image.explanationFile)">
@@ -50,7 +51,12 @@
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
-                        <th>Download Zip</th>
+                        <th class="down-input-group" >
+                            <input type="text" :value="index+1" @change="updateSelectedQuestion($event)">
+                        </th>
+                        <th class="down-input-group" >
+                            <input type="checkbox" :value="index" @change="updateSelectedQuestion($event)">
+                        </th>
                     </tr>
                     </tbody>
                 </table>
@@ -88,7 +94,7 @@
                 results: null,
                 topicsList: null,
                 downloadLink: {
-                    href: "testo",
+                    href: "",
                     name: "file.jpg"
                 },
                 modalImageUrl: "",
@@ -131,6 +137,7 @@
                 const url = `${this.download_route}`;
 
                 const config = {
+                    responseType: 'blob',
                     params: {
                         imageFile,
                         explanationFile
@@ -145,6 +152,9 @@
                     .catch(function (err) {
                         console.log(err);
                     })
+            },
+            updateSelectedQuestion (event) {
+                console.log(event)
             }
         },
         props: {
