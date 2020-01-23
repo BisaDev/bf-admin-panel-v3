@@ -118,6 +118,8 @@
             },
             handleDownload: function () {
                 const vueInstance = this;
+                const url = `${this.download_route}`;
+
                 if (this.results) {
                     let payload = {};
                     this.results.forEach(result => {
@@ -131,11 +133,6 @@
 
                         }
                     });
-
-                    const imageFile = this.results[0].image.imageFile;
-                    const explanationFile = this.results[0].image.explanationFile;
-
-                    const url = `${this.download_route}`;
 
                     const config = {
                         //responseType: 'blob',

@@ -33,18 +33,23 @@ class ImageDownloadController extends Controller
     }
 
     public function download(Request $request) {
-
+        return($request);
         $zip_file = 'images.zip';
-
-        return $request;
-
-        $questionImg = $request->imageFile;
-        $explanationImg = $request->explanationFile;
-
         $zip = new \ZipArchive();
-        $zip->open($zip_file , \ZipArchive::CREATE );
-        $zip->addFile(public_path($explanationImg) , $explanationImg);
-        $zip->addFile(public_path($questionImg), $questionImg);
+        $zip->open($zip_file);
+
+        foreach ($request->all() as $key => $value) {
+            foreach ($value as $question) {
+                $item = json_decode($question);
+                $questionImg= $item->image->imageFile;
+                $explanationImg = $item->image->explanationFile;
+                dd($explanationImg);
+
+                $zip->addFile(public_path($explanationImg) , $explanationImg);
+                $zip->addFile(public_path($questionImg), $questionImg);
+            }
+        }
+
         $zip->close();
 
         return response()->download($zip_file);
