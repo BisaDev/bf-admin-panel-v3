@@ -36,6 +36,8 @@ class ImageDownloadController extends Controller
 
         $zip_file = 'images.zip';
 
+        return $request;
+
         $questionImg = $request->imageFile;
         $explanationImg = $request->explanationFile;
 

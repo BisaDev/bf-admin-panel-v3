@@ -52,10 +52,11 @@
                             </button>
                         </th>
                         <th class="down-input-group">
-                            <input type="text" :value="index+1" @change="updateSelectedQuestion($event)">
+                            <input type="number" value=1 v-model="results[index].pdf">
                         </th>
                         <th class="down-input-group">
-                            <input type="checkbox" :value="index" @change="updateSelectedQuestion($event)">
+                            <input type="checkbox" v-model="results[index].checked"
+                                   @change="updateSelectedQuestion($event)">
                         </th>
                     </tr>
                     </tbody>
@@ -117,27 +118,40 @@
             },
             handleDownload: function () {
                 const vueInstance = this;
-                const imageFile = this.results[0].image.imageFile;
-                const explanationFile = this.results[0].image.explanationFile;
+                if (this.results) {
+                    let payload = {};
+                    this.results.forEach(result => {
+                        if (result.checked && result.pdf) {
+                            if (payload[`pdf${result.pdf}`]) {
+                                payload[`pdf${result.pdf}`].push(result);
+                            } else {
+                                payload[`pdf${result.pdf}`] = [];
+                                payload[`pdf${result.pdf}`].push(result);
+                            }
 
-                const url = `${this.download_route}`;
+                        }
+                    });
 
-                const config = {
-                    responseType: 'blob',
-                    params: {
-                        imageFile,
-                        explanationFile
-                    }
-                };
+                    const imageFile = this.results[0].image.imageFile;
+                    const explanationFile = this.results[0].image.explanationFile;
 
-                axios.get(url, config)
-                    .then(function (response) {
-                        console.log(response.data);
-                        vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                    })
+                    const url = `${this.download_route}`;
+
+                    const config = {
+                        //responseType: 'blob',
+                        params: payload
+                    };
+
+                    axios.get(url, config)
+                        .then(function (response) {
+                            console.log(response.data);
+                            vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
+                        })
+                        .catch(function (err) {
+                            console.log(err);
+                        })
+
+                }
             },
             updateSelectedQuestion(event) {
                 console.log(event)
