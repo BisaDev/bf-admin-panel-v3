@@ -59,7 +59,7 @@
                     formData.append("subject", this.subject.name);
                     formData.append("subjectID", this.subject.id);
                     this.imgInputs.forEach((inputs, index) => {
-                        formData.append(`questionImage_${index}`, inputs.questionImg);
+                        formData.append(`questionImg_${index}`, inputs.questionImg);
                         formData.append(`answer_${index}`, inputs.answer);
                         formData.append(`explanationImg_${index}`, inputs.explanationImg);
                     });
