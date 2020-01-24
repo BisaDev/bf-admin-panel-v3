@@ -14,11 +14,15 @@
                         {{subject.name}}
                     </option>
                 </select>
+                <span :class="subjectError ? 'error-msg' : ''" v-show="subjectError">
+                    Please choose a Subject
+                </span>
             </label>
         </div>
 
         <div class="form-group col-md-12" v-for="(item, index) in questions" :key="index">
             <up-input-group
+                    v-bind:subjectError.sync="subjectError"
                     :subject="subjects[currentSubject]"
                     :removeItem="() => removeInput(index)"
                     :modalCall="updateModalImg"
@@ -39,7 +43,8 @@
                 subjects: '',
                 modalImageUrl: "",
                 currentSubject: "",
-                questions: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20]
+                questions: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20],
+                subjectError: false
             }
         },
         methods: {
@@ -53,7 +58,7 @@
             },
             updateModalImg: function (imgURL) {
                 this.modalImageUrl = imgURL
-            }
+            },
         },
         mounted: function () {
             const vueInstance = this;
@@ -64,9 +69,7 @@
                     vueInstance.subjects = response.data;
                 })
                 .catch(function (error) {
-                    // handle error
                     console.log(error);
-                    console.log("dude");
                 })
         },
         props: ['subject_url' , 'update_url']
@@ -93,6 +96,12 @@
     }
 
     .subject-input {
+        min-width: 230px;
         margin-top: 18px;
+    }
+    .error-msg {
+        color: red;
+        font-size: 18px;
+        border-color: red;
     }
 </style>
