@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Brightfox\TaggingSubject;
 use Brightfox\TaggingQuestion;
 use Brightfox\Http\Transformers\TaggingQuestionTransformer;
-use function GuzzleHttp\Psr7\str;
 
 class ImageDownloadController extends Controller
 {

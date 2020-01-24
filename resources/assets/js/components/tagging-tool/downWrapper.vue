@@ -82,7 +82,7 @@
                 topicsList: null,
                 downloadLink: {
                     href: "",
-                    name: "file.jpg"
+                    name: ""
                 },
                 modalImageUrl: "",
                 currentSelection: {
@@ -145,7 +145,6 @@
 
                     axios.get(url, config)
                         .then(function (response) {
-                            console.log(response.data);
                             vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
                         })
                         .catch(function (err) {
@@ -155,7 +154,7 @@
                 }
             },
             updateSelectedQuestion(event) {
-                console.log(event)
+
             }
         },
         props: {

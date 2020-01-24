@@ -81,7 +81,6 @@
                             })
                     }
                 } else {
-                    console.log("no subject");
                     this.$emit('update:subjectError', true)
                 }
             },
