@@ -14,6 +14,7 @@
 @section('content')
     <div id="app" class="container">
         <down-wrapper
+                download_route="{{ route('imagedownload.download') }}"
                 question_route="{{route('imagedownload.question')}}"
                 :subjects="{{ json_encode($subjects) }}"
         ></down-wrapper>

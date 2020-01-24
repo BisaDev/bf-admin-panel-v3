@@ -11,10 +11,10 @@ class TaggingQuestionTransformer {
             $filePath = $value->image->getImagePath();
             $questionFile = $value->image->image_url;
             $explanationFile = $value->image->explanation_url;
-            $fileLocation = Storage::url($filePath.$questionFile);
-            $fileLocation = Storage::url($filePath.$explanationFile);
-            $value->image->image_url = $fileLocation;
-            $value->image->explanation_url = $fileLocation;
+            $questionFileUrl = Storage::url($filePath.$questionFile);
+            $explanationFileUrl = Storage::url($filePath.$explanationFile);
+            $value->image->imageFile = $questionFileUrl;
+            $value->image->explanationFile = $explanationFileUrl;
         }
         return $questions;
 

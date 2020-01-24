@@ -4,7 +4,7 @@
              v-if="questionsToTag && tagCount === index">
             <div class="image-display">
                 <img class="tag-image"
-                     :src="`${question.image.image_url}`"
+                     :src="`${question.image.imageFile}`"
                      :alt="`${question.image.image_url}`">
                 <div class="topic-display">
                     <button class="topic-item btn" v-for="topic in topicsList"

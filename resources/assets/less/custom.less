@@ -410,24 +410,38 @@ table.model-list td img{
     }
 }
 .image-download {
+    text-align:end;
+
     .filter-input {
         min-width: 49%;
+        text-align:start;
     }
 
-    .image-header {
-        min-width: 35px;
-    }
+    .down-input-group {
+        text-align: center;
+        vertical-align: middle;
 
-    .answer-header {
-        min-width: 25%;
-    }
+        input[type="checkbox"] {
+            transform: scale(2);
+        }
+        input[type="number"] {
+            width: 30px;
+            text-align: center;
+        }
 
-    .zip-header {
-        min-width: 5%;
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     }
 
     .img-preview {
         width: 100%;
+    }
+
+    .btn-zip {
+        margin-top: 25px;
     }
 }
 

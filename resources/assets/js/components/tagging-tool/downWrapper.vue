@@ -27,53 +27,50 @@
                     <thead>
                     <tr>
                         <th width="300">Question Image</th>
-                        <th width="300" class="text-center">Answer</th>
+                        <th width="200" class="text-center">Answer</th>
                         <th width="300" class="text-center">Answer explanation</th>
-                        <th width="110">Download Zip</th>
+                        <th width="50" class="text-center">PDF</th>
+                        <th width="50" class="text-center">Download Zip</th>
                     </tr>
 
                     </thead>
                     <tbody>
-                    <tr v-for="result in results">
+                    <tr v-for="(result,index) in results">
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.image.image_url)">
-                                <img class="img-preview" :src="result.image.image_url"
+                                    @click="updatePreviewModal(result.image.imageFile)">
+                                <img class="img-preview" :src="result.image.imageFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
-                        <th class="text-center">{{result.image.image_answer}}</th>
+                        <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.image.image_url)">
-                                <img class="img-preview" :src="result.image.explanation_url"
+                                    @click="updatePreviewModal(result.image.explanationFile)">
+                                <img class="img-preview" :src="result.image.explanationFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
-                        <th>Download Zip</th>
+                        <th class="down-input-group">
+                            <input type="number" value=1 v-model="results[index].pdf">
+                        </th>
+                        <th class="down-input-group">
+                            <input type="checkbox" v-model="results[index].checked"
+                                   @change="updateSelectedQuestion($event)">
+                        </th>
                     </tr>
                     </tbody>
                 </table>
+                <button class="btn btn-info btn-zip" @click="handleDownload">
+                    Download zip
+                </button>
+                <a id="download-link" :href="downloadLink.href" download="file.zip">a</a>
             </div>
         </div>
 
-        <!-- Image Modal -->
-        <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <img class="modal-img" :src="modalImageUrl" alt="modal-img"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <preview-modal
+                :modalImageUrl="modalImageUrl"
+        />
     </div>
 </template>
 
@@ -83,11 +80,16 @@
             return {
                 results: null,
                 topicsList: null,
+                downloadLink: {
+                    href: "",
+                    name: ""
+                },
                 modalImageUrl: "",
                 currentSelection: {
                     subject: null,
                     topic: null
                 },
+                source: null
 
             }
         },
@@ -98,6 +100,7 @@
                 const inputIndex = selection.target.value;
 
                 this.topicsList = this.subjects[inputIndex].topics;
+                this.source = `${this.subjects[inputIndex].name}_${this.topicsList[inputIndex].name}`
             },
             getQuestions: function (event) {
                 const topicId = event.target.value;
@@ -106,8 +109,6 @@
                 axios.get(url)
                     .then(function (response) {
                         vueInstance.results = response.data;
-                        console.log(response.data)
-
                     })
                     .catch(function (err) {
                         console.log(err)
@@ -115,15 +116,51 @@
             },
             updatePreviewModal: function (imageUrl) {
                 this.modalImageUrl = imageUrl
+            },
+            handleDownload: function () {
+                const vueInstance = this;
+                const url = `${this.download_route}`;
+
+                if (this.results) {
+                    let payload = {};
+                    this.results.forEach(result => {
+                        if (result.checked && result.pdf) {
+                            if (payload[`pdf${result.pdf}`]) {
+                                payload[`pdf${result.pdf}`].push(result);
+                            } else {
+                                payload[`pdf${result.pdf}`] = [];
+                                payload[`pdf${result.pdf}`].push(result);
+                            }
+
+                        }
+                    });
+
+                    const config = {
+                        responseType: 'blob',
+                        params: {
+                            source: this.source ,
+                            payload
+                        }
+                    };
+
+                    axios.get(url, config)
+                        .then(function (response) {
+                            vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
+                        })
+                        .catch(function (err) {
+                            console.log(err);
+                        })
+
+                }
+            },
+            updateSelectedQuestion(event) {
+
             }
-        },
-        mounted() {
-            console.log(this.question_route);
-            console.log(this.subjects)
         },
         props: {
             'subjects': Array,
-            'question_route': String
+            'question_route': String,
+            'download_route': String
         }
     }
 </script>

@@ -50,33 +50,38 @@
                 });
             },
             handleUpload: function () {
-                this.validateInputs();
+                if(this.subject) {
+                    this.$emit('update:subjectError', false);
+                    this.validateInputs();
 
-                if(this.formIsValid()) {
-                    const formData = new FormData;
-                    const vueInstance = this;
+                    if(this.formIsValid()) {
+                        const formData = new FormData;
+                        const vueInstance = this;
 
-                    formData.append("subject", this.subject.name);
-                    formData.append("subjectID", this.subject.id);
-                    this.imgInputs.forEach((inputs, index) => {
-                        formData.append(`questionImage_${index}`, inputs.questionImg);
-                        formData.append(`answer_${index}`, inputs.answer);
-                        formData.append(`explanationImg_${index}`, inputs.explanationImg);
-                    });
+                        formData.append("subject", this.subject.name);
+                        formData.append("subjectID", this.subject.id);
+                        this.imgInputs.forEach((inputs, index) => {
+                            formData.append(`questionImg_${index}`, inputs.questionImg);
+                            formData.append(`answer_${index}`, inputs.answer);
+                            formData.append(`explanationImg_${index}`, inputs.explanationImg);
+                        });
 
-                    const config = {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    };
+                        const config = {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        };
 
-                    axios.post(this.postUrl, formData, config)
-                        .then(function () {
-                            vueInstance.success = true;
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
+                        axios.post(this.postUrl, formData, config)
+                            .then(function () {
+                                vueInstance.success = true;
+                            })
+                            .catch(function (error) {
+                                console.log(error)
+                            })
+                    }
+                } else {
+                    this.$emit('update:subjectError', true)
                 }
             },
             validateInputs: function () {
@@ -131,6 +136,11 @@
 
     .pointer {
         cursor: pointer;
+    }
+
+    .error-msg {
+        color: red;
+        border-color: red;
     }
 
 </style>

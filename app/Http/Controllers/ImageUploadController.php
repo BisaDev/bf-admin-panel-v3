@@ -27,7 +27,7 @@ class ImageUploadController extends Controller
                 $keys = explode("_", $key);
                 $images[$keys[1]][$keys[0]] = $value;
 
-                if (strstr($key, "questionImage") && $value != "null") {
+                if (strstr($key, "questionImg") && $value != "null") {
                     $extension = $value->getClientOriginalExtension();
                     $fileName= "$subject-$answer-$key.$extension";
 
@@ -51,7 +51,7 @@ class ImageUploadController extends Controller
 
         foreach($images as $image) {
             TaggingImage::create(['image_answer' => $image['answer'], 'image_url' => $image['questionImgUrl'],
-                'tagging_question_id' => $taggingQuestion->id, 'explanation_url' => $image['questionImgUrl']]);
+                'tagging_question_id' => $taggingQuestion->id, 'explanation_url' => $image['explanationImgUrl']]);
         }
     }
 
