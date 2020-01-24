@@ -89,6 +89,7 @@
                     subject: null,
                     topic: null
                 },
+                source: null
 
             }
         },
@@ -99,6 +100,7 @@
                 const inputIndex = selection.target.value;
 
                 this.topicsList = this.subjects[inputIndex].topics;
+                this.source = `${this.subjects[inputIndex].name}_${this.topicsList[inputIndex].name}`
             },
             getQuestions: function (event) {
                 const topicId = event.target.value;
@@ -107,7 +109,6 @@
                 axios.get(url)
                     .then(function (response) {
                         vueInstance.results = response.data;
-
                     })
                     .catch(function (err) {
                         console.log(err)
@@ -135,8 +136,11 @@
                     });
 
                     const config = {
-                        //responseType: 'blob',
-                        params: payload
+                        responseType: 'blob',
+                        params: {
+                            source: this.source ,
+                            payload
+                        }
                     };
 
                     axios.get(url, config)
