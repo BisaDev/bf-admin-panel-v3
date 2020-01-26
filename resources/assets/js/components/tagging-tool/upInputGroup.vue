@@ -1,16 +1,13 @@
 <template>
-    <div class="card-box wrapper">
-        <div class="input-group col-md-12 text-left text-left">
-            <div class="flex" v-if="!success">
+    <div :class="`card-box wrapper  ${success ? 'alert-success' : ''}`">
+        <div class="input-group col-md-12 text-left text-left" v-if="!success">
+            <div class="flex">
                 <a @click="addInputs" class="pointer">
                     Add image
                     <span href="#" class="m-l-5">
                         <i class="fa fa-plus"></i>
                     </span>
                 </a>
-            </div>
-            <div class="alert alert-success" v-if="success">
-                <h3 class="text-center">Success!</h3>
             </div>
         </div>
         <div v-for="(input ,index) in imgInputs" :key="index">
