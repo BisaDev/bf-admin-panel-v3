@@ -23,8 +23,13 @@
             </up-inputs>
         </div>
         <div class="form-group col-md-12 text-right m-t-30" v-if="!success">
-            <button @click="removeItem" class="btn btn-md btn-info">Cancel</button>
-            <button @click="handleUpload" type="submit" class="btn btn-md btn-primary">Upload</button>
+            <button @click="removeItem" class="btn btn-md btn-info" :disabled="disabledButton">
+                Cancel
+            </button>
+            <button @click="handleUpload" type="submit"
+                    class="btn btn-md btn-primary" :disabled="disabledButton">
+                Upload
+            </button>
         </div>
     </div>
 </template>
@@ -35,6 +40,7 @@
             return {
                 imgInputs: [],
                 success: false,
+                disabledButton: false
             }
         },
         methods: {
@@ -51,6 +57,7 @@
             },
             handleUpload: function () {
                 if(this.subject) {
+                    this.disabledButton = true;
                     this.$emit('update:subjectError', false);
                     this.validateInputs();
 
@@ -77,6 +84,7 @@
                                 vueInstance.success = true;
                             })
                             .catch(function (error) {
+                                vueInstance.disabledButton = false;
                                 console.log(error)
                             })
                     }
