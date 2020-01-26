@@ -19,7 +19,9 @@
         </div>
         <div class="form-group col-md-12 text-left">
             <label class="control-label" for="answer">Answer:
-                <input type="text" v-model="answerValue" :class="`form-control ${error.answer ? '' : 'error-msg'}`">
+                <input type="text" v-model="answerValue" v-if="!uploaded"
+                       :class="`form-control ${error.answer ? '' : 'error-msg'}`">
+                <p class="answer-display" v-if="uploaded">{{answerValue}}</p>
             </label>
             <span class="error-msg" v-if="error.answer === false">
                 Please write an answer
@@ -128,6 +130,11 @@
 
     .button-thin {
         margin: 15px 0;
+    }
+
+    .answer-display {
+        height: 38px;
+        padding: 7px 12px;
     }
 
     .button-thick {
