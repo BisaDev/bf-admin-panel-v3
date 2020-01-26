@@ -12,9 +12,11 @@
                         {{topic.name}}
                     </button>
                 </div>
-                <button class="btn btn-info btn-next" @click="nextQuestion">
+            </div>
+            <div class="text-right">
+                <a @click="nextQuestion">
                     Next question
-                </button>
+                </a>
             </div>
         </div>
         <div class="card-box text-center image-display" v-if="!questionsToTag">
