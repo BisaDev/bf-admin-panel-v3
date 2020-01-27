@@ -12,7 +12,7 @@
     ])
 @endsection
 @section('content')
-    <div id="index-container" data-model="topic" class="row">
+    <div data-model="topic" class="row">
         <form action="{{ route('taggingsubjects.update', $subject->id) }}" method="POST">
             {{ csrf_field() }}
             {{ method_field('put') }}

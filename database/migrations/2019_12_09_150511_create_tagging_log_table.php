@@ -13,9 +13,9 @@ class CreateTaggingLogTable extends Migration
      */
     public function up()
     {
-        Schema::create('tagging_log', function (Blueprint $table) {
+        Schema::create('tagging_logs', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('tagging_subject_id');
+            $table->unsignedInteger('instructor_id');
             $table->unsignedInteger('tagging_question_id');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateTaggingLogTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tagging_log');
+        Schema::dropIfExists('tagging_logs');
     }
 }

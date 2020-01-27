@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaggingLog extends Model
 {
-    protected $table = 'tagging_log';
-
     protected $fillable = [
-        'tagging_subject_id', 'tagging_question_id'
+        'user_id', 'tagging_question_id'
     ];
 
     public function question () {
