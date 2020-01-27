@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], funct
 
     Route::get('taggingtool',                           'TaggingToolController@index')->name('taggingtool');
     Route::get('taggingtool/tag/{subject_id?}',         'TaggingToolController@tag')->name('taggingtool.tag');
-    Route::post('taggingtool/set_topic/{topic_id?}',    'TaggingToolController@set_topic')->name('taggingtool.set_topic');
+    Route::post('taggingtool/set_topic',                'TaggingToolController@set_topic')->name('taggingtool.set_topic');
 
 
     Route::get('question/list/{subject_id?}',           'TaggingQuestionController@questions_list')->name('taggingquestion.list');

@@ -35,15 +35,13 @@
             }
         },
         methods: {
-            handleTagging: function (topic, question) {
+            handleTagging: function (topic_id, question_id ) {
                 const vueInstance = this;
-                const url = `${this.tagging_route}/${topic}`;
                 const payload = {
-                    topic_id: topic,
-                    question_id: question,
+                    topic_id, question_id, subject_id: this.subject_id
                 };
 
-                axios.post(url, payload)
+                axios.post(this.tagging_route, payload)
                     .then(function () {
                         vueInstance.nextQuestion()
                     })

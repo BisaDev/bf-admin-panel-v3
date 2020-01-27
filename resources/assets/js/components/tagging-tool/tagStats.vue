@@ -55,9 +55,6 @@
             "subjects": Array,
             "instructors": Array,
             "tagging_route": String
-        },
-        mounted() {
-            console.log(this.subjects)
         }
     }
 </script>
