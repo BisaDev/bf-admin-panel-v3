@@ -2,6 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Brightfox\Http\Transformers\TaggingSubjectTransformer;
 use Brightfox\Models\User;
 use Illuminate\Http\Request;
 use Brightfox\TaggingSubject;
@@ -9,9 +10,17 @@ use Brightfox\TaggingQuestion;
 
 class TaggingToolController extends Controller
 {
+    private $transformer;
+
+    public function __construct(TaggingSubjectTransformer $transformer)
+    {
+        $this->transformer = $transformer;
+    }
+
     public function index() {
         $instructors = User::role('instructor')->get();
-        $subjects = TaggingSubject::all();
+        $subjects = TaggingSubject::with('questions')->get();
+        $subjects = $this->transformer->transform($subjects);
 
         return view('tagging_tool.index', compact('instructors', 'subjects'));
     }

@@ -14,8 +14,8 @@
                     <tbody>
                     <tr v-for="subject in subjects">
                         <th>{{ subject.name }}</th>
-                        <td class="text-center">0</td>
-                        <td class="text-center">0</td>
+                        <td class="text-center">{{ subject.taggedQuestions }}</td>
+                        <td class="text-center">{{ subject.untaggedQuestions }}</td>
                         <td class="text-center">
                             <a :href="`${tagging_route}/${subject.id}`">
                                 <button  class="btn btn-info">
@@ -55,6 +55,9 @@
             "subjects": Array,
             "instructors": Array,
             "tagging_route": String
+        },
+        mounted() {
+            console.log(this.subjects)
         }
     }
 </script>
