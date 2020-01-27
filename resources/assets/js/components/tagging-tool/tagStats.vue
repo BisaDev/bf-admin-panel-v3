@@ -18,7 +18,7 @@
                         <td class="text-center">{{ subject.untaggedQuestions }}</td>
                         <td class="text-center">
                             <a :href="`${tagging_route}/${subject.id}`">
-                                <button  class="btn btn-info">
+                                <button  class="btn btn-info" :disabled="subject.untaggedQuestions === 0">
                                     Start Tagging
                                 </button>
                             </a>
