@@ -28,22 +28,23 @@ class TaggingToolController extends Controller
 
     public function tag($subject_id) {
         $subject = TaggingSubject::find($subject_id);
+        $userId = auth()->user()->id;
 
-        return view('tagging_tool.tag', compact('subject'));
+        return view('tagging_tool.tag', compact('subject', 'userId'));
 
     }
 
     public function set_topic(Request $request) {
-        $subject_id = $request->subject_id;
         $topic_id = $request->topic_id;
         $question_id = $request->question_id;
+        $instructor_id = $request->instructor_id;
 
         $question = TaggingQuestion::find($question_id);
         $question->tagging_topic_id = $topic_id;
         $question->save();
 
         $log = TaggingLog::create([
-            'tagging_subject_id' => $subject_id,
+            'instructor_id' => $instructor_id,
             'tagging_question_id' => $question_id
         ]);
 

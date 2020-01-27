@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TaggingLog extends Model
 {
     protected $fillable = [
-        'user_id', 'tagging_question_id'
+        'instructor_id', 'tagging_question_id'
     ];
 
     public function question () {

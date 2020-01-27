@@ -55,6 +55,6 @@
             "subjects": Array,
             "instructors": Array,
             "tagging_route": String
-        }
+        },
     }
 </script>

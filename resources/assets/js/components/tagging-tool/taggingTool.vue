@@ -15,7 +15,7 @@
             </div>
             <div class="text-right">
                 <a @click="nextQuestion">
-                    Next question
+                    Skip
                 </a>
             </div>
         </div>
@@ -38,7 +38,7 @@
             handleTagging: function (topic_id, question_id ) {
                 const vueInstance = this;
                 const payload = {
-                    topic_id, question_id, subject_id: this.subject_id
+                    topic_id, question_id, instructor_id: this.current_user
                 };
 
                 axios.post(this.tagging_route, payload)
@@ -88,6 +88,7 @@
         },
         props: {
             'subject_id': String,
+            "current_user": String,
             'tagging_route': String,
             'questions_route': String
         }
