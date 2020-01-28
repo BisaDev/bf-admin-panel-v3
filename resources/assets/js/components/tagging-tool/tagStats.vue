@@ -40,7 +40,7 @@
                     <tbody>
                     <tr v-for="instructor in instructors">
                         <th>{{ instructor.name }}</th>
-                        <td>0</td>
+                        <td>{{ instructor.tags}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -55,6 +55,6 @@
             "subjects": Array,
             "instructors": Array,
             "tagging_route": String
-        },
+        }
     }
 </script>

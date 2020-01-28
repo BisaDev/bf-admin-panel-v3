@@ -2,6 +2,7 @@
 
 namespace Brightfox\Http\Controllers;
 
+use Brightfox\Http\Transformers\TaggingLogTransformer;
 use Brightfox\Http\Transformers\TaggingSubjectTransformer;
 use Brightfox\Models\User;
 use Brightfox\TaggingLog;
@@ -11,17 +12,20 @@ use Brightfox\TaggingQuestion;
 
 class TaggingToolController extends Controller
 {
-    private $transformer;
+    private $subjectTransformer;
+    private $logTransformer;
 
-    public function __construct(TaggingSubjectTransformer $transformer)
+    public function __construct(TaggingSubjectTransformer $subjectTransformer, TaggingLogTransformer $logTransformer)
     {
-        $this->transformer = $transformer;
+        $this->subjectTransformer = $subjectTransformer;
+        $this->logTransformer = $logTransformer;
     }
 
     public function index() {
         $instructors = User::role('instructor')->get();
+        $instructors = $this->logTransformer->transform($instructors);
         $subjects = TaggingSubject::with('questions')->get();
-        $subjects = $this->transformer->transform($subjects);
+        $subjects = $this->subjectTransformer->transform($subjects);
 
         return view('tagging_tool.index', compact('instructors', 'subjects'));
     }
