@@ -58,9 +58,7 @@
 
                 if (tagCount < maxCount) {
                     this.tagCount++;
-                    console.log(tagCount + "/" + this.questionsToTag.length)
                 } else if (tagCount === maxCount) {
-                    console.log("Max count reached");
                     this.questionsToTag = null;
                 }
             },
@@ -88,7 +86,7 @@
         },
         props: {
             'subject_id': String,
-            "current_user": String,
+            "current_user": Number,
             'tagging_route': String,
             'questions_route': String
         }
