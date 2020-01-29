@@ -22,9 +22,7 @@ class TaggingQuestionController extends Controller
 
         $questions = $this->transformer->transform($questions);
 
-        $topics = TaggingTopic::where('tagging_subject_id',$subject_id)->get();
-
-        return [$questions , $topics];
+        return $questions;
 
     }
 }

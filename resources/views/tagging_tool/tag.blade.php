@@ -19,7 +19,7 @@
                 :current_user="{{ $userId }}"
                 tagging_route='{{ route('taggingtool.set_topic') }}'
                 questions_route='{{ route('taggingquestion.list') }}'
-                subject_id="{{$subject->id}}"
+                :subject="{{ json_encode($subject) }}"
         ></tagging-tool>
     </div>
 @endsection

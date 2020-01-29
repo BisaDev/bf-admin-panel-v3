@@ -7,8 +7,8 @@
                     <i class="fa fa-plus"></i>
                 </span>
             </button>
-            <label class="subject-input">Subject:
-                <select v-model="currentSubject" name="subject" class="form-control">
+            <div class="subject-container">
+                <select v-model="currentSubject" name="subject" id="subject" class="form-control">
                     <option value="">Select subject</option>
                     <option v-for="(subject, index) in subjects" :value="index">
                         {{subject.name}}
@@ -17,7 +17,7 @@
                 <span :class="subjectError ? 'error-msg' : ''" v-show="subjectError">
                     Please choose a Subject
                 </span>
-            </label>
+            </div>
         </div>
 
         <div class="form-group col-md-12" v-for="(item, index) in questions" :key="index">
@@ -89,19 +89,22 @@
         border: none;
     }
 
+    .upper-group .subject-container {
+        margin-left: 18px;
+    }
+
     .upper-group {
         display: flex;
-        flex-direction: column;
         align-items: flex-start;
     }
 
     .subject-input {
         min-width: 230px;
-        margin-top: 18px;
+        margin-left: 18px;
     }
     .error-msg {
         color: red;
-        font-size: 18px;
+        font-size: 14px;
         border-color: red;
     }
 </style>

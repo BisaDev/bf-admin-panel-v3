@@ -9,7 +9,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <img class="modal-img" :src="modalImageUrl" alt="modal-img" />
+                    <img class="img-responsive" :src="modalImageUrl" alt="modal-img" />
                 </div>
             </div>
         </div>
@@ -23,3 +23,9 @@
         }
     }
 </script>
+
+<style scoped>
+    img.img-responsive {
+        max-height: none;
+    }
+</style>

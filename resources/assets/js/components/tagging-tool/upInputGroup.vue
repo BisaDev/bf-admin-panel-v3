@@ -19,7 +19,7 @@
             >
             </up-inputs>
         </div>
-        <div class="form-group col-md-12 text-right m-t-30" v-if="!success">
+        <div class="form-group col-md-12 text-right m-t-20" v-if="!success">
             <button @click="removeItem" class="btn btn-md btn-info" :disabled="disabledButton">
                 Cancel
             </button>
@@ -128,6 +128,10 @@
     .wrapper {
         display: flex;
         flex-direction: column;
+    }
+
+    .wrapper.alert-success {
+        padding: 20px;
     }
 
     .input-group {

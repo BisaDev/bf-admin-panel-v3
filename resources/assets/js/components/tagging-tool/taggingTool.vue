@@ -7,7 +7,7 @@
                      :src="`${question.image.imageFile}`"
                      :alt="`${question.image.image_url}`">
                 <div class="topic-display">
-                    <button class="topic-item btn" v-for="topic in topicsList"
+                    <button class="topic-item btn" v-for="topic in subject.topics"
                             @click="handleTagging(topic.id,question.id)">
                         {{topic.name}}
                     </button>
@@ -30,7 +30,6 @@
         data: function () {
             return {
                 tagCount: 0,
-                topicsList: null,
                 questionsToTag: null,
             }
         },
@@ -64,7 +63,7 @@
             },
             getQuestions () {
                 const vueInstance = this;
-                const subjectID = this.subject_id;
+                const subjectID = this.subject.id;
                 const questionUrl = `${this.questions_route}/${subjectID}`;
 
                 axios.get(questionUrl)
@@ -72,7 +71,6 @@
                         if (response.data.length > 0) {
                             const {data} = response;
                             vueInstance.questionsToTag = data[0];
-                            vueInstance.topicsList = data[1];
                         }
 
                     })
@@ -85,7 +83,7 @@
             this.getQuestions()
         },
         props: {
-            'subject_id': String,
+            'subject': Object,
             "current_user": Number,
             'tagging_route': String,
             'questions_route': String

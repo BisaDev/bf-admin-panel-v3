@@ -13,25 +13,22 @@ use Brightfox\TaggingQuestion;
 class TaggingToolController extends Controller
 {
     private $subjectTransformer;
-    private $logTransformer;
 
-    public function __construct(TaggingSubjectTransformer $subjectTransformer, TaggingLogTransformer $logTransformer)
+    public function __construct(TaggingSubjectTransformer $subjectTransformer)
     {
         $this->subjectTransformer = $subjectTransformer;
-        $this->logTransformer = $logTransformer;
     }
 
     public function index() {
-        $instructors = User::role('instructor')->get();
-        $instructors = $this->logTransformer->transform($instructors);
+        $instructors = User::role('instructor')->with('tag_logs')->get();
         $subjects = TaggingSubject::with('questions')->get();
-        $subjects = $this->subjectTransformer->transform($subjects);
+        $subjects = $this->subjectTransformer->transformCollection($subjects);
 
         return view('tagging_tool.index', compact('instructors', 'subjects'));
     }
 
     public function tag($subject_id) {
-        $subject = TaggingSubject::find($subject_id);
+        $subject = TaggingSubject::with('topics')->find($subject_id);
         $userId = auth()->user()->id;
 
         return view('tagging_tool.tag', compact('subject', 'userId'));

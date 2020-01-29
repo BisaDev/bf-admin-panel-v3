@@ -14,11 +14,11 @@
                     <tbody>
                     <tr v-for="subject in subjects">
                         <th>{{ subject.name }}</th>
-                        <td class="text-center">{{ subject.taggedQuestions }}</td>
-                        <td class="text-center">{{ subject.untaggedQuestions }}</td>
+                        <td class="text-center">{{ subject.tagged_questions_count }}</td>
+                        <td class="text-center">{{ subject.untagged_questions_count }}</td>
                         <td class="text-center">
                             <a :href="`${tagging_route}/${subject.id}`">
-                                <button  class="btn btn-info" :disabled="subject.untaggedQuestions === 0">
+                                <button  class="btn btn-info" :disabled="subject.untagged_questions_count === 0">
                                     Start Tagging
                                 </button>
                             </a>
@@ -40,7 +40,7 @@
                     <tbody>
                     <tr v-for="instructor in instructors">
                         <th>{{ instructor.name }}</th>
-                        <td>{{ instructor.tags}}</td>
+                        <td>{{ instructor.tag_logs.length }}</td>
                     </tr>
                     </tbody>
                 </table>
