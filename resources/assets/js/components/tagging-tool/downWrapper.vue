@@ -38,16 +38,16 @@
                     <tr v-for="(result,index) in results">
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.image.imageFile)">
-                                <img class="img-preview" :src="result.image.imageFile"
+                                    @click="updatePreviewModal(result.imageFile)">
+                                <img class="img-preview" :src="result.imageFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
                         <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.image.explanationFile)">
-                                <img class="img-preview" :src="result.image.explanationFile"
+                                    @click="updatePreviewModal(result.explanationFile)">
+                                <img class="img-preview" :src="result.explanationFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>

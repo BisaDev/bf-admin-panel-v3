@@ -4,7 +4,7 @@
              v-if="questionsToTag && tagCount === index">
             <div class="image-display">
                 <img class="tag-image"
-                     :src="`${question.image.imageFile}`"
+                     :src="`${question.imageFile}`"
                      :alt="`${question.image.image_url}`">
                 <div class="topic-display">
                     <button class="topic-item btn" v-for="topic in subject.topics"
@@ -34,7 +34,7 @@
             }
         },
         methods: {
-            handleTagging: function (topic_id, question_id ) {
+            handleTagging: function (topic_id, question_id) {
                 const vueInstance = this;
                 const payload = {
                     topic_id, question_id, instructor_id: this.current_user
@@ -61,17 +61,15 @@
                     this.questionsToTag = null;
                 }
             },
-            getQuestions () {
+            getQuestions() {
                 const vueInstance = this;
                 const subjectID = this.subject.id;
                 const questionUrl = `${this.questions_route}/${subjectID}`;
 
                 axios.get(questionUrl)
                     .then(function (response) {
-                        if (response.data.length > 0) {
-                            const {data} = response;
-                            vueInstance.questionsToTag = data[0];
-                        }
+                        vueInstance.questionsToTag = response.data
+                        console.log(vueInstance.questionsToTag)
 
                     })
                     .catch(function (err) {
