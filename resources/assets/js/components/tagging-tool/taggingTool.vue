@@ -13,7 +13,7 @@
                     </button>
                 </div>
             </div>
-            <div class="text-right">
+            <div class="skip-link text-right">
                 <a @click="nextQuestion">
                     Skip
                 </a>
