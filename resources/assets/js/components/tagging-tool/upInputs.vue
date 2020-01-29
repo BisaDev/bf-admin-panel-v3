@@ -1,10 +1,10 @@
 <template>
-    <div class="input-group col-md-12 text-right flex">
+    <div class="col-md-12 text-right flex">
         <div class="flex-column">
             <label class="control-label" for="question-img">Question image:</label>
-            <button type="button" data-toggle="modal" data-target="#previewModal"
-                    v-on:click="onModalCall(leftImageUrl)">
-                <img :src="leftImageUrl" alt="left-img" v-if="leftImageUrl !== ''"/>
+            <button type="button" class="modal-trigger" data-toggle="modal" data-target="#previewModal"
+                    v-on:click="onModalCall(leftImageUrl)" v-if="leftImageUrl !== ''">
+                <img :src="leftImageUrl" alt="left-img"/>
             </button>
             <div class="droppable" v-if="!uploaded">
                 <span :class="leftImageUrl ? 'button-thin' : 'button-thick'">
@@ -18,18 +18,19 @@
             </span>
         </div>
         <div class="form-group col-md-12 text-left">
-            <label class="control-label" for="answer">Answer:
-                <input type="text" v-model="answerValue" :class="`form-control ${error.answer ? '' : 'error-msg'}`">
-            </label>
+            <label class="control-label" for="answer">Answer:</label>
+            <input type="text" v-model="answerValue" v-if="!uploaded"
+                   :class="`form-control ${error.answer ? '' : 'error-msg'}`">
+            <p class="answer-display" v-if="uploaded">{{answerValue}}</p>
             <span class="error-msg" v-if="error.answer === false">
                 Please write an answer
             </span>
         </div>
         <div class="flex-column">
             <label class="control-label" for="explanation-img">Explanation image:</label>
-            <button type="button" data-toggle="modal" data-target="#previewModal"
-                    v-on:click="onModalCall(rightImageUrl)">
-                <img :src="rightImageUrl" alt="right-img" v-if="rightImageUrl !== ''"/>
+            <button type="button" class="modal-trigger" data-toggle="modal" data-target="#previewModal"
+                    v-on:click="onModalCall(rightImageUrl)" v-if="rightImageUrl !== ''">
+                <img :src="rightImageUrl" alt="right-img"/>
             </button>
             <div class="droppable" v-if="!uploaded">
                 <span :class="rightImageUrl ? 'button-thin' : 'button-thick'">
@@ -97,7 +98,6 @@
     .flex-column {
         width: 40%;
         display: flex;
-        align-items: center;
         flex-direction: column;
         justify-content: space-between;
     }
@@ -124,6 +124,14 @@
         opacity: 0;
         width: 100%;
         position: absolute;
+    }
+
+    .modal-trigger {
+        padding: 0;
+        background: none;
+        overflow: hidden;
+        max-height: 300px;
+        margin-bottom: 5px;
     }
 
     .button-thin {

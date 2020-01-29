@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaggingLog extends Model
 {
+    protected $fillable = [
+        'instructor_id', 'tagging_question_id'
+    ];
+
     public function question () {
         return $this->hasOne(TaggingQuestion::class);
     }

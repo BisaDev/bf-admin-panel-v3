@@ -4,17 +4,19 @@
              v-if="questionsToTag && tagCount === index">
             <div class="image-display">
                 <img class="tag-image"
-                     :src="`${question.image.imageFile}`"
+                     :src="`${question.imageFile}`"
                      :alt="`${question.image.image_url}`">
                 <div class="topic-display">
-                    <button class="topic-item btn" v-for="topic in topicsList"
+                    <button class="topic-item btn" v-for="topic in subject.topics"
                             @click="handleTagging(topic.id,question.id)">
                         {{topic.name}}
                     </button>
                 </div>
-                <button class="btn btn-info btn-next" @click="nextQuestion">
-                    Next question
-                </button>
+            </div>
+            <div class="skip-link text-right">
+                <a @click="nextQuestion">
+                    Skip
+                </a>
             </div>
         </div>
         <div class="card-box text-center image-display" v-if="!questionsToTag">
@@ -28,20 +30,17 @@
         data: function () {
             return {
                 tagCount: 0,
-                topicsList: null,
                 questionsToTag: null,
             }
         },
         methods: {
-            handleTagging: function (topic, question) {
+            handleTagging: function (topic_id, question_id) {
                 const vueInstance = this;
-                const url = `${this.tagging_route}/${topic}`;
                 const payload = {
-                    topic_id: topic,
-                    question_id: question,
+                    topic_id, question_id, instructor_id: this.current_user
                 };
 
-                axios.post(url, payload)
+                axios.post(this.tagging_route, payload)
                     .then(function () {
                         vueInstance.nextQuestion()
                     })
@@ -58,24 +57,19 @@
 
                 if (tagCount < maxCount) {
                     this.tagCount++;
-                    console.log(tagCount + "/" + this.questionsToTag.length)
                 } else if (tagCount === maxCount) {
-                    console.log("Max count reached");
                     this.questionsToTag = null;
                 }
             },
-            getQuestions () {
+            getQuestions() {
                 const vueInstance = this;
-                const subjectID = this.subject_id;
+                const subjectID = this.subject.id;
                 const questionUrl = `${this.questions_route}/${subjectID}`;
 
                 axios.get(questionUrl)
                     .then(function (response) {
-                        if (response.data.length > 0) {
-                            const {data} = response;
-                            vueInstance.questionsToTag = data[0];
-                            vueInstance.topicsList = data[1];
-                        }
+                        vueInstance.questionsToTag = response.data
+                        console.log(vueInstance.questionsToTag)
 
                     })
                     .catch(function (err) {
@@ -87,7 +81,8 @@
             this.getQuestions()
         },
         props: {
-            'subject_id': String,
+            'subject': Object,
+            "current_user": Number,
             'tagging_route': String,
             'questions_route': String
         }

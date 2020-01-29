@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <div id="create-container" class="container">
+    <div class="container">
         <div class="card-box row">
             <form method="POST" action="{{route('taggingsubjects.store')}}">
 

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Sofa\Eloquence\Eloquence;
 use Brightfox\Traits\HasFullName;
+use Brightfox\TaggingLog;
 
 class User extends Authenticatable
 {
@@ -36,7 +37,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $searchableColumns = [
-        'name', 'last_name', 'email', 'user_detail.secondary_email', 'user_detail.phone', 'user_detail.mobile_phone', 'user_detail.location.name', 
+        'name', 'last_name', 'email', 'user_detail.secondary_email', 'user_detail.phone', 'user_detail.mobile_phone', 'user_detail.location.name',
     ];
 
     public function user_detail()
@@ -49,4 +50,8 @@ class User extends Authenticatable
         return $this->hasOne(Student::class);
     }
 
+    public function tag_logs()
+    {
+        return $this->hasMany(TaggingLog::class, "instructor_id");
+    }
 }

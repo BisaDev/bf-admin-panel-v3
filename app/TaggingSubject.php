@@ -19,4 +19,8 @@ class TaggingSubject extends Model
     public function topics () {
         return $this->hasMany(TaggingTopic::class);
     }
+
+    public function questions () {
+        return $this->hasMany(TaggingQuestion::class);
+    }
 }

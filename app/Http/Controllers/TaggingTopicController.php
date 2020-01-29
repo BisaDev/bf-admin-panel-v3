@@ -15,8 +15,9 @@ class TaggingTopicController extends Controller
     public function store(Request $request)
     {
         $subject = TaggingTopic::create($request->only(['name' , 'tagging_subject_id']));
+        $subjectID = $request->tagging_subject_id;
 
-        return redirect(route('taggingsubjects.index'));
+        return redirect(route('taggingsubjects.show',$subjectID));
     }
 
     public function edit($id)

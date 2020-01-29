@@ -4,19 +4,24 @@ namespace Brightfox\Http\Transformers;
 
 use Illuminate\Support\Facades\Storage;
 
-class TaggingQuestionTransformer {
-    public function transform($questions) {
+class TaggingQuestionTransformer extends Transformer
+{
+    public function transform($question)
+    {
+        $filePath = $question->image->getImagePath();
+        $questionFile = $question->image->image_url;
+        $explanationFile = $question->image->explanation_url;
+        $questionFileUrl = Storage::url($filePath . $questionFile);
+        $explanationFileUrl = Storage::url($filePath . $explanationFile);
 
-        foreach ($questions as $key => $value) {
-            $filePath = $value->image->getImagePath();
-            $questionFile = $value->image->image_url;
-            $explanationFile = $value->image->explanation_url;
-            $questionFileUrl = Storage::url($filePath.$questionFile);
-            $explanationFileUrl = Storage::url($filePath.$explanationFile);
-            $value->image->imageFile = $questionFileUrl;
-            $value->image->explanationFile = $explanationFileUrl;
-        }
-        return $questions;
+        return [
+            'id' => $question->id,
+            'tagging_subject_id' => $question->tagging_subject_id,
+            'tagging_topic_id' => $question->tagging_topic_id,
+            'image' => $question->image,
+            'imageFile' => $questionFileUrl,
+            'explanationFile' => $explanationFileUrl,
+        ];
 
     }
 }

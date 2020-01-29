@@ -38,16 +38,16 @@
                     <tr v-for="(result,index) in results">
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.image.imageFile)">
-                                <img class="img-preview" :src="result.image.imageFile"
+                                    @click="updatePreviewModal(result.imageFile)">
+                                <img class="img-preview" :src="result.imageFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
                         <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.image.explanationFile)">
-                                <img class="img-preview" :src="result.image.explanationFile"
+                                    @click="updatePreviewModal(result.explanationFile)">
+                                <img class="img-preview" :src="result.explanationFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
@@ -64,7 +64,7 @@
                 <button class="btn btn-info btn-zip" @click="handleDownload">
                     Download zip
                 </button>
-                <a id="download-link" :href="downloadLink.href" download="file.zip">a</a>
+                <a id="download-link" :href="downloadLink.href" download="file.zip" hidden>a</a>
             </div>
         </div>
 
@@ -145,7 +145,9 @@
 
                     axios.get(url, config)
                         .then(function (response) {
+                            const downloadTrigger = document.getElementById('download-link');
                             vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
+                            downloadTrigger.click();
                         })
                         .catch(function (err) {
                             console.log(err);
