@@ -65,6 +65,9 @@
                     Download zip
                 </button>
                 <a id="download-link" :href="downloadLink.href" download="file.zip" />
+                <h4 class="error-msg" v-if="error">
+                    Nothing Selected
+                </h4>
             </div>
         </div>
 
@@ -89,7 +92,8 @@
                     subject: null,
                     topic: null
                 },
-                source: null
+                source: null,
+                error: false,
 
             }
         },
@@ -145,6 +149,7 @@
 
                     axios.get(url, config)
                         .then(function (response) {
+                            vueInstance.error = false;
                             vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
                             const downloadTrigger = document.getElementById('download-link');
                             setTimeout(()=> {
@@ -153,6 +158,7 @@
                         })
                         .catch(function (err) {
                             console.log(err);
+                            vueInstance.error = true;
                         })
 
                 }
