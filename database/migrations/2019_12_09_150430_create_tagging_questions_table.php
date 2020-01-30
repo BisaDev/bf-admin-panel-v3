@@ -17,6 +17,7 @@ class CreateTaggingQuestionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('tagging_subject_id');
             $table->unsignedInteger('tagging_topic_id')->nullable();
+            $table->unsignedInteger('pdf_id')->nullable();
             $table->timestamps();
         });
     }

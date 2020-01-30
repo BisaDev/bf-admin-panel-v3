@@ -26,9 +26,9 @@
                 <table class="table table-responsive table-hover model-list" v-if="results">
                     <thead>
                     <tr>
-                        <th width="300">Question Image</th>
-                        <th width="200" class="text-center">Answer</th>
-                        <th width="300" class="text-center">Answer explanation</th>
+                        <th width="10">Question Image</th>
+                        <th width="10" class="text-center">Answer explanation</th>
+                        <th width="600" class="text-center">Answer</th>
                         <th width="50" class="text-center">PDF</th>
                         <th width="50" class="text-center">Download Zip</th>
                     </tr>
@@ -38,21 +38,21 @@
                     <tr v-for="(result,index) in results">
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.imageFile)">
+                                    class="preview-btn" @click="updatePreviewModal(result.imageFile)">
                                 <img class="img-preview" :src="result.imageFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
-                        <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.explanationFile)">
+                                    class="preview-btn" @click="updatePreviewModal(result.explanationFile)">
                                 <img class="img-preview" :src="result.explanationFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
+                        <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th class="down-input-group">
-                            <input type="number" value=1 v-model="results[index].pdf">
+                            <input type="number"  value=1 v-model="results[index].pdf_id">
                         </th>
                         <th class="down-input-group">
                             <input type="checkbox" v-model="results[index].checked"
@@ -64,7 +64,10 @@
                 <button class="btn btn-info btn-zip" @click="handleDownload">
                     Download zip
                 </button>
-                <a id="download-link" :href="downloadLink.href" download="file.zip" hidden>a</a>
+                <a id="download-link" :href="downloadLink.href" download="file.zip" />
+                <h4 class="error-msg" v-if="error">
+                    Nothing Selected
+                </h4>
             </div>
         </div>
 
@@ -89,7 +92,8 @@
                     subject: null,
                     topic: null
                 },
-                source: null
+                source: null,
+                error: false,
 
             }
         },
@@ -124,12 +128,12 @@
                 if (this.results) {
                     let payload = {};
                     this.results.forEach(result => {
-                        if (result.checked && result.pdf) {
-                            if (payload[`pdf${result.pdf}`]) {
-                                payload[`pdf${result.pdf}`].push(result);
+                        if (result.checked && result.pdf_id) {
+                            if (payload[`pdf${result.pdf_id}`]) {
+                                payload[`pdf${result.pdf_id}`].push(result);
                             } else {
-                                payload[`pdf${result.pdf}`] = [];
-                                payload[`pdf${result.pdf}`].push(result);
+                                payload[`pdf${result.pdf_id}`] = [];
+                                payload[`pdf${result.pdf_id}`].push(result);
                             }
 
                         }
@@ -138,19 +142,23 @@
                     const config = {
                         responseType: 'blob',
                         params: {
-                            source: this.source ,
+                            source: this.source,
                             payload
                         }
                     };
 
                     axios.get(url, config)
                         .then(function (response) {
-                            const downloadTrigger = document.getElementById('download-link');
+                            vueInstance.error = false;
                             vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
-                            downloadTrigger.click();
+                            const downloadTrigger = document.getElementById('download-link');
+                            setTimeout(()=> {
+                                downloadTrigger.click();
+                            },0)
                         })
                         .catch(function (err) {
                             console.log(err);
+                            vueInstance.error = true;
                         })
 
                 }
