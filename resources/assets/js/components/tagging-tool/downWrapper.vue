@@ -52,7 +52,7 @@
                         </th>
                         <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th class="down-input-group">
-                            <input type="number" value=1 v-model="results[index].pdf">
+                            <input type="number"  value=1 v-model="results[index].pdf_id">
                         </th>
                         <th class="down-input-group">
                             <input type="checkbox" v-model="results[index].checked"
@@ -124,12 +124,12 @@
                 if (this.results) {
                     let payload = {};
                     this.results.forEach(result => {
-                        if (result.checked && result.pdf) {
-                            if (payload[`pdf${result.pdf}`]) {
-                                payload[`pdf${result.pdf}`].push(result);
+                        if (result.checked && result.pdf_id) {
+                            if (payload[`pdf${result.pdf_id}`]) {
+                                payload[`pdf${result.pdf_id}`].push(result);
                             } else {
-                                payload[`pdf${result.pdf}`] = [];
-                                payload[`pdf${result.pdf}`].push(result);
+                                payload[`pdf${result.pdf_id}`] = [];
+                                payload[`pdf${result.pdf_id}`].push(result);
                             }
 
                         }

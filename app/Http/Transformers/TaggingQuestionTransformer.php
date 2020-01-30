@@ -16,11 +16,12 @@ class TaggingQuestionTransformer extends Transformer
 
         return [
             'id' => $question->id,
-            'tagging_subject_id' => $question->tagging_subject_id,
-            'tagging_topic_id' => $question->tagging_topic_id,
             'image' => $question->image,
             'imageFile' => $questionFileUrl,
             'explanationFile' => $explanationFileUrl,
+            'tagging_topic_id' => $question->tagging_topic_id,
+            'tagging_subject_id' => $question->tagging_subject_id,
+            'pdf_id' => $question->pdf_id,
         ];
 
     }

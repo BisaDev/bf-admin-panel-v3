@@ -44,7 +44,14 @@ class ImageDownloadController extends Controller
 
         foreach ($zip_data as $pdf) {
            foreach ($pdf as $question) {
-               $Num = $question->pdf;
+               $Num = $question->pdf_id;
+
+               $currentQuestion = TaggingQuestion::find($question->id);
+               if($currentQuestion) {
+                   $currentQuestion->pdf_id = $Num;
+                   $currentQuestion->save();
+               }
+
                $questionName = $question->image->image_url;
                $questionImg= $question->imageFile;
 
