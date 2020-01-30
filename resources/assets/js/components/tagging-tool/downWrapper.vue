@@ -64,7 +64,7 @@
                 <button class="btn btn-info btn-zip" @click="handleDownload">
                     Download zip
                 </button>
-                <a id="download-link" :href="downloadLink.href" download="file.zip" hidden>a</a>
+                <a id="download-link" :href="downloadLink.href" download="file.zip" />
             </div>
         </div>
 
@@ -145,9 +145,11 @@
 
                     axios.get(url, config)
                         .then(function (response) {
-                            const downloadTrigger = document.getElementById('download-link');
                             vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
-                            downloadTrigger.click();
+                            const downloadTrigger = document.getElementById('download-link');
+                            setTimeout(()=> {
+                                downloadTrigger.click();
+                            },0)
                         })
                         .catch(function (err) {
                             console.log(err);

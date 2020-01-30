@@ -42,17 +42,16 @@ class ImageDownloadController extends Controller
         $source = $request->source;
         $zip_data = json_decode($request->payload);
 
-        foreach ($zip_data as $item) {
-           foreach ($item as $question) {
-
+        foreach ($zip_data as $pdf) {
+           foreach ($pdf as $question) {
                $Num = $question->pdf;
                $questionName = $question->image->image_url;
-               $questionImg= $question->image->imageFile;
+               $questionImg= $question->imageFile;
 
                $questionRoute= "/$source/pdf$Num/$questionName";
 
                $explanationName = $question->image->explanation_url;
-               $explanationImg = $question->image->explanationFile;
+               $explanationImg = $question->explanationFile;
 
                $explanationRoute= "/$source/pdf$Num/$explanationName";
 
