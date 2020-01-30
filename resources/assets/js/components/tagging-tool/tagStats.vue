@@ -39,7 +39,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="instructor in instructors">
-                        <th>{{ instructor.name }}</th>
+                        <th>{{ instructor.name }} {{ instructor.last_name }}</th>
                         <td>{{ instructor.tag_logs.length }}</td>
                     </tr>
                     </tbody>
