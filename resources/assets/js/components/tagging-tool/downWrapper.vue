@@ -26,9 +26,9 @@
                 <table class="table table-responsive table-hover model-list" v-if="results">
                     <thead>
                     <tr>
-                        <th width="300">Question Image</th>
-                        <th width="200" class="text-center">Answer</th>
-                        <th width="300" class="text-center">Answer explanation</th>
+                        <th width="10">Question Image</th>
+                        <th width="10" class="text-center">Answer explanation</th>
+                        <th width="600" class="text-center">Answer</th>
                         <th width="50" class="text-center">PDF</th>
                         <th width="50" class="text-center">Download Zip</th>
                     </tr>
@@ -38,19 +38,19 @@
                     <tr v-for="(result,index) in results">
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.imageFile)">
+                                    class="preview-btn" @click="updatePreviewModal(result.imageFile)">
                                 <img class="img-preview" :src="result.imageFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
-                        <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    @click="updatePreviewModal(result.explanationFile)">
+                                    class="preview-btn" @click="updatePreviewModal(result.explanationFile)">
                                 <img class="img-preview" :src="result.explanationFile"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
+                        <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th class="down-input-group">
                             <input type="number" value=1 v-model="results[index].pdf">
                         </th>
@@ -138,7 +138,7 @@
                     const config = {
                         responseType: 'blob',
                         params: {
-                            source: this.source ,
+                            source: this.source,
                             payload
                         }
                     };
