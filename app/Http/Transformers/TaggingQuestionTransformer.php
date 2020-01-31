@@ -6,22 +6,22 @@ use Illuminate\Support\Facades\Storage;
 
 class TaggingQuestionTransformer extends Transformer
 {
-    public function transform($question)
+    public function transform($image)
     {
-        $filePath = $question->image->getImagePath();
-        $questionFile = $question->image->image_url;
-        $explanationFile = $question->image->explanation_url;
+        $filePath = $image->getImagePath();
+        $questionFile = $image->image_url;
+        $explanationFile = $image->explanation_url;
         $questionFileUrl = Storage::url($filePath . $questionFile);
         $explanationFileUrl = Storage::url($filePath . $explanationFile);
 
         return [
-            'id' => $question->id,
-            'image' => $question->image,
-            'imageFile' => $questionFileUrl,
-            'explanationFile' => $explanationFileUrl,
-            'tagging_topic_id' => $question->tagging_topic_id,
-            'tagging_subject_id' => $question->tagging_subject_id,
-            'pdf_id' => $question->pdf_id,
+            'id'                  => $image->id,
+            'image_answer'        => $image->image_answer,
+            'image_url'           => $image->image_url,
+            'questionFileUrl'     => $questionFileUrl,
+            'explanation_url'     => $image->explanation_url,
+            'explanationFileUrl'  => $explanationFileUrl,
+            'tagging_question_id' => $image->tagging_question_id,
         ];
 
     }

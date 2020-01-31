@@ -20,9 +20,11 @@ class TaggingQuestionController extends Controller
         $questions =  TaggingQuestion::where('tagging_subject_id',$subject_id)
             ->with('image')->whereNull('tagging_topic_id')->get();
 
-        $questions = $this->transformer->transformCollection($questions);
-
+        foreach ($questions as $question) {
+            $question->image = $this->transformer->transformCollection($question->image);
+        }
         return $questions;
+
 
     }
 }

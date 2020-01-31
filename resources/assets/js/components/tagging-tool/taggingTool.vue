@@ -13,10 +13,15 @@
                     </button>
                 </div>
             </div>
-            <div class="skip-link text-right">
-                <a @click="nextQuestion">
-                    Skip
-                </a>
+            <div class="lower-group">
+                <div>
+
+                </div>
+                <div class="skip-link text-right">
+                    <a @click="nextQuestion">
+                        Skip
+                    </a>
+                </div>
             </div>
         </div>
         <div class="card-box text-center image-display" v-if="!questionsToTag">

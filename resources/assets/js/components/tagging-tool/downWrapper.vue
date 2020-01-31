@@ -52,7 +52,7 @@
                         </th>
                         <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th class="down-input-group">
-                            <input type="number"  value=1 v-model="results[index].pdf_id">
+                            <input type="number" value=1 v-model="results[index].pdf_id">
                         </th>
                         <th class="down-input-group">
                             <input type="checkbox" v-model="results[index].checked"
@@ -64,7 +64,7 @@
                 <button class="btn btn-info btn-zip" @click="handleDownload">
                     Download zip
                 </button>
-                <a id="download-link" :href="downloadLink.href" download="file.zip" />
+                <a id="download-link" :href="downloadLink.href" download="file.zip"/>
                 <h4 class="error-msg" v-if="error">
                     Nothing Selected
                 </h4>
@@ -114,7 +114,7 @@
                 axios.get(url)
                     .then(function (response) {
                         vueInstance.results = response.data;
-                        const {  currentSelection, subjects, topicsList} = vueInstance;
+                        const {currentSelection, subjects, topicsList} = vueInstance;
                         const subjectI = currentSelection.subject;
                         const topicI = currentSelection.topic;
 
@@ -159,9 +159,9 @@
                             vueInstance.error = false;
                             vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
                             const downloadTrigger = document.getElementById('download-link');
-                            setTimeout(()=> {
+                            setTimeout(() => {
                                 downloadTrigger.click();
-                            },0)
+                            }, 0)
                         })
                         .catch(function (err) {
                             console.log(err);
