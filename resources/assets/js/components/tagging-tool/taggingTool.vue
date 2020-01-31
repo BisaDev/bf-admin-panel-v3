@@ -3,9 +3,11 @@
         <div class="card-box" v-for="(question, index) in questionsToTag"
              v-if="questionsToTag && tagCount === index">
             <div class="image-display">
-                <img class="tag-image"
-                     :src="currentDisplay"
-                     :alt="currentDisplay">
+                <div class="tag-image">
+                    <img class="tag-display"
+                         :src="currentDisplay"
+                         :alt="currentDisplay">
+                </div>
                 <div class="topic-display">
                     <button class="topic-item btn" v-for="topic in subject.topics"
                             @click="handleTagging(topic.id,question.id)">
