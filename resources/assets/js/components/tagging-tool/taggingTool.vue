@@ -4,8 +4,8 @@
              v-if="questionsToTag && tagCount === index">
             <div class="image-display">
                 <img class="tag-image"
-                     :src="`${question.imageFile}`"
-                     :alt="`${question.image.image_url}`">
+                     :src="currentDisplay"
+                     :alt="currentDisplay">
                 <div class="topic-display">
                     <button class="topic-item btn" v-for="topic in subject.topics"
                             @click="handleTagging(topic.id,question.id)">
@@ -14,8 +14,9 @@
                 </div>
             </div>
             <div class="lower-group">
-                <div>
-
+                <div class="image-selector-group" v-if="question.image.length > 1">
+                    <img class="preview-thumbnail" v-for="(image,index) in question.image"
+                         :src="image.questionFileUrl" alt="" @click="updateMainDisplay(index)">
                 </div>
                 <div class="skip-link text-right">
                     <a @click="nextQuestion">
@@ -35,6 +36,7 @@
         data: function () {
             return {
                 tagCount: 0,
+                currentDisplay: null,
                 questionsToTag: null,
             }
         },
@@ -53,6 +55,10 @@
                         console.log(error)
                     })
             },
+            updateMainDisplay: function (index) {
+                this.currentDisplay = this.questionsToTag[this.tagCount].image[index].questionFileUrl
+
+            },
             nextQuestion: function () {
                 let {tagCount} = this;
                 let maxCount;
@@ -62,6 +68,7 @@
 
                 if (tagCount < maxCount) {
                     this.tagCount++;
+                    this.updateMainDisplay(0);
                 } else if (tagCount === maxCount) {
                     this.questionsToTag = null;
                 }
@@ -73,9 +80,9 @@
 
                 axios.get(questionUrl)
                     .then(function (response) {
-                        vueInstance.questionsToTag = response.data
+                        vueInstance.questionsToTag = response.data;
                         console.log(vueInstance.questionsToTag)
-
+                        vueInstance.currentDisplay = vueInstance.questionsToTag[0].image[0].questionFileUrl
                     })
                     .catch(function (err) {
                         console.log(err)
