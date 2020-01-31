@@ -39,14 +39,14 @@
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
                                     class="preview-btn" @click="updatePreviewModal(result.imageFile)">
-                                <img class="img-preview" :src="result.imageFile"
+                                <img class="img-preview" :src="result.image[0].questionFileUrl"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
                                     class="preview-btn" @click="updatePreviewModal(result.explanationFile)">
-                                <img class="img-preview" :src="result.explanationFile"
+                                <img class="img-preview" :src="result.image[0].explanationFileUrl"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
@@ -114,12 +114,12 @@
                 axios.get(url)
                     .then(function (response) {
                         vueInstance.results = response.data;
+                        console.log(vueInstance.results);
                         const {currentSelection, subjects, topicsList} = vueInstance;
                         const subjectI = currentSelection.subject;
                         const topicI = currentSelection.topic;
 
                         vueInstance.source = `${subjects[subjectI].name}_${topicsList[topicI].name}`
-                        console.log(vueInstance.source);
                     })
                     .catch(function (err) {
                         console.log(err)
