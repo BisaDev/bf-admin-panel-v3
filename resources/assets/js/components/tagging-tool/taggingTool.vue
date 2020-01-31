@@ -2,6 +2,9 @@
     <div class="col-sm-12 tagging-tool">
         <div class="card-box" v-for="(question, index) in questionsToTag"
              v-if="questionsToTag && tagCount === index">
+            <a @click="cycleQuestion('back')" v-if="tagCount !== 0">
+                Back
+            </a>
             <div class="image-display">
                 <div class="tag-image">
                     <img class="tag-display"
@@ -21,7 +24,7 @@
                          :src="image.questionFileUrl" alt="" @click="updateMainDisplay(index)">
                 </div>
                 <div class="skip-link text-right">
-                    <a @click="nextQuestion">
+                    <a @click="cycleQuestion('next')">
                         Skip
                     </a>
                 </div>
@@ -51,7 +54,7 @@
 
                 axios.post(this.tagging_route, payload)
                     .then(function () {
-                        vueInstance.nextQuestion()
+                        vueInstance.cycleQuestion("next")
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -61,7 +64,7 @@
                 this.currentDisplay = this.questionsToTag[this.tagCount].image[index].questionFileUrl
 
             },
-            nextQuestion: function () {
+            cycleQuestion: function (type) {
                 let {tagCount} = this;
                 let maxCount;
                 this.questionsToTag
@@ -69,11 +72,16 @@
                     : maxCount = 0;
 
                 if (tagCount < maxCount) {
-                    this.tagCount++;
+                    if(type === "next") {
+                        this.tagCount++;
+                    } else {
+                        this.tagCount--;
+                    }
                     this.updateMainDisplay(0);
                 } else if (tagCount === maxCount) {
                     this.questionsToTag = null;
                 }
+
             },
             getQuestions() {
                 const vueInstance = this;
