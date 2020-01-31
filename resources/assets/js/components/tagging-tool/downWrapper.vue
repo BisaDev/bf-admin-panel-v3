@@ -17,7 +17,7 @@
                         <select v-model="currentSelection.topic" name="subject" class="form-control"
                                 @change="getQuestions($event)">
                             <option value="">Select topic</option>
-                            <option v-for="topic in topicsList" :value="topic.id">
+                            <option v-for="(topic,index) in topicsList" :value="index">
                                 {{topic.name}}
                             </option>
                         </select>
@@ -104,15 +104,22 @@
                 const inputIndex = selection.target.value;
 
                 this.topicsList = this.subjects[inputIndex].topics;
-                this.source = `${this.subjects[inputIndex].name}_${this.topicsList[inputIndex].name}`
             },
             getQuestions: function (event) {
-                const topicId = event.target.value;
+                const i = event.target.value;
+                const topicId = this.topicsList[i].id;
                 const url = `${this.question_route}/${topicId}`;
                 const vueInstance = this;
+
                 axios.get(url)
                     .then(function (response) {
                         vueInstance.results = response.data;
+                        const {  currentSelection, subjects, topicsList} = vueInstance;
+                        const subjectI = currentSelection.subject;
+                        const topicI = currentSelection.topic;
+
+                        vueInstance.source = `${subjects[subjectI].name}_${topicsList[topicI].name}`
+                        console.log(vueInstance.source);
                     })
                     .catch(function (err) {
                         console.log(err)

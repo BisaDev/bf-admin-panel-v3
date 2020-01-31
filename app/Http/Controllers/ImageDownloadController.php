@@ -24,7 +24,6 @@ class ImageDownloadController extends Controller
 
     public function question($topic_id)
     {
-
         $question = TaggingQuestion::where("tagging_topic_id", $topic_id)->with('image')->get();
 
         $question = $this->transformer->transformCollection($question);
