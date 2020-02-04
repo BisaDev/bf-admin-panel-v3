@@ -25,9 +25,6 @@ class TaggingToolController extends Controller
         $subject_stats = $this->subjectTransformer->transformCollection($subject_stats);
         $subject_topics = TaggingSubject::with('topics')->get();
 
-
-
-
         return view('tagging_tool.index', compact('instructors', 'subject_stats' ,'subject_topics'));
     }
 

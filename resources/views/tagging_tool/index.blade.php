@@ -14,8 +14,12 @@
 
 @section('content')
     <div id="app" class="container">
-        @role('dude')
-            dude
+        @role('admin')
+            <down-wrapper
+                    download_route="{{ route('imagedownload.download') }}"
+                    question_route="{{route('imagedownload.question')}}"
+                    :subjects="{{ json_encode($subject_topics) }}"
+            ></down-wrapper>
         @else
             <tag-stats
                     tagging_route='{{ route('taggingtool.tag') }}'
