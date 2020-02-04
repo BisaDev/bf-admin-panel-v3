@@ -114,7 +114,6 @@
                 axios.get(url)
                     .then(function (response) {
                         vueInstance.results = response.data;
-                        console.log(vueInstance.results);
                         const {currentSelection, subjects, topicsList} = vueInstance;
                         const subjectI = currentSelection.subject;
                         const topicI = currentSelection.topic;
@@ -169,9 +168,6 @@
                         })
 
                 }
-            },
-            updateSelectedQuestion(event) {
-
             }
         },
         props: {

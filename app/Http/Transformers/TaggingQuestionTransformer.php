@@ -22,6 +22,7 @@ class TaggingQuestionTransformer extends Transformer
             'explanation_url'     => $image->explanation_url,
             'explanationFileUrl'  => $explanationFileUrl,
             'tagging_question_id' => $image->tagging_question_id,
+            'topic'               => $image->topic,
         ];
 
     }

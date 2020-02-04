@@ -16,12 +16,6 @@ class ImageDownloadController extends Controller
         $this->transformer = $transformer;
     }
 
-    public function index()
-    {
-        $subjects = TaggingSubject::with('topics')->get();
-        return view('image_download.index', compact('subjects'));
-    }
-
     public function question($topic_id)
     {
         $questions = TaggingQuestion::where("tagging_topic_id", $topic_id)->with('image')->get();
