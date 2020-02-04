@@ -20,9 +20,7 @@ class ImageDownloadController extends Controller
     {
         $questions = TaggingQuestion::where("tagging_topic_id", $topic_id)->with('image')->get();
 
-        foreach ($questions as $question) {
-            $question->image = $this->transformer->transformCollection($question->image);
-        }
+        $questions = $this->transformer->transformCollection($questions);
 
         return $questions;
     }
