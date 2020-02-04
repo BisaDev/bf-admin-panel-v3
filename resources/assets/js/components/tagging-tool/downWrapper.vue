@@ -17,7 +17,7 @@
                         <select v-model="currentSelection.topic" name="subject" class="form-control"
                                 @change="getQuestions($event)">
                             <option value="">Select topic</option>
-                            <option v-for="topic in topicsList" :value="topic.id">
+                            <option v-for="(topic,index) in topicsList" :value="index">
                                 {{topic.name}}
                             </option>
                         </select>
@@ -38,21 +38,21 @@
                     <tr v-for="(result,index) in results">
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    class="preview-btn" @click="updatePreviewModal(result.imageFile)">
-                                <img class="img-preview" :src="result.imageFile"
+                                    class="preview-btn" @click="updatePreviewModal(result.image[0].questionFileUrl)">
+                                <img class="img-preview" :src="result.image[0].questionFileUrl"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
                         <th>
                             <button type="button" data-toggle="modal" data-target="#previewModal"
-                                    class="preview-btn" @click="updatePreviewModal(result.explanationFile)">
-                                <img class="img-preview" :src="result.explanationFile"
+                                    class="preview-btn" @click="updatePreviewModal(result.image[0].explanationFileUrl)">
+                                <img class="img-preview" :src="result.image[0].explanationFileUrl"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
                         <th class="down-input-group">{{result.image.image_answer}}</th>
                         <th class="down-input-group">
-                            <input type="number"  value=1 v-model="results[index].pdf_id">
+                            <input type="number" value=1 v-model="results[index].pdf_id">
                         </th>
                         <th class="down-input-group">
                             <input type="checkbox" v-model="results[index].checked"
@@ -64,7 +64,7 @@
                 <button class="btn btn-info btn-zip" @click="handleDownload">
                     Download zip
                 </button>
-                <a id="download-link" :href="downloadLink.href" download="file.zip" />
+                <a id="download-link" :href="downloadLink.href" download="file.zip"/>
                 <h4 class="error-msg" v-if="error">
                     Nothing Selected
                 </h4>
@@ -104,15 +104,22 @@
                 const inputIndex = selection.target.value;
 
                 this.topicsList = this.subjects[inputIndex].topics;
-                this.source = `${this.subjects[inputIndex].name}_${this.topicsList[inputIndex].name}`
             },
             getQuestions: function (event) {
-                const topicId = event.target.value;
+                const i = event.target.value;
+                const topicId = this.topicsList[i].id;
                 const url = `${this.question_route}/${topicId}`;
                 const vueInstance = this;
+
                 axios.get(url)
                     .then(function (response) {
                         vueInstance.results = response.data;
+                        console.log(vueInstance.results)
+                        const {currentSelection, subjects, topicsList} = vueInstance;
+                        const subjectI = currentSelection.subject;
+                        const topicI = currentSelection.topic;
+
+                        vueInstance.source = `${subjects[subjectI].name}_${topicsList[topicI].name}`
                     })
                     .catch(function (err) {
                         console.log(err)
@@ -152,9 +159,9 @@
                             vueInstance.error = false;
                             vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
                             const downloadTrigger = document.getElementById('download-link');
-                            setTimeout(()=> {
+                            setTimeout(() => {
                                 downloadTrigger.click();
-                            },0)
+                            }, 0)
                         })
                         .catch(function (err) {
                             console.log(err);
@@ -162,9 +169,6 @@
                         })
 
                 }
-            },
-            updateSelectedQuestion(event) {
-
             }
         },
         props: {

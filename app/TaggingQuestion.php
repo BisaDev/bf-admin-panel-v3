@@ -11,6 +11,6 @@ class TaggingQuestion extends Model
     ];
 
     public function image() {
-        return $this->hasOne(TaggingImage::class);
+        return $this->hasMany(TaggingImage::class);
     }
 }

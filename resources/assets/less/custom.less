@@ -366,10 +366,13 @@ table.model-list td img{
 }
 
 .tagging-tool {
+    a {
+        cursor: pointer;
+    }
+
     .image-display {
         width: 100%;
         display: flex;
-        padding: 55px 0;
         min-height: 556px;
         align-items: center;
         justify-content: space-between;
@@ -387,7 +390,7 @@ table.model-list td img{
     }
 
     .topic-item:nth-child(odd) {
-        margin: 10px 0;
+        margin: 20px 0;
     }
 
     .topic-item:hover {
@@ -400,7 +403,12 @@ table.model-list td img{
     }
 
     .tag-image {
-        width: 35%;
+        width: 64%;
+        .tag-display {
+            width: 100%;
+            height: 550px;
+            object-fit: contain;
+        }
     }
 
     .btn-next {
@@ -411,9 +419,27 @@ table.model-list td img{
         min-width: 100%;
     }
 
-    .skip-link {
-        cursor: pointer;
+    .lower-group {
+        .skip-link {
+            padding-right: 15px;
+        }
+        .image-selector-group {
+            width: 65%;
+            overflow-x: auto;
+            .preview-thumbnail {
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border: 1px solid;
+                margin-right: 15px;
+            }
+
+            .preview-thumbnail:last-child {
+                margin-right: unset;
+            }
+        }
     }
+
 }
 .image-download {
     text-align:end;

@@ -24,5 +24,6 @@ class TaggingQuestionController extends Controller
 
         return $questions;
 
+
     }
 }
