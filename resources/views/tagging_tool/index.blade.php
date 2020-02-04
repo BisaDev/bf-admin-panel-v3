@@ -14,18 +14,14 @@
 
 @section('content')
     <div id="app" class="container">
-        @if ($userId === "admin")
-            <down-wrapper
-                    download_route="{{ route('imagedownload.download') }}"
-                    question_route="{{route('imagedownload.question')}}"
-                    :subjects="{{ json_encode($subject_topics) }}"
-            ></down-wrapper>
+        @role('dude')
+            dude
         @else
             <tag-stats
                     tagging_route='{{ route('taggingtool.tag') }}'
                     :instructors='{{ json_encode($instructors) }}'
                     :subjects='{{ json_encode($subject_stats) }}'>
             </tag-stats>
-        @endif
+        @endrole
     </div>
 @endsection

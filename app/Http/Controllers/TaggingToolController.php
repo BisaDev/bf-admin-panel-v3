@@ -23,13 +23,12 @@ class TaggingToolController extends Controller
         $instructors = User::role('instructor')->with('tag_logs')->get();
         $subject_stats = TaggingSubject::with('questions')->get();
         $subject_stats = $this->subjectTransformer->transformCollection($subject_stats);
-        $userId = auth()->user()->roles[0]->name;
         $subject_topics = TaggingSubject::with('topics')->get();
 
 
 
 
-        return view('tagging_tool.index', compact('instructors', 'subject_stats' ,'subject_topics' ,'userId'));
+        return view('tagging_tool.index', compact('instructors', 'subject_stats' ,'subject_topics'));
     }
 
     public function tag($subject_id) {
