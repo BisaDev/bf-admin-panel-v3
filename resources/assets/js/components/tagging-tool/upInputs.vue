@@ -1,6 +1,6 @@
 <template>
-    <div class="col-md-12 text-right flex">
-        <div class="flex-column">
+    <div class="row text-right">
+        <div class="col-md-6">
             <label class="control-label" for="question-img">Question image:</label>
             <button type="button" class="modal-trigger" data-toggle="modal" data-target="#previewModal"
                     v-on:click="onModalCall(leftImageUrl)" v-if="leftImageUrl !== ''">
@@ -17,7 +17,7 @@
                 No image selected
             </span>
         </div>
-        <div class="form-group col-md-12 text-left">
+        <div class="form-group col-md-1 text-left">
             <label class="control-label" for="answer">Answer:</label>
             <input type="text" v-model="answerValue" v-if="!uploaded"
                    :class="`form-control ${error.answer ? '' : 'error-msg'}`">
@@ -26,7 +26,7 @@
                 Please write an answer
             </span>
         </div>
-        <div class="flex-column">
+        <div class="col-md-5">
             <label class="control-label" for="explanation-img">Explanation image:</label>
             <button type="button" class="modal-trigger" data-toggle="modal" data-target="#previewModal"
                     v-on:click="onModalCall(rightImageUrl)" v-if="rightImageUrl !== ''">
@@ -139,7 +139,7 @@
     }
 
     .button-thick {
-        margin: 40px 0;
+        margin: 50px 0;
     }
 
     button {

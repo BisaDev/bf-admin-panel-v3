@@ -14,7 +14,7 @@
 
 @section('content')
     <div id="app" class="container">
-        @role('admin')
+        @hasanyrole('director|admin')
             <down-wrapper
                     download_route="{{ route('imagedownload.download') }}"
                     question_route="{{route('imagedownload.question')}}"
@@ -26,6 +26,6 @@
                     :instructors='{{ json_encode($instructors) }}'
                     :subjects='{{ json_encode($subject_stats) }}'>
             </tag-stats>
-        @endrole
+        @endhasanyrole
     </div>
 @endsection
