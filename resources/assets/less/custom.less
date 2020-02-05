@@ -368,6 +368,7 @@ table.model-list td img{
 .tagging-tool {
     a {
         cursor: pointer;
+        margin-top: 10px;
     }
 
     .image-display {
@@ -386,11 +387,14 @@ table.model-list td img{
 
     .topic-item {
         width: 100%;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
         background-color: #eeeeee;
-    }
 
-    .topic-item:nth-child(odd) {
-        margin: 20px 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     .topic-item:hover {
@@ -398,16 +402,11 @@ table.model-list td img{
         background-color: #336ca2;
     }
 
-    .topic-item:nth-child(even):hover {
-        color: white;
-    }
-
     .tag-image {
         width: 64%;
+
         .tag-display {
             width: 100%;
-            height: 550px;
-            object-fit: contain;
         }
     }
 
