@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -9,16 +12,18 @@
         "doctrine/dbal": "^2.8",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.3",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "^5.8.0",
         "laravel/tinker": "~1.0",
-        "sofa/eloquence": "~5.4",
-        "spatie/laravel-permission": "^2.12",
-        "tymon/jwt-auth": "0.5.*"
+        "sofa/eloquence": "~5.5",
+        "spatie/laravel-permission": "^2.38",
+        "tymon/jwt-auth": "0.5.*",
+        "symfony/translation": "4.3.8"
     },
     "require-dev": {
+        "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~6.0"
     },
     "autoload": {
         "classmap": [
@@ -47,6 +52,10 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
     "config": {

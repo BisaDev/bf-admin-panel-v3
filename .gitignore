@@ -1,5 +1,8 @@
 /node_modules
 /public/hot
+/public/css
+/public/js
+/public/images.zip
 /storage/*.key
 /vendor
 /.idea
@@ -8,3 +11,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+.DS_Store

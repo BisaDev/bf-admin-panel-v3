@@ -1,5 +1,5 @@
 import swal from 'sweetalert2';
-import cropImage from '../../components/cropImage';
+import cropImage from '../../components/CropImage';
 
 export default {
     components: {

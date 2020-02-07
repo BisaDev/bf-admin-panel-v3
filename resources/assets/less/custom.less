@@ -90,6 +90,12 @@ img.img-responsive{
     }
 }
 
+.list-unstyled {
+    .active {
+        pointer-events: none;
+    }
+}
+
 .topbar{
     .topbar-left{
         background-color: #FFF;
@@ -357,5 +363,129 @@ table.model-list td img{
     margin-bottom: 15px;
     align-items: center;
     justify-content: center;
+}
+
+.tagging-tool {
+    a {
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .image-display {
+        width: 100%;
+        display: flex;
+        min-height: 556px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .topic-display {
+        width: 35%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .topic-item {
+        width: 100%;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        background-color: #eeeeee;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .topic-item:hover {
+        color: wheat;
+        background-color: #336ca2;
+    }
+
+    .tag-image {
+        width: 64%;
+
+        .tag-display {
+            width: 100%;
+        }
+    }
+
+    .btn-next {
+        height: 80px;
+    }
+
+    .success-text {
+        min-width: 100%;
+    }
+
+    .lower-group {
+        .skip-link {
+            padding-right: 15px;
+        }
+        .image-selector-group {
+            width: 65%;
+            overflow-x: auto;
+            .preview-thumbnail {
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border: 1px solid;
+                margin-right: 15px;
+            }
+
+            .preview-thumbnail:last-child {
+                margin-right: unset;
+            }
+        }
+    }
+
+}
+.image-download {
+    text-align:end;
+
+    .filter-input {
+        min-width: 49%;
+        text-align:start;
+    }
+
+    .preview-btn {
+        padding: 0;
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+
+        .img-preview {
+            margin: 0;
+            width: 100%;
+        }
+    }
+
+    .down-input-group {
+        text-align: center;
+        vertical-align: middle;
+
+
+        input[type="checkbox"] {
+            transform: scale(2);
+        }
+        input[type="number"] {
+            width: 30px;
+            text-align: center;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+
+    .btn-zip {
+        margin-top: 25px;
+    }
+
+    .error-msg {
+        color: red;
+    }
 }
 

@@ -38,12 +38,31 @@ Route::domain(env('STUDENT_APP_URL', 'students.brightfoxv2.test'))->group(functi
 });
 
 Route::group(['middleware' => ['auth', 'role:admin|director|instructor']], function(){
+
     Route::get('/', 'DashboardController@index')->name('dashboard');
+
+    Route::get('taggingtool',                           'TaggingToolController@index')->name('taggingtool');
+    Route::get('taggingtool/tag/{subject_id?}',         'TaggingToolController@tag')->name('taggingtool.tag');
+    Route::post('taggingtool/set_topic',                'TaggingToolController@set_topic')->name('taggingtool.set_topic');
+
+    Route::get('question/list/{subject_id?}',           'TaggingQuestionController@questions_list')->name('taggingquestion.list');
+
+    Route::resource('image-upload',                     'ImageUploadController', ['except' =>['show']]);
+    Route::post('image-upload/upload',                  'ImageUploadController@upload')->name('imageupload.upload');
+
+    Route::get('image-download/question/{topic_id?}',   'ImageDownloadController@question')->name('imagedownload.question');
+    Route::get('image-download/download',               'ImageDownloadController@download')->name('imagedownload.download');
+
+    Route::resource('taggingsubjects',                  'TaggingSubjectController');
+    Route::get('TaggingSubjectController/getsubjects',  'TaggingSubjectController@getSubjects')->name('taggingsubjects.subjects');
+
+    Route::resource('taggingtopics',                    'TaggingTopicController',['except' =>['index', 'show']]);
+    Route::get('taggingtopics/create/{subject_id}',     'TaggingTopicController@create')->name('taggingtopics.create');
 
     Route::resource('grade_levels',                     'GradeLevelController');
     Route::post('grade_levels/{grade_level}',           'GradeLevelController@show')->name('grade_levels.show.search');
 
-    Route::resource('subjects',                         'SubjectController', ['except' => ['index', 'create']]); 
+    Route::resource('subjects',                         'SubjectController', ['except' => ['index', 'create']]);
     Route::get('subjects/create/{grade_level_id}',      'SubjectController@create')->name('subjects.create');
     Route::post('subjects/get_by_grade',                'SubjectController@get_subjects_by_grade_level')->name('subjects.by_grade');
     Route::post('subjects/{subject}',                   'SubjectController@show')->name('subjects.show.search');

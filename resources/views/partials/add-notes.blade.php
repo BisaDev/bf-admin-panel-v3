@@ -16,7 +16,7 @@
                     <input type="hidden" v-bind:name="'notes['+index+'][id]'" v-model="note.id">
                 </div>
                 <div class="form-group">
-                    <textarea v-bind:name="'notes['+index+'][text]'" class="form-control" v-model="note.text"></textarea>
+                    <textarea rows="11" v-bind:name="'notes['+index+'][text]'" class="form-control" v-model="note.text"></textarea>
                 </div>
             </div>
         </div>
