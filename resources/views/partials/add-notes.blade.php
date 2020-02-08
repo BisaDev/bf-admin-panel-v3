@@ -1,7 +1,8 @@
+@php $help_text = isset($help_text)? $help_text : '' @endphp
 <div id="add-children">
     <div class="form-group col-md-12">
         <button type="button" class="btn btn-sm btn-default" @click="addChildren" >Add note<span class="m-l-5"><i class="fa fa-plus"></i></span></button>
-        <p class="text-muted m-t-5">{{ $help_text or '' }}</p>
+        <p class="text-muted m-t-5">{{ $help_text  }}</p>
     </div>
 
     <div class="col-md-6" v-for="(note, index) in children">
