@@ -39,7 +39,7 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" v-on:click="examSection = !examSection" v-if="!examSection" class="btn btn-md btn-info">Next</button>
+            <button type="button" v-on:click="next" v-if="!examSection" class="btn btn-md btn-info">Next</button>
             <button type="submit" v-if="examSection || miniExam" class="btn btn-md btn-info">Start Exam</button>
         </div>
     </div>
@@ -95,6 +95,12 @@
             },
             examId: function () {
                 this.examCompleted = Object.values(this.examsCompleted).includes(this.examId);
+            }
+        },
+        methods: {
+            next: function (e) {
+                e.preventDefault();
+                this.examSection = !examSection;
             }
         }
     }
