@@ -18,7 +18,7 @@
                         <p>{{ $item->type->name }}</p>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-6">
                         <label class="control-label">Grade Level:</label>
@@ -29,20 +29,20 @@
                         <p>{{ ($item->subject)? $item->subject->name : '' }}</p>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-12">
                         <hr/>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-12">
                         <h4 class="header-title m-t-0">Questions</h4>
                         <ol>
                             @foreach($item->questions as $key => $question)
                                 <li>
-                                    <strong>{{ $question->title or '' }}</strong>
+                                    <strong>{{ $question->title ?? '' }}</strong>
                                     @if($question->photo)
                                         <img src="{{ $question->photo }}" class="img-responsive thumbnail m-t-5">
                                     @endif
@@ -55,7 +55,7 @@
                                                             <img src="{{ $answer->photo }}"
                                                                  class="img-responsive thumbnail m-b-5">
                                                         @endif
-                                                        {{ $answer->text or '' }}
+                                                        {{ $answer->text ?? '' }}
                                                     </div>
                                                 </div>
                                             @endforeach

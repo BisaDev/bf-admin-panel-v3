@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="show-student" class="row" data-model="family_member" data-search="{{ $search or '' }}"
+    <div id="show-student" class="row" data-model="family_member" data-search="{{ $search ?? '' }}"
          data-notes="{{ $item->notes->toJson() }}">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">

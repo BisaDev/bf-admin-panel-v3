@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="index-academic-content" data-model="quiz" data-search="{{ $search or '' }}" class="row">
+    <div id="index-academic-content" data-model="quiz" data-search="{{ $search ?? '' }}" class="row">
         <div class="col-sm-12">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
@@ -48,7 +48,7 @@
                                 <a href="{{ route('activity_buckets.index') }}" class="btn btn-white">&times; Clear filters</a>
                                 @endif
                             </div>
-                            
+
                             <div class="form-group col-md-4 pull-right">
                                 <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
                                     <input type="text" id="search" name="search" placeholder="Search" v-model="search" >

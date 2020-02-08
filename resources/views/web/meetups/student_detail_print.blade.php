@@ -116,7 +116,7 @@
                 <div class="row m-t-20">
                     @php $question = $graded_quiz->questions()->where('id', $quizzes_performance[$graded_quiz->id]['example']->id)->first() @endphp
                     <div class="col-xs-12">
-                        <p class="subhead">Sample question: <span>{{ $question->question_title or '' }}</span></p>
+                        <p class="subhead">Sample question: <span>{{ $question->question_title ?? '' }}</span></p>
                         <div class="row">
                             <div class="col-xs-3">
                                 @if($question->question_photo && $graded_quiz->quiz_type->name != 'Apple pencil')
@@ -143,7 +143,7 @@
                                         <img src="{{ $answer->original_photo }}" class="img-responsive">
                                     @endif
                                     <div class="text-center {{ ($answer->is_correct)? 'answer-correct' : (($student_answer && ($answer->id == $student_answer->answer_id) && !$student_answer->is_correct)? 'answer-incorrect' : '') }}">
-                                        {{ $answer->text or '' }}
+                                        {{ $answer->text ?? '' }}
                                     </div>
                                 </div>
                             @endforeach

@@ -58,7 +58,7 @@
                         <ol>
                         @foreach($item->questions as $key => $question)
                             <li>
-                                <strong>{{ $question->title or '' }}</strong>
+                                <strong>{{ $question->title ?? '' }}</strong>
                                     @if($question->other_photo && $question->photo)
                                         <div class="row">
                                             <div class="col-md-6">
@@ -107,7 +107,7 @@
                                             @if($answer->photo)
                                             <img src="{{ $answer->photo }}" class="img-responsive thumbnail m-b-5">
                                             @endif
-                                            {{ $answer->text or '' }}
+                                            {{ $answer->text ?? '' }}
                                         </div>
                                     </div>
                                     @endforeach

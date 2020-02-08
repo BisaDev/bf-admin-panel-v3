@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="index-container" data-model="user" data-model-child="family member" data-search="{{ $search or '' }}" class="row">
+    <div id="index-container" data-model="user" data-model-child="family member" data-search="{{ $search ?? '' }}" class="row">
         <div class="col-sm-12">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
@@ -27,7 +27,7 @@
                     <div class="col-md-offset-8 col-md-4 m-t-10 m-b-10">
                         <form class="form-inline" action="{{ route('students.search') }}" method="POST">
                             {{ csrf_field() }}
-                            
+
                             <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
                                 <input type="text" name="search" placeholder="Search" v-model="search" >
                                 <span @click="removeSearch('{{ route('students.index') }}')" v-show="search">&times;</span>

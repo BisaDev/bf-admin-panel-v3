@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="index-container" data-model="room" data-search="{{ $search or '' }}" class="row">
+    <div id="index-container" data-model="room" data-search="{{ $search ?? '' }}" class="row">
         <div class="col-md-8 col-md-offset-2">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
@@ -25,7 +25,7 @@
             <div class="card-box">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="m-b-20">{{ $item->name }}</h3>  
+                        <h3 class="m-b-20">{{ $item->name }}</h3>
                     </div>
                     <div class="col-md-6">
                         <label>Address</label>
@@ -50,7 +50,7 @@
                     <div class="col-md-6 col-md-offset-6 m-t-10">
                         <form class="form-inline" action="{{ route('locations.show.search', $item->id) }}" method="POST">
                             {{ csrf_field() }}
-                            
+
                             <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
                                 <input type="text" name="search" placeholder="Search" v-model="search" >
                                 <span @click="removeSearch('{{ route('locations.show', $item->id) }}')" v-show="search">&times;</span>
@@ -83,7 +83,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                
+
                 <div class="row">
                     <div class="col-sm-12 text-right">
                         {{ $item->rooms->links() }}

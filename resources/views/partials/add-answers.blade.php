@@ -1,7 +1,7 @@
 <div id="add-children" v-if="type != 4">
     <div class="form-group col-md-12">
         <button type="button" class="btn btn-sm btn-default" @click="addChildren" v-if="!type_has_canvas" >Add answer<span class="m-l-5"><i class="fa fa-plus"></i></span></button>
-        <p class="text-muted m-t-5">{{ $help_text or '' }}</p>
+        <p class="text-muted m-t-5">{{ $help_text ?? '' }}</p>
         @if($errors->has('answers') || $errors->has('answers.*'))
             <div class="alert alert-danger" role="alert">
                 <ul>

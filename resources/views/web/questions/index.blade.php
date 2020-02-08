@@ -15,7 +15,7 @@
 @endsection
 
 @section('content')
-    <div id="index-academic-content" data-model="question" data-search="{{ $search or '' }}" class="row">
+    <div id="index-academic-content" data-model="question" data-search="{{ $search ?? '' }}" class="row">
         <div class="col-sm-12">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="text" name="created_at" class="form-control datepicker-general" placeholder="Created Date" value="{{ $filters['created_at'] or '' }}" >
+                                <input type="text" name="created_at" class="form-control datepicker-general" placeholder="Created Date" value="{{ $filters['created_at'] ?? '' }}" >
                             </div>
 
                             <div class="form-group col-md-4 pull-right">

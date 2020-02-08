@@ -111,7 +111,7 @@
                                 @if($answer->photo)
                                     <img src="{{ $answer->photo }}" class="img-responsive thumbnail m-b-5">
                                 @endif
-                                {{ $answer->text or '' }}
+                                {{ $answer->text ?? '' }}
                             </div>
                         </div>
                     @endforeach

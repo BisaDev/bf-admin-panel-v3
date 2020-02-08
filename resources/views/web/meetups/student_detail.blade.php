@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    
+
     <div class="row create-container" id="create-meetup" data-meetup-id="{{ $meetup->id }}" data-notes="{{ $student->meetup_student_pivot($meetup->id)->first()->notes->toJson() }}">
         <div class="col-md-8 col-md-offset-2">
             <div class="card-box">
@@ -47,18 +47,18 @@
                         <p>{{ $meetup->start_time->format('g:i a') }} - {{ $meetup->end_time->format('g:i a') }}</p>
                     </div>
                 </div>
-    
+
                 <div class="row">
                     <div class="col-md-12 text-right">
                         <a href="{{ route('students.show', $student->id) }}" class="btn btn-md btn-info">Go to Student</a>
                         <a href="{{ route('meetups.show', $meetup->id) }}" class="btn btn-md btn-info">Go to Meetup</a>
                     </div>
                 </div>
-    
+
                 <div class="row">
                     <div class="col-sm-12"><hr/></div>
                 </div>
-                
+
                 <div class="row m-b-20">
                     <div class="col-xs-1">
                         <img src="{{ $student->photo }}" class="img-responsive img-circle" alt="profile-image" data-pin-nopin="true">
@@ -67,27 +67,27 @@
                         <h4>{{ $student->full_name }}</h4>
                     </div>
                 </div>
-    
+
                 <form action="{{ route('meetups.student_detail', [$meetup->id, $student->id]) }}" method="POST">
                     {{ csrf_field() }}
-                    
+
                     <div class="row">
                         @include('partials.add-notes')
                     </div>
-    
+
                     <div class="row">
                         <div class="form-group col-md-12 text-right">
                             <button type="submit" class="btn btn-md btn-primary">Save notes</button>
                         </div>
                     </div>
                 </form>
-                
+
                 @if($meetup->graded_quizzes->count() > 0)
                     <div class="row results-title">
                         <div class="col-xs-12">
                             <h3>{{ $meetup->activity_bucket->title }} - Results</h3>
                         </div>
-                    
+
                         <div class="col-sm-5">
                             <label class="control-label">Grade Level:</label>
                             <p>{{ ($meetup->activity_bucket->subject)? $meetup->activity_bucket->subject->grade_level->name : '' }}</p>
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                 @endif
-                
+
                 <div class="list-group">
                     @foreach($meetup->graded_quizzes as $key => $graded_quiz)
                         <div class="list-group-item">
@@ -117,7 +117,7 @@
                                         <ol>
                                             @foreach($graded_quiz->questions as $key => $question)
                                                 <li>
-                                                    <strong>{{ $question->question_title or '' }}</strong>
+                                                    <strong>{{ $question->question_title ?? '' }}</strong>
                                                     @if($question->question_photo)
                                                         <img src="{{ $question->question_photo }}" class="img-responsive thumbnail m-t-5">
                                                     @endif
@@ -129,7 +129,7 @@
                                                                     @if($answer->original_photo)
                                                                         <img src="{{ $answer->original_photo }}" class="img-responsive thumbnail m-b-5">
                                                                     @endif
-                                                                    {{ $answer->text or '' }}
+                                                                    {{ $answer->text ?? '' }}
                                                                 </div>
                                                             </div>
                                                         @endforeach
@@ -143,7 +143,7 @@
                                                                 @if($student->graded_answer($question->id)->first()->answer_image)
                                                                     <img src="{{ $student->graded_answer($question->id)->first()->answer_image }}" class="img-responsive thumbnail m-b-5">
                                                                 @endif
-                                                                {{ $student->graded_answer($question->id)->first()->answer_text or '' }}
+                                                                {{ $student->graded_answer($question->id)->first()->answer_text ?? '' }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -157,7 +157,7 @@
                         </div>
                     @endforeach
                 </div>
-                
+
             </div>
         </div>
     </div>

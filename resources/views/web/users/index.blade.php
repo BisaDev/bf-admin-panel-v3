@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    <div id="index-users" data-model="user" data-search="{{ $search or '' }}" class="row">
+    <div id="index-users" data-model="user" data-search="{{ $search ?? '' }}" class="row">
         <div class="col-sm-12">
             @if(Session::has('msg'))
                 <div class="alert alert-{{ Session::get('msg.type') }} alert dismissible" role="alert">
@@ -27,7 +27,7 @@
                     <div class="col-xs-12 m-t-10 m-b-10">
                         <form id="filter-form" class="form-inline" action="{{ route('employees.search') }}" method="POST">
                             {{ csrf_field() }}
-                
+
                             <div class="form-group">
                                 <select id="location" name="location" class="form-control" v-model="location">
                                     <option value="">Select Location</option>
@@ -44,14 +44,14 @@
                                     @endforeach
                                 </select>
                             </div>
-                
+
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Filter</button>
                                 @if(!is_null($filters['location']) || !is_null($filters['role']))
                                     <a href="{{ route('employees.index') }}" class="btn btn-white">&times; Clear filters</a>
                                 @endif
                             </div>
-                
+
                             <div class="form-group col-md-4 pull-right">
                                 <span class="form-control input-clear {{ isset($search)? 'active' : '' }}">
                                     <input type="text" id="search" name="search" placeholder="Search" v-model="search" >
