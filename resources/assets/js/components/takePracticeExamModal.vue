@@ -100,7 +100,7 @@
         methods: {
             next: function (e) {
                 e.preventDefault();
-                this.examSection = !examSection;
+                this.examSection = !this.examSection;
             }
         }
     }
