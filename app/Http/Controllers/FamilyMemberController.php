@@ -10,7 +10,7 @@ use File;
 class FamilyMemberController extends Controller
 {
     use CreatesAndSavesPhotos;
-    
+
     protected $types = FamilyMember::TYPES;
 
     /**
@@ -43,7 +43,7 @@ class FamilyMemberController extends Controller
             'secondary_email' => 'nullable|email',
             'photo' => 'nullable|image',
         ]);
-        
+
         $family_member = FamilyMember::create([
             'name' => $request->input('name'),
             'middle_name' => $request->input('middle_name'),
@@ -57,7 +57,7 @@ class FamilyMemberController extends Controller
             'city' => $request->input('city'),
             'state' => $request->input('state'),
             'student_id' => $request->input('student_id'),
-            'can_pickup' => ($request->has('can_pickup'))? 1 : 0
+            'can_pickup' => ($request->filled('can_pickup'))? 1 : 0
         ]);
 
         if ($request->hasFile('photo')) {
@@ -65,7 +65,7 @@ class FamilyMemberController extends Controller
             $family_member->save();
         }
 
-        if($request->has('notes')){
+        if($request->filled('notes')){
             foreach ($request->input('notes') as $note) {
                 if(!is_null($note['title']) && !is_null($note['text'])){
                     $note = Note::create(['title' => $note['title'], 'text' => $note['text']]);
@@ -75,7 +75,7 @@ class FamilyMemberController extends Controller
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Family Member was successfully created']);
-        
+
         return redirect(route('students.show', $request->input('student_id')));
     }
 
@@ -117,7 +117,7 @@ class FamilyMemberController extends Controller
             'secondary_email' => 'nullable|email',
             'photo' => 'nullable|image',
         ]);
-        
+
         $family_member->name = $request->input('name');
         $family_member->middle_name = $request->input('middle_name');
         $family_member->last_name = $request->input('last_name');
@@ -129,7 +129,7 @@ class FamilyMemberController extends Controller
         $family_member->address = $request->input('address');
         $family_member->city = $request->input('city');
         $family_member->state = $request->input('state');
-        $family_member->can_pickup = ($request->has('can_pickup'))? 1 : 0;
+        $family_member->can_pickup = ($request->filled('can_pickup'))? 1 : 0;
         $family_member->save();
 
         if ($request->hasFile('photo')) {
@@ -141,7 +141,7 @@ class FamilyMemberController extends Controller
             $family_member->save();
         }
 
-        if($request->has('notes')){
+        if($request->filled('notes')){
             $notes_ids = collect($request->get('notes'))->map(function($note){
                 return $note['id'];
             })->toArray();
@@ -154,7 +154,7 @@ class FamilyMemberController extends Controller
                     $note = Note::find($request_note['id']);
                     $note->title = $request_note['title'];
                     $note->text = $request_note['text'];
-                    
+
                     $note->save();
                 }else{
                     $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
@@ -166,7 +166,7 @@ class FamilyMemberController extends Controller
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Family Member was successfully edited']);
-        
+
         return redirect(route('students.show', $family_member->student->id));
     }
 
@@ -183,7 +183,7 @@ class FamilyMemberController extends Controller
         $family_member->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Family Member was successfully deleted']);
-        
+
         return redirect(route('students.show', $student_id));
     }
 
@@ -212,23 +212,23 @@ class FamilyMemberController extends Controller
         $family_member->can_pickup = $request->input('status');
         $family_member->save();
     }
-    
+
     public function save_notes(Request $request, FamilyMember $family_member)
     {
-        if($request->has('notes')){
+        if($request->filled('notes')){
             $notes_ids = collect($request->get('notes'))->map(function($note){
                 return $note['id'];
             })->toArray();
-            
+
             $family_member->notes()->whereNotIn('id', $notes_ids)->delete();
-            
+
             foreach ($request->input('notes') as $key => $request_note) {
                 if(!is_null($request_note['id'])){
-                    
+
                     $note = Note::find($request_note['id']);
                     $note->title = $request_note['title'];
                     $note->text = $request_note['text'];
-                    
+
                     $note->save();
                 }else{
                     $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
@@ -238,7 +238,7 @@ class FamilyMemberController extends Controller
         }else{
             $family_member->notes()->delete();
         }
-        
+
         return redirect(route('family_members.show', $family_member->id));
     }
 }

@@ -27,7 +27,7 @@ class TaggingSubjectController extends Controller
     {
         $subject = TaggingSubject::create($request->only(['name']));
 
-        if ($request->has('topics')) {
+        if ($request->filled('topics')) {
 
             foreach ($request->input('topics') as $topic_name) {
                 if (!is_null($topic_name)) {

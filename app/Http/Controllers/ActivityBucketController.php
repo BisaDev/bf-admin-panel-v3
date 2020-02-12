@@ -15,14 +15,14 @@ class ActivityBucketController extends Controller
     public function index(Request $request)
     {
         $query = ActivityBucket::with('subject.grade_level');
-    
+
         /* TABLE FILTERS */
         $filters = [
-            'grade_level' => $request->input('grade_level'), 
+            'grade_level' => $request->input('grade_level'),
             'subject' =>  $request->input('subject')
         ];
 
-        if($request->has('search')){
+        if($request->filled('search')){
             $search = $request->input('search');
             $query->search($search);
         } else {
@@ -36,7 +36,7 @@ class ActivityBucketController extends Controller
                 $subquery->where('grade_level_id', $filters['grade_level']);
             });
         }
-    
+
         /* TABLE SORTING */
         $sort_columns = [
             'title' => 'asc',
@@ -44,23 +44,23 @@ class ActivityBucketController extends Controller
             'subject' => 'asc',
         ];
         $sort = ['column' => 'id', 'value' => 'desc'];
-    
-        if($request->has('sort_column')){
+
+        if($request->filled('sort_column')){
             $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
             $sort_columns[$sort['column']] = ($sort['value'] == 'asc')? 'desc' : 'asc';
         }
-    
+
         switch ($sort['column']) {
             case 'title':
                 $query->orderBy($sort['column'], $sort['value']);
                 break;
-        
+
             case 'grade_level':
                 $query->leftJoin('subjects','subjects.id','=','activity_buckets.subject_id')
                     ->leftJoin('grade_levels','grade_levels.id','=','subjects.grade_level_id')
                     ->orderBy('grade_levels.name', $sort['value']);
                 break;
-        
+
             case 'subject':
                 $query->leftJoin('subjects','subjects.id','=','activity_buckets.subject_id')
                     ->orderBy('subjects.name', $sort['value']);
@@ -97,7 +97,7 @@ class ActivityBucketController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $this->validate($request, [
             'title' => 'required|string|max:191',
             'presentation_file' => 'nullable|url',
@@ -111,15 +111,15 @@ class ActivityBucketController extends Controller
             'subject_id' => $request->input('subject')
         ]);
 
-        if($request->has('quizzes')){
+        if($request->filled('quizzes')){
             $quizzes_to_sync = array_intersect_key($request->input('quizzes_minigames'), $request->input('quizzes'));
             $activity_bucket->quizzes()->sync($quizzes_to_sync);
         }
 
-        if($request->has('meetup_id')){
+        if($request->filled('meetup_id')){
             $meetup = Meetup::find($request->input('meetup_id'));
             $meetup->activity_bucket()->associate($activity_bucket);
-            
+
             if($meetup->students->count() > 0){
                 $meetup->status = json_encode(['key' => '1', 'name' => 'Ready'], JSON_FORCE_OBJECT);
             }
@@ -189,13 +189,13 @@ class ActivityBucketController extends Controller
             'quizzes' => 'required',
         ]);
 
-        
+
         $activity_bucket->title = $request->input('title');
         $activity_bucket->subject_id = $request->input('subject');
         $activity_bucket->presentation_file = $request->input('presentation_file');
         $activity_bucket->save();
 
-        if($request->has('quizzes')){
+        if($request->filled('quizzes')){
             $quizzes_to_sync = array_intersect_key($request->input('quizzes_minigames'), $request->input('quizzes'));
             $activity_bucket->quizzes()->sync($quizzes_to_sync);
         }
@@ -216,7 +216,7 @@ class ActivityBucketController extends Controller
         $activity_bucket->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Activity Bucket was successfully deleted']);
-        
+
         return redirect(route('activity_buckets.index'));
     }
 
@@ -230,7 +230,7 @@ class ActivityBucketController extends Controller
     public function save_quiz_order(Request $request)
     {
         $activity_bucket = ActivityBucket::find($request->input('activity_bucket_id'));
-        
+
         foreach ($request->input('quizzes') as $key => $quiz) {
             $activity_bucket->quizzes()->updateExistingPivot($quiz['id'], ['order' => $key+1]);
         }

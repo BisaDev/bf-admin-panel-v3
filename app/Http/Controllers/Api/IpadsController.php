@@ -22,7 +22,7 @@ class IpadsController extends ApiController
 
     public function register(Request $request)
     {
-        if ($request->has('macAddress')){
+        if ($request->filled('macAddress')){
             $ipad = Ipad::firstOrCreate([
                 'mac_address' => $request->get('macAddress')
             ]);

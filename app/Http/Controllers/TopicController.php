@@ -33,19 +33,19 @@ class TopicController extends Controller
             'name' => 'required|string|max:191',
             'subject_id' => 'required|numeric',
         ]);
-        
+
         Topic::create($request->only(['name', 'subject_id']));
 
-        if($request->has('topics')){
+        if($request->filled('topics')){
             foreach ($request->input('topics') as $topic_name) {
                 if(!is_null($topic_name)){
                     Topic::create(['name' => $topic_name, 'subject_id' => $request->input('subject_id')]);
                 }
             }
         }
-        
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Topic was successfully created']);
-        
+
         return redirect(route('subjects.show', $request->input('subject_id')));
     }
 
@@ -77,7 +77,7 @@ class TopicController extends Controller
         $topic->save();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Topic was successfully edited']);
-        
+
         return redirect(route('subjects.show', $topic->subject->id));
     }
 
@@ -94,7 +94,7 @@ class TopicController extends Controller
         $topic->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Topic was successfully deleted']);
-        
+
         return redirect(route('subjects.show', $subject_id));
     }
 

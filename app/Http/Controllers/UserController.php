@@ -11,7 +11,7 @@ use File;
 class UserController extends Controller
 {
     use CreatesAndSavesPhotos;
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -21,34 +21,34 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::with('user_detail');
-    
+
         /* TABLE FILTERS */
         $filters = [
             'location' => $request->input('location'),
             'role' => $request->input('role'),
         ];
-        
-        if($request->has('search')){
+
+        if($request->filled('search')){
             $search = $request->input('search');
             $query->search($search);
         } else {
             $search = '';
         }
-    
+
         if(!is_null($filters['location'])){
             $query->whereHas('user_detail', function ($subquery)use($filters) {
                 $subquery->where('location_id', $filters['location']);
             });
         }
-    
+
         if(!is_null($filters['role'])){
             $query->role($filters['role']);
         }else{
             $query->role(['Director', 'Instructor']);
         }
-    
+
         $list = $query->paginate(50);
-    
+
         $locations = Location::all();
         $roles = Role::where('name', '!=', 'admin')->get();
 
@@ -88,7 +88,7 @@ class UserController extends Controller
             'photo' => 'nullable|image',
             'location' => 'required'
         ]);
-        
+
         $user = User::create([
             'name' => $request->input('name'),
             'middle_name' => $request->input('middle_name'),
@@ -114,7 +114,7 @@ class UserController extends Controller
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Employee was successfully created']);
-        
+
         return redirect(route('employees.index'));
     }
 
@@ -164,13 +164,13 @@ class UserController extends Controller
             'photo' => 'nullable|image',
             'location' => 'required'
         ]);
-        
-        
+
+
         $employee->name = $request->input('name');
         $employee->middle_name = $request->input('middle_name');
         $employee->last_name = $request->input('last_name');
         $employee->email = $request->input('email');
-        if($request->has('password')){
+        if($request->filled('password')){
             $employee->password = bcrypt($request->input('password'));
         }
 
@@ -180,7 +180,7 @@ class UserController extends Controller
         $employee->user_detail->location_id = $request->input('location');
         $employee->user_detail->save();
 
-        if($request->has('role')){
+        if($request->filled('role')){
             $employee->syncRoles([$request->input('role')]);
         }
         $employee->save();
@@ -189,7 +189,7 @@ class UserController extends Controller
             if(!is_null($employee->user_detail->getOriginal('photo')) || $employee->user_detail->getOriginal('photo') != ''){
                 File::delete(public_path(UserDetail::PHOTO_PATH . $employee->user_detail->getOriginal('photo')));
             }
-            
+
             $employee->user_detail->photo = $this->createAndSavePhoto($request->file('photo'), UserDetail::PHOTO_PATH);
             $employee->user_detail->save();
         }
@@ -199,7 +199,7 @@ class UserController extends Controller
         }else{
             $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Employee was successfully edited']);
         }
-        
+
         return redirect(route('employees.index'));
     }
 
@@ -216,7 +216,7 @@ class UserController extends Controller
         $employee->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Employee was successfully deleted']);
-        
+
         return redirect(route('employees.index'));
     }
 

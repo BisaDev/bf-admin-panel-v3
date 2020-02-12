@@ -39,10 +39,10 @@ class QuestionController extends Controller
             'grade_level' => $request->input('grade_level'),
             'subject' =>  $request->input('subject'),
             'topic' => $request->input('topic'),
-            'created_at' => $request->has('created_at')? Carbon::parse($request->input('created_at'))->format('Y-m-d') : null
+            'created_at' => $request->filled('created_at')? Carbon::parse($request->input('created_at'))->format('Y-m-d') : null
         ];
 
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $search = $request->input('search');
             $query->search($search);
         } else {
@@ -55,7 +55,7 @@ class QuestionController extends Controller
 
         if (!is_null($filters['created_at'])) {
             $query->where('created_at', 'like', $filters['created_at'].'%');
-            $filters['created_at'] = $request->has('created_at')? Carbon::parse($request->input('created_at'))->format('m/d/Y') : null;
+            $filters['created_at'] = $request->filled('created_at')? Carbon::parse($request->input('created_at'))->format('m/d/Y') : null;
         }
 
         if (!is_null($filters['topic'])) {
@@ -84,7 +84,7 @@ class QuestionController extends Controller
         ];
         $sort = ['column' => 'created_at', 'value' => 'desc'];
 
-        if ($request->has('sort_column')) {
+        if ($request->filled('sort_column')) {
             $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
             $sort_columns[$sort['column']] = ($sort['value'] == 'asc')? 'desc' : 'asc';
         }
@@ -115,7 +115,7 @@ class QuestionController extends Controller
             case 'type':
                 $query->orderBy('type', $sort['value']);
                 break;
-    
+
             case 'user':
                 $query->leftJoin('users', 'users.id', '=', 'questions.user_id')
                     ->orderBy('users.name', $sort['value']);
@@ -181,19 +181,19 @@ class QuestionController extends Controller
             'user_id' => auth()->user()->id
         ]);
 
-        if ($request->has('answer_explanation') && $request->input('answer_explanation') != '') {
+        if ($request->filled('answer_explanation') && $request->input('answer_explanation') != '') {
             $question->answer_explanation = $request->input('answer_explanation');
             $question->save();
         }
 
-        if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
+        if ($request->filled('photo_cropped') && $request->input('photo_cropped') != '') {
             $image_width = $this->question_type_resize($question_type);
 
             $question->photo = $this->createAndSavePhoto($request->input('photo_cropped'), Question::PHOTO_PATH, $image_width, null);
             $question->save();
         }
 
-        if ($request->has('other_photo_cropped') && $request->input('other_photo_cropped') != '') {
+        if ($request->filled('other_photo_cropped') && $request->input('other_photo_cropped') != '') {
             $image_size = getimagesize($request->input('other_photo_cropped'));
             $image_width = $image_size[0];
             $image_height = $image_size[1];
@@ -203,7 +203,7 @@ class QuestionController extends Controller
             $question->save();
         }
 
-        if ($request->has('answer_explanation_photo_cropped') && $request->input('answer_explanation_photo_cropped') != '') {
+        if ($request->filled('answer_explanation_photo_cropped') && $request->input('answer_explanation_photo_cropped') != '') {
             $image_size = getimagesize($request->input('answer_explanation_photo_cropped'));
             $image_width = $image_size[0];
             $image_height = $image_size[1];
@@ -212,7 +212,7 @@ class QuestionController extends Controller
             $question->save();
         }
 
-        if ($request->has('answers')) {
+        if ($request->filled('answers')) {
             foreach ($request->input('answers') as $key => $request_answer) {
                 $answer = Answer::create([
                     'text' => $request_answer['text'],
@@ -221,25 +221,25 @@ class QuestionController extends Controller
                     'question_id' => $question->id
                 ]);
 
-                if ($request->has('answers.'.$key.'.photo_cropped') && $request->input('answers.'.$key.'.photo_cropped')) {
+                if ($request->filled('answers.'.$key.'.photo_cropped') && $request->input('answers.'.$key.'.photo_cropped')) {
                     $answer->photo = $this->createAndSavePhoto($request->input('answers.'.$key.'.photo_cropped'), Answer::PHOTO_PATH, null, null);
                     $answer->save();
                 }
 
-                if ($request->has('answers.'.$key.'.obj_data')) {
+                if ($request->filled('answers.'.$key.'.obj_data')) {
                     $answer->object_data = $request->input('answers.'.$key.'.obj_data');
                     $answer->save();
                 }
             }
         }
 
-        if ($request->has('tags')) {
+        if ($request->filled('tags')) {
             $question->tags()->sync($this->getTagsToSync($request->input('tags')));
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Question was successfully created']);
 
-        if ($request->has('add_more')) {
+        if ($request->filled('add_more')) {
             return view('web.questions.create', [
                 'grade_levels' => GradeLevel::all(),
                 'types' => $this->types,
@@ -326,7 +326,7 @@ class QuestionController extends Controller
             $question->save();
         }
 
-        if ($request->has('photo_cropped') && $request->input('photo_cropped') != '') {
+        if ($request->filled('photo_cropped') && $request->input('photo_cropped') != '') {
             if (!is_null($question->getOriginal('photo')) || $question->getOriginal('photo') != '') {
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('photo')));
             }
@@ -337,7 +337,7 @@ class QuestionController extends Controller
             $question->save();
         }
 
-        if ($request->has('other_photo_cropped') && $request->input('other_photo_cropped') != '') {
+        if ($request->filled('other_photo_cropped') && $request->input('other_photo_cropped') != '') {
             if (!is_null($question->getOriginal('other_photo')) || $question->getOriginal('other_photo') != '') {
                 File::delete(public_path(Question::PHOTO_PATH . $question->getOriginal('other_photo')));
             }
@@ -349,7 +349,7 @@ class QuestionController extends Controller
             $question->save();
         }
 
-        if ($request->has('answer_explanation_photo_cropped') && $request->input('answer_explanation_photo_cropped') != '') {
+        if ($request->filled('answer_explanation_photo_cropped') && $request->input('answer_explanation_photo_cropped') != '') {
             $image_size = getimagesize($request->input('answer_explanation_photo_cropped'));
             $image_width = $image_size[0];
             $image_height = $image_size[1];
@@ -366,8 +366,8 @@ class QuestionController extends Controller
             $answer->delete();
         });
 
-        if ($request->has('answers')) {
-            
+        if ($request->filled('answers')) {
+
             foreach ($request->input('answers') as $key => $request_answer) {
                 if (!is_null($request_answer['id'])) {
                     $answer = Answer::find($request_answer['id']);
@@ -376,7 +376,7 @@ class QuestionController extends Controller
 
                     if (array_key_exists('remove_photo', $request_answer) && !is_null($request_answer['remove_photo'])) {
                         if (!is_null($answer->getOriginal('photo')) || $answer->getOriginal('photo') != '') {
-                            
+
                             File::delete(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
                         }
                         $answer->photo = null;
@@ -390,8 +390,8 @@ class QuestionController extends Controller
                         'question_id' => $question->id
                     ]);
                 }
-    
-                if ($request->has('answers.'.$key.'.photo_cropped') && $request->input('answers.'.$key.'.photo_cropped')) {
+
+                if ($request->filled('answers.'.$key.'.photo_cropped') && $request->input('answers.'.$key.'.photo_cropped')) {
                     if (!is_null($answer->getOriginal('photo')) || $answer->getOriginal('photo') != '') {
                         File::delete(public_path(Answer::PHOTO_PATH . $answer->getOriginal('photo')));
                     }
@@ -400,14 +400,14 @@ class QuestionController extends Controller
                     $answer->save();
                 }
 
-                if ($request->has('answers.'.$key.'.obj_data')) {
+                if ($request->filled('answers.'.$key.'.obj_data')) {
                     $answer->object_data = $request->input('answers.'.$key.'.obj_data');
                     $answer->save();
                 }
             }
         }
 
-        if ($request->has('tags')) {
+        if ($request->filled('tags')) {
             $question->tags()->sync($this->getTagsToSync($request->input('tags')));
         }
 

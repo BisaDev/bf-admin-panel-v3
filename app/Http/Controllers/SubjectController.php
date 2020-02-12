@@ -32,19 +32,19 @@ class SubjectController extends Controller
             'name' => 'required|string|max:191',
             'grade_level_id' => 'required|numeric',
         ]);
-        
+
         $subject = Subject::create($request->only(['name', 'grade_level_id']));
 
-        if($request->has('topics')){
+        if($request->filled('topics')){
             foreach ($request->input('topics') as $topic_name) {
                 if(!is_null($topic_name)){
                     Topic::create(['name' => $topic_name, 'subject_id' => $subject->id]);
                 }
             }
         }
-        
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Subject was successfully created']);
-        
+
         return redirect(route('grade_levels.show', $request->input('grade_level_id')));
     }
 
@@ -59,7 +59,7 @@ class SubjectController extends Controller
     {
         $item = $subject;
 
-        if($request->has('search')){
+        if($request->filled('search')){
             $search = $request->input('search');
             $item->topics = $item->topics()->search($search)->paginate(50);
         }else{
@@ -98,7 +98,7 @@ class SubjectController extends Controller
         $subject->save();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Subject was successfully edited']);
-        
+
         return redirect(route('grade_levels.show', $subject->grade_level->id));
     }
 
@@ -115,7 +115,7 @@ class SubjectController extends Controller
         $subject->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Subject was successfully deleted']);
-        
+
         return redirect(route('grade_levels.show', $grade_level_id));
     }
 

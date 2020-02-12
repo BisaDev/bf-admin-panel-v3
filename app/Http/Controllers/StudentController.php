@@ -21,7 +21,7 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->has('search')){
+        if($request->filled('search')){
             $search = $request->input('search');
             $list = Student::search($search)->paginate(50);
         }else{
@@ -63,7 +63,7 @@ class StudentController extends Controller
             'location' => 'required'
         ];
 
-        if($request->has('add_user')){
+        if($request->filled('add_user')){
 
             $validationArray = array_merge($validationArray, [
                 'email' => 'required|unique:users|email',
@@ -76,7 +76,7 @@ class StudentController extends Controller
         }
 
         $this->validate($request, $validationArray);
-        
+
         if($request->input('birthdate')){
             $birthdate = Carbon::createFromFormat('m/d/Y', $request->input('birthdate'));
             $birthdate_format = $birthdate->toDateString();
@@ -105,7 +105,7 @@ class StudentController extends Controller
             $student->save();
         }
 
-        if($request->has('notes')){
+        if($request->filled('notes')){
             foreach ($request->input('notes') as $note) {
                 if(!is_null($note['title']) && !is_null($note['text'])){
                     $note = Note::create(['title' => $note['title'], 'text' => $note['text']]);
@@ -114,7 +114,7 @@ class StudentController extends Controller
             }
         }
 
-        if($request->has('add_user')) {
+        if($request->filled('add_user')) {
 
             $user = User::create([
                 'name' => $request->input('name'),
@@ -142,7 +142,7 @@ class StudentController extends Controller
 
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Student was successfully created']);
-        
+
         return redirect(route('students.index'));
     }
 
@@ -156,7 +156,7 @@ class StudentController extends Controller
     {
         $item = $student;
 
-        if($request->has('search')){
+        if($request->filled('search')){
             $search = $request->input('search');
             $item->family_members = $item->family_members()->search($search)->paginate(50);
         }else{
@@ -206,7 +206,7 @@ class StudentController extends Controller
         }else{
             $birthdate_format = null;
         }
-        
+
         $student->name = $request->input('name');
         $student->middle_name = $request->input('middle_name');
         $student->last_name = $request->input('last_name');
@@ -231,7 +231,7 @@ class StudentController extends Controller
             $student->save();
         }
 
-        if($request->has('notes')){
+        if($request->filled('notes')){
             $notes_ids = collect($request->get('notes'))->map(function($note){
                 return $note['id'];
             })->toArray();
@@ -244,7 +244,7 @@ class StudentController extends Controller
                     $note = Note::find($request_note['id']);
                     $note->title = $request_note['title'];
                     $note->text = $request_note['text'];
-                    
+
                     $note->save();
                 }else{
                     $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
@@ -271,7 +271,7 @@ class StudentController extends Controller
             $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
 
-            if($request->has('password')){
+            if($request->filled('password')){
                 $user->password = bcrypt($request->input('password'));
             }
 
@@ -286,7 +286,7 @@ class StudentController extends Controller
 
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Student was successfully edited']);
-        
+
         return redirect(route('students.index'));
     }
 
@@ -306,26 +306,26 @@ class StudentController extends Controller
         $student->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Student was successfully deleted']);
-        
+
         return redirect(route('students.index'));
     }
-    
+
     public function save_notes(Request $request, Student $student)
     {
-        if($request->has('notes')){
+        if($request->filled('notes')){
             $notes_ids = collect($request->get('notes'))->map(function($note){
                 return $note['id'];
             })->toArray();
-            
+
             $student->notes()->whereNotIn('id', $notes_ids)->delete();
-            
+
             foreach ($request->input('notes') as $key => $request_note) {
                 if(!is_null($request_note['id'])){
-                    
+
                     $note = Note::find($request_note['id']);
                     $note->title = $request_note['title'];
                     $note->text = $request_note['text'];
-                    
+
                     $note->save();
                 }else{
                     $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
@@ -335,42 +335,42 @@ class StudentController extends Controller
         }else{
             $student->notes()->delete();
         }
-    
+
         return redirect(route('students.show', $student->id));
     }
-    
+
     public function student_progress_print(Student $student)
     {
         $student_data = [];
         $total_questions = 0;
-        
+
         foreach($student->meetups->reverse() as $meetup){
             foreach($meetup->graded_quizzes as $graded_quiz){
-        
+
                 $graded_quiz_answers = $student->graded_answers($graded_quiz->id)->get();
-        
+
                 foreach($graded_quiz_answers as $student_answer){
-                    
+
                     $subject = $graded_quiz->quiz_subject;
                     $topic = $student_answer->graded_quiz_question->question_topic;
-                    
+
                     if(!array_key_exists($subject, $student_data)){
                         $student_data[$subject] = [];
                     }
                     if(!array_key_exists($topic, $student_data[$subject])){
                         $student_data[$subject][$topic] = [];
                     }
-                    
+
                     $tags = collect(json_decode($student_answer->graded_quiz_question->tags));
-                    
+
                     $level_tags = $tags->filter(function($value, $key){
                         return strpos($value->name, 'lvl-') !== false;
                     });
-                    
+
                     //foreach($level_tags as $level_tag){
                         //$level = $graded_quiz->quiz_grade_level.'-'.substr($level_tag->name, 4, 1);
                         $level = $graded_quiz->quiz_grade_level;
-                        
+
                         if(!array_key_exists($level, $student_data[$subject][$topic])){
                             $student_data[$subject][$topic][$level] = [
                                 'total_questions' => 0,
@@ -379,28 +379,28 @@ class StudentController extends Controller
                                 'date_mastered' => 'N/A'
                             ];
                         }
-                        
+
                         $student_data[$subject][$topic][$level]['total_questions'] += 1;
                         $total_questions += 1;
                         if($student_answer->is_correct){
                             $student_data[$subject][$topic][$level]['total_correct'] += 1;
                         }
-    
+
                         $percentage_correct = round((100 * $student_data[$subject][$topic][$level]['total_correct'])/$student_data[$subject][$topic][$level]['total_questions']);
-    
+
                         if($student_data[$subject][$topic][$level]['total_questions'] >= 200 && $student_data[$subject][$topic][$level]['date_mastered'] == 'N/A'){
-        
+
                             if($percentage_correct > 85){
                                 $student_data[$subject][$topic][$level]['date_mastered'] = $meetup->start_time->format('F jS, Y');
                             }
                         }
-    
+
                         $student_data[$subject][$topic][$level]['percentage_correct'] = $percentage_correct;
                     //}
                 }
             }
         }
-    
+
         $meetup_hours = ['total' => 0, 'subjects' => []];
         foreach($student->meetups as $meetup){
             $subject = $meetup->graded_quizzes()->first();
@@ -408,7 +408,7 @@ class StudentController extends Controller
                 if(!array_key_exists($subject->quiz_subject, $meetup_hours)){
                     $meetup_hours['subjects'][$subject->quiz_subject] = 0;
                 }
-    
+
                 $time = new Carbon($meetup->start_time);
                 $end_time =new Carbon($meetup->end_time);
                 $meeting_time = $time->diffInHours($end_time);
@@ -416,7 +416,7 @@ class StudentController extends Controller
                 $meetup_hours['subjects'][$subject->quiz_subject] += $meeting_time;
             }
         }
-        
+
         //dd($student_data);
         return view('web.students.progress', compact('student', 'student_data', 'meetup_hours', 'total_questions'));
     }

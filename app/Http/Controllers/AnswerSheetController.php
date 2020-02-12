@@ -269,7 +269,7 @@ class AnswerSheetController extends Controller
             ];
 
             $sort = ['column' => 'created_at', 'value' => 'desc'];
-            if ($request->has('sort_column')) {
+            if ($request->filled('sort_column')) {
                 $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
                 $sort_columns[$sort['column']] = ($sort['value'] == 'asc') ? 'desc' : 'asc';
             } else {
@@ -365,7 +365,7 @@ class AnswerSheetController extends Controller
             });
         });
 
-        if ($request->has('sort_column')) {
+        if ($request->filled('sort_column')) {
             $sortValue = $request->input('sort_value') === 'asc' ? 'desc' : 'asc';
 
             $sortBy = $request->input('sort_column');

@@ -48,19 +48,19 @@ class RoomController extends Controller
                 })
             ]
         ]);
-        
+
         Room::create($request->only(['name', 'location_id']));
 
-        if($request->has('rooms')){
+        if($request->filled('rooms')){
             foreach ($request->input('rooms') as $room_name) {
                 if(!is_null($room_name)){
                     Room::create(['name' => $room_name, 'location_id' => $request->input('location_id')]);
                 }
             }
         }
-        
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Room was successfully created']);
-        
+
         return redirect(route('locations.show', $request->input('location_id')));
     }
 
@@ -92,7 +92,7 @@ class RoomController extends Controller
         $room->save();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Room was successfully edited']);
-        
+
         return redirect(route('locations.show', $room->location->id));
     }
 
@@ -109,7 +109,7 @@ class RoomController extends Controller
         $room->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Room was successfully deleted']);
-        
+
         return redirect(route('locations.show', $location_id));
     }
 

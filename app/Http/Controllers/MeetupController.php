@@ -18,9 +18,9 @@ class MeetupController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->has('go_to_week')){
+        if($request->filled('go_to_week')){
             $start_of_week = Carbon::parse($request->get('go_to_week'))->startOfWeek()->startOfDay();
-        }elseif($request->has('start_of_week')){
+        }elseif($request->filled('start_of_week')){
             $start_of_week = Carbon::parse($request->get('start_of_week'))->startOfDay();
         }else{
             $start_of_week = Carbon::today()->startOfWeek()->startOfDay();
@@ -41,7 +41,7 @@ class MeetupController extends Controller
         $meetups = Meetup::where('start_time', '>=', $start_of_week)->where('end_time', '<=', $end_of_week)->orderBy('start_time', 'asc');
 
         $filters = [];
-        if($request->has('location')){
+        if($request->filled('location')){
             $filters['location'] = $request->input('location');
 
             $meetups->whereHas('room', function ($query)use($filters) {
@@ -100,7 +100,7 @@ class MeetupController extends Controller
             'user_id' => $request->input('user')
         ]);
 
-        if($request->has('activity_bucket')){
+        if($request->filled('activity_bucket')){
             $activity_bucket = ActivityBucket::find($request->input('activity_bucket'));
             $meetup->activity_bucket()->associate($activity_bucket);
             $meetup->save();
@@ -200,14 +200,14 @@ class MeetupController extends Controller
         $meetup->user_id = $request->input('user');
         $meetup->save();
 
-        if($request->has('activity_bucket')){
+        if($request->filled('activity_bucket')){
             $activity_bucket = ActivityBucket::find($request->input('activity_bucket'));
             $meetup->activity_bucket()->associate($activity_bucket);
             $meetup->save();
 
             $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Meetup was edited succesfully']);
             $redirect = route('meetups.index');
-        }else{            
+        }else{
             $redirect = route('activity_buckets.create', $meetup->id);
         }
 
@@ -227,23 +227,23 @@ class MeetupController extends Controller
 
         return redirect(route('meetups.index'));
     }
-    
+
     public function student_detail(Request $request, Meetup $meetup, Student $student)
     {
-        if($request->has('notes')){
+        if($request->filled('notes')){
             $notes_ids = collect($request->get('notes'))->map(function($note){
                 return $note['id'];
             })->toArray();
-    
+
             $student->meetup_student_pivot($meetup->id)->first()->notes()->whereNotIn('id', $notes_ids)->delete();
-        
+
             foreach ($request->input('notes') as $key => $request_note) {
                 if(!is_null($request_note['id'])){
-                
+
                     $note = Note::find($request_note['id']);
                     $note->title = $request_note['title'];
                     $note->text = $request_note['text'];
-                
+
                     $note->save();
                 }else{
                     $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
@@ -253,10 +253,10 @@ class MeetupController extends Controller
         }elseif($request->method() == 'POST'){
             $student->meetup_student_pivot($meetup->id)->first()->notes()->delete();
         }
-        
+
         return view('web.meetups.student_detail', compact('meetup', 'student'));
     }
-    
+
     /**
      * @param Meetup $meetup
      * @param Student $student
@@ -266,25 +266,25 @@ class MeetupController extends Controller
     {
         $quizzes_performance = [];
         foreach($meetup->graded_quizzes as $key => $graded_quiz){
-    
+
             $graded_quiz_answers = $student->graded_answers($graded_quiz->id)->get();
             $quizzes_performance[$graded_quiz->id] = [
                 'total_questions' => $graded_quiz_answers->count(),
                 'correct' => 0
             ];
-            
+
             foreach($graded_quiz_answers as $student_answer){
                 if($student_answer->is_correct){
                     $quizzes_performance[$graded_quiz->id]['correct']++;
                 }
             }
-            
+
             if($quizzes_performance[$graded_quiz->id]['total_questions'] > 0){
                 $quizzes_performance[$graded_quiz->id]['percentage'] = round(($quizzes_performance[$graded_quiz->id]['correct']/$quizzes_performance[$graded_quiz->id]['total_questions'])*100, 0);
             }else{
                 $quizzes_performance[$graded_quiz->id]['percentage'] = 0;
             }
-    
+
             if(strpos($graded_quiz->quiz_type->name, 'Trivia') === false && $graded_quiz->quiz_type->name != 'Drag and Drop' && $graded_quiz->quiz_type->name != 'Touch select'){
                 if($quizzes_performance[$graded_quiz->id]['percentage'] >= 85){
                     $quizzes_performance[$graded_quiz->id]['example'] = $student->graded_answers($graded_quiz->id)->correct()->first();
@@ -295,7 +295,7 @@ class MeetupController extends Controller
                 $quizzes_performance[$graded_quiz->id]['example'] = false;
             }
         }
-        
+
         return view('web.meetups.student_detail_print', compact('meetup', 'student', 'quizzes_performance'));
     }
 }

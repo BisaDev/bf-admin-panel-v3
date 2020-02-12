@@ -171,7 +171,7 @@ class ExamPrepController extends Controller
             if (!is_array($updatedAnswers['question_' . $key])) {
                 $examSection->correct_1 = $updatedAnswers['question_' . $key];
             } else {
-                if ($request->has('question_' . $key . '.0')) {
+                if ($request->filled('question_' . $key . '.0')) {
                     $examSection->correct_1 = $request->input('question_' . $key . '.0');
                 }
                 $examSection->correct_2 = is_null($request->input('question_' . $key . '.1')) ? '' : $request->input('question_' . $key . '.1');
@@ -186,7 +186,7 @@ class ExamPrepController extends Controller
 
             $examSection->explanation = $request->input('answer_explanation_' . $key);
             $examSection->topic = $request->input('topic_' . $key);
-            if ($request->has('uploadedPhoto_' . $key)) {
+            if ($request->filled('uploadedPhoto_' . $key)) {
                 if (!is_null($examSection->getOriginal('photo')) || $examSection->getOriginal('photo') != '') {
                     File::delete(public_path(Question::PHOTO_PATH . $examSection->getOriginal('photo')));
                 }
@@ -196,7 +196,7 @@ class ExamPrepController extends Controller
 
                 $examSection->explanation_image = $this->createAndSavePhoto($request->input('uploadedPhoto_' . $key), Question::PHOTO_PATH, $image_width, $image_height);
             }
-            if ($request->has('delete_photo_' . $key)) {
+            if ($request->filled('delete_photo_' . $key)) {
                 if ($request->input('delete_photo_' . $key) === 'true') {
                     $examSection->explanation_image = NULL;
                 }
@@ -302,7 +302,7 @@ class ExamPrepController extends Controller
         ];
 
         $sort = ['column' => 'created_at', 'value' => 'desc'];
-        if ($request->has('sort_column')) {
+        if ($request->filled('sort_column')) {
             $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
             $sort_columns[$sort['column']] = ($sort['value'] == 'asc')? 'desc' : 'asc';
         }

@@ -15,7 +15,7 @@ class GradeLevelController extends Controller
     public function index()
     {
         $list = GradeLevel::orderBy('name', 'asc')->paginate(50);
-        
+
         return view('web.grade_levels.index', compact('list'));
     }
 
@@ -40,19 +40,19 @@ class GradeLevelController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191'
         ]);
-        
+
         $grade_level = GradeLevel::create($request->only(['name']));
 
-        if($request->has('subjects')){
+        if($request->filled('subjects')){
             foreach ($request->input('subjects') as $subject_name) {
                 if(!is_null($subject_name)){
                     Subject::create(['name' => $subject_name, 'grade_level_id' => $grade_level->id]);
                 }
             }
         }
-        
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Grade Level was successfully created']);
-        
+
         return redirect(route('grade_levels.index'));
     }
 
@@ -67,7 +67,7 @@ class GradeLevelController extends Controller
     {
         $item = $grade_level;
 
-        if($request->has('search')){
+        if($request->filled('search')){
             $search = $request->input('search');
             $item->subjects = $item->subjects()->search($search)->with('topics')->paginate(50);
         }else{
@@ -101,12 +101,12 @@ class GradeLevelController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191'
         ]);
-        
+
         $grade_level->name = $request->input('name');
         $grade_level->save();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Grade Level was successfully edited']);
-        
+
         return redirect(route('grade_levels.index'));
     }
 
@@ -122,7 +122,7 @@ class GradeLevelController extends Controller
         $grade_level->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Grade Level was successfully deleted']);
-        
+
         return redirect(route('grade_levels.index'));
     }
 }

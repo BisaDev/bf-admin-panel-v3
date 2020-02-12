@@ -37,7 +37,7 @@ class StudentDashboardController extends Controller
            return $examCompleted->exam->test_id;
         });
 
-        if($request->has('examType')) {
+        if($request->filled('examType')) {
             $exams = $exams->where('type', $request->input('examType'));
             $studentExams = $studentExams->filter(function ($studentExam) use($request) {
                return $studentExam->exam->type === $request->input('examType');

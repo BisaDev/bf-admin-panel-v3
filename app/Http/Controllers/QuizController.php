@@ -19,24 +19,24 @@ class QuizController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
         $query = Quiz::with('subject.grade_level');
 
         /* TABLE FILTERS */
         $filters = [
-            'type' => $request->input('type'), 
-            'grade_level' => $request->input('grade_level'), 
+            'type' => $request->input('type'),
+            'grade_level' => $request->input('grade_level'),
             'subject' =>  $request->input('subject')
         ];
 
-        if($request->has('search')){
+        if($request->filled('search')){
             $search = $request->input('search');
             $query->search($search);
         } else {
             $search = '';
         }
 
-        if($request->has('type')){
+        if($request->filled('type')){
             $filters['type'] = $request->input('type');
             $query->where('type', 'like', '%"key":"'.$filters['type'].'"%');
         }
@@ -48,7 +48,7 @@ class QuizController extends Controller
                 $subquery->where('grade_level_id', $filters['grade_level']);
             });
         }
-    
+
         /* TABLE SORTING */
         $sort_columns = [
             'title' => 'asc',
@@ -57,30 +57,30 @@ class QuizController extends Controller
             'type' => 'asc',
         ];
         $sort = ['column' => 'id', 'value' => 'desc'];
-    
-        if($request->has('sort_column')){
+
+        if($request->filled('sort_column')){
             $sort = ['column' => $request->input('sort_column'), 'value' => $request->input('sort_value')];
             $sort_columns[$sort['column']] = ($sort['value'] == 'asc')? 'desc' : 'asc';
         } else {
             $query->latest();
         }
-    
+
         switch ($sort['column']) {
             case 'title':
                 $query->orderBy($sort['column'], $sort['value']);
                 break;
-        
+
             case 'grade_level':
                 $query->leftJoin('subjects','subjects.id','=','quizzes.subject_id')
                     ->leftJoin('grade_levels','grade_levels.id','=','subjects.grade_level_id')
                     ->orderBy('grade_levels.name', $sort['value']);
                 break;
-        
+
             case 'subject':
                 $query->leftJoin('subjects','subjects.id','=','quizzes.subject_id')
                     ->orderBy('subjects.name', $sort['value']);
                 break;
-        
+
             case 'type':
                 $query->orderBy('type', $sort['value']);
                 break;
@@ -137,11 +137,11 @@ class QuizController extends Controller
             'subject_id' => $request->input('subject')
         ]);
 
-        if($request->has('questions')){
+        if($request->filled('questions')){
             $quiz->questions()->sync($request->input('questions'));
         }
 
-        if($request->has('tags')){
+        if($request->filled('tags')){
             $quiz->tags()->sync($this->getTagsToSync($request->input('tags')));
         }
 
@@ -192,18 +192,18 @@ class QuizController extends Controller
             'questions' => 'required',
         ]);
 
-        
+
         $quiz->type = json_encode(['key' => $request->input('type'), 'name' => $this->types[$request->input('type')]], JSON_FORCE_OBJECT);
         $quiz->title = $request->input('title');
         $quiz->description = $request->input('description');
         $quiz->subject_id = $request->input('subject');
         $quiz->save();
 
-        if($request->has('questions')){
+        if($request->filled('questions')){
             $quiz->questions()->sync($request->input('questions'));
         }
 
-        if($request->has('tags')){
+        if($request->filled('tags')){
             $quiz->tags()->sync($this->getTagsToSync($request->input('tags')));
         }
 
@@ -224,15 +224,15 @@ class QuizController extends Controller
         $quiz->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Quiz was successfully deleted']);
-        
+
         return redirect(route('quizzes.index'));
     }
-    
+
     public function reorder_questions(Quiz $quiz)
     {
         return view('web.quizzes.reorder', ['item' => $quiz]);
     }
-    
+
     public function show_print(Quiz $quiz)
     {
         return view('web.quizzes.show_print', ['item' => $quiz]);
@@ -248,7 +248,7 @@ class QuizController extends Controller
     public function save_question_order(Request $request)
     {
         $quiz = Quiz::find($request->input('quiz_id'));
-        
+
         foreach ($request->input('questions') as $key => $question) {
             $quiz->questions()->updateExistingPivot($question['id'], ['order' => $key+1]);
         }

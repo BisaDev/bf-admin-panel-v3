@@ -15,7 +15,7 @@ class LocationController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->has('search')){
+        if($request->filled('search')){
             $search = $request->input('search');
             $list = Location::search($search)->paginate(50);
         }else{
@@ -48,10 +48,10 @@ class LocationController extends Controller
             'name' => 'required|string|max:191',
             'email' => 'nullable|email'
         ]);
-        
+
         $location = Location::create($request->only(['name', 'address', 'city', 'state', 'phone', 'email']));
 
-        if($request->has('rooms')){
+        if($request->filled('rooms')){
             foreach ($request->input('rooms') as $room_name) {
                 if(!is_null($room_name)){
                     Room::create(['name' => $room_name, 'location_id' => $location->id]);
@@ -60,7 +60,7 @@ class LocationController extends Controller
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Location was successfully created']);
-        
+
         return redirect(route('locations.index'));
     }
 
@@ -75,7 +75,7 @@ class LocationController extends Controller
     {
         $item = $location;
 
-        if($request->has('search')){
+        if($request->filled('search')){
             $search = $request->input('search');
             $item->rooms = $item->rooms()->search($search)->paginate(50);
         }else{
@@ -110,7 +110,7 @@ class LocationController extends Controller
             'name' => 'required|string|max:191',
             'email' => 'nullable|email'
         ]);
-        
+
         $location->name = $request->input('name');
         $location->address = $request->input('address');
         $location->city = $request->input('city');
@@ -120,7 +120,7 @@ class LocationController extends Controller
         $location->save();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Location was successfully edited']);
-        
+
         return redirect(route('locations.index'));
     }
 
@@ -136,7 +136,7 @@ class LocationController extends Controller
         $location->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Location was successfully deleted']);
-        
+
         return redirect(route('locations.index'));
     }
 

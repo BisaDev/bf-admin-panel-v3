@@ -10,7 +10,7 @@ use File;
 class MinigameController extends Controller
 {
     use CreatesAndSavesPhotos;
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +19,7 @@ class MinigameController extends Controller
     public function index()
     {
         $list = Minigame::paginate(50);
-        
+
         return view('web.minigames.index', compact('list'));
     }
 
@@ -44,7 +44,7 @@ class MinigameController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191'
         ]);
-        
+
         $minigame = Minigame::create($request->only(['name']));
 
         if ($request->hasFile('photo')) {
@@ -52,7 +52,7 @@ class MinigameController extends Controller
             $minigame->save();
         }
 
-        if($request->has('notes')){
+        if($request->filled('notes')){
             foreach ($request->input('notes') as $note) {
                 if(!is_null($note['title']) && !is_null($note['text'])){
                     $note = Note::create(['title' => $note['title'], 'text' => $note['text']]);
@@ -60,9 +60,9 @@ class MinigameController extends Controller
                 }
             }
         }
-        
+
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully created']);
-        
+
         return redirect(route('minigames.index'));
     }
 
@@ -100,7 +100,7 @@ class MinigameController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191'
         ]);
-        
+
         $minigame->name = $request->input('name');
         $minigame->save();
 
@@ -113,7 +113,7 @@ class MinigameController extends Controller
             $minigame->save();
         }
 
-        if($request->has('notes')){
+        if($request->filled('notes')){
             $notes_ids = collect($request->get('notes'))->map(function($note){
                 return $note['id'];
             })->toArray();
@@ -126,7 +126,7 @@ class MinigameController extends Controller
                     $note = Note::find($request_note['id']);
                     $note->title = $request_note['title'];
                     $note->text = $request_note['text'];
-                    
+
                     $note->save();
                 }else{
                     $note = Note::create(['title' => $request_note['title'], 'text' => $request_note['text']]);
@@ -138,7 +138,7 @@ class MinigameController extends Controller
         }
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully edited']);
-        
+
         return redirect(route('minigames.index'));
     }
 
@@ -153,7 +153,7 @@ class MinigameController extends Controller
         $minigame->delete();
 
         $request->session()->flash('msg', ['type' => 'success', 'text' => 'The Minigame was successfully deleted']);
-        
+
         return redirect(route('minigames.index'));
     }
 }
