@@ -79,7 +79,7 @@
                 }
             }
         },
-        props: ['onModalCall', 'inputValues', 'error', 'uploaded'],
+        props: ['onModalCall', 'answer', 'explanationImg', 'questionImg',  'error', 'uploaded'],
         watch: {
             answerValue() {
                 this.$emit('update:answer', this.answerValue)
