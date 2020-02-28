@@ -5,6 +5,7 @@ namespace Brightfox\Http\Controllers;
 use Brightfox\TaggingImage;
 use Brightfox\TaggingQuestion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ImageUploadController extends Controller
@@ -15,44 +16,49 @@ class ImageUploadController extends Controller
         return view('image_upload.index');
     }
 
-    public function upload (Request $request)
+    public function upload(Request $request)
     {
+
+        DB::transaction(function () use ($request)  {
+
         $images = [];
         $answer = "";
-        $path= "tt_images/";
+        $path = "tt_images/";
         $subject = $request->subject;
 
-        foreach($request->all() as $key => $value) {
-            if(strpos($key, "_") != false){
-                $keys = explode("_", $key);
-                $images[$keys[1]][$keys[0]] = $value;
+            foreach ($request->all() as $key => $value) {
+                if (strpos($key, "_") != false) {
+                    $keys = explode("_", $key);
+                    $images[$keys[1]][$keys[0]] = $value;
 
-                if (strstr($key, "questionImg") && $value != "null") {
-                    $extension = $value->getClientOriginalExtension();
-                    $fileName= "$subject-$answer-$key.$extension";
+                    if (strstr($key, "questionImg") && $value != "null") {
+                        $extension = $value->getClientOriginalExtension();
+                        $fileName = "$subject-$answer-$key.$extension";
 
-                    Storage::disk('public')->put("$path$fileName", file_get_contents($value));
-                    $images[$keys[1]]["questionImgUrl"] = $fileName;
+                        Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                        $images[$keys[1]]["questionImgUrl"] = $fileName;
+                    }
+                    if (strstr($key, "explanationImg") && $value != "null") {
+                        $extension = $value->getClientOriginalExtension();
+                        $fileName = "$subject-$answer-$key.$extension";
+
+                        Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                        $images[$keys[1]]["explanationImgUrl"] = $fileName;
+                    }
                 }
-                if (strstr($key, "explanationImg") && $value != "null") {
-                    $extension = $value->getClientOriginalExtension();
-                    $fileName= "$subject-$answer-$key.$extension";
-
-                    Storage::disk('public')->put("$path$fileName", file_get_contents($value));
-                    $images[$keys[1]]["explanationImgUrl"] = $fileName;
+                if (strstr($key, "answer") && $value != "null") {
+                    $answer = $value;
                 }
             }
-            if (strstr($key, "answer") && $value != "null") {
-                $answer = $value;
+
+            $taggingQuestion = TaggingQuestion::create(["tagging_subject_id" => $request->subjectID]);
+
+            foreach ($images as $image) {
+                TaggingImage::create(['image_answer' => $image['answer'], 'image_url' => $image['questionImgUrl'],
+                    'tagging_question_id' => $taggingQuestion->id, 'explanation_url' => $image['explanationImgUrl']]);
             }
-        }
 
-        $taggingQuestion = TaggingQuestion::create(["tagging_subject_id" => $request->subjectID]);
-
-        foreach($images as $image) {
-            TaggingImage::create(['image_answer' => $image['answer'], 'image_url' => $image['questionImgUrl'],
-                'tagging_question_id' => $taggingQuestion->id, 'explanation_url' => $image['explanationImgUrl']]);
-        }
+        });
     }
 
 }
