@@ -14,7 +14,9 @@
             <up-inputs
                     :uploaded="success"
                     :onModalCall="modalCall"
-                    v-bind.sync="imgInputs[index]"
+                    :answer.sync="imgInputs[index].answer"
+                    :questionImg.sync="imgInputs[index].questionImg"
+                    :explanationImg.sync="imgInputs[index].explanationImg"
                     :error="input.error"
             >
             </up-inputs>

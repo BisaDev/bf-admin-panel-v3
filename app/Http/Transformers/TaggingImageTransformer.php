@@ -21,8 +21,7 @@ class TaggingImageTransformer extends Transformer
             'questionFileUrl'     => $questionFileUrl,
             'explanation_url'     => $image->explanation_url,
             'explanationFileUrl'  => $explanationFileUrl,
-            'tagging_question_id' => $image->tagging_question_id,
-            'dude'                => "value"
+            'tagging_question_id' => $image->tagging_question_id
         ];
     }
 }

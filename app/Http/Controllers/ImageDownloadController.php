@@ -36,31 +36,33 @@ class ImageDownloadController extends Controller
         $zip_data = json_decode($request->payload);
 
         foreach ($zip_data as $pdf) {
-           foreach ($pdf as $question) {
-               $Num = $question->pdf_id;
+            foreach ($pdf as $question) {
+                $Num = $question->pdf_id;
 
-               $currentQuestion = TaggingQuestion::find($question->id);
-               if($currentQuestion) {
-                   $currentQuestion->pdf_id = $Num;
-                   $currentQuestion->save();
-               }
+                $currentQuestion = TaggingQuestion::find($question->id);
+                if ($currentQuestion) {
+                    $currentQuestion->pdf_id = $Num;
+                    $currentQuestion->save();
+                }
 
-               $questionName = $question->image->image_url;
-               $questionImg= $question->imageFile;
+                foreach ($question->image as $image) {
+                    $questionName = $image->image_url;
+                    $questionImg = $image->questionFileUrl;
 
-               $questionRoute= "/$source/pdf$Num/$questionName";
+                    $questionRoute = "/$source/pdf$Num/$questionName";
 
-               $explanationName = $question->image->explanation_url;
-               $explanationImg = $question->explanationFile;
+                    $explanationName = $image->explanation_url;
+                    $explanationImg = $image->explanationFileUrl;
 
-               $explanationRoute= "/$source/pdf$Num/$explanationName";
+                    $explanationRoute = "/$source/pdf$Num/$explanationName";
 
-               $zip->addFile(public_path($explanationImg) , $explanationRoute);
-               $zip->addFile(public_path($questionImg), $questionRoute);
-           }
+                    $zip->addFile(public_path($explanationImg), $explanationRoute);
+                    $zip->addFile(public_path($questionImg), $questionRoute);
+                }
+            }
         }
-        $zip->close();
 
+        $zip->close();
         return response()->download($zip_file);
     }
 
