@@ -59,11 +59,10 @@ class ImageDownloadController extends Controller
                     $zip->addFile(public_path($explanationImg), $explanationRoute);
                     $zip->addFile(public_path($questionImg), $questionRoute);
                 }
-
-                $zip->close();
             }
         }
 
+        $zip->close();
         return response()->download($zip_file);
     }
 
