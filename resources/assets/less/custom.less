@@ -9,6 +9,59 @@ table.model-list td img{
   max-height: 100px;
 }
 
+.upload-msg , .fail-msg {
+    margin-right: 15px;
+}
+
+.fail-msg {
+    color:red;
+}
+
+.upload-msg {
+    top: 94%;
+    left: 75%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    position: absolute;
+    border-radius: 60%;
+    align-items: center;
+    justify-content: center;
+    margin: -60px 0 0 -60px;
+    border: 8px solid #336ca2;
+
+    .upload-icon {
+        width: 70%;
+        height: 70%;
+        display: block;
+        background: url('../images/upload.svg');
+    }
+
+    &::after {
+        content: '';
+        top: -4%;
+        left: -2%;
+        width: 105%;
+        height: 105%;
+        opacity: 0.7;
+        position: absolute;
+        border-radius: 100%;
+        background: transparent;
+        box-shadow: rgba(255, 255, 255, 0.6) -4px -5px 3px -3px;
+        animation: rotate 2s infinite linear;
+    }
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+
 img.thumbnail{
     height: auto;
     margin-bottom: 0;
