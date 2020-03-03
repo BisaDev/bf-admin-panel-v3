@@ -22,6 +22,10 @@
             </up-inputs>
         </div>
         <div class="form-group text-right m-t-20" v-if="!success">
+            <span class="upload-msg" v-if="uploadState === 'uploading'" >
+                <span class="upload-icon"></span>
+            </span>
+            <span class="fail-msg" v-if="uploadState === 'failed'" >Failed. Please try again</span>
             <button @click="removeItem" class="btn btn-md btn-info" :disabled="disabledButton">
                 Cancel
             </button>
@@ -39,6 +43,7 @@
             return {
                 imgInputs: [],
                 success: false,
+                uploadState: "",
                 disabledButton: false
             }
         },
@@ -57,12 +62,14 @@
             handleUpload: function () {
                 if(this.subject) {
                     this.disabledButton = true;
+                    this.uploadState = 'uploading';
                     this.$emit('update:subjectError', false);
                     this.validateInputs();
 
                     if(this.formIsValid()) {
                         const formData = new FormData;
                         const vueInstance = this;
+                        this.uploadState = 'uploading';
 
                         formData.append("subject", this.subject.name);
                         formData.append("subjectID", this.subject.id);
@@ -79,12 +86,18 @@
                         };
 
                         axios.post(this.postUrl, formData, config)
-                            .then(function () {
-                                vueInstance.success = true;
+                            .then(function (response) {
+                                if(response.data === 'Success') {
+                                    vueInstance.success = true;
+                                    vueInstance.uploadState = '';
+                                } else {
+                                    vueInstance.uploadState = 'failed';
+                                }
                             })
                             .catch(function (error) {
+                                console.log(error);
                                 vueInstance.disabledButton = false;
-                                console.log(error)
+                                vueInstance.uploadState = 'failed';
                             })
                     }
                 } else {

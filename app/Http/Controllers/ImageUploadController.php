@@ -19,46 +19,58 @@ class ImageUploadController extends Controller
     public function upload(Request $request)
     {
 
-        DB::transaction(function () use ($request)  {
 
         $images = [];
         $answer = "";
         $path = "tt_images/";
         $subject = $request->subject;
 
-            foreach ($request->all() as $key => $value) {
-                if (strpos($key, "_") != false) {
-                    $keys = explode("_", $key);
-                    $images[$keys[1]][$keys[0]] = $value;
+        foreach ($request->all() as $key => $value) {
+            if (strpos($key, "_") != false) {
+                $keys = explode("_", $key);
+                $images[$keys[1]][$keys[0]] = $value;
 
-                    if (strstr($key, "questionImg") && $value != "null") {
-                        $extension = $value->getClientOriginalExtension();
-                        $fileName = "$subject-$answer-$key.$extension";
+                if (strstr($key, "questionImg") && $value != "null") {
+                    $extension = $value->getClientOriginalExtension();
+                    $fileName = "$subject-$answer-$key.$extension";
 
-                        Storage::disk('public')->put("$path$fileName", file_get_contents($value));
-                        $images[$keys[1]]["questionImgUrl"] = $fileName;
+                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                    if(!$save) {
+                        return "upload error";
                     }
-                    if (strstr($key, "explanationImg") && $value != "null") {
-                        $extension = $value->getClientOriginalExtension();
-                        $fileName = "$subject-$answer-$key.$extension";
-
-                        Storage::disk('public')->put("$path$fileName", file_get_contents($value));
-                        $images[$keys[1]]["explanationImgUrl"] = $fileName;
-                    }
+                    $images[$keys[1]]["questionImgUrl"] = $fileName;
                 }
-                if (strstr($key, "answer") && $value != "null") {
-                    $answer = $value;
+                if (strstr($key, "explanationImg") && $value != "null") {
+                    $extension = $value->getClientOriginalExtension();
+                    $fileName = "$subject-$answer-$key.$extension";
+
+                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                    if(!$save) {
+                        return "Upload error";
+                    }
+                    $images[$keys[1]]["explanationImgUrl"] = $fileName;
                 }
             }
+            if (strstr($key, "answer") && $value != "null") {
+                $answer = $value;
+            }
+        }
 
+        DB::beginTransaction();
+
+        try {
             $taggingQuestion = TaggingQuestion::create(["tagging_subject_id" => $request->subjectID]);
 
             foreach ($images as $image) {
                 TaggingImage::create(['image_answer' => $image['answer'], 'image_url' => $image['questionImgUrl'],
                     'tagging_question_id' => $taggingQuestion->id, 'explanation_url' => $image['explanationImgUrl']]);
             }
+            DB::commit();
+            return "Success";
 
-        });
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return $e;
+        }
     }
-
 }
