@@ -69,6 +69,7 @@
                     if(this.formIsValid()) {
                         const formData = new FormData;
                         const vueInstance = this;
+                        this.uploadState = 'uploading';
 
                         formData.append("subject", this.subject.name);
                         formData.append("subjectID", this.subject.id);
@@ -85,9 +86,13 @@
                         };
 
                         axios.post(this.postUrl, formData, config)
-                            .then(function () {
-                                vueInstance.success = true;
-                                vueInstance.uploadState = 'uploading';
+                            .then(function (response) {
+                                if(response.data === 'Success') {
+                                    vueInstance.success = true;
+                                    vueInstance.uploadState = '';
+                                } else {
+                                    vueInstance.uploadState = 'failed';
+                                }
                             })
                             .catch(function (error) {
                                 console.log(error);

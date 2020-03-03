@@ -34,14 +34,20 @@ class ImageUploadController extends Controller
                     $extension = $value->getClientOriginalExtension();
                     $fileName = "$subject-$answer-$key.$extension";
 
-                    Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                    if(!$save) {
+                        return "upload error";
+                    }
                     $images[$keys[1]]["questionImgUrl"] = $fileName;
                 }
                 if (strstr($key, "explanationImg") && $value != "null") {
                     $extension = $value->getClientOriginalExtension();
                     $fileName = "$subject-$answer-$key.$extension";
 
-                    Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                    if(!$save) {
+                        return "Upload error";
+                    }
                     $images[$keys[1]]["explanationImgUrl"] = $fileName;
                 }
             }
@@ -49,19 +55,22 @@ class ImageUploadController extends Controller
                 $answer = $value;
             }
         }
+
         DB::beginTransaction();
 
+        try {
+            $taggingQuestion = TaggingQuestion::create(["tagging_subject_id" => $request->subjectID]);
 
-        $taggingQuestion = TaggingQuestion::create(["tagging_subject_id" => $request->subjectID]);
+            foreach ($images as $image) {
+                TaggingImage::create(['image_answer' => $image['answer'], 'image_url' => $image['questionImgUrl'],
+                    'tagging_question_id' => $taggingQuestion->id, 'explanation_url' => $image['explanationImgUrl']]);
+            }
+            DB::commit();
+            return "Success";
 
-        foreach ($images as $image) {
-            TaggingImage::create(['image_answer' => $image['answer'], 'image_url' => $image['questionImgUrl'],
-                'tagging_question_id' => $taggingQuestion->id, 'explanation_url' => $image['explanationImgUrl']]);
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return $e;
         }
-
-        DB::commit();
-
-
     }
-
 }
