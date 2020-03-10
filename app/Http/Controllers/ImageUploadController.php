@@ -18,53 +18,60 @@ class ImageUploadController extends Controller
 
     public function upload(Request $request)
     {
-
-
         $images = [];
-        $answer = "";
-        $path = "tt_images/";
         $subject = $request->subject;
 
         foreach ($request->all() as $key => $value) {
-            if (strpos($key, "_") != false) {
+             if (strpos($key, "_") != false) {
                 $keys = explode("_", $key);
-                $images[$keys[1]][$keys[0]] = $value;
 
                 if (strstr($key, "questionImg") && $value != "null") {
-                    $extension = $value->getClientOriginalExtension();
-                    $fileName = "$subject-$answer-$key.$extension";
-
-                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
-                    if(!$save) {
-                        return "upload error";
-                    }
-                    $images[$keys[1]]["questionImgUrl"] = $fileName;
+                    $images[$keys[1]]["imageFiles"]['question'] = $value;
                 }
                 if (strstr($key, "explanationImg") && $value != "null") {
-                    $extension = $value->getClientOriginalExtension();
-                    $fileName = "$subject-$answer-$key.$extension";
-
-                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
-                    if(!$save) {
-                        return "Upload error";
-                    }
-                    $images[$keys[1]]["explanationImgUrl"] = $fileName;
+                    $images[$keys[1]]["imageFiles"]['explanation'] = $value;
                 }
-            }
-            if (strstr($key, "answer") && $value != "null") {
-                $answer = $value;
+                 if (strstr($key, "answer") && $value != "null") {
+                     $images[$keys[1]]["answer"] = $value;
+                 }
             }
         }
 
         DB::beginTransaction();
 
         try {
+            $path = "tt_images/";
             $taggingQuestion = TaggingQuestion::create(["tagging_subject_id" => $request->subjectID]);
+            $questionId = $taggingQuestion->id;
 
-            foreach ($images as $image) {
-                TaggingImage::create(['image_answer' => $image['answer'], 'image_url' => $image['questionImgUrl'],
-                    'tagging_question_id' => $taggingQuestion->id, 'explanation_url' => $image['explanationImgUrl']]);
+            foreach ($images as $index=> $image) {
+                $answer = $image['answer'];
+                $imageUrl = "";
+                $explanationUrl = "";
+
+                foreach ($image['imageFiles'] as $questionType => $file) {
+                    $extension = $file->getClientOriginalExtension();
+                    $fileName = "$questionId-$subject-$questionType-$answer-$index.$extension";
+                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                    if(!$save) {
+                        throw new \Exception("Upload Error");
+                    }
+
+                    if($questionType == 'question') {
+                        $imageUrl = $fileName;
+                    } else if($questionType == 'explanation') {
+                        $explanationUrl = $fileName;
+                    }
+                }
+
+                TaggingImage::create([
+                    'image_answer'          => $answer,
+                    'image_url'             => $imageUrl,
+                    'tagging_question_id'   => $questionId,
+                    'explanation_url'       => $explanationUrl
+                ]);
             }
+
             DB::commit();
             return "Success";
 
