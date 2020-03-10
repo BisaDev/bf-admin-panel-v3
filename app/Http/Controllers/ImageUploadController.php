@@ -40,26 +40,21 @@ class ImageUploadController extends Controller
         DB::beginTransaction();
 
         try {
-
-            /*
-
-            */
+            $path = "tt_images/";
             $taggingQuestion = TaggingQuestion::create(["tagging_subject_id" => $request->subjectID]);
             $questionId = $taggingQuestion->id;
 
             foreach ($images as $index=> $image) {
                 $answer = $image['answer'];
-                $path = "tt_images/";
                 $imageUrl = "";
                 $explanationUrl = "";
-
 
                 foreach ($image['imageFiles'] as $questionType => $file) {
                     $extension = $file->getClientOriginalExtension();
                     $fileName = "$questionId-$subject-$questionType-$answer-$index.$extension";
                     $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
                     if(!$save) {
-                        return "Upload error";
+                        throw new \Exception("Upload Error");
                     }
 
                     if($questionType == 'question') {
@@ -68,14 +63,13 @@ class ImageUploadController extends Controller
                         $explanationUrl = $fileName;
                     }
                 }
+
                 TaggingImage::create([
                     'image_answer'          => $answer,
                     'image_url'             => $imageUrl,
                     'tagging_question_id'   => $questionId,
                     'explanation_url'       => $explanationUrl
                 ]);
-
-
             }
 
             DB::commit();
