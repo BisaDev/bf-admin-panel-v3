@@ -31,9 +31,9 @@ class ImageUploadController extends Controller
                 if (strstr($key, "explanationImg") && $value != "null") {
                     $images[$keys[1]]["imageFiles"]['explanation'] = $value;
                 }
-                 if (strstr($key, "answer") && $value != "null") {
-                     $images[$keys[1]]["answer"] = $value;
-                 }
+                if (strstr($key, "answer") && $value != "null") {
+                    $images[$keys[1]]["answer"] = $value;
+                }
             }
         }
 
@@ -52,7 +52,8 @@ class ImageUploadController extends Controller
                 foreach ($image['imageFiles'] as $questionType => $file) {
                     $extension = $file->getClientOriginalExtension();
                     $fileName = "$questionId-$subject-$questionType-$answer-$index.$extension";
-                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($value));
+                    $save = Storage::disk('public')->put("$path$fileName", file_get_contents($file));
+
                     if(!$save) {
                         throw new \Exception("Upload Error");
                     }
