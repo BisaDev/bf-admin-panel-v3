@@ -26,7 +26,7 @@
                 <table class="table table-responsive table-hover model-list" v-if="results">
                     <thead>
                     <tr>
-                        <th width="10">Question Image</th>
+                        <th width="10" class="text-center">Question Image</th>
                         <th width="10" class="text-center">Answer explanation</th>
                         <th width="600" class="text-center">Answer</th>
                         <th width="50" class="text-center">PDF</th>
@@ -36,27 +36,26 @@
                     </thead>
                     <tbody>
                     <tr v-for="(result,index) in results">
-                        <th>
+                        <th class="text-center">
                             <button type="button" data-toggle="modal" data-target="#previewModal"
                                     class="preview-btn" @click="updatePreviewModal(result.image[0].questionFileUrl)">
                                 <img class="img-preview" :src="result.image[0].questionFileUrl"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
-                        <th>
-                            <button type="button" data-toggle="modal" data-target="#previewModal"
+                        <th class="text-center">
+                            <button type="button" data-toggle="modal" data-target="#previewModal" v-if="result.image[0].explanation_url !== ''"
                                     class="preview-btn" @click="updatePreviewModal(result.image[0].explanationFileUrl)">
                                 <img class="img-preview" :src="result.image[0].explanationFileUrl"
                                      :alt="result.tagging_topic_id">
                             </button>
                         </th>
-                        <th class="down-input-group">{{result.image.image_answer}}</th>
+                        <th class="down-input-group">{{result.image[0].image_answer}}</th>
                         <th class="down-input-group">
                             <input type="number" value=1 v-model="results[index].pdf_id">
                         </th>
                         <th class="down-input-group">
-                            <input type="checkbox" v-model="results[index].checked"
-                                   @change="updateSelectedQuestion($event)">
+                            <input type="checkbox" v-model="results[index].checked">
                         </th>
                     </tr>
                     </tbody>
@@ -66,7 +65,7 @@
                 </button>
                 <a id="download-link" :href="downloadLink.href" download="file.zip"/>
                 <h4 class="error-msg" v-if="error">
-                    Nothing Selected
+                    {{ error }}
                 </h4>
             </div>
         </div>
@@ -93,7 +92,7 @@
                     topic: null
                 },
                 source: null,
-                error: false,
+                error: '',
 
             }
         },
@@ -131,11 +130,21 @@
             handleDownload: function () {
                 const vueInstance = this;
                 const url = `${this.download_route}`;
+                vueInstance.error = '';
 
                 if (this.results) {
                     let payload = {};
+                    let noCheckedItems = true;
+
                     this.results.forEach(result => {
+                        if(result.checked && !result.pdf_id) {
+                            noCheckedItems = false;
+                            vueInstance.error = "A PDF Number must be provided for all checked items";
+                        }
+
                         if (result.checked && result.pdf_id) {
+                            noCheckedItems = false;
+
                             if (payload[`pdf${result.pdf_id}`]) {
                                 payload[`pdf${result.pdf_id}`].push(result);
                             } else {
@@ -146,6 +155,10 @@
                         }
                     });
 
+                    if(noCheckedItems) {
+                        vueInstance.error = "Please Select Items";
+                    }
+
                     const config = {
                         responseType: 'blob',
                         params: {
@@ -154,21 +167,27 @@
                         }
                     };
 
-                    axios.get(url, config)
-                        .then(function (response) {
-                            vueInstance.error = false;
-                            vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
-                            const downloadTrigger = document.getElementById('download-link');
-                            setTimeout(() => {
-                                downloadTrigger.click();
-                            }, 0)
-                        })
-                        .catch(function (err) {
-                            console.log(err);
-                            vueInstance.error = true;
-                        })
+                    if(!vueInstance.error) {
+                        axios.get(url, config)
+                            .then(function (response) {
+                                vueInstance.downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
+                                const downloadTrigger = document.getElementById('download-link');
+                                setTimeout(() => {
+                                    downloadTrigger.click();
+                                }, 0)
+                            })
+                            .catch(function (err) {
+                                console.log(err);
+                                vueInstance.error = "There was an error creating the zip file";
+                            })
+                    } else {
+                        return false;
+                    }
 
                 }
+            },
+            updateSelectedQuestion(event) {
+
             }
         },
         props: {
