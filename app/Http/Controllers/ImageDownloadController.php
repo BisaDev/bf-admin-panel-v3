@@ -51,13 +51,16 @@ class ImageDownloadController extends Controller
 
                     $questionRoute = "/$source/pdf$Num/$questionName";
 
-                    $explanationName = $image->explanation_url;
-                    $explanationImg = $image->explanationFileUrl;
-
-                    $explanationRoute = "/$source/pdf$Num/$explanationName";
-
-                    $zip->addFile(public_path($explanationImg), $explanationRoute);
                     $zip->addFile(public_path($questionImg), $questionRoute);
+
+                    if($image->explanation_url){
+                        $explanationName = $image->explanation_url;
+                        $explanationImg = $image->explanationFileUrl;
+
+                        $explanationRoute = "/$source/pdf$Num/$explanationName";
+
+                        $zip->addFile(public_path($explanationImg), $explanationRoute);
+                    }
                 }
             }
         }
